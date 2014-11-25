@@ -1,0 +1,111 @@
+<!doctype html>
+<!--[if lt IE 9]>
+<html class="old-browser no-js"><![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js"><!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <title>ng-fabolous-forms example</title>
+    <meta name="viewport"
+          content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- bower:css -->
+    <link rel="stylesheet"
+          href="bower_components/bootstrap/dist/css/bootstrap.css"/>
+    <!-- endbower -->
+
+
+</head>
+<body ng-app="exampleApp">
+<div class="container"
+     ng-controller="exampleCtrl">
+    <form class="form-horizontal"
+          role="form"
+          ng-fab-form
+          ng-submit="submit()"
+          novalidate="">
+        <div class="form-group">
+            <label for="inputEmail1"
+                   class="col-lg-2 control-label">Email
+            </label>
+            <div class="col-lg-10">
+                <input type="email"
+                       class="form-control"
+                       id="inputEmail1"
+                       placeholder="Email"
+                       ng-model="formData.email"
+                       required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputPassword1"
+                   class="col-lg-2 control-label">Password
+            </label>
+            <div class="col-lg-10">
+                <input type="password"
+                       class="form-control"
+                       id="inputPassword1"
+                       placeholder="Password"
+                       ng-model="formData.password"
+                       required>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-offset-2 col-lg-10">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox"
+                               required
+                               ng-model="formData.check">
+                        Remember me
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputEmail1"
+                   class="col-lg-2 control-label">TestTExt
+            </label>
+            <div class="col-lg-10">
+                <input type="text"
+                       class="form-control"
+                       id="inputTestText"
+                       placeholder="TestText"
+                       required
+                       ng-model="formData.testText">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-offset-2 col-lg-10">
+                <button type="submit"
+                        class="btn btn-default">Sign in
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- build:js(.) scripts/oldieshim.js -->
+<!--[if lt IE 9]>
+<script src="bower_components/es5-shim/es5-shim.js"></script>
+<script src="bower_components/json3/lib/json3.min.js"></script>
+<![endif]-->
+<!-- bower:js -->
+<script src="bower_components/jquery/dist/jquery.js"></script>
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/jquery.bind-first/release/jquery.bind-first-0.2.3.min.js"></script>
+<script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+<!-- endbower -->
+
+<!-- build:js({.tmp,src}) ng-fab-form.js -->
+<!-- fileblock:js module -->
+<script src="_fab-form.js"></script>
+<script src="form-d.js"></script>
+<script src="max-file-size-d.js"></script>
+<!-- endfileblock -->
+<!-- endbuild -->
+<!-- fileblock:js example -->
+<script src="scripts/example1.js"></script>
+<!-- endfileblock -->
+</body>
+</html>
