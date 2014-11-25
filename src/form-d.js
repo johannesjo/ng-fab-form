@@ -1,25 +1,16 @@
 angular.module('ngFabForm')
-    .directive('form', function ($compile, $timeout, $parse)
+    .directive('form', function ($compile, FormErrorMsgs)
     {
         'use strict';
 
-        var disableFormTimeoutLength = 1000,
-            showAlertSuffix = '_showAlert',
-            closeAlertSuffix = '_close',
-            makeAlertTemplate = function (formPrefix)
-            {
-                return '<div class="alert alert-warning"' +
-                    'ng-show="' + formPrefix + showAlertSuffix + '"' +
-                    '>' +
-                    '<button type="button" class="close"' +
-                    'ng-click="' + formPrefix + closeAlertSuffix + '()"' +
-                    '>' +
-                    '<span aria-hidden="true">×</span>' +
-                    '<span class="sr-only">Close</span>' +
-                    '</button>' +
-                    'Bitte füllen sie das Formular aus' +
-                    '</div>';
-            };
+        var makeAlertTemplate = function (closeScopeName, msg)
+        {
+            return '<div class="alert alert-warning"' +
+                'ng-show="!' + closeScopeName + '"' +
+                '>' +
+                msg +
+                '</div>';
+        };
 
         return {
             restrict: 'E',
@@ -27,77 +18,32 @@ angular.module('ngFabForm')
             require: 'form',
             link: function (scope, el, attrs, formModel)
             {
-                var enableForm = function ()
-                {
-                    button.removeAttr('disabled');
-                    disableForm = false;
-                };
-                var preventFormSubmission = function (ev)
-                {
-                    ev.preventDefault();
-                    ev.stopPropagation();
-                    ev.stopImmediatePropagation();
-                };
-                var setOrResetFormEnableTimeout = function ()
-                {
-                    if (disableFormTimeout) {
-                        $timeout.cancel(disableFormTimeout);
-                    }
-                    disableFormTimeout = $timeout(enableForm, disableFormTimeoutLength);
-                };
-//scope.disabled=
-
-
                 var formPrefix = formModel.$name;
-                var showAlertKey = formPrefix + showAlertSuffix,
-                    disableFormTimeout,
-                    disableForm = false,
-                    closeAlertKey = formPrefix + closeAlertSuffix,
-                    alert = makeAlertTemplate(formPrefix),
-                    button = el.find('button[type=submit]');
 
-                // append alert to form
-                el.append($compile(alert)(scope));
+                if (!attrs.name) {
+                    throw 'ngFabForm: each form needs a name';
+                }
 
-                // third party jquery plugin to make this
-                // function execute before ng-submit by
-                // moving it up the event order
-                el.bindFirst('submit', function (ev)
-                {
-                    // prevent double submission
-                    if (disableForm) {
-                        preventFormSubmission(ev);
-                        setOrResetFormEnableTimeout();
-                    } else if (formModel.$valid) {
-                        // prevent double submission
-                        disableForm = true;
-                        button.attr('disabled', true);
-                        setOrResetFormEnableTimeout();
-                    } else {
-                        // prevent submission, if invalid and show alert
-                        scope.$apply(function ()
-                        {
-                            formModel.$triedSubmit = true;
-                            scope[showAlertKey] = true;
-                        });
-                        preventFormSubmission(ev);
-                    }
-                });
+                //angular.forEach(el.find('input'), function (inputEl)
+                //{
+                //    inputEl = $(inputEl);
+                //    var required = inputEl.attr('required');
+                //    var inpName = inputEl.attr('name');
+                //    console.log(inputEl);
+                //
+                //    if (required && !inpName) {
+                //        throw 'NO NAME GIVEN';
+                //    }
+                    //var closeScopeName = formPrefix + '.' + inpName + '.$error';
+                    //
+                    //var alert = makeAlertTemplate(closeScopeName, 'msg');
+                    //$(inputEl).parent().append($compile(alert)(scope));
 
-                scope[closeAlertKey] = function ()
-                {
-                    scope[showAlertKey] = false;
-                };
+                //});
 
-                // watch validity of the form
-                scope.$watch(function ()
-                {
-                    return formModel.$valid;
-                }, function ()
-                {
-                    formModel.$triedSubmit = false;
-                    scope[showAlertKey] = false;
-                });
+
+                el.find('textarea');
+
 
                 // watch disabled form if set (requires jQuery)
                 if (attrs.disableForm) {
@@ -113,15 +59,6 @@ angular.module('ngFabForm')
                         }
                     });
                 }
-
-
-                // don't forget to cancel set timeouts
-                scope.$on('$destroy', function ()
-                {
-                    if (disableFormTimeout) {
-                        $timeout.cancel(disableFormTimeout);
-                    }
-                });
             }
         };
     });
