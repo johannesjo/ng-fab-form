@@ -17,7 +17,8 @@ angular.module('bsAutoForm')
                 preventDoubleSubmitTimeoutLength: 1000,
                 setFormDirtyOnSubmit: true,
                 disabledForms: true,
-                eventNameSpace: 'bsAutoForm'
+                eventNameSpace: 'bsAutoForm',
+                validationMsgPrefix: 'validationMsg'
             },
 
             validationMessages = {
@@ -58,8 +59,11 @@ angular.module('bsAutoForm')
                 // check for custom validation msgs
                 angular.forEach(attrs, function (attr, attrKey)
                 {
-                    if (attrKey.match(/validateMsg/)) {
-                        var sanitizedKey = attrKey.replace('validateMsg', '');
+                    var regExp = new RegExp(config.validationMsgPrefix);
+                    if (attrKey.match(regExp)) {
+                        console.log('I am here!');
+
+                        var sanitizedKey = attrKey.replace(config.validationMsgPrefix, '');
                         sanitizedKey = sanitizedKey.charAt(0).toLowerCase() + sanitizedKey.slice(1);
                         customMsgs[sanitizedKey] = attr;
                     }

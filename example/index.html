@@ -73,13 +73,14 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label">required & maxlength(5)
+                    <label class="control-label">required & maxlength(5) with validation-msg-required attribute
                     </label>
                     <input type="text"
                            class="form-control"
                            placeholder="TestText"
                            ng-maxlength="5"
                            required
+                           validation-msg-required="CUSTOM REQUIRED-MSG FTW!"
                            ng-model="formData.requiredMaxlength">
                 </div>
 
