@@ -41,7 +41,7 @@ angular.module('bsAutoForm')
                     msgs += '<li ng-message="' + key + '">' + msg + '</li>';
                 });
 
-                return '<div ng-if="' + ngShowCondition + '"' +
+                return '<div ng-show="' + ngShowCondition + '"' +
                     'ng-messages="' + formName + '.' + elName + '.$error" ' +
                     'class="help-block with-errors">' +
                     '<ul class ="list-unstyled">' +
@@ -96,7 +96,9 @@ angular.module('bsAutoForm')
                         ngShowCondition += ' || ' + formName + '.' + elName + '.' + state;
                     }
                 });
+                ngShowCondition += '|| ' + formName + '.$triedSubmit';
                 ngShowCondition += ')';
+
 
                 var messages = makeMsgs(validators, attrs);
                 return makeAlertWrapperTpl(ngShowCondition, formName, elName, messages);

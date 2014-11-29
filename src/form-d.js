@@ -10,7 +10,7 @@ angular.module('bsAutoForm')
             ev.stopImmediatePropagation();
         };
 
-        var setupPreventDoubleSubmit = function (scope, el, formSubmitDisabledTimeoutLength, nameSpace)
+        var setupPreventDoubleSubmit = function (scope, el, formSubmitDisabledTimeoutLength, eventNameSpace)
             {
                 var formSubmitDisabledTimeout,
                     formSubmitDisabled = false;
@@ -40,7 +40,7 @@ angular.module('bsAutoForm')
 
 
                 // bind submit listener first to prevent submission
-                el.bindFirst('submit.' + nameSpace, function (ev)
+                el.bindFirst('submit.' + eventNameSpace, function (ev)
                 {
                     console.log('setupPreventDoubleSubmit', formSubmitDisabled);
 
@@ -56,14 +56,11 @@ angular.module('bsAutoForm')
             },
             setupPreventInvalidSubmit = function (scope, el, formCtrl, eventNameSpace)
             {
-
                 var formSubmitDisabled = false;
 
                 // bind submit listener first to prevent submission
                 el.bindFirst('submit.' + eventNameSpace, function (ev)
                 {
-                    console.log('setupPreventInvalidSubmit', formSubmitDisabled);
-
                     if (formSubmitDisabled) {
                         preventFormSubmit(ev);
                     }
@@ -75,8 +72,6 @@ angular.module('bsAutoForm')
                     return formCtrl.$valid;
                 }, function (valid)
                 {
-                    console.log(valid);
-
                     formSubmitDisabled = !valid;
                 });
             },
@@ -100,23 +95,15 @@ angular.module('bsAutoForm')
             },
 
 
-            setupDirtyOnSubmit = function (scope)
+            setupDirtyOnSubmit = function (scope, el, eventNameSpace, formCtrl)
             {
-
-                angular.forEach(scope, function (value)
+                // bind submit listener first to prevent submission
+                el.bindFirst('submit.' + eventNameSpace, function ()
                 {
-                    // We skip non-form and non-inputs
-                    if (!value || value.$dirty === undefined) {
-                        return;
-                    }
-                    // Recursively applying same method on all forms included in the form
-                    //if (value.$addControl) {
-                    //    return setAllInputsDirty(value);
-                    //}
-                    // Setting inputs to $dirty, but re-applying its content in itself
-                    if (value.$setViewValue) {
-                        return value.$setViewValue(value.$viewValue);
-                    }
+                    scope.$apply(function ()
+                    {
+                        formCtrl.$triedSubmit = true;
+                    });
                 });
             };
 
@@ -130,6 +117,12 @@ angular.module('bsAutoForm')
                 var formSubmitDisabledTimeoutLength = bsAutoForm.config.preventDoubleSubmitTimeoutLength,
                     eventNameSpace = bsAutoForm.config.eventNameSpace;
 
+                /**
+                 * NOTE: order is important
+                 * all submit-handlers are attached via bind first,
+                 * so the last attached handler comes first
+                 */
+
                 if (bsAutoForm.config.preventInvalidSubmit) {
                     setupPreventInvalidSubmit(scope, el, formCtrl, eventNameSpace);
                 }
@@ -140,10 +133,8 @@ angular.module('bsAutoForm')
                     setupDisabledForms(el, attrs);
                 }
                 if (bsAutoForm.config.setFormDirtyOnSubmit) {
-                    setupDirtyOnSubmit(scope);
+                    setupDirtyOnSubmit(scope, el, eventNameSpace, formCtrl);
                 }
-
-
             }
         };
     });
