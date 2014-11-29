@@ -109,13 +109,13 @@ angular.module('bsAutoForm')
             },
 
 
-            setupScrollToAndFocusFirstErrorOnSubmit = function (el, eventNameSpace, scrollAnimationTime, scrollOffset)
+            setupScrollToAndFocusFirstErrorOnSubmit = function (el, formCtrl, eventNameSpace, scrollAnimationTime, scrollOffset)
             {
                 var scrollActualAnimationTime = scrollAnimationTime;
                 el.bindFirst('submit.' + eventNameSpace, function ()
                 {
                     var scrollTargetEl = el.find('.ng-invalid')[0];
-                    if (scrollTargetEl) {
+                    if (scrollTargetEl && formCtrl.$invalid) {
                         var scrollTop = $(scrollTargetEl).offset().top + scrollOffset;
                         if (scrollAnimationTime) {
                             if (scrollAnimationTime === 'smooth') {
@@ -175,7 +175,7 @@ angular.module('bsAutoForm')
                         setupDirtyOnSubmit(scope, el, eventNameSpace, formCtrl);
                     }
                     if (bsAutoForm.config.scrollToAndFocusFirstErrorOnSubmit) {
-                        setupScrollToAndFocusFirstErrorOnSubmit(el, eventNameSpace, bsAutoForm.config.scrollAnimationTime, bsAutoForm.config.scrollOffset);
+                        setupScrollToAndFocusFirstErrorOnSubmit(el, formCtrl, eventNameSpace, bsAutoForm.config.scrollAnimationTime, bsAutoForm.config.scrollOffset);
                     }
 
                 };
