@@ -25,23 +25,7 @@ angular.module('bsAutoForm')
                     var alertTpl = bsAutoForm.makeAlertTpl(formCtrl.$name, attrs, ngModelCtrl.$validators);
                     var compiledAlert = $compile(alertTpl)(scope);
 
-                    // check if validation should only be triggered on blur
-                    //if (bsAutoForm.config.triggerOnBlur) {
-                    //    el.bind('blur.bsAutoForm', function ()
-                    //    {
-                    //        el.unbind('blur.bsAutoForm');
-                    //        scope.$apply(function ()
-                    //        {
-                    //            bsAutoForm.insertErrorTpl(compiledAlert, el, attrs);
-                    //            ngModelCtrl.$setTouched();
-                    //            ngModelCtrl.$setViewValue('QUATSCH');
-                    //        });
-                    //            //ngModelCtrl.$setDirty();
-                    //            //ngModelCtrl.$commitViewValue();
-                    //    });
-                    //} else {
-                        bsAutoForm.insertErrorTpl(compiledAlert, el, attrs);
-                    //}
+                    bsAutoForm.insertErrorTpl(compiledAlert, el, attrs);
                 };
             }
         };

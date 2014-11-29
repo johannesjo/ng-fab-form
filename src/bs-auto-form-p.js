@@ -1,5 +1,5 @@
 angular.module('bsAutoForm')
-    .provider('bsAutoForm', function bsAutoFormProvider ()
+    .provider('bsAutoForm', function bsAutoFormProvider()
     {
         'use strict';
 
@@ -8,7 +8,10 @@ angular.module('bsAutoForm')
         // *****************
 
         var config = {
-                triggerOnBlur: true
+                showErrorsOn: [
+                    '$touched',
+                    '$dirty'
+                ]
             },
 
 
@@ -51,8 +54,6 @@ angular.module('bsAutoForm')
                         customValidationMsgs[sanitizedKey] = attr;
                     }
                 });
-                console.log(customValidationMsgs);
-
 
                 angular.forEach(validators, function (validator, validatorKey)
                 {
@@ -73,11 +74,20 @@ angular.module('bsAutoForm')
         var makeAlertTpl = function (formName, attrs, validators)
             {
                 var elName = attrs.name;
-                // show when invalid and touched or dirty
-                var ngShowCondition = formName + '.' + elName + '.$invalid' +
-                    ' && (' + formName + '.' + elName + '.$touched' +
-                    ' || ' + formName + '.' + elName + '.$dirty)';
 
+                var ngShowCondition = formName + '.' + elName + '.$invalid';
+                ngShowCondition += ' && (';
+                angular.forEach(config.showErrorsOn, function (state, index)
+                {
+                    if (index === 0) {
+                        ngShowCondition += formName + '.' + elName + '.' + state;
+                    } else {
+                        ngShowCondition += ' || ' + formName + '.' + elName + '.' + state;
+                    }
+                });
+                ngShowCondition += ')';
+
+                console.log(ngShowCondition);
 
                 var messages = makeMsgsTpl(validators, attrs);
                 return makeAlertWrapperTpl(ngShowCondition, formName, elName, messages);
