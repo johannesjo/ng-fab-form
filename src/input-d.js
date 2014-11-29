@@ -1,5 +1,5 @@
 angular.module('bsAutoForm')
-    .directive('input', function ($compile, bsAutoForm)
+    .directive('input', function ($compile, bsAutoForm, $timeout)
     {
         'use strict';
 
@@ -8,8 +8,8 @@ angular.module('bsAutoForm')
             require: ['^form', '^ngModel'],
             compile: function (el, attrs)
             {
+                // set name attribute if none is set
                 var newNameAttr = attrs.ngModel.replace('.', '_');
-
                 el.attr('name', newNameAttr);
                 attrs.name = newNameAttr;
 
@@ -21,28 +21,27 @@ angular.module('bsAutoForm')
                     var formCtrl = controllers[0],
                         ngModelCtrl = controllers[1];
 
-                    var newScopeVarName = formCtrl.$name + '_' + attrs.name + '_errors';
-                    var alertTpl = bsAutoForm.makeAlertTpl(formCtrl.$name, attrs.name, ngModelCtrl.$validators);
+
+                    var alertTpl = bsAutoForm.makeAlertTpl(formCtrl.$name, attrs, ngModelCtrl.$validators);
                     var compiledAlert = $compile(alertTpl)(scope);
 
-                    console.log(ngModelCtrl);
-
-                    //scope.$watch(function ()
-                    //{
-                    //    return ngModelCtrl.$modelValue;
-                    //}, function ()
-                    //{
-                    //    console.log(ngModelCtrl.$error, scope[formCtrl.$name][attrs.name].$error);
-                    //
-                    //    // set errors
-                    //    scope[newScopeVarName] = bsAutoForm.getErrorMsgs(ngModelCtrl.$error);
-                    //}, true);
-
-
-                    // insert after or after parent if checkbox or radio
-                    bsAutoForm.insertErrorTpl(compiledAlert, el, attrs);
-
-
+                    // check if validation should only be triggered on blur
+                    //if (bsAutoForm.config.triggerOnBlur) {
+                    //    el.bind('blur.bsAutoForm', function ()
+                    //    {
+                    //        el.unbind('blur.bsAutoForm');
+                    //        scope.$apply(function ()
+                    //        {
+                    //            bsAutoForm.insertErrorTpl(compiledAlert, el, attrs);
+                    //            ngModelCtrl.$setTouched();
+                    //            ngModelCtrl.$setViewValue('QUATSCH');
+                    //        });
+                    //            //ngModelCtrl.$setDirty();
+                    //            //ngModelCtrl.$commitViewValue();
+                    //    });
+                    //} else {
+                        bsAutoForm.insertErrorTpl(compiledAlert, el, attrs);
+                    //}
                 };
             }
         };

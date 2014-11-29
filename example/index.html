@@ -47,7 +47,6 @@
                        class="form-control"
                        id="inputPassword1"
                        placeholder="Password"
-                       ng-pattern="/asd/"
                        ng-model="formData.password"
                        required>
             </div>
@@ -73,11 +72,26 @@
                        class="form-control"
                        id="inputTestText"
                        placeholder="TestText"
-                       required
+                       ng-pattern="/^[A-Z]{4}\d{6}[A-Z\d]{3}$/i"
+                       name="text"
                        ng-maxlength="12"
                        ng-model="formData.testText">
             </div>
         </div>
+
+        <div class="form-group">
+            <label for="inputEmail1"
+                   class="col-lg-2 control-label">TestTExt
+            </label>
+            <div class="col-lg-10">
+                <input type="text"
+                       class="form-control"
+                       placeholder="TestText"
+                       required=""
+                       ng-model="formData.testText2">
+            </div>
+        </div>
+
         <div class="form-group">
             <div class="col-lg-offset-2 col-lg-10">
                 <button type="submit"

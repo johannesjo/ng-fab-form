@@ -66,6 +66,7 @@ module.exports = function (grunt)
                 },
                 files: [
                     '<%= appConfig.example %>/**/*.html',
+                    '<%= appConfig.app %>/**/*.html',
                     '.tmp/styles/**/*.css'
                 ]
             }

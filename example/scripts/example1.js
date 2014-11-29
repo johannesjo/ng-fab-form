@@ -1,6 +1,13 @@
 angular.module('exampleApp', [
-    'bsAutoForm'
+    'bsAutoForm',
+    'ngMessages'
 ])
+    .config(function (bsAutoFormProvider)
+    {
+        //bsAutoFormProvider.extendConfig({
+        //    triggerOnBlur: false
+        //});
+    })
     .controller('exampleCtrl', function ($scope)
     {
         $scope.submit = function ()
