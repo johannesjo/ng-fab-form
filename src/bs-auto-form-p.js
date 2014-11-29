@@ -54,6 +54,8 @@ angular.module('bsAutoForm')
                         customValidationMsgs[sanitizedKey] = attr;
                     }
                 });
+                console.log(validators);
+
 
                 angular.forEach(validators, function (validator, validatorKey)
                 {
@@ -63,6 +65,8 @@ angular.module('bsAutoForm')
                         messages += '<li ng-message="' + validatorKey + '">' + validationMessages[validatorKey] + '</li>';
                     }
                 });
+                console.log(messages);
+
                 return messages;
             };
 
@@ -86,8 +90,6 @@ angular.module('bsAutoForm')
                     }
                 });
                 ngShowCondition += ')';
-
-                console.log(ngShowCondition);
 
                 var messages = makeMsgsTpl(validators, attrs);
                 return makeAlertWrapperTpl(ngShowCondition, formName, elName, messages);

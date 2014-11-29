@@ -1,5 +1,5 @@
 angular.module('bsAutoForm')
-    .directive('input', function (bsAutoFormDirective)
+    .directive('select', function (bsAutoFormDirective)
     {
         'use strict';
 
