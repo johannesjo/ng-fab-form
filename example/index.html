@@ -20,6 +20,7 @@
 <div class="container"
      ng-controller="exampleCtrl">
     <h1>ng-fabulous-forms Example</h1>
+
     <div class="row">
 
         <div class="col-sm-6">
@@ -127,6 +128,23 @@
                        required=""
                        ng-model="aaatestText2">
             </div>
+
+            <hr>
+
+
+            <form name="form2">
+                <h4>Another Form</h4>
+
+                <div class="form-group">
+                    <label>Input outside form (required) does/should not work</label>
+
+                    <input type="text"
+                           class="form-control"
+                           placeholder="TestText"
+                           required=""
+                           ng-model="otherForm">
+                </div>
+            </form>
         </div>
 
 

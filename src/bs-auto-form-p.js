@@ -12,10 +12,14 @@ angular.module('bsAutoForm')
                     '$touched',
                     '$dirty'
                 ],
+                setNovalidate: true,
                 preventInvalidSubmit: true,
                 preventDoubleSubmit: true,
                 preventDoubleSubmitTimeoutLength: 1000,
                 setFormDirtyOnSubmit: true,
+                scrollToAndFocusFirstErrorOnSubmit: true,
+                scrollAnimationTime: 'smooth',
+                scrollOffset: -100,
                 disabledForms: true,
                 eventNameSpace: 'bsAutoForm',
                 validationMsgPrefix: 'validationMsg'
@@ -61,8 +65,6 @@ angular.module('bsAutoForm')
                 {
                     var regExp = new RegExp(config.validationMsgPrefix);
                     if (attrKey.match(regExp)) {
-                        console.log('I am here!');
-
                         var sanitizedKey = attrKey.replace(config.validationMsgPrefix, '');
                         sanitizedKey = sanitizedKey.charAt(0).toLowerCase() + sanitizedKey.slice(1);
                         customMsgs[sanitizedKey] = attr;

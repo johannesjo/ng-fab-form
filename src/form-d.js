@@ -42,8 +42,6 @@ angular.module('bsAutoForm')
                 // bind submit listener first to prevent submission
                 el.bindFirst('submit.' + eventNameSpace, function (ev)
                 {
-                    console.log('setupPreventDoubleSubmit', formSubmitDisabled);
-
                     // prevent double submission
                     if (formSubmitDisabled) {
                         preventFormSubmit(ev);
@@ -54,6 +52,8 @@ angular.module('bsAutoForm')
                     }
                 });
             },
+
+
             setupPreventInvalidSubmit = function (scope, el, formCtrl, eventNameSpace)
             {
                 var formSubmitDisabled = false;
@@ -75,6 +75,7 @@ angular.module('bsAutoForm')
                     formSubmitDisabled = !valid;
                 });
             },
+
 
             setupDisabledForms = function (el, attrs)
             {
@@ -105,6 +106,31 @@ angular.module('bsAutoForm')
                         formCtrl.$triedSubmit = true;
                     });
                 });
+            },
+
+
+            setupScrollToAndFocusFirstErrorOnSubmit = function (el, eventNameSpace, scrollAnimationTime, scrollOffset)
+            {
+                var scrollActualAnimationTime = scrollAnimationTime;
+                el.bindFirst('submit.' + eventNameSpace, function ()
+                {
+                    var scrollTargetEl = el.find('.ng-invalid')[0];
+
+                    var scrollTop = $(scrollTargetEl).offset().top + scrollOffset;
+                    if (scrollAnimationTime) {
+                        if (scrollAnimationTime === 'smooth') {
+                            scrollActualAnimationTime = (Math.abs(window.scrollY - scrollTop)) / 4 + 200;
+                        }
+                        $('html, body').animate({
+                            scrollTop: scrollTop
+                        }, scrollActualAnimationTime, function ()
+                        {
+                            scrollTargetEl.focus();
+                        });
+                    } else {
+                        window.scrollTo(0, scrollTop);
+                    }
+                });
             };
 
 
@@ -112,29 +138,46 @@ angular.module('bsAutoForm')
             restrict: 'E',
             scope: false,
             require: 'form',
-            link: function (scope, el, attrs, formCtrl)
+            compile: function (el, attrs)
             {
-                var formSubmitDisabledTimeoutLength = bsAutoForm.config.preventDoubleSubmitTimeoutLength,
-                    eventNameSpace = bsAutoForm.config.eventNameSpace;
+                // autoset novalidate
+                if (!attrs.novalidate && bsAutoForm.config.setNovalidate) {
+                    // set name attribute if none is set
+                    el.attr('novalidate', true);
+                    attrs.novalidate = true;
+                }
 
                 /**
-                 * NOTE: order is important
-                 * all submit-handlers are attached via bind first,
-                 * so the last attached handler comes first
+                 * linking function
                  */
+                return function (scope, el, attrs, formCtrl)
+                {
+                    var formSubmitDisabledTimeoutLength = bsAutoForm.config.preventDoubleSubmitTimeoutLength,
+                        eventNameSpace = bsAutoForm.config.eventNameSpace;
 
-                if (bsAutoForm.config.preventInvalidSubmit) {
-                    setupPreventInvalidSubmit(scope, el, formCtrl, eventNameSpace);
-                }
-                if (bsAutoForm.config.preventDoubleSubmit) {
-                    setupPreventDoubleSubmit(scope, el, formSubmitDisabledTimeoutLength, eventNameSpace);
-                }
-                if (bsAutoForm.config.disabledForms) {
-                    setupDisabledForms(el, attrs);
-                }
-                if (bsAutoForm.config.setFormDirtyOnSubmit) {
-                    setupDirtyOnSubmit(scope, el, eventNameSpace, formCtrl);
-                }
+                    /**
+                     * NOTE: order is important
+                     * all submit-handlers are attached via bind first,
+                     * so the last attached handler comes first
+                     */
+
+                    if (bsAutoForm.config.preventInvalidSubmit) {
+                        setupPreventInvalidSubmit(scope, el, formCtrl, eventNameSpace);
+                    }
+                    if (bsAutoForm.config.preventDoubleSubmit) {
+                        setupPreventDoubleSubmit(scope, el, formSubmitDisabledTimeoutLength, eventNameSpace);
+                    }
+                    if (bsAutoForm.config.disabledForms) {
+                        setupDisabledForms(el, attrs);
+                    }
+                    if (bsAutoForm.config.setFormDirtyOnSubmit) {
+                        setupDirtyOnSubmit(scope, el, eventNameSpace, formCtrl);
+                    }
+                    if (bsAutoForm.config.scrollToAndFocusFirstErrorOnSubmit) {
+                        setupScrollToAndFocusFirstErrorOnSubmit(el, eventNameSpace, bsAutoForm.config.scrollAnimationTime, bsAutoForm.config.scrollOffset);
+                    }
+
+                };
             }
         };
     });
