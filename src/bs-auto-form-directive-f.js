@@ -9,17 +9,14 @@ angular.module('bsAutoForm')
             require: ['?^form', '?ngModel'],
             compile: function (el, attrs)
             {
-                // if no ng-model is present just return
-                if (!attrs.ngModel) {
-                    return function ()
-                    {
-                    }
+                // only execute if ng-model is present and
+                // no name attr is set already
+                if (attrs.ngModel && !attrs.name) {
+                    // set name attribute if none is set
+                    var newNameAttr = attrs.ngModel.replace('.', '_');
+                    el.attr('name', newNameAttr);
+                    attrs.name = newNameAttr;
                 }
-
-                // set name attribute if none is set
-                var newNameAttr = attrs.ngModel.replace('.', '_');
-                el.attr('name', newNameAttr);
-                attrs.name = newNameAttr;
 
                 /**
                  * linking function
