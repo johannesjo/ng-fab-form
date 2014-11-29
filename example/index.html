@@ -10,7 +10,8 @@
           content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- bower:css -->
-    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet"
+          href="bower_components/bootstrap/dist/css/bootstrap.css"/>
     <!-- endbower -->
 
 
@@ -106,6 +107,15 @@
                 <option value="aa">aaa</option>
             </select>
         </div>
+
+
+        <div class="form-group">
+            <h2>Without ngModel</h2>
+            <input type="text"
+                   class="form-control"
+                   placeholder="TestText"
+                   required="">
+        </div>
         <div class="form-group">
             <div class="col-lg-offset-2 col-lg-10">
                 <button type="submit"
@@ -114,6 +124,15 @@
             </div>
         </div>
     </form>
+
+    <h4>Outside Form</h4>
+    <input type="text"
+           class="form-control"
+           placeholder="TestText"
+           required=""
+           ng-model="aaatestText2">
+
+
 </div>
 
 <!-- build:js(.) scripts/oldieshim.js -->
