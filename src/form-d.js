@@ -115,20 +115,21 @@ angular.module('bsAutoForm')
                 el.bindFirst('submit.' + eventNameSpace, function ()
                 {
                     var scrollTargetEl = el.find('.ng-invalid')[0];
-
-                    var scrollTop = $(scrollTargetEl).offset().top + scrollOffset;
-                    if (scrollAnimationTime) {
-                        if (scrollAnimationTime === 'smooth') {
-                            scrollActualAnimationTime = (Math.abs(window.scrollY - scrollTop)) / 4 + 200;
+                    if (scrollTargetEl) {
+                        var scrollTop = $(scrollTargetEl).offset().top + scrollOffset;
+                        if (scrollAnimationTime) {
+                            if (scrollAnimationTime === 'smooth') {
+                                scrollActualAnimationTime = (Math.abs(window.scrollY - scrollTop)) / 4 + 200;
+                            }
+                            $('html, body').animate({
+                                scrollTop: scrollTop
+                            }, scrollActualAnimationTime, function ()
+                            {
+                                scrollTargetEl.focus();
+                            });
+                        } else {
+                            window.scrollTo(0, scrollTop);
                         }
-                        $('html, body').animate({
-                            scrollTop: scrollTop
-                        }, scrollActualAnimationTime, function ()
-                        {
-                            scrollTargetEl.focus();
-                        });
-                    } else {
-                        window.scrollTo(0, scrollTop);
                     }
                 });
             };
