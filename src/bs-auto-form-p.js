@@ -11,11 +11,15 @@ angular.module('bsAutoForm')
                 showErrorsOn: [
                     '$touched',
                     '$dirty'
-                ]
+                ],
+                preventInvalidSubmit: true,
+                preventDoubleSubmit: true,
+                preventDoubleSubmitTimeoutLength: 1000,
+                setFormDirtyOnSubmit: true,
+                disabledForms: true,
+                eventNameSpace: 'bsAutoForm'
             },
 
-
-        // TODO find a solution for patterns
             validationMessages = {
                 required: 'This field is required',
                 pattern: 'Your input does not match the requirements',
@@ -31,19 +35,25 @@ angular.module('bsAutoForm')
 
         var makeAlertWrapperTpl = function (ngShowCondition, formName, elName, messages)
             {
+                var msgs = '';
+                angular.forEach(messages, function (msg, key)
+                {
+                    msgs += '<li ng-message="' + key + '">' + msg + '</li>';
+                });
+
                 return '<div ng-if="' + ngShowCondition + '"' +
                     'ng-messages="' + formName + '.' + elName + '.$error" ' +
                     'class="help-block with-errors">' +
                     '<ul class ="list-unstyled">' +
-                    messages +
+                    msgs +
                     '</ul></div>';
             },
 
 
-            makeMsgsTpl = function (validators, attrs)
+            makeMsgs = function (validators, attrs)
             {
-                var messages = '',
-                    customValidationMsgs = {};
+                var allMgs = {},
+                    customMsgs = {};
 
                 // check for custom validation msgs
                 angular.forEach(attrs, function (attr, attrKey)
@@ -51,20 +61,20 @@ angular.module('bsAutoForm')
                     if (attrKey.match(/validateMsg/)) {
                         var sanitizedKey = attrKey.replace('validateMsg', '');
                         sanitizedKey = sanitizedKey.charAt(0).toLowerCase() + sanitizedKey.slice(1);
-                        customValidationMsgs[sanitizedKey] = attr;
+                        customMsgs[sanitizedKey] = attr;
                     }
                 });
 
                 angular.forEach(validators, function (validator, validatorKey)
                 {
-                    if (customValidationMsgs && customValidationMsgs[validatorKey]) {
-                        messages += '<li ng-message="' + validatorKey + '">' + customValidationMsgs[validatorKey] + '</li>';
+                    if (customMsgs && customMsgs[validatorKey]) {
+                        allMgs[validatorKey] = customMsgs[validatorKey];
                     } else {
-                        messages += '<li ng-message="' + validatorKey + '">' + validationMessages[validatorKey] + '</li>';
+                        allMgs[validatorKey] = validationMessages[validatorKey];
                     }
                 });
 
-                return messages;
+                return allMgs;
             };
 
 
@@ -88,7 +98,7 @@ angular.module('bsAutoForm')
                 });
                 ngShowCondition += ')';
 
-                var messages = makeMsgsTpl(validators, attrs);
+                var messages = makeMsgs(validators, attrs);
                 return makeAlertWrapperTpl(ngShowCondition, formName, elName, messages);
             },
 

@@ -3,7 +3,5 @@ angular.module('bsAutoForm')
     {
         'use strict';
 
-        console.log(bsAutoFormDirective);
-
         return bsAutoFormDirective;
     });

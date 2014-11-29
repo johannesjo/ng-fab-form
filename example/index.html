@@ -19,120 +19,127 @@
 <body ng-app="exampleApp">
 <div class="container"
      ng-controller="exampleCtrl">
-    <form class="form-horizontal"
-          role="form"
-          ng-fab-form
-          name="exampleForm"
-          ng-submit="submit()"
-          novalidate="">
-        <div class="form-group">
-            <label for="inputEmail1"
-                   class="col-lg-2 control-label">Email
-            </label>
-            <div class="col-lg-10">
-                <input type="email"
-                       class="form-control"
-                       id="inputEmail1"
-                       placeholder="Email"
-                       minlength="3"
-                       ng-model="formData.email"
-                       required>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="inputPassword1"
-                   class="col-lg-2 control-label">Password
-            </label>
-            <div class="col-lg-10">
-                <input type="password"
-                       class="form-control"
-                       id="inputPassword1"
-                       placeholder="Password"
-                       ng-model="formData.password"
-                       required>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-lg-offset-2 col-lg-10">
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox"
-                               required
-                               ng-model="formData.check">
-                        Remember me
-                    </label>
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="inputEmail1"
-                   class="col-lg-2 control-label">TestTExt
-            </label>
-            <div class="col-lg-10">
-                <input type="text"
-                       class="form-control"
-                       id="inputTestText"
-                       placeholder="TestText"
-                       ng-pattern="/^[A-Z]{4}\d{6}[A-Z\d]{3}$/i"
-                       name="text"
-                       ng-maxlength="12"
-                       ng-model="formData.testText">
-            </div>
-        </div>
+    <h1>ng-fabulous-forms Example</h1>
+    <div class="row">
 
-        <div class="form-group">
-            <label for="inputEmail1"
-                   class="col-lg-2 control-label">TestTExt
-            </label>
-            <div class="col-lg-10">
+        <div class="col-sm-6">
+            <h3>Example Form</h3>
+
+            <form class="form-horizontal"
+                  role="form"
+                  ng-fab-form
+                  name="exampleForm"
+                  ng-submit="submit()"
+                  novalidate="">
+                <div class="form-group">
+                    <label class="control-label">Email (required)
+                    </label>
+                    <input type="email"
+                           class="form-control"
+                           placeholder="Email"
+                           ng-model="formData.email"
+                           required>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Password (required)
+                    </label>
+                    <input type="password"
+                           class="form-control"
+                           id="inputPassword1"
+                           placeholder="Password"
+                           ng-model="formData.password"
+                           required>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox"
+                                   required
+                                   ng-model="formData.check">
+                            Checkbox (required)
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">ng-pattern (/asd/) & required
+                    </label>
+                    <input type="text"
+                           class="form-control"
+                           placeholder="TestText"
+                           ng-pattern="/^asd$/i"
+                           name="text"
+                           required=""
+                           ng-model="formData.patternRequired">
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">required & maxlength(5)
+                    </label>
+                    <input type="text"
+                           class="form-control"
+                           placeholder="TestText"
+                           ng-maxlength="5"
+                           required
+                           ng-model="formData.requiredMaxlength">
+                </div>
+
+                <div class="form-group">
+                    <label>Textarea (required & ng-minlength(4))</label>
+        <textarea ng-model="formData.textarea"
+                  ng-minlength="4"
+                  class="form-control"
+                  required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Select (required)</label>
+                    <select ng-model="formData.select"
+                            class="form-control"
+                            required>
+                        <option value=""></option>
+                        <option value="aa">aaa</option>
+                    </select>
+                </div>
+
+
+                <div class="form-group">
+                    <label>Input without ngModel</label>
+                    <input type="text"
+                           class="form-control"
+                           placeholder="TestText"
+                           required="">
+                </div>
+                <div class="form-group">
+                    <button type="submit"
+                            class="btn btn-primary">Submit Form
+                    </button>
+                </div>
+            </form>
+
+            <hr>
+            <div class="form-group">
+                <label>Input outside form (required) does/should not work</label>
+
                 <input type="text"
                        class="form-control"
                        placeholder="TestText"
                        required=""
-                       ng-model="formData.testText2">
+                       ng-model="aaatestText2">
             </div>
         </div>
-        <div class="form-group">
 
-        <textarea ng-model="teeest"
-                  class="form-control"
-                  required></textarea>
+
+        <div class="col-sm-6">
+            <h3>Config-Options</h3>
+            <pre>{{ formOpt|json}}</pre>
+
+            <h3>Form-Data</h3>
+            <pre>{{ formData|json}}</pre>
+            <h3>Form-Ctrl-Data</h3>
+            <pre>{{ exampleForm|json}}</pre>
         </div>
 
-        <div class="form-group">
-            <select ng-model="selectCheck"
-                    class="form-control"
-                    required>
-                <option value=""></option>
-                <option value="aa">aaa</option>
-            </select>
-        </div>
-
-
-        <div class="form-group">
-            <h2>Without ngModel</h2>
-            <input type="text"
-                   class="form-control"
-                   placeholder="TestText"
-                   required="">
-        </div>
-        <div class="form-group">
-            <div class="col-lg-offset-2 col-lg-10">
-                <button type="submit"
-                        class="btn btn-default">Sign in
-                </button>
-            </div>
-        </div>
-    </form>
-
-    <h4>Outside Form</h4>
-    <input type="text"
-           class="form-control"
-           placeholder="TestText"
-           required=""
-           ng-model="aaatestText2">
-
-
+    </div>
 </div>
 
 <!-- build:js(.) scripts/oldieshim.js -->
@@ -144,6 +151,7 @@
 <script src="bower_components/jquery/dist/jquery.js"></script>
 <script src="bower_components/angular/angular.js"></script>
 <script src="bower_components/angular-messages/angular-messages.js"></script>
+<script src="bower_components/jquery.bind-first/release/jquery.bind-first-0.2.3.min.js"></script>
 <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
 <!-- endbower -->
 

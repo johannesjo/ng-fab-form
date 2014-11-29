@@ -8,10 +8,13 @@ angular.module('exampleApp', [
         //    triggerOnBlur: false
         //});
     })
-    .controller('exampleCtrl', function ($scope)
+    .controller('exampleCtrl', function ($scope, bsAutoForm)
     {
         $scope.submit = function ()
         {
-            alert('submit triggered');
-        }
+            console.log('CONTROLLER');
+            alert('Form submitted');
+        };
+
+        $scope.formOpt = bsAutoForm.config;
     });
