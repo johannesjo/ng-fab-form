@@ -1,5 +1,5 @@
 angular.module('exampleApp', [
-    'ngFabForm'
+    'bsAutoForm'
 ])
     .controller('exampleCtrl', function ($scope)
     {

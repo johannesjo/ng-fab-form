@@ -1,1 +1,1 @@
-angular.module('ngFabForm', []);
+angular.module('bsAutoForm', []);

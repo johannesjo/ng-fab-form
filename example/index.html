@@ -33,6 +33,7 @@
                        class="form-control"
                        id="inputEmail1"
                        placeholder="Email"
+                       minlength="3"
                        ng-model="formData.email"
                        required>
             </div>
@@ -46,6 +47,7 @@
                        class="form-control"
                        id="inputPassword1"
                        placeholder="Password"
+                       ng-pattern="/asd/"
                        ng-model="formData.password"
                        required>
             </div>
@@ -72,6 +74,7 @@
                        id="inputTestText"
                        placeholder="TestText"
                        required
+                       ng-maxlength="12"
                        ng-model="formData.testText">
             </div>
         </div>
@@ -91,7 +94,10 @@
 <script src="bower_components/json3/lib/json3.min.js"></script>
 <![endif]-->
 <!-- bower:js -->
+<script src="bower_components/jquery/dist/jquery.js"></script>
 <script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/angular-messages/angular-messages.js"></script>
+<script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
 <!-- endbower -->
 
 <!-- build:js({.tmp,src}) ng-fab-form.js -->
@@ -99,8 +105,8 @@
 <script src="_bs-auto-form.js"></script>
 <script src="form-d.js"></script>
 <script src="max-file-size-d.js"></script>
-<script src="form-error-msgs-s.js"></script>
 <script src="input-d.js"></script>
+<script src="bs-auto-form-p.js"></script>
 <!-- endfileblock -->
 <!-- endbuild -->
 <!-- fileblock:js example -->

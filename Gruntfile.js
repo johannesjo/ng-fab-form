@@ -25,11 +25,11 @@ module.exports = function (grunt)
     // Time how long tasks take. Can help when optimizing build times
     require('time-grunt')(grunt);
 
-var appConfig = {
-    app: 'src',
-    example: 'example',
-    dist: 'dist'
-};
+    var appConfig = {
+        app: 'src',
+        example: 'example',
+        dist: 'dist'
+    };
     // Define the configuration for all the tasks
     grunt.initConfig({
         // Watches files for changes and runs tasks based on the changed files
@@ -170,7 +170,7 @@ var appConfig = {
                 exclude: [],
                 devDependencies: true
             },
-            dist :{
+            dist: {
                 devDependencies: false
             }
         },
@@ -308,7 +308,8 @@ var appConfig = {
         protractor_webdriver: {
             options: {
                 command: 'webdriver-manager start'
-            }
+            },
+            dev: {}
         }
     });
 

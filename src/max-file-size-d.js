@@ -1,4 +1,4 @@
-angular.module('ngFabForm')
+angular.module('bsAutoForm')
     .directive('maxFileSize', function (maxUploadSizeInByte)
     {
         'use strict';

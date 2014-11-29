@@ -1,17 +1,7 @@
-angular.module('ngFabForm')
-    .directive('input', function ($compile)
+angular.module('bsAutoForm')
+    .directive('input', function ($compile, bsAutoForm)
     {
         'use strict';
-        var makeAlertTpl = function (closeCondition, msg)
-        {
-            console.log(closeCondition);
-
-            return '<div class="alert alert-warning"' +
-                'ng-show="' + closeCondition + '"' +
-                '>' +
-                msg +
-                '</div>';
-        };
 
         return {
             restrict: 'E',
@@ -23,26 +13,36 @@ angular.module('ngFabForm')
                 el.attr('name', newNameAttr);
                 attrs.name = newNameAttr;
 
-                // linking function
+                /**
+                 * linking function
+                 */
                 return function (scope, el, attrs, controllers)
                 {
                     var formCtrl = controllers[0],
-                        ngModelCtrl = controllers[1],
-                        alertTpl;
+                        ngModelCtrl = controllers[1];
 
-                    var alertCondition = formCtrl.$name + '.' + attrs.name + '.$invalid';
-                    alertCondition += ' && ' + formCtrl.$name + '.' + attrs.name + '.$dirty';
+                    var newScopeVarName = formCtrl.$name + '_' + attrs.name + '_errors';
+                    var alertTpl = bsAutoForm.makeAlertTpl(formCtrl.$name, attrs.name, ngModelCtrl.$validators);
+                    var compiledAlert = $compile(alertTpl)(scope);
 
-                    var msg = alertCondition;
+                    console.log(ngModelCtrl);
 
-                    alertTpl = makeAlertTpl(alertCondition, msg);
+                    //scope.$watch(function ()
+                    //{
+                    //    return ngModelCtrl.$modelValue;
+                    //}, function ()
+                    //{
+                    //    console.log(ngModelCtrl.$error, scope[formCtrl.$name][attrs.name].$error);
+                    //
+                    //    // set errors
+                    //    scope[newScopeVarName] = bsAutoForm.getErrorMsgs(ngModelCtrl.$error);
+                    //}, true);
 
 
-                    if (attrs.type === 'checkbox' || attrs.type === 'radio') {
-                        el.parent().after($compile(alertTpl)(scope));
-                    } else {
-                        el.after($compile(alertTpl)(scope));
-                    }
+                    // insert after or after parent if checkbox or radio
+                    bsAutoForm.insertErrorTpl(compiledAlert, el, attrs);
+
+
                 };
             }
         };

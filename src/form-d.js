@@ -1,4 +1,4 @@
-angular.module('ngFabForm')
+angular.module('bsAutoForm')
     .directive('form', function ($compile)
     {
         'use strict';
@@ -12,7 +12,7 @@ angular.module('ngFabForm')
                 var formPrefix = formModel.$name;
 
                 if (!attrs.name) {
-                    throw 'ngFabForm: each form needs a name';
+                    throw 'bsAutoForm: each form needs a name';
                 }
 
                 // watch disabled form if set (requires jQuery)
