@@ -12,9 +12,9 @@ angular.module('exampleApp', [
     {
         $scope.submit = function ()
         {
-            console.log('CONTROLLER');
             alert('Form submitted');
         };
 
         $scope.formOpt = ngFabForm.config;
+        $scope.validationMessages = ngFabForm.validationMessages;
     });

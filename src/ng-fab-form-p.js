@@ -96,7 +96,7 @@ angular.module('ngFabForm')
 
         // used to check for key value pairs in attributes if value is string
         // the function attributes are used to create the message
-            specialValidations = [
+            advancedValidations = [
                 // for all inputs
                 {
                     maxlength: function (attrs)
@@ -198,8 +198,8 @@ angular.module('ngFabForm')
                 };
 
                 if (config.useAdvancedValidationMsgs) {
-                    for (var i = 0; i < specialValidations.length; i++) {
-                        var validationObj = specialValidations[i];
+                    for (var i = 0; i < advancedValidations.length; i++) {
+                        var validationObj = advancedValidations[i];
                         applyRule = true;
                         msgFnKeys = [];
                         angular.forEach(validationObj, parseSpecialValidations);
@@ -265,9 +265,9 @@ angular.module('ngFabForm')
             {
                 config = angular.extend(config, newConfig);
             },
-            extendSpecialValidations: function (newSpecialValidations)
+            extendAdvancedValidations: function (newAdvancedValidations)
             {
-                specialValidations = angular.extend(specialValidations, newSpecialValidations);
+                advancedValidations = angular.extend(advancedValidations, newAdvancedValidations);
             },
             setWrapperTplFunction: function (tplFunction)
             {
@@ -288,7 +288,8 @@ angular.module('ngFabForm')
                 return {
                     insertErrorTpl: insertErrorTpl,
                     makeAlertTpl: makeAlertTpl,
-                    config: config
+                    config: config,
+                    validationMessages: validationMessages
                 };
             }
         };
