@@ -29,24 +29,26 @@
         <p class="header">convenient forms for angular with no extra markup? - fabulous!</p>
         <p class="header">This project is maintained by <a class="header name"
                                                            href="https://github.com/johannesjo">johannesjo</a></p>
-                <a class="buttons btn btn-primary btn-lg"
-                   href="https://github.com/johannesjo/ng-fab-form/zipball/master">
-                    <span class="octicon  octicon-cloud-download"></span> Download ZIP <span class="octicon  octicon-cloud-download"></span></a>
+        <a class="buttons btn btn-primary btn-lg"
+           href="https://github.com/johannesjo/ng-fab-form/zipball/master">
+            <span class="octicon  octicon-cloud-download"></span> Download ZIP
+            <span class="octicon  octicon-cloud-download"></span></a>
 
-                <a class="buttons btn btn-primary btn-lg"
-                   href="https://github.com/johannesjo/ng-fab-form/tarball/master"> <span class="octicon  octicon-cloud-download"></span> Download TAR  <span class="octicon  octicon-cloud-download"></span></a>
+        <a class="buttons btn btn-primary btn-lg"
+           href="https://github.com/johannesjo/ng-fab-form/tarball/master">
+            <span class="octicon  octicon-cloud-download"></span> Download TAR
+            <span class="octicon  octicon-cloud-download"></span></a>
 
-                <a class="buttons btn btn-primary btn-lg github"
-                   href="https://github.com/johannesjo/ng-fab-form"><span class="octicon  octicon-mark-github"></span> View On GitHub  <span class="octicon  octicon-mark-github"></span></a>
-                <a class="buttons btn btn-primary btn-lg"
-                   href="#demo"><span class="octicon  octicon-squirrel"></span> Demo  <span class="octicon  octicon-squirrel"></span></a>
-        </div>
+        <a class="buttons btn btn-primary btn-lg github"
+           href="https://github.com/johannesjo/ng-fab-form"><span class="octicon  octicon-mark-github"></span> View On
+            GitHub <span class="octicon  octicon-mark-github"></span></a>
+        <a class="buttons btn btn-primary btn-lg"
+           href="#demo"><span class="octicon  octicon-squirrel"></span> Demo
+            <span class="octicon  octicon-squirrel"></span></a>
+</div>
 
 
-
-
-
-    </header>
+</header>
 </div>
 
 <div class="container">
@@ -292,169 +294,35 @@
         </div>
     </article>
 </div>
-
+<hr>
 <div class="container"
      ng-app="exampleApp"
      ng-controller="exampleCtrl">
     <a name="demo"></a>
 
+    <h1>Demos</h1>
 
-    <div class="row">
-
-        <div class="col-sm-6">
-            <h3>Example Form</h3>
-
-            <form class="form-horizontal"
-                  role="form"
-                  ng-fab-form
-                  name="exampleForm"
-                  ng-submit="submit()"
-                  novalidate="">
-                <div class="form-group">
-                    <label class="control-label">Email (required)
-                    </label>
-                    <input type="email"
-                           class="form-control"
-                           placeholder="Email"
-                           ng-model="formData.email"
-                           required>
-                </div>
-                <div class="form-group">
-                    <label class="control-label">Password (required)
-                    </label>
-                    <input type="password"
-                           class="form-control"
-                           id="inputPassword1"
-                           placeholder="Password"
-                           ng-model="formData.password"
-                           required>
-                </div>
-                <div class="form-group">
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox"
-                                   required
-                                   ng-model="formData.check">
-                            Checkbox (required)
-                        </label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label">ng-pattern (/asd/) & required
-                    </label>
-                    <input type="text"
-                           class="form-control"
-                           placeholder="TestText"
-                           ng-pattern="/^asd$/i"
-                           name="text"
-                           required=""
-                           ng-model="formData.patternRequired">
-                </div>
-
-                <div class="form-group">
-                    <label class="control-label">required & maxlength(5) with validation-msg-required attribute
-                    </label>
-                    <input type="text"
-                           class="form-control"
-                           placeholder="TestText"
-                           ng-maxlength="5"
-                           required
-                           validation-msg-required="CUSTOM REQUIRED-MSG FTW!"
-                           ng-model="formData.requiredMaxlength">
-                </div>
-
-                <div class="form-group">
-                    <label>non required</label>
-                    <input type="text"
-                           class="form-control"
-                           placeholder="TestText"
-                           ng-model="formData.nonRequired">
-                </div>
-
-                <div class="form-group">
-                    <label>Textarea (required & ng-minlength(4))</label>
-        <textarea ng-model="formData.textarea"
-                  ng-minlength="4"
-                  class="form-control"
-                  required></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label>Select (required)</label>
-                    <select ng-model="formData.select"
-                            class="form-control"
-                            required>
-                        <option value=""></option>
-                        <option value="aa">aaa</option>
-                    </select>
-                </div>
+    <div ng-include="'example1.html'"
+         class="example"></div>
 
 
-                <div class="form-group">
-                    <label>Input without ngModel (does not do anything)</label>
-                    <input type="text"
-                           class="form-control"
-                           placeholder="TestText"
-                           required="">
-                </div>
-                <div class="form-group">
-                    <button type="submit"
-                            class="btn btn-primary">Submit Form
-                    </button>
-                </div>
-            </form>
-
-            <hr>
-            <div class="form-group">
-                <label>Input outside form (required) does/should not work</label>
-
-                <input type="text"
-                       class="form-control"
-                       placeholder="TestText"
-                       required=""
-                       ng-model="aaatestText2">
-            </div>
-
-            <hr>
-
-
-            <form name="form2"
-                  ng-submit="submit()">
-                <h4>Another Form</h4>
-
-                <div class="form-group">
-                    <label for="customName">Input outside form (required) does/should not work</label>
-
-                    <input type="text"
-                           class="form-control"
-                           placeholder="TestText"
-                           required=""
-                           id="customName"
-                           name="customName"
-                           ng-model="otherForm">
-                </div>
-            </form>
-        </div>
-
-
-        <div class="col-sm-6">
-            <h3>Config-Options</h3>
-            <pre>{{ formOpt|json}}</pre>
-
-            <h3>Form-Data</h3>
-            <pre>{{ formData|json}}</pre>
-            <h3>Form-Ctrl-Data</h3>
-            <pre>{{ exampleForm|json}}</pre>
-        </div>
-    </div>
 </div>
 
 <!-- add ga tracking -->
 <script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    (function (i, s, o, g, r, a, m)
+    {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function ()
+        {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
     ga('create', 'UA-57233018-1', 'auto');
     ga('send', 'pageview');
