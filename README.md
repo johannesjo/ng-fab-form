@@ -7,7 +7,7 @@ AngularJS forms are pretty nice. But if you have worked with angular for a while
 
 The the most repitive part by far is validation. I understand why the angular-developers want to give us the freedom, of doing this stuff in the most flexible manner, but I personally like to keep things consistent, which is hard with how forms work out of the box.`ng-fab-form` tries solve all of those issues without requiring you to change anything. Just set your forms up as usual and let `ng-fab-form` do the rest for you. 
 
-There are also a lot of form builders (like formly, etc.) out there. But you have to implement quite a different markup, to make those work. `ng-fab-form` takes another approach, by extending how forms work application-wide.
+There are also a lot of [form builders and other directives](https://github.com/search?o=desc&q=angular+form&s=stars&type=Repositories&utf8=%E2%9C%93) out there. But most of the time you have to implement quite a different markup, to make those work. `ng-fab-form` takes another approach, by extending how forms work application-wide.
 
 
 ## getting started
