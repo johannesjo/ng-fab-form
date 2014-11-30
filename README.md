@@ -2,8 +2,9 @@ ng-fab-form
 ===========
 *Fabulous Forms for AngularJS*
 
+AngularJS forms are pretty nice. But if you have worked with angular for a while, you'll find that the out-of-the-box-mechanics like the instant validation are far from perfect from the common users perspective. Furthermore you probably catch yourself declaring (and sometimes forgetting) the same stuff on and on again like giving a `novalidate` attribute and preventing for submission for invalid forms or like declaring a proper name attribute. 
 
-AngularJS forms are pretty nice. But if you have worked with angular for a while, you'll find that the out-of-the-box-mechanics like the instant validation are not far from perfect. Furthermore you catch yourself declaring the same stuff on and on again like giving a `novalidate` attribute and preventing for submission for invalid forms. The the most repitive part by far is the validation. I understand why the angular-developers want to give us the freedom, of doing this stuff in the most flexible manner, but I personally like to keep things consistent, which is hard with how forms work out of the box.
+The the most repitive part by far is validation. I understand why the angular-developers want to give us the freedom, of doing this stuff in the most flexible manner, but I personally like to keep things consistent, which is hard with how forms work out of the box.
 
 There are also a lot of form builders (like formly, etc.) out there. But you have to implement quite a different markup, to make those work. ng-fab-form tries solve all of those issues without requiring you to change anything. Just set your forms up as usual and let ng-fab-form do the rest for you. 
 
@@ -31,9 +32,9 @@ Keep in mind that if you don't like one of the functionalities, ng-fab-form is b
 
 It automatically:
 
-* append configurable validation messages (using `ng-messages`) to any element  with a validation directive on it like `required`, `ng-required`, `ng-pattern`, `ng-minlength` and so on
+* appends configurable validation messages (using `ng-messages`, [see](https://docs.angularjs.org/api/ngMessages/directive/ngMessages)) to any element  with a validation directive on it like `required`, `ng-required`, `ng-pattern`, `ng-minlength` and so on
 * adds a validation directive in case you have an exception to the rule
-* adds `name` attributes based on ng-model
+* adds `name` attributes based on ng-model, if none is set
 * adds a `novalidate` attribute to forms
 * prevents submission of invalid forms
 * adds an option to disable a form completly via a `disable-form` attribute
@@ -97,7 +98,7 @@ You can easily extend those configurations like this
 ```javascript
 angular.module('exampleApp', [
     'ngFabForm',
-    'ngAnimate'
+    'ngMessages'
 ])
     .config(function (ngFabFormProvider)
     {
@@ -115,7 +116,7 @@ Like the options, the default messages are an easily configurable
 ```javascript
 angular.module('exampleApp', [
     'ngFabForm',
-    'ngAnimate'
+    'ngMessages'
 ])
     .config(function (ngFabFormProvider)
     {
@@ -146,7 +147,7 @@ Furthermore you can adjust the validation template to your needs.
 ```javascript
 angular.module('exampleApp', [
     'ngFabForm',
-    'ngAnimate'
+    'ngMessages'
 ])
     .config(function (ngFabFormProvider)
     {
