@@ -1,8 +1,9 @@
 node_modules
 .tmp
 .sass-cache
+.grunt
 bower_components
-dist/
+dist/example
 .idea/
 *.DS_*
 npm-debug.log

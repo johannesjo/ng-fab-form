@@ -1,10 +1,26 @@
 {
     "name": "ng-fab-form",
-    "version": "0.0.0",
+    "description": "Fabulous helper to help you with your daily form coding.",
+    "version": "0.5.1",
     "authors": [
         "Johannes Millan <johannes.millan@gmail.com>"
     ],
-    "license": "MIT",
+    "homepage": "http://johannesjo.github.io/ng-fab-form/",
+    "license": "LGPL-2.1",
+    "main": "dist/ng-fab-form.js",
+    "keywords": [
+        "angular",
+        "AngularJS",
+        "form",
+        "forms",
+        "form helper",
+        "validation",
+        "autofocus",
+        "scroll to",
+        "input",
+        "select",
+        "textarea"
+    ],
     "ignore": [
         "**/.*",
         "node_modules",
