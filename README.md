@@ -1,6 +1,7 @@
 ng-fab-form
 ===========
-*Fabulous Forms for AngularJS*
+
+*Convenient forms for Angular with no extra markup? Fabulous!*
 
 AngularJS forms are pretty nice. But if you have worked with angular for a while, you'll find that the out-of-the-box-mechanics like the instant validation are far from perfect from the common users perspective. Furthermore you probably catch yourself declaring (and sometimes forgetting) the same stuff on and on again like giving a `novalidate` attribute and preventing for submission for invalid forms or like declaring a proper name attribute. 
 
@@ -193,6 +194,10 @@ angular.module('exampleApp', [
     });
     
 ```
+
+## contribute
+
+I'm happy for any [issue or feature request](https://github.com/johannesjo/ng-fab-form/issues), you might encounter or want to have. Pull requests are also highly welcome. Just fork the repository, clone it and run `grunt serve` for development.
 
 
 
