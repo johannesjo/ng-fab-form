@@ -41,7 +41,7 @@ module.exports = function (grunt)
             },
             bower: {
                 files: ['bower.json'],
-                tasks: ['wiredep']
+                tasks: ['wiredep:dev']
             },
             js: {
                 files: ['<%= appConfig.app %>/**/*.js', '<%= appConfig.example %>/**/*.js'],
@@ -172,6 +172,9 @@ module.exports = function (grunt)
                 devDependencies: true
             },
             dist: {
+                src: ['<%= appConfig.example %>/index.html'],
+                ignorePath: /\.\.\//,
+                exclude: [],
                 devDependencies: false
             }
         },

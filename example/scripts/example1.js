@@ -1,6 +1,7 @@
 angular.module('exampleApp', [
     'bsAutoForm',
-    'ngMessages'
+    'ngMessages',
+    'ngAnimate'
 ])
     .config(function (bsAutoFormProvider)
     {

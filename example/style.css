@@ -1,0 +1,45 @@
+.form-group {
+    position: relative;
+
+}
+
+.help-block.with-errors {
+    color:      #b60d33;
+    position:   absolute;
+    top:        100%;
+    margin-top: -10px;
+    text-align: right;
+    right:      6px;
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.ng-hide-add.ng-hide-add-active {
+}
+
+.ng-hide-remove.ng-hide-remove-active {
+    -webkit-transition: all linear 0.5s;
+    transition:         all linear 0.5s;
+}
+
+.ng-hide {
+    opacity: 0;
+}
+
+.ng-show {
+    display: block !important;
+    outline: 10px solid orange !important;
+}
+
+input,
+textarea,
+select {
+    -webkit-transition: 0.5s linear all;
+    transition:         0.5s linear all;
+    opacity:            1;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+
+}
