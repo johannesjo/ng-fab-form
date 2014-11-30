@@ -1,5 +1,5 @@
-angular.module('bsAutoForm')
-    .provider('bsAutoForm', function bsAutoFormProvider()
+angular.module('ngFabForm')
+    .provider('ngFabForm', function ngFabFormProvider()
     {
         'use strict';
 
@@ -23,7 +23,7 @@ angular.module('bsAutoForm')
                 scrollAnimationTime: 'smooth',
                 scrollOffset: -100,
                 disabledForms: true,
-                eventNameSpace: 'bsAutoForm',
+                eventNameSpace: 'ngFabForm',
                 validationMsgPrefix: 'validationMsg'
             },
 

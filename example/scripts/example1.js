@@ -1,9 +1,9 @@
 angular.module('exampleApp', [
-    'bsAutoForm',
+    'ngFabForm',
     'ngMessages',
     'ngAnimate'
 ])
-    .config(function (bsAutoFormProvider)
+    .config(function (ngFabFormProvider)
     {
         //bsAutoFormProvider.extendConfig({
         //    triggerOnBlur: false

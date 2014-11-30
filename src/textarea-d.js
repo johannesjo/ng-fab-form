@@ -1,7 +1,7 @@
-angular.module('bsAutoForm')
-    .directive('textarea', function ($compile, bsAutoFormDirective)
+angular.module('ngFabForm')
+    .directive('textarea', function ($compile, ngFabFormDirective)
     {
         'use strict';
 
-        return bsAutoFormDirective;
+        return ngFabFormDirective;
     });

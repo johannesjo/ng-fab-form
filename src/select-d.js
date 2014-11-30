@@ -1,7 +1,7 @@
-angular.module('bsAutoForm')
-    .directive('select', function (bsAutoFormDirective)
+angular.module('ngFabForm')
+    .directive('select', function (ngFabFormDirective)
     {
         'use strict';
 
-        return bsAutoFormDirective;
+        return ngFabFormDirective;
     });

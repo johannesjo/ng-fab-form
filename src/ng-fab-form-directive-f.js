@@ -1,5 +1,5 @@
-angular.module('bsAutoForm')
-    .factory('bsAutoFormDirective', function (bsAutoForm, $compile, $timeout)
+angular.module('ngFabForm')
+    .factory('ngFabFormDirective', function (ngFabForm, $compile, $timeout)
     {
         'use strict';
 
@@ -31,21 +31,21 @@ angular.module('bsAutoForm')
                         // wait for validators to be ready
                         $timeout(function ()
                         {
-                            var alertTpl = bsAutoForm.makeAlertTpl(formCtrl.$name, attrs, ngModelCtrl.$validators);
+                            var alertTpl = ngFabForm.makeAlertTpl(formCtrl.$name, attrs, ngModelCtrl.$validators);
                             var compiledAlert = $compile(alertTpl)(scope);
 
-                            bsAutoForm.insertErrorTpl(compiledAlert, el, attrs);
+                            ngFabForm.insertErrorTpl(compiledAlert, el, attrs);
                         });
                     }
 
-                    if (bsAutoForm.config.setAsteriskForRequiredLabel && attrs.required === true) {
+                    if (ngFabForm.config.setAsteriskForRequiredLabel && attrs.required === true) {
                         var label = $('label[for=' + attrs.name + ']');
                         if (label.length < 1) {
                             label = el.prev('label');
                         }
                         if (label && label[0]) {
                             if (attrs.type !== 'radio' && attrs.type !== 'checkbox') {
-                                label[0].innerText = label[0].innerText + bsAutoForm.config.asteriskStr;
+                                label[0].innerText = label[0].innerText + ngFabForm.config.asteriskStr;
                             }
                         }
                     }

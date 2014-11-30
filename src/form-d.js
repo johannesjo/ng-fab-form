@@ -1,5 +1,5 @@
-angular.module('bsAutoForm')
-    .directive('form', function ($compile, $timeout, bsAutoForm)
+angular.module('ngFabForm')
+    .directive('form', function ($compile, $timeout, ngFabForm)
     {
         'use strict';
         // HELPER FUNCTIONS
@@ -142,7 +142,7 @@ angular.module('bsAutoForm')
             compile: function (el, attrs)
             {
                 // autoset novalidate
-                if (!attrs.novalidate && bsAutoForm.config.setNovalidate) {
+                if (!attrs.novalidate && ngFabForm.config.setNovalidate) {
                     // set name attribute if none is set
                     el.attr('novalidate', true);
                     attrs.novalidate = true;
@@ -153,8 +153,8 @@ angular.module('bsAutoForm')
                  */
                 return function (scope, el, attrs, formCtrl)
                 {
-                    var formSubmitDisabledTimeoutLength = bsAutoForm.config.preventDoubleSubmitTimeoutLength,
-                        eventNameSpace = bsAutoForm.config.eventNameSpace;
+                    var formSubmitDisabledTimeoutLength = ngFabForm.config.preventDoubleSubmitTimeoutLength,
+                        eventNameSpace = ngFabForm.config.eventNameSpace;
 
                     /**
                      * NOTE: order is important
@@ -162,20 +162,20 @@ angular.module('bsAutoForm')
                      * so the last attached handler comes first
                      */
 
-                    if (bsAutoForm.config.preventInvalidSubmit) {
+                    if (ngFabForm.config.preventInvalidSubmit) {
                         setupPreventInvalidSubmit(scope, el, formCtrl, eventNameSpace);
                     }
-                    if (bsAutoForm.config.preventDoubleSubmit) {
+                    if (ngFabForm.config.preventDoubleSubmit) {
                         setupPreventDoubleSubmit(scope, el, formSubmitDisabledTimeoutLength, eventNameSpace);
                     }
-                    if (bsAutoForm.config.disabledForms) {
+                    if (ngFabForm.config.disabledForms) {
                         setupDisabledForms(el, attrs);
                     }
-                    if (bsAutoForm.config.setFormDirtyOnSubmit) {
+                    if (ngFabForm.config.setFormDirtyOnSubmit) {
                         setupDirtyOnSubmit(scope, el, eventNameSpace, formCtrl);
                     }
-                    if (bsAutoForm.config.scrollToAndFocusFirstErrorOnSubmit) {
-                        setupScrollToAndFocusFirstErrorOnSubmit(el, formCtrl, eventNameSpace, bsAutoForm.config.scrollAnimationTime, bsAutoForm.config.scrollOffset);
+                    if (ngFabForm.config.scrollToAndFocusFirstErrorOnSubmit) {
+                        setupScrollToAndFocusFirstErrorOnSubmit(el, formCtrl, eventNameSpace, ngFabForm.config.scrollAnimationTime, ngFabForm.config.scrollOffset);
                     }
 
                 };
