@@ -5,21 +5,7 @@
 
 module.exports = function (grunt)
 {
-    /**
-     * ====================
-     *        LEGEND
-     * ====================
-     * app:= development-folder
-     * dist:= folder & tasks used stage & live
-     * stage:= folder & tasks only for the stage
-     * server:= tasks usually only used for development
-     *
-     * unit:= unit testing task
-     * e2e:= end2end testing task
-     */
-
-
-        // Load grunt tasks automatically
+    // Load grunt tasks automatically
     require('load-grunt-tasks')(grunt);
 
     // Time how long tasks take. Can help when optimizing build times
@@ -229,18 +215,18 @@ module.exports = function (grunt)
                             // without test files
                             '!{,*/}**/*.spec.js'
                         ]
-                    },
-                    'example': {
-                        cwd: '<%= appConfig.example %>',
-                        src: [
-                            // module then submodules
-                            '{,*/}**/_*.js',
-                            // all the rest of the files
-                            '{,*/}**/*.js',
-                            // without test files
-                            '!{,*/}**/*.spec.js'
-                        ]
                     }
+                    //, 'example': {
+                    //    cwd: '<%= appConfig.example %>',
+                    //    src: [
+                    //        // module then submodules
+                    //        '{,*/}**/_*.js',
+                    //        // all the rest of the files
+                    //        '{,*/}**/*.js',
+                    //        // without test files
+                    //        '!{,*/}**/*.spec.js'
+                    //    ]
+                    //}
                 }
             }
         },
@@ -254,9 +240,9 @@ module.exports = function (grunt)
                 files: [
                     {
                         expand: true,
-                        cwd: '.tmp/concat/scripts',
-                        src: '*.js',
-                        dest: '.tmp/concat/scripts'
+                        cwd: '.tmp/concat',
+                        src: '**/*.js',
+                        dest: '.tmp/concat'
                     }
                 ]
             }
@@ -314,6 +300,62 @@ module.exports = function (grunt)
                 command: 'webdriver-manager start'
             },
             dev: {}
+        },
+
+
+        'gh-pages': {
+            options: {
+                // Options for all targets go here.
+            },
+            'gh-pages': {
+                options: {
+                    base: '<%= appConfig.dist %>/<%= appConfig.example %>'
+                },
+                // These files will get pushed to the `gh-pages` branch (the default).
+                src: ['**/*']
+            }
+        },
+
+        copy: {
+            bowerComponentsToTmp: {
+                files: [
+                    // includes files within path
+                    {
+                        expand: true,
+                        src: ['bower_components/**/*.*'],
+                        dest: '<%= appConfig.example %>'
+                    }
+                ]
+            },
+            dist: {
+                files: [
+                    // includes files within path
+                    {
+                        expand: true,
+                        src: ['<%= appConfig.example %>/**/*.*'],
+                        dest: '<%= appConfig.dist %>/'
+                    }
+                ]
+            },
+            ghPages: {
+                files: [
+                    // includes files within path
+                    {
+                        expand: true,
+                        cwd: '<%= appConfig.dist %>',
+                        src: ['*.js'],
+                        dest: '<%= appConfig.dist %>/<%= appConfig.example %>/'
+                    }
+                ]
+            }
+        },
+        cdnify: {
+            options: {
+                cdn: require('google-cdn-data')
+            },
+            dist: {
+                html: ['<%= appConfig.dist %>/**/*.html']
+            }
         }
     });
 
@@ -340,19 +382,20 @@ module.exports = function (grunt)
             'clean:dist',
             'wiredep:dist',
             'fileblocks:all',
+            'copy:bowerComponentsToTmp',
             'jshint:all',
-            'karma:unitSingleRun',
-            'sprite:all',
+            //'karma:unitSingleRun',
             'useminPrepare',
             'concurrent:dist',
-            'autoprefixer',
             'concat:generated',
             'ngAnnotate:dist',
             'copy:dist',
-            'cdnify',
-            'cssmin:generated',
+            //'cssmin:generated',
             'uglify:generated',
-            'usemin'
+            'usemin',
+            'copy:ghPages',
+            'cdnify:dist',
+            //'gh-pages'
         ]);
     });
     grunt.registerTask('server', 'DEPRECATED TASK. Use the "serve" task instead', function (target)

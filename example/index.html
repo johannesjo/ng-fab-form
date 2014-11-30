@@ -5,13 +5,15 @@
 <html class="no-js"><!--<![endif]-->
 <head>
     <meta charset="utf-8">
-    <title>ng-fabolous-forms example</title>
+    <title>ng-fabulous-forms example</title>
     <meta name="viewport"
           content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- bower:css -->
-    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
     <!-- endbower -->
+    <link rel="stylesheet"
+          href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+
     <link rel="stylesheet"
           href="style.css">
 
@@ -19,7 +21,26 @@
 <body ng-app="exampleApp">
 <div class="container"
      ng-controller="exampleCtrl">
-    <h1>ng-fabulous-forms Example</h1>
+    <header>
+        <h1 class="header">angular fabulous forms</h1>
+        <p class="header">convient forms for angular with no extra markup</p>
+
+        <ul>
+            <li class="download"><a class="buttons"
+                                    href="https://github.com/johannesjo/ng-fab-form/zipball/master">Download ZIP</a>
+            </li>
+            <li class="download"><a class="buttons"
+                                    href="https://github.com/johannesjo/ng-fab-form/tarball/master">Download TAR</a>
+            </li>
+            <li><a class="buttons github"
+                   href="https://github.com/johannesjo/ng-fab-form">View On GitHub</a></li>
+        </ul>
+
+        <p class="header">This project is maintained by <a class="header name"
+                                                           href="https://github.com/johannesjo">johannesjo</a></p>
+
+
+    </header>
 
     <div class="row">
 
@@ -172,22 +193,17 @@
     </div>
 </div>
 
-<!-- build:js(.) scripts/oldieshim.js -->
-<!--[if lt IE 9]>
-<script src="bower_components/es5-shim/es5-shim.js"></script>
-<script src="bower_components/json3/lib/json3.min.js"></script>
-<![endif]-->
 <!-- bower:js -->
 <script src="bower_components/jquery/dist/jquery.js"></script>
 <script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/angular-animate/angular-animate.js"></script>
 <script src="bower_components/angular-messages/angular-messages.js"></script>
 <script src="bower_components/jquery.bind-first/release/jquery.bind-first-0.2.3.min.js"></script>
-<script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
-<script src="bower_components/angular-animate/angular-animate.js"></script>
 <!-- endbower -->
 
 <!-- build:js({.tmp,src}) ng-fab-form.js -->
 <!-- fileblock:js module -->
+<script src="_ng-fab-form.js"></script>
 <script src="form-d.js"></script>
 <script src="max-file-size-d.js"></script>
 <script src="input-d.js"></script>
@@ -195,11 +211,12 @@
 <script src="select-d.js"></script>
 <script src="ng-fab-form-directive-f.js"></script>
 <script src="ng-fab-form-p.js"></script>
-<script src="_ng-fab-form.js"></script>
 <!-- endfileblock -->
 <!-- endbuild -->
+
 <!-- fileblock:js example -->
-<script src="scripts/example1.js"></script>
+<script src="scripts/example.js"></script>
 <!-- endfileblock -->
+
 </body>
 </html>

@@ -2,6 +2,7 @@ node_modules
 .tmp
 .sass-cache
 bower_components
+dist/
 .idea/
 *.DS_*
 npm-debug.log
