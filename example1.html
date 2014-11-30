@@ -162,12 +162,17 @@
 
 
     <div class="col-sm-6">
+        <h3>Form-Data</h3>
+        <pre>{{ formData|json}}</pre>
+
         <h3>Config-Options</h3>
         <pre>{{ formOpt|json}}</pre>
 
-        <h3>Form-Data</h3>
-        <pre>{{ formData|json}}</pre>
-        <h3>Form-Ctrl-Data</h3>
-        <pre>{{ exampleForm|json}}</pre>
+        <h3>Validation Messages</h3>
+        <pre>{{ validationMessages|json}}</pre>
     </div>
+</div>
+<div>
+    <h3>Form-Ctrl-Data</h3>
+    <pre>{{ exampleForm|json}}</pre>
 </div>
