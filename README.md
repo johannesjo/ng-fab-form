@@ -16,14 +16,14 @@ Install it via bower:
 ```
 bower install ng-fab-form angular-messages -S
 ```
-And in your main module:
+And add `ngFabForm` and `ngMessages` as dependency in your main module:
 ```
 angular.module('yourApp',[
   'ngFabForm',
   'ngMessages'
 ]);
 ```
-Thats all you need to do, to get started.
+Thats all you need to do to get started.
 
 ## features
 
@@ -43,6 +43,7 @@ It automatically:
 * prevents double submissions of forms when double clicked via a configurable delay
 * scrolls to and focuesses the first form element with an error, if the submission fails
 * tries to set an asterisk to the corresponding label, if `required` or `ng-required` is set
+* should work with any custom validation directive you have running in your project (as long as they're correctly working with the ngModel-Controller)
 
 ## configuring options
 
@@ -133,7 +134,7 @@ angular.module('exampleApp', [
 
 ## special validations (e.g. ng-pattern)
 
-For specific cases you might want to have another text for a specifc context.
+Sometimes you might want to have another text for a specifc context. Special validation-messages like this are easily added like this:
 ```html
 <input type="text"
        mg-model="my-model"
@@ -143,7 +144,7 @@ For specific cases you might want to have another text for a specifc context.
 
 ## advanced configuration
 
-Furthermore you can adjust the validation template to your needs.
+Furthermore you can adjust the validation template to your needs:
 
 ```javascript
 angular.module('exampleApp', [
