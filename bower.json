@@ -1,7 +1,7 @@
 {
     "name": "ng-fab-form",
     "description": "Fabulous helper to help you with your daily form coding.",
-    "version": "0.5.1",
+    "version": "0.5.2",
     "authors": [
         "Johannes Millan <johannes.millan@gmail.com>"
     ],
@@ -30,11 +30,11 @@
     ],
     "dependencies": {
         "angular": "~1.3.4",
-        "angular-animate": "~1.3.4",
         "angular-messages": "~1.3.4",
         "jquery.bind-first": "~0.2.3"
     },
     "devDependencies": {
+        "angular-animate": "~1.3.4",
         "bootstrap": "~3.3.1"
     }
 }
