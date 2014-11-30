@@ -3,13 +3,13 @@ angular.module('exampleApp', [
     'ngMessages',
     'ngAnimate'
 ])
-    .config(function (ngFabFormProvider)
+    .config(function ()
     {
         //bsAutoFormProvider.extendConfig({
         //    triggerOnBlur: false
         //});
     })
-    .controller('exampleCtrl', function ($scope, bsAutoForm)
+    .controller('exampleCtrl', function ($scope, ngFabForm)
     {
         $scope.submit = function ()
         {
@@ -17,5 +17,5 @@ angular.module('exampleApp', [
             alert('Form submitted');
         };
 
-        $scope.formOpt = bsAutoForm.config;
+        $scope.formOpt = ngFabForm.config;
     });
