@@ -195,7 +195,7 @@ angular.module('exampleApp', [
     
 ```
 
-## contribute
+## ❤ contribute ❤
 
 I'm happy for any [issue or feature request](https://github.com/johannesjo/ng-fab-form/issues), you might encounter or want to have. Even a one liner is better, than no feedback at all. Pull requests are also highly welcome. Just fork the repository, clone it and run `grunt serve` for development.
 
