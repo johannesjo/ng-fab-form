@@ -1,0 +1,24 @@
+{
+  "name": "bind-first",
+  "version": "0.2.3",
+  "homepage": "https://github.com/private-face/jquery.bind-first",
+  "authors": [
+    "Vladimir Zhuravlev <private.face@gmail.com>"
+  ],
+  "description": "Bind-first allows you to attach a handler to an event be sure that it will be executed first, regardless of how many handlers you already attached.",
+  "main": "release/jquery.bind-first-0.2.3.min.js",
+  "keywords": [
+    "event"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "jquery": ">=1.4.2"
+  },  
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "tests",
+    "build"
+  ]
+}

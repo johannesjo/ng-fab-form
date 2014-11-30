@@ -1,0 +1,84 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<link rel="stylesheet" href="styles.css" type="text/css" media="screen">
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="../release/jquery.bind-first-0.2.3.min.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+	<div id="main">
+		<h1>bindFirst, delegateFirst &amp; liveFirst examples</h1>
+		<h2>bindFirst</h2>
+		<div class="example" id="bind">
+			<a href="#">Click this link</a>
+			<h3>Source code:</h3>
+			<code>
+			</code>
+			<script type="text/javascript" charset="utf-8">
+			$('#bind a')
+				// regular bind: binded first, will be runned second
+				.bind('click.ns1', function() {
+					alert('regular bind');
+					return false;
+				})
+				// bindFirst: binded second, will be runned first
+				.bindFirst('click.ns2', function() {
+					alert('bindFirst');
+					return false;
+				});
+			</script>
+		</div>
+		<h2>delegateFirst</h2>
+		<div class="example" id="delegate">
+			<a href="#">Click this link</a>
+			<h3>Source code:</h3>
+			<code>
+			</code>
+			<script type="text/javascript" charset="utf-8">
+			$('#delegate')
+				// regular delegate: binded first, will be runned second
+				.delegate('a', 'click.ns1', function() {
+					alert('regular delegate');
+					return false;
+				})
+				// delegateFirst: binded second, will be runned first
+				.delegateFirst('a', 'click.ns2', function() {
+					alert('delegateFirst');
+					return false;
+				});
+			</script>
+		</div>
+		<h2>liveFirst</h2>
+		<div class="example" id="live">
+			<a href="#">Click this link</a>
+			<h3>Source code:</h3>
+			<code>
+			</code>
+			<script type="text/javascript" charset="utf-8">
+			$('#live a')
+				// regular live: binded first, will be runned second
+				.live('click.ns1', function() {
+					alert('regular live');
+					return false;
+				})
+				// liveFirst: binded second, will be runned first
+				.liveFirst('click.ns2', function() {
+					alert('liveFirst');
+					return false;
+				});
+			</script>
+		</div>
+	</div>
+	<script type="text/javascript" charset="utf-8">
+		$(function() {
+			$('.example').each(function() {
+				var $el = $(this);
+				
+				$el.find('code').text($el.find('script').text().replace(/\n\t\t\t/gm, '\n').replace(/^\n/gm, ''));
+			});
+		});
+	</script>
+</body>
+</html>

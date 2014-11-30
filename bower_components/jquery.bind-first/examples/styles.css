@@ -1,0 +1,28 @@
+html, body {
+	margin:0;
+	padding: 0;
+	background: #fff;
+	color: #333;
+}
+#main {
+	width: 800px;
+	background: #f5f5f5;
+	margin: 0 auto;
+	padding: 1px 20px;
+}
+h2 {
+	border-bottom: 2px solid #ddd;
+}
+h3 {
+	font: 12px 'Monaco', 'Courier New', monospace;
+	margin: 20px 0 0;
+}
+.example code {
+	display: block;
+	font: 10px 'Monaco', 'Courier New', monospace;
+	white-space: pre;
+	background: #FBFFCE;
+	border: 1px solid #EFF2C7;
+	border-radius: 4px;
+	padding: 5px 10px;
+}
