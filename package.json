@@ -1,6 +1,6 @@
 {
   "name": "ng-fab-forms",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "devDependencies": {
     "google-cdn": "^1.0.0",
     "google-cdn-data": "^0.1.14",
