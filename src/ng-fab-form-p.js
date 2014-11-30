@@ -9,21 +9,49 @@ angular.module('ngFabForm')
 
         var config = {
                 showErrorsOn: [
-                    '$touched',
-                    '$dirty'
+                    '$touched', // if element was focussed
+                    '$dirty' // if element was edited
                 ],
+                // add noovalidate to forms
                 setNovalidate: true,
-                setAsteriskForRequiredLabel: true,
+
+                // add asterisk to required fields
+                setAsteriskForRequiredLabel: false,
+
+                // asterisk string to be added if enabled
                 asteriskStr: '*',
+
+                // prevent submission of invalid forms
                 preventInvalidSubmit: true,
+
+                // prevent double clicks
                 preventDoubleSubmit: true,
+
+                // double click delay duration
                 preventDoubleSubmitTimeoutLength: 1000,
+
+                // show validation-messages on failed submit
                 setFormDirtyOnSubmit: true,
+
+                // autofocus first error-element
                 scrollToAndFocusFirstErrorOnSubmit: true,
+
+                // set either to fixed duration or to 'smooth'
+                // 'smooth' means that the duration is calculated,
+                // based on the distance to scroll (the more the faster it scrolls)
                 scrollAnimationTime: 'smooth',
+
+                // fixed offset for scroll to elment
                 scrollOffset: -100,
+
+                // option to disable forms by wrapping them in a disabled <fieldset> elment
                 disabledForms: true,
+
+                // event-name-space, usually you won't need to change anything here
                 eventNameSpace: 'ngFabForm',
+
+                // the validation message prefix, results for the default state
+                // `validation-msg-required` or `validation-msg-your-custom-validation`
                 validationMsgPrefix: 'validationMsg'
             },
 

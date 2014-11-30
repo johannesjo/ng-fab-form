@@ -395,7 +395,7 @@ module.exports = function (grunt)
             'usemin',
             'copy:ghPages',
             'cdnify:dist',
-            //'gh-pages'
+            'gh-pages'
         ]);
     });
     grunt.registerTask('server', 'DEPRECATED TASK. Use the "serve" task instead', function (target)
