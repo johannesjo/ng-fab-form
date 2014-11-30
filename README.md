@@ -1,11 +1,13 @@
 ng-fab-form
 ===========
-*Fabulous Forms for AngularJS*
 
+*Convenient forms for Angular with no extra markup? Fabulous!*
 
-AngularJS forms are pretty nice. But if you have worked with angular for a while, you'll find that the out-of-the-box-mechanics like the instant validation are not far from perfect. Furthermore you catch yourself declaring the same stuff on and on again like giving a `novalidate` attribute and preventing for submission for invalid forms. The the most repitive part by far is the validation. I understand why the angular-developers want to give us the freedom, of doing this stuff in the most flexible manner, but I personally like to keep things consistent, which is hard with how forms work out of the box.
+AngularJS forms are pretty nice. But if you have worked with angular for a while, you'll find that the out-of-the-box-mechanics like the instant validation are far from perfect from the common users perspective. Furthermore you probably catch yourself declaring (and sometimes forgetting) the same stuff on and on again like giving a `novalidate` attribute and preventing for submission for invalid forms or like declaring a proper name attribute. 
 
-There are also a lot of form builders (like formly, etc.) out there. But you have to implement quite a different markup, to make those work. ng-fab-form tries solve all of those issues without requiring you to change anything. Just set your forms up as usual and let ng-fab-form do the rest for you. 
+The the most repitive part by far is validation. I understand why the angular-developers want to give us the freedom, of doing this stuff in the most flexible manner, but I personally like to keep things consistent, which is hard with how forms work out of the box.`ng-fab-form` tries solve all of those issues without requiring you to change anything. Just set your forms up as usual and let `ng-fab-form` do the rest for you. 
+
+There are also a lot of [form builders and other directives](https://github.com/search?o=desc&q=angular+form&s=stars&type=Repositories&utf8=%E2%9C%93) out there. But most of the time you have to implement quite a different markup, to make those work. `ng-fab-form` takes another approach, by extending how forms work application-wide.
 
 
 ## getting started
@@ -14,14 +16,14 @@ Install it via bower:
 ```
 bower install ng-fab-form angular-messages -S
 ```
-And in your main module:
+And add `ngFabForm` and `ngMessages` as dependency in your main module:
 ```
 angular.module('yourApp',[
   'ngFabForm',
   'ngMessages'
 ]);
 ```
-Thats all you need to do, to get started.
+Thats all you need to do to get started.
 
 ## features
 
@@ -31,9 +33,9 @@ Keep in mind that if you don't like one of the functionalities, ng-fab-form is b
 
 It automatically:
 
-* append configurable validation messages (using `ng-messages`) to any element  with a validation directive on it like `required`, `ng-required`, `ng-pattern`, `ng-minlength` and so on
+* appends configurable validation messages (using `ng-messages`, [see](https://docs.angularjs.org/api/ngMessages/directive/ngMessages)) to any element  with a validation directive on it like `required`, `ng-required`, `ng-pattern`, `ng-minlength` and so on
 * adds a validation directive in case you have an exception to the rule
-* adds `name` attributes based on ng-model
+* adds `name` attributes based on ng-model, if none is set
 * adds a `novalidate` attribute to forms
 * prevents submission of invalid forms
 * adds an option to disable a form completly via a `disable-form` attribute
@@ -41,6 +43,7 @@ It automatically:
 * prevents double submissions of forms when double clicked via a configurable delay
 * scrolls to and focuesses the first form element with an error, if the submission fails
 * tries to set an asterisk to the corresponding label, if `required` or `ng-required` is set
+* should work with any custom validation directive you have running in your project (as long as they're correctly working with the ngModel-Controller)
 
 ## configuring options
 
@@ -97,7 +100,7 @@ You can easily extend those configurations like this
 ```javascript
 angular.module('exampleApp', [
     'ngFabForm',
-    'ngAnimate'
+    'ngMessages'
 ])
     .config(function (ngFabFormProvider)
     {
@@ -115,7 +118,7 @@ Like the options, the default messages are an easily configurable
 ```javascript
 angular.module('exampleApp', [
     'ngFabForm',
-    'ngAnimate'
+    'ngMessages'
 ])
     .config(function (ngFabFormProvider)
     {
@@ -131,7 +134,7 @@ angular.module('exampleApp', [
 
 ## special validations (e.g. ng-pattern)
 
-For specific cases you might want to have another text for a specifc context.
+Sometimes you might want to have another text for a specifc context. Special validation-messages like this are easily added like this:
 ```html
 <input type="text"
        mg-model="my-model"
@@ -141,12 +144,12 @@ For specific cases you might want to have another text for a specifc context.
 
 ## advanced configuration
 
-Furthermore you can adjust the validation template to your needs.
+Furthermore you can adjust the validation template to your needs:
 
 ```javascript
 angular.module('exampleApp', [
     'ngFabForm',
-    'ngAnimate'
+    'ngMessages'
 ])
     .config(function (ngFabFormProvider)
     {
@@ -192,6 +195,12 @@ angular.module('exampleApp', [
     });
     
 ```
+
+## ❤ contribute ❤
+
+I'm happy for any [issue or feature request](https://github.com/johannesjo/ng-fab-form/issues), you might encounter or want to have. Even a one liner is better, than no feedback at all. Pull requests are also highly welcome. Just fork the repository, clone it and run `grunt serve` for development.
+
+`ng-fab-form` is published under the [The GNU Lesser General Public License V2.1](https://github.com/johannesjo/ng-fab-form/blob/master/LICENSE).
 
 
 
