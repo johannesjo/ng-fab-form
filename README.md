@@ -25,7 +25,7 @@ Thats all you need to do, to get started.
 
 features
 ===============
-Have a look at the demo!
+Have a look at the [demo](http://johannesjo.github.io/ng-fab-form/)!
 
 Keep in mind that if you don't like one of the functionalities, ng-fab-form is build with customization in mind. **It's possible to disable almost any feature easily in your app configuration**.
 
