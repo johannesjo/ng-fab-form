@@ -183,21 +183,26 @@ angular.module('ngFabForm')
 
             setMgsForSpecialValidationCombinations = function (attrs, customMsgs)
             {
+                var applyRule,
+                    msgFnKeys;
+
+                var parseSpecialValidations = function (val, key)
+                {
+                    if (applyRule) {
+                        if (angular.isFunction(val)) {
+                            msgFnKeys.push(key);
+                        } else {
+                            applyRule = (attrs[key] && attrs[key] === val);
+                        }
+                    }
+                };
+
                 if (config.useAdvancedValidationMsgs) {
                     for (var i = 0; i < specialValidations.length; i++) {
-                        var validationObj = specialValidations[i],
-                            applyRule = true,
-                            msgFnKeys = [];
-                        angular.forEach(validationObj, function (val, key)
-                        {
-                            if (applyRule) {
-                                if (angular.isFunction(val)) {
-                                    msgFnKeys.push(key);
-                                } else {
-                                    applyRule = (attrs[key] && attrs[key] === val);
-                                }
-                            }
-                        });
+                        var validationObj = specialValidations[i];
+                        applyRule = true;
+                        msgFnKeys = [];
+                        angular.forEach(validationObj, parseSpecialValidations);
                         if (applyRule && msgFnKeys.length > 0) {
                             for (var j = 0; j < msgFnKeys.length; j++) {
                                 var msgFnKey = msgFnKeys[j];
