@@ -56,11 +56,28 @@ angular.module('ngFabForm')
             },
 
             validationMessages = {
+                // types
+                email: 'This is not a valid email-address',
+                password: 'This is not a valid password',
+                date: 'This is no valid date',
+                time: 'This is no valid time',
+                datetime: 'This is no valid datetime',
+                'datetime-local': 'This is no valid local datetime',
+                number: 'This is no valid number',
+                color: 'This no valid color',
+                range: 'This is no valid range',
+                month: 'This is no valid month',
+                url: 'This is no valid url',
+                file: 'This no valid file',
+
+                // attributes
                 required: 'This field is required',
                 pattern: 'Your input does not match the requirements',
                 maxlength: 'Your input is too long',
                 minlength: 'Your input is too short',
-                email: 'This is not a valid email-address'
+                max: 'Your input is too large',
+                min: 'Your input is too short',
+                size: 'This no valid size'
             };
 
 
