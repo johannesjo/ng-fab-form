@@ -3,11 +3,10 @@ angular.module('exampleApp', [
     'ngMessages',
     'ngAnimate'
 ])
-    .config(function ()
+    .config(function (ngFabFormProvider)
     {
-        //bsAutoFormProvider.extendConfig({
-        //    triggerOnBlur: false
-        //});
+        ngFabFormProvider.extendConfig({
+        });
     })
     .controller('exampleCtrl', function ($scope, ngFabForm)
     {
