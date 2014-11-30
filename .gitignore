@@ -5,3 +5,4 @@ bower_components
 .idea/
 *.DS_*
 npm-debug.log
+atlassian-ide-plugin.xml
