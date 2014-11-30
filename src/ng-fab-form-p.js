@@ -7,6 +7,11 @@ angular.module('ngFabForm')
         // DEFAULTS & CONFIG
         // *****************
 
+
+        // *****************
+        // HELPER FUNCTIONS
+        // ****************
+
         var config = {
                 showErrorsOn: [
                     '$touched', // if element was focussed
@@ -52,38 +57,82 @@ angular.module('ngFabForm')
 
                 // the validation message prefix, results for the default state
                 // `validation-msg-required` or `validation-msg-your-custom-validation`
-                validationMsgPrefix: 'validationMsg'
+                validationMsgPrefix: 'validationMsg',
+
+
+                // uses advanced validations,e .g. for min and max
+                useAdvancedValidationMsgs: true,
+                dateFormat: 'dd.MM.yy',
+                timeFormat: 'HH:MM'
             },
 
             validationMessages = {
                 // types
                 email: 'This is not a valid email-address',
                 password: 'This is not a valid password',
-                date: 'This is no valid date',
-                time: 'This is no valid time',
+                date: 'This is not a valid date',
+                time: 'This is not a valid time',
                 datetime: 'This is no valid datetime',
                 'datetime-local': 'This is no valid local datetime',
                 number: 'This is no valid number',
                 color: 'This no valid color',
-                range: 'This is no valid range',
-                month: 'This is no valid month',
-                url: 'This is no valid url',
-                file: 'This no valid file',
+                range: 'This is not a valid range',
+                month: 'This is not a valid month',
+                url: 'This is not a valid url',
+                file: 'This not a valid file',
 
                 // attributes
                 required: 'This field is required',
                 pattern: 'Your input does not match the requirements',
-                maxlength: 'Your input is too long',
-                minlength: 'Your input is too short',
+                size: 'This no valid size',
+
+                // special validations (over written if
+                // specialValidations is set to true
                 max: 'Your input is too large',
                 min: 'Your input is too short',
-                size: 'This no valid size'
-            };
+                maxlength: 'Your input is too long',
+                minlength: 'Your input is too short',
+            },
 
-
-        // *****************
-        // HELPER FUNCTIONS
-        // ****************
+        // used to check for key value pairs in attributes if value is string
+        // the function attributes are used to create the message
+            specialValidations = [
+                // for all inputs
+                {
+                    maxlength: function (attrs)
+                    {
+                        return 'Your input should have max ' + attrs.maxlength + ' characters';
+                    },
+                    minlength: function (attrs)
+                    {
+                        return 'Your input should have at least ' + attrs.minlength + ' characters';
+                    }
+                },
+                // date-fields
+                {
+                    type: 'time',
+                    min: function (attrs)
+                    {
+                        return 'The time provided should be no earlier than {{"' + attrs.min + '"|date:"' + config.timeFormat + '"}}';
+                    },
+                    max: function (attrs)
+                    {
+                        return 'The time should be no later than {{"' + attrs.max + '"|date:"' + config.timeFormat + '"}}';
+                    }
+                },
+                // date
+                {
+                    type: 'date',
+                    min: function (attrs)
+                    {
+                        return 'The date provided should be no earlier than the {{"' + attrs.min + '"|date:"' + config.dateFormat + '"}}';
+                    },
+                    max: function (attrs)
+                    {
+                        return 'The date provided should be no later than the {{"' + attrs.max + '"|date:"' + config.dateFormat + '"}}';
+                    }
+                }
+            ];
 
         var makeAlertWrapperTpl = function (ngShowCondition, formName, elName, messages)
             {
@@ -107,7 +156,10 @@ angular.module('ngFabForm')
                 var allMgs = {},
                     customMsgs = {};
 
-                // check for custom validation msgs
+                // special handlers
+                setMgsForSpecialValidationCombinations(attrs, customMsgs);
+
+                // check for custom validation msgs added via validation-attribute
                 angular.forEach(attrs, function (attr, attrKey)
                 {
                     var regExp = new RegExp(config.validationMsgPrefix);
@@ -117,7 +169,6 @@ angular.module('ngFabForm')
                         customMsgs[sanitizedKey] = attr;
                     }
                 });
-
                 angular.forEach(validators, function (validator, validatorKey)
                 {
                     if (customMsgs && customMsgs[validatorKey]) {
@@ -128,6 +179,33 @@ angular.module('ngFabForm')
                 });
 
                 return allMgs;
+            },
+
+            setMgsForSpecialValidationCombinations = function (attrs, customMsgs)
+            {
+                if (config.useAdvancedValidationMsgs) {
+                    for (var i = 0; i < specialValidations.length; i++) {
+                        var validationObj = specialValidations[i],
+                            applyRule = true,
+                            msgFnKeys = [];
+                        angular.forEach(validationObj, function (val, key)
+                        {
+                            if (applyRule) {
+                                if (angular.isFunction(val)) {
+                                    msgFnKeys.push(key);
+                                } else {
+                                    applyRule = (attrs[key] && attrs[key] === val);
+                                }
+                            }
+                        });
+                        if (applyRule && msgFnKeys.length > 0) {
+                            for (var j = 0; j < msgFnKeys.length; j++) {
+                                var msgFnKey = msgFnKeys[j];
+                                customMsgs[msgFnKey] = validationObj[msgFnKey](attrs);
+                            }
+                        }
+                    }
+                }
             };
 
 
@@ -182,6 +260,10 @@ angular.module('ngFabForm')
             {
                 config = angular.extend(config, newConfig);
             },
+            extendSpecialValidations: function (newSpecialValidations)
+            {
+                specialValidations = angular.extend(specialValidations, newSpecialValidations);
+            },
             setWrapperTplFunction: function (tplFunction)
             {
                 makeAlertWrapperTpl = tplFunction;
@@ -192,9 +274,9 @@ angular.module('ngFabForm')
             },
 
 
-            // ************************
-            // ACTUAL FACTORY FUNCTION
-            // ***********************
+            // ************************************************
+            // ACTUAL FACTORY FUNCTION - used by the directives
+            // ************************************************
 
             $get: function ()
             {
