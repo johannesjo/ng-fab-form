@@ -8,8 +8,8 @@ AngularJS forms are pretty nice. But if you have worked with angular for a while
 There are also a lot of form builders (like formly, etc.) out there. But you have to implement quite a different markup, to make those work. ng-fab-form tries solve all of those issues without requiring you to change anything. Just set your forms up as usual and let ng-fab-form do the rest for you. 
 
 
-getting started
-===============
+## getting started
+
 Install it via bower:
 ```
 bower install ng-fab-form angular-messages -S
@@ -23,8 +23,8 @@ angular.module('yourApp',[
 ```
 Thats all you need to do, to get started.
 
-features
-===============
+## features
+
 Have a look at the [DEMO](http://johannesjo.github.io/ng-fab-form#demo)!
 
 Keep in mind that if you don't like one of the functionalities, ng-fab-form is build with customization in mind. **It's possible to disable almost any feature easily in your app configuration**.
@@ -42,8 +42,8 @@ It automatically:
 * scrolls to and focuesses the first form element with an error, if the submission fails
 * tries to set an asterisk to the corresponding label, if `required` or `ng-required` is set
 
-configuring options
-===================
+## configuring options
+
 Currently the configuration object of ng-fab-forms looks like this.
 ```
 showErrorsOn: [
@@ -109,8 +109,8 @@ angular.module('exampleApp', [
 
 ```
 
-configuring default messages
-============================
+## configuring default messages
+
 Like the options, the default messages are an easily configurable 
 ```javascript
 angular.module('exampleApp', [
@@ -129,8 +129,8 @@ angular.module('exampleApp', [
 
 ```
 
-special validations (e.g. ng-pattern)
-================================
+## special validations (e.g. ng-pattern)
+
 For specific cases you might want to have another text for a specifc context.
 ```html
 <input type="text"
@@ -139,8 +139,8 @@ For specific cases you might want to have another text for a specifc context.
        vallidation-msg-pattern="Not abcdefg :(">
 ```
 
-advanced configuration
-====================
+## advanced configuration
+
 Furthermore you can adjust the validation template to your needs.
 
 ```javascript
