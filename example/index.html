@@ -10,7 +10,8 @@
           content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- bower:css -->
-    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet"
+          href="bower_components/bootstrap/dist/css/bootstrap.css"/>
     <!-- endbower -->
     <link rel="stylesheet"
           href="style.css">
@@ -86,6 +87,14 @@
                 </div>
 
                 <div class="form-group">
+                    <label>non required</label>
+                    <input type="text"
+                           class="form-control"
+                           placeholder="TestText"
+                           ng-model="formData.nonRequired">
+                </div>
+
+                <div class="form-group">
                     <label>Textarea (required & ng-minlength(4))</label>
         <textarea ng-model="formData.textarea"
                   ng-minlength="4"
@@ -137,12 +146,14 @@
                 <h4>Another Form</h4>
 
                 <div class="form-group">
-                    <label>Input outside form (required) does/should not work</label>
+                    <label for="customName">Input outside form (required) does/should not work</label>
 
                     <input type="text"
                            class="form-control"
                            placeholder="TestText"
                            required=""
+                           id="customName"
+                           name="customName"
                            ng-model="otherForm">
                 </div>
             </form>

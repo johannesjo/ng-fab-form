@@ -37,6 +37,18 @@ angular.module('bsAutoForm')
                             bsAutoForm.insertErrorTpl(compiledAlert, el, attrs);
                         });
                     }
+
+                    if (bsAutoForm.config.setAsteriskForRequiredLabel && attrs.required === true) {
+                        var label = $('label[for=' + attrs.name + ']');
+                        if (label.length < 1) {
+                            label = el.prev('label');
+                        }
+                        if (label && label[0]) {
+                            if (attrs.type !== 'radio' && attrs.type !== 'checkbox') {
+                                label[0].innerText = label[0].innerText + bsAutoForm.config.asteriskStr;
+                            }
+                        }
+                    }
                 };
             }
         };

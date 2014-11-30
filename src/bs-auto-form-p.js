@@ -13,6 +13,8 @@ angular.module('bsAutoForm')
                     '$dirty'
                 ],
                 setNovalidate: true,
+                setAsteriskForRequiredLabel: true,
+                asteriskStr: '*',
                 preventInvalidSubmit: true,
                 preventDoubleSubmit: true,
                 preventDoubleSubmitTimeoutLength: 1000,
