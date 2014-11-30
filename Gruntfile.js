@@ -161,7 +161,7 @@ module.exports = function (grunt)
                 src: ['<%= appConfig.example %>/index.html'],
                 ignorePath: /\.\.\//,
                 exclude: [],
-                devDependencies: false
+                devDependencies: true
             }
         },
 
