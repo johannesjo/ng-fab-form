@@ -9,6 +9,7 @@ The the most repitive part by far is validation. I understand why the angular-de
 
 There are also a lot of [form builders and other directives](https://github.com/search?o=desc&q=angular+form&s=stars&type=Repositories&utf8=%E2%9C%93) out there. But most of the time you have to implement quite a different markup, to make those work. `ng-fab-form` takes another approach, by extending how forms work application-wide.
 
+[Bug-reports or feature request](https://github.com/johannesjo/ng-fab-form/issues) as well as any other kind of **feedback is highly welcome!**
 
 ## getting started
 
@@ -41,7 +42,7 @@ It automatically:
 * adds an option to disable a form completly via a `disable-form` attribute
 * adds a trigger to show field validations after the user tries to submmit
 * prevents double submissions of forms when double clicked via a configurable delay
-* scrolls to and focuesses the first form element with an error, if the submission fails
+* scrolls to and focusses the first form element with an error, if the submission fails
 * tries to set an asterisk to the corresponding label, if `required` or `ng-required` is set
 * should work with any custom validation directive you have running in your project (as long as they're correctly working with the ngModel-Controller)
 
@@ -95,6 +96,11 @@ eventNameSpace: 'ngFabForm',
 // the validation message prefix, results for the default state
 // `validation-msg-required` or `validation-msg-your-custom-validation`
 validationMsgPrefix: 'validationMsg'
+
+// uses advanced dynamic validations,e .g. for min and max
+useAdvancedValidationMsgs: true,
+dateFormat: 'dd.MM.yy',
+timeFormat: 'HH:MM'
 ```
 You can easily extend those configurations like this
 ```javascript
@@ -141,6 +147,50 @@ Sometimes you might want to have another text for a specifc context. Special val
        ng-pattern="/abcdefg/"
        vallidation-msg-pattern="Not abcdefg :(">
 ```
+
+## advanced validations (eg. min & max display attribute value)
+
+For some validation attributes it might be nice to to display the value provied, as the chracter count for `minlength` or the earliest date, when using `min` for a date input field. If you want to modify the default values provided or add mew ones, you can do that like this:
+
+```javascript
+angular.module('exampleApp', [
+    'ngFabForm',
+    'ngMessages'
+])
+    .config(function (ngFabFormProvider)
+    {
+        ngFabFormProvider.extendAdvancedValidations(
+           // for all inputs, textareas, and selects with...
+           {
+            // ...the attribute `maxlength` return the following validation message
+             maxlength: function (attrs)
+            {
+                return 'Your input should have max ' + attrs.maxlength + ' characters';
+            },
+            minlength: function (attrs)
+            {
+                return 'Your input should have at least ' + attrs.minlength + ' characters';
+            }
+        },
+        // date-fields
+        {
+           // for all inputs with the attribute type="time"...
+            type: 'time',
+            // ...and the attribute min or...
+            min: function (attrs)
+            {
+                return 'The time provided should be no earlier than {{"' + attrs.min + '"|date:"' + config.timeFormat + '"}}';
+            },
+            // ... max return the following validation message.
+            max: function (attrs)
+            {
+                return 'The time should be no later than {{"' + attrs.max + '"|date:"' + config.timeFormat + '"}}';
+            }
+        });
+    });
+    
+```
+
 
 ## advanced configuration
 
