@@ -342,7 +342,7 @@ module.exports = function (grunt)
                 files: [
                     // includes files within path
                     {
-                        flatten:true,
+                        flatten: true,
                         src: ['.tmp/concat/ng-fab-form.min.js'],
                         dest: '<%= appConfig.dist %>/ng-fab-form.js'
                     }
@@ -406,10 +406,18 @@ module.exports = function (grunt)
             'uglify:generated',
             'usemin',
             'copy:ghPages',
-            'cdnify:dist',
-            //'gh-pages'
+            'cdnify:dist'
         ]);
     });
+
+    grunt.registerTask('gh-pages', function (target)
+    {
+        grunt.task.run([
+            'build',
+            'gh-pages'
+        ]);
+    });
+
     grunt.registerTask('server', 'DEPRECATED TASK. Use the "serve" task instead', function (target)
     {
         grunt.log.warn('The `server` task has been deprecated. Use `grunt serve` to start a server.');
