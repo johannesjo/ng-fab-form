@@ -338,6 +338,16 @@ module.exports = function (grunt)
                     }
                 ]
             },
+            unminifiedJs: {
+                files: [
+                    // includes files within path
+                    {
+                        flatten:true,
+                        src: ['.tmp/concat/ng-fab-form.min.js'],
+                        dest: '<%= appConfig.dist %>/ng-fab-form.js'
+                    }
+                ]
+            },
             ghPages: {
                 files: [
                     // includes files within path
@@ -389,6 +399,7 @@ module.exports = function (grunt)
             'useminPrepare',
             'concurrent:dist',
             'concat:generated',
+            'copy:unminifiedJs',
             'ngAnnotate:dist',
             'copy:dist',
             //'cssmin:generated',
@@ -396,7 +407,7 @@ module.exports = function (grunt)
             'usemin',
             'copy:ghPages',
             'cdnify:dist',
-            'gh-pages'
+            //'gh-pages'
         ]);
     });
     grunt.registerTask('server', 'DEPRECATED TASK. Use the "serve" task instead', function (target)
