@@ -26,7 +26,7 @@ angular.module('yourApp',[
 ```
 Thats all you need to do to get started.
 
-## features
+### features
 
 Have a look at the [DEMO](http://johannesjo.github.io/ng-fab-form#demo)!
 
