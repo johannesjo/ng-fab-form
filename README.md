@@ -26,7 +26,7 @@ angular.module('yourApp',[
 ```
 Thats all you need to do to get started.
 
-## features
+### features
 
 Have a look at the [DEMO](http://johannesjo.github.io/ng-fab-form#demo)!
 
@@ -45,6 +45,13 @@ It automatically:
 * scrolls to and focusses the first form element with an error, if the submission fails
 * tries to set an asterisk to the corresponding label, if `required` or `ng-required` is set
 * should work with any custom validation directive you have running in your project (as long as they're correctly working with the ngModel-Controller)
+
+
+### manual installation and dependencies
+
+Grab the minified [ng-fab-form file](https://github.com/johannesjo/ng-fab-form/blob/master/dist/ng-fab-form.min.js) from the dist folder. You also need to install [ng-messags](https://docs.angularjs.org/api/ngMessages/directive/ngMessages), jQuery and [jquery.bind-first](https://github.com/private-face/jquery.bind-first). 
+There might be a jQuery-independend version in the future, but for now it is much easier and also safer to just rely on exeternal sources, when it comes to cross-browser-event-handling.
+
 
 ## configuring options
 
