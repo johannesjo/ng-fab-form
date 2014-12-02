@@ -3,11 +3,11 @@ ng-fab-form
 
 *Convenient forms for Angular with no extra markup? Fabulous!*
 
-AngularJS forms are pretty nice. But if you have worked with angular for a while, you'll find that the out-of-the-box-mechanics like the instant validation are far from perfect from the common users perspective. Furthermore you probably catch yourself declaring (and sometimes forgetting) the same stuff on and on again like giving a `novalidate` attribute and preventing for submission for invalid forms or like declaring a proper name attribute. 
+AngularJS forms are pretty nice. But if you have worked with angular for a while, you'll find that the out-of-the-box-mechanics like the instant validation are far from perfect from the common users perspective. Furthermore you probably catch yourself declaring (and sometimes forgetting) the same stuff on and on again like giving a `novalidate` attribute, preventing submission for invalid forms or declaring a proper name attribute. 
 
-The the most repitive part by far is validation. I understand why the angular-developers want to give us the freedom, of doing this stuff in the most flexible manner, but I personally like to keep things consistent, which is hard with how forms work out of the box.`ng-fab-form` tries solve all of those issues without requiring you to change anything. Just set your forms up as usual and let `ng-fab-form` do the rest for you. 
+The most repitive part by far is validation. I understand why the angular-developers want to give us the freedom, of doing this stuff in the most flexible manner, but I personally like to keep things consistent, which is hard with how forms work out of the box.`ng-fab-form` tries solve all of those issues without requiring you to change anything. Just set your forms up as usual and let `ng-fab-form` do the rest for you. 
 
-There are also a lot of [form builders and other directives](https://github.com/search?o=desc&q=angular+form&s=stars&type=Repositories&utf8=%E2%9C%93) out there. But most of the time you have to implement quite a different markup, to make those work. `ng-fab-form` takes another approach, by extending how forms work application-wide.
+There are also a lot of [form builders and other directives](https://github.com/search?o=desc&q=angular+form&s=stars&type=Repositories&utf8=%E2%9C%93) out there. But either they take only a small part of the reptiveness out of your job or like some of the form builders give you little flexibility when comes to the form markup. `ng-fab-form` takes another approach, by extending how forms work application-wide.
 
 [Bug-reports or feature request](https://github.com/johannesjo/ng-fab-form/issues) as well as any other kind of **feedback is highly welcome!**
 
@@ -48,7 +48,7 @@ It automatically:
 
 ## configuring options
 
-Currently the configuration object of ng-fab-forms looks like this.
+Currently the configuration object of ng-fab-forms looks like this:
 ```
 showErrorsOn: [
     '$touched', // if element was focussed 
@@ -102,7 +102,7 @@ useAdvancedValidationMsgs: true,
 dateFormat: 'dd.MM.yy',
 timeFormat: 'HH:MM'
 ```
-You can easily extend those configurations like this
+You can easily extend those configurations like this;
 ```javascript
 angular.module('exampleApp', [
     'ngFabForm',
@@ -120,7 +120,7 @@ angular.module('exampleApp', [
 
 ## configuring default messages
 
-Like the options, the default messages are an easily configurable 
+Like the options, the default messages are an easily configurable ;
 ```javascript
 angular.module('exampleApp', [
     'ngFabForm',
