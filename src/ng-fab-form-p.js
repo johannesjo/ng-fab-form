@@ -7,11 +7,6 @@ angular.module('ngFabForm')
         // DEFAULTS & CONFIG
         // *****************
 
-
-        // *****************
-        // HELPER FUNCTIONS
-        // ****************
-
         var config = {
                 showErrorsOn: [
                     '$touched', // if element was focussed
@@ -133,6 +128,11 @@ angular.module('ngFabForm')
                     }
                 }
             ];
+
+
+        // *****************
+        // HELPER FUNCTIONS
+        // ****************
 
         var makeAlertWrapperTpl = function (ngShowCondition, formName, elName, messages)
             {

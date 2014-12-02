@@ -328,11 +328,6 @@ angular.module('ngFabForm')
         // DEFAULTS & CONFIG
         // *****************
 
-
-        // *****************
-        // HELPER FUNCTIONS
-        // ****************
-
         var config = {
                 showErrorsOn: [
                     '$touched', // if element was focussed
@@ -412,7 +407,7 @@ angular.module('ngFabForm')
                 max: 'Your input is too large',
                 min: 'Your input is too short',
                 maxlength: 'Your input is too long',
-                minlength: 'Your input is too short',
+                minlength: 'Your input is too short'
             },
 
         // used to check for key value pairs in attributes if value is string
@@ -454,6 +449,11 @@ angular.module('ngFabForm')
                     }
                 }
             ];
+
+        
+        // *****************
+        // HELPER FUNCTIONS
+        // ****************
 
         var makeAlertWrapperTpl = function (ngShowCondition, formName, elName, messages)
             {
