@@ -70,6 +70,7 @@
                        ng-model="formData.nonRequired">
             </div>
 
+
             <div class="form-group">
                 <label>Textarea (required & ng-minlength(4))</label>
         <textarea ng-model="formData.textarea"
@@ -159,8 +160,55 @@
                     class="btn btn-primary">Submit Form
             </button>
         </form>
-    </div>
 
+
+        <h3>With some non aggressive focus errors css</h3>
+
+
+        <div class="trick">
+            <form name="form3"
+                  ng-submit="submit()">
+
+                <div class="form-group">
+                    <label class="control-label">required
+                    </label>
+                    <input type="text"
+                           class="form-control"
+                           placeholder="TestText"
+                           required=""
+                           ng-model="form3Data.required">
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">required & ng-pattern (/asd/) with validation-msg-required attribute
+                    </label>
+                    <input type="text"
+                           class="form-control"
+                           placeholder="TestText"
+                           ng-pattern="/^asd$/i"
+                           validation-msg-pattern="Not asd :("
+                           name="text"
+                           required=""
+                           ng-model="form3Data.patternRequired">
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">required & maxlength(5) with validation-msg-required attribute
+                    </label>
+                    <input type="text"
+                           class="form-control"
+                           placeholder="TestText"
+                           ng-maxlength="5"
+                           required
+                           validation-msg-required="This is really required!"
+                           ng-model="form3Data.requiredMaxlength">
+                </div>
+                <button type="submit"
+                        class="btn btn-primary">Submit Form
+                </button>
+            </form>
+        </div>
+    </div>
 
     <div class="col-sm-6">
         <h3>Form-Data</h3>
@@ -172,8 +220,10 @@
         <h3>Validation Messages</h3>
         <pre>{{ validationMessages|json}}</pre>
     </div>
+
+    <div class="trick">
+
+
+    </div>
 </div>
-<div>
-    <h3>Form-Ctrl-Data</h3>
-    <pre>{{ exampleForm|json}}</pre>
-</div>
+
