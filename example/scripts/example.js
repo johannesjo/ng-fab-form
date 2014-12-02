@@ -5,7 +5,9 @@ angular.module('exampleApp', [
 ])
     .config(function (ngFabFormProvider)
     {
-        ngFabFormProvider.extendConfig({});
+        ngFabFormProvider.extendConfig({
+            setAsteriskForRequiredLabel: true
+        });
     })
     .controller('exampleCtrl', function ($scope, ngFabForm)
     {
@@ -13,7 +15,6 @@ angular.module('exampleApp', [
         {
             alert('Form submitted');
         };
-
         $scope.formOpt = ngFabForm.config;
         $scope.validationMessages = ngFabForm.validationMessages;
         $scope.advancedValidations = ngFabForm.advancedValidations;

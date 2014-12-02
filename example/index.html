@@ -10,7 +10,8 @@
           content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- bower:css -->
-    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet"
+          href="bower_components/bootstrap/dist/css/bootstrap.css"/>
     <!-- endbower -->
     <link rel="stylesheet"
           href="bower_components/bootstrap/dist/css/bootstrap.min.css">
@@ -23,66 +24,73 @@
 
 </head>
 <body>
-<div class="container">
-    <header>
+<header class="main-header">
+    <div class="container">
+
         <h1 class="header">angular fabulous forms - ng-fab-form</h1>
-        <p class="header">convenient forms for angular with no extra markup? - fabulous!</p>
-        <p class="header">This project is maintained by <a class="header name"
-                                                           href="https://github.com/johannesjo">johannesjo</a></p>
-        <a class="buttons btn btn-primary btn-lg"
+        <p class="header motto">Convenient forms for Angular with no extra markup? - Fabulous!</p>
+        <a class="buttons btn btn-primary "
            href="https://github.com/johannesjo/ng-fab-form/zipball/master">
             <span class="octicon  octicon-cloud-download"></span> Download ZIP
             <span class="octicon  octicon-cloud-download"></span></a>
 
-        <a class="buttons btn btn-primary btn-lg"
+        <a class="buttons btn btn-primary "
            href="https://github.com/johannesjo/ng-fab-form/tarball/master">
             <span class="octicon  octicon-cloud-download"></span> Download TAR
             <span class="octicon  octicon-cloud-download"></span></a>
 
-        <a class="buttons btn btn-primary btn-lg github"
+        <a class="buttons btn btn-primary  github"
            href="https://github.com/johannesjo/ng-fab-form"><span class="octicon  octicon-mark-github"></span> View On
             GitHub <span class="octicon  octicon-mark-github"></span></a>
-        <a class="buttons btn btn-primary btn-lg"
+        <a class="buttons btn btn-primary "
            href="#demo"><span class="octicon  octicon-squirrel"></span> Demo
             <span class="octicon  octicon-squirrel"></span></a>
-</div>
 
-
+        <p class="header"><br>This project is maintained by <a class="header name" href="https://github.com/johannesjo">johannesjo</a></p>
+    </div>
 </header>
-</div>
 
 <div class="container">
-    <hr/>
-
     <article class="markdown-body entry-content"
-             itemprop="mainContentOfPage">
+             itemprop="mainContentOfPage"><h1>
+        <a id="user-content-ng-fab-form"
+           class="anchor"
+           href="#ng-fab-form"
+           aria-hidden="true"><span class="octicon octicon-link"></span></a>ng-fab-form</h1>
 
         <p>AngularJS forms are pretty nice. But if you have worked with angular for a while, you'll find that the
-            out-of-the-box-mechanics like the instant validation are not far from perfect. Furthermore you catch
-            yourself
-            declaring the same stuff on and on again like giving a <code>novalidate</code> attribute and preventing for
-            submission for invalid forms. The the most repitive part by far is the validation. I understand why the
-            angular-developers want to give us the freedom, of doing this stuff in the most flexible manner, but I
-            personally like to keep things consistent, which is hard with how forms work out of the box.</p>
+            out-of-the-box-mechanics like the instant validation are far from perfect from the common users perspective.
+            Furthermore you probably catch yourself declaring (and sometimes forgetting) the same stuff on and on again
+            like giving a <code>novalidate</code> attribute, preventing submission for invalid forms or declaring a
+            proper name attribute. </p>
 
-        <p>There are also a lot of form builders (like formly, etc.) out there. But you have to implement quite a
-            different
-            markup, to make those work. ng-fab-form tries solve all of those issues without requiring you to change
-            anything. Just set your forms up as usual and let ng-fab-form do the rest for you. </p>
-        <hr/>
+        <p>The most repitive part by far is validation. I understand why the angular-developers want to give us the
+            freedom, of doing this stuff in the most flexible manner, but I personally like to keep things consistent,
+            which is hard with how forms work out of the box.<code>ng-fab-form</code> tries solve all of those issues
+            without requiring you to change anything. Just set your forms up as usual and let <code>ng-fab-form</code>
+            do the rest for you. </p>
+
+        <p>There are also a lot of
+            <a href="https://github.com/search?o=desc&amp;q=angular+form&amp;s=stars&amp;type=Repositories&amp;utf8=%E2%9C%93">form
+                builders and other directives</a> out there. But either they take only a small part of the reptiveness
+            out of your job or like some of the form builders give you little flexibility when comes to the form markup.
+            <code>ng-fab-form</code> takes another approach, by extending how forms work application-wide.</p>
+
+        <p><a href="https://github.com/johannesjo/ng-fab-form/issues">Bug-reports or feature request</a> as well as any
+            other kind of <strong>feedback is highly welcome!</strong></p>
 
         <h2>
             <a id="user-content-getting-started"
                class="anchor"
                href="#getting-started"
-               aria-hidden="true"></a>getting started</h2>
+               aria-hidden="true"><span class="octicon octicon-link"></span></a>getting started</h2>
 
         <p>Install it via bower:</p>
 
 <pre><code>bower install ng-fab-form angular-messages -S
 </code></pre>
 
-        <p>And in your main module:</p>
+        <p>And add <code>ngFabForm</code> and <code>ngMessages</code> as dependency in your main module:</p>
 
 <pre><code>angular.module('yourApp',[
     'ngFabForm',
@@ -90,39 +98,40 @@
     ]);
 </code></pre>
 
-        <p>Thats all you need to do, to get started.</p>
+        <p>Thats all you need to do to get started.</p>
 
         <h2>
             <a id="user-content-features"
                class="anchor"
                href="#features"
-               aria-hidden="true"></a>features</h2>
+               aria-hidden="true"><span class="octicon octicon-link"></span></a>features</h2>
 
-        <p>Have a look at the <a href="http://johannesjo.github.io/ng-fab-form/">DEMO</a>!</p>
+        <p>Have a look at the <a href="http://johannesjo.github.io/ng-fab-form#demo">DEMO</a>!</p>
 
         <p>Keep in mind that if you don't like one of the functionalities, ng-fab-form is build with customization in
-            mind.
-            <strong>It's possible to disable almost any feature easily in your app configuration</strong>.</p>
+            mind. <strong>It's possible to disable almost any feature easily in your app configuration</strong>.</p>
 
         <p>It automatically:</p>
 
         <ul class="task-list">
-            <li>append configurable validation messages (using <code>ng-messages</code>) to any element with a
-                validation
-                directive on it like <code>required</code>, <code>ng-required</code>, <code>ng-pattern</code>, <code>ng-minlength</code>
-                and so on
+            <li>appends configurable validation messages (using <code>ng-messages</code>,
+                <a href="https://docs.angularjs.org/api/ngMessages/directive/ngMessages">see</a>) to any element with a
+                validation directive on it like <code>required</code>, <code>ng-required</code>, <code>ng-pattern</code>,
+                <code>ng-minlength</code> and so on
             </li>
             <li>adds a validation directive in case you have an exception to the rule</li>
-            <li>adds <code>name</code> attributes based on ng-model</li>
+            <li>adds <code>name</code> attributes based on ng-model, if none is set</li>
             <li>adds a <code>novalidate</code> attribute to forms</li>
             <li>prevents submission of invalid forms</li>
             <li>adds an option to disable a form completly via a <code>disable-form</code> attribute</li>
             <li>adds a trigger to show field validations after the user tries to submmit</li>
             <li>prevents double submissions of forms when double clicked via a configurable delay</li>
-            <li>scrolls to and focuesses the first form element with an error, if the submission fails</li>
+            <li>scrolls to and focusses the first form element with an error, if the submission fails</li>
             <li>tries to set an asterisk to the corresponding label, if <code>required</code> or
-                <code>ng-required</code> is
-                set
+                <code>ng-required</code> is set
+            </li>
+            <li>should work with any custom validation directive you have running in your project (as long as they're
+                correctly working with the ngModel-Controller)
             </li>
         </ul>
 
@@ -130,9 +139,9 @@
             <a id="user-content-configuring-options"
                class="anchor"
                href="#configuring-options"
-               aria-hidden="true"></a>configuring options</h2>
+               aria-hidden="true"><span class="octicon octicon-link"></span></a>configuring options</h2>
 
-        <p>Currently the configuration object of ng-fab-forms looks like this.</p>
+        <p>Currently the configuration object of ng-fab-forms looks like this:</p>
 
 <pre><code>showErrorsOn: [
     '$touched', // if element was focussed
@@ -180,13 +189,18 @@
     // the validation message prefix, results for the default state
     // `validation-msg-required` or `validation-msg-your-custom-validation`
     validationMsgPrefix: 'validationMsg'
+
+    // uses advanced dynamic validations,e .g. for min and max
+    useAdvancedValidationMsgs: true,
+    dateFormat: 'dd.MM.yy',
+    timeFormat: 'HH:MM'
 </code></pre>
 
-        <p>You can easily extend those configurations like this</p>
+        <p>You can easily extend those configurations like this;</p>
 
         <div class="highlight highlight-javascript"><pre>angular.module(<span class="pl-s1"><span class="pl-pds">'</span>exampleApp<span class="pl-pds">'</span></span>, [
     <span class="pl-s1"><span class="pl-pds">'</span>ngFabForm<span class="pl-pds">'</span></span>,
-    <span class="pl-s1"><span class="pl-pds">'</span>ngAnimate<span class="pl-pds">'</span></span>
+    <span class="pl-s1"><span class="pl-pds">'</span>ngMessages<span class="pl-pds">'</span></span>
 ])
     .config(<span class="pl-st">function</span> (<span class="pl-vpf">ngFabFormProvider</span>)
     {
@@ -202,13 +216,13 @@
             <a id="user-content-configuring-default-messages"
                class="anchor"
                href="#configuring-default-messages"
-               aria-hidden="true"></a>configuring default messages</h2>
+               aria-hidden="true"><span class="octicon octicon-link"></span></a>configuring default messages</h2>
 
-        <p>Like the options, the default messages are an easily configurable </p>
+        <p>Like the options, the default messages are an easily configurable ;</p>
 
         <div class="highlight highlight-javascript"><pre>angular.module(<span class="pl-s1"><span class="pl-pds">'</span>exampleApp<span class="pl-pds">'</span></span>, [
     <span class="pl-s1"><span class="pl-pds">'</span>ngFabForm<span class="pl-pds">'</span></span>,
-    <span class="pl-s1"><span class="pl-pds">'</span>ngAnimate<span class="pl-pds">'</span></span>
+    <span class="pl-s1"><span class="pl-pds">'</span>ngMessages<span class="pl-pds">'</span></span>
 ])
     .config(<span class="pl-st">function</span> (<span class="pl-vpf">ngFabFormProvider</span>)
     {
@@ -226,10 +240,11 @@
             <a id="user-content-special-validations-eg-ng-pattern"
                class="anchor"
                href="#special-validations-eg-ng-pattern"
-               aria-hidden="true"></a>special validations (e.g. ng-pattern)
+               aria-hidden="true"><span class="octicon octicon-link"></span></a>special validations (e.g. ng-pattern)
         </h2>
 
-        <p>For specific cases you might want to have another text for a specifc context.</p>
+        <p>Sometimes you might want to have another text for a specifc context. Special validation-messages like this
+            are easily added like this:</p>
 
         <div class="highlight highlight-html"><pre>&lt;<span class="pl-ent">input</span> <span class="pl-e">type</span>=<span class="pl-s1"><span class="pl-pds">"</span>text<span class="pl-pds">"</span></span>
        <span class="pl-e">mg-model</span>=<span class="pl-s1"><span class="pl-pds">"</span>my-model<span class="pl-pds">"</span></span>
@@ -238,16 +253,66 @@
         </div>
 
         <h2>
-            <a id="user-content-advanced-configuration"
+            <a id="user-content-advanced-validations-eg-min--max-display-attribute-value"
                class="anchor"
-               href="#advanced-configuration"
-               aria-hidden="true"></a>advanced configuration</h2>
+               href="#advanced-validations-eg-min--max-display-attribute-value"
+               aria-hidden="true"><span class="octicon octicon-link"></span></a>advanced validations (eg. min &amp; max
+            display attribute value)</h2>
 
-        <p>Furthermore you can adjust the validation template to your needs.</p>
+        <p>For some validation attributes it might be nice to to display the value provied, as the chracter count for
+            <code>minlength</code> or the earliest date, when using <code>min</code> for a date input field. If you want
+            to modify the default values provided or add mew ones, you can do that like this:</p>
 
         <div class="highlight highlight-javascript"><pre>angular.module(<span class="pl-s1"><span class="pl-pds">'</span>exampleApp<span class="pl-pds">'</span></span>, [
     <span class="pl-s1"><span class="pl-pds">'</span>ngFabForm<span class="pl-pds">'</span></span>,
-    <span class="pl-s1"><span class="pl-pds">'</span>ngAnimate<span class="pl-pds">'</span></span>
+    <span class="pl-s1"><span class="pl-pds">'</span>ngMessages<span class="pl-pds">'</span></span>
+])
+    .config(<span class="pl-st">function</span> (<span class="pl-vpf">ngFabFormProvider</span>)
+    {
+        ngFabFormProvider.advancedValidations <span class="pl-k">=</span> [
+           <span class="pl-c">// for all inputs, textareas, and selects with...</span>
+        {
+            <span class="pl-c">// ...the attribute `maxlength` return the following validation message</span>
+             <span class="pl-en">maxlength</span>: <span class="pl-st">function</span> (<span class="pl-vpf">attrs</span>)
+            {
+                <span class="pl-k">return</span> <span class="pl-s1"><span class="pl-pds">'</span>Your input should have max <span class="pl-pds">'</span></span> <span class="pl-k">+</span> attrs.maxlength <span class="pl-k">+</span> <span class="pl-s1"><span class="pl-pds">'</span> characters<span class="pl-pds">'</span></span>;
+            },
+            <span class="pl-en">minlength</span>: <span class="pl-st">function</span> (<span class="pl-vpf">attrs</span>)
+            {
+                <span class="pl-k">return</span> <span class="pl-s1"><span class="pl-pds">'</span>Your input should have at least <span class="pl-pds">'</span></span> <span class="pl-k">+</span> attrs.minlength <span class="pl-k">+</span> <span class="pl-s1"><span class="pl-pds">'</span> characters<span class="pl-pds">'</span></span>;
+            }
+        },
+        <span class="pl-c">// date-fields</span>
+        {
+           <span class="pl-c">// for all inputs with the attribute type="time"...</span>
+            type<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">'</span>time<span class="pl-pds">'</span></span>,
+            <span class="pl-c">// ...and the attribute min or...</span>
+            <span class="pl-en">min</span>: <span class="pl-st">function</span> (<span class="pl-vpf">attrs</span>)
+            {
+                <span class="pl-k">return</span> <span class="pl-s1"><span class="pl-pds">'</span>The time provided should be no earlier than {{"<span class="pl-pds">'</span></span> <span class="pl-k">+</span> attrs.min <span class="pl-k">+</span> <span class="pl-s1"><span class="pl-pds">'</span>"|date:"<span class="pl-pds">'</span></span> <span class="pl-k">+</span> config.timeFormat <span class="pl-k">+</span> <span class="pl-s1"><span class="pl-pds">'</span>"}}<span class="pl-pds">'</span></span>;
+            },
+            <span class="pl-c">// ... max return the following validation message.</span>
+            <span class="pl-en">max</span>: <span class="pl-st">function</span> (<span class="pl-vpf">attrs</span>)
+            {
+                <span class="pl-k">return</span> <span class="pl-s1"><span class="pl-pds">'</span>The time should be no later than {{"<span class="pl-pds">'</span></span> <span class="pl-k">+</span> attrs.max <span class="pl-k">+</span> <span class="pl-s1"><span class="pl-pds">'</span>"|date:"<span class="pl-pds">'</span></span> <span class="pl-k">+</span> config.timeFormat <span class="pl-k">+</span> <span class="pl-s1"><span class="pl-pds">'</span>"}}<span class="pl-pds">'</span></span>;
+            }
+        }
+        ];
+    });
+</pre>
+        </div>
+
+        <h2>
+            <a id="user-content-advanced-configuration"
+               class="anchor"
+               href="#advanced-configuration"
+               aria-hidden="true"><span class="octicon octicon-link"></span></a>advanced configuration</h2>
+
+        <p>Furthermore you can adjust the validation template to your needs:</p>
+
+        <div class="highlight highlight-javascript"><pre>angular.module(<span class="pl-s1"><span class="pl-pds">'</span>exampleApp<span class="pl-pds">'</span></span>, [
+    <span class="pl-s1"><span class="pl-pds">'</span>ngFabForm<span class="pl-pds">'</span></span>,
+    <span class="pl-s1"><span class="pl-pds">'</span>ngMessages<span class="pl-pds">'</span></span>
 ])
     .config(<span class="pl-st">function</span> (<span class="pl-vpf">ngFabFormProvider</span>)
     {
@@ -292,7 +357,23 @@
     });
 </pre>
         </div>
+
+        <h2>
+            <a id="user-content--contribute-"
+               class="anchor"
+               href="#-contribute-"
+               aria-hidden="true"><span class="octicon octicon-link"></span></a>❤ contribute ❤</h2>
+
+        <p>I'm happy for any <a href="https://github.com/johannesjo/ng-fab-form/issues">issue or feature request</a>,
+            you might encounter or want to have. Even a one liner is better, than no feedback at all. Pull requests are
+            also highly welcome. Just fork the repository, clone it and run <code>grunt serve</code> for development.
+        </p>
+
+        <p><code>ng-fab-form</code> is published under the
+            <a href="https://github.com/johannesjo/ng-fab-form/blob/master/LICENSE">The GNU Lesser General Public
+                License V2.1</a>.</p>
     </article>
+
 </div>
 <hr>
 <div class="container"
