@@ -38,12 +38,13 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label">ng-pattern (/asd/) & required
+                <label class="control-label">required & ng-pattern (/asd/) with validation-msg-required attribute
                 </label>
                 <input type="text"
                        class="form-control"
                        placeholder="TestText"
                        ng-pattern="/^asd$/i"
+                       validation-msg-pattern="Not asd :("
                        name="text"
                        required=""
                        ng-model="formData.patternRequired">
@@ -116,7 +117,7 @@
         <hr>
 
 
-        <h3>Special Validations</h3>
+        <h3>Advanced Validations</h3>
 
         <form name="form2"
               ng-submit="submit()">
