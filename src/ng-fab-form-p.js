@@ -60,7 +60,7 @@ angular.module('ngFabForm')
                 validationMsgPrefix: 'validationMsg',
 
 
-                // uses advanced validations,e .g. for min and max
+                // uses advanced dynamic validations,e .g. for min and max
                 useAdvancedValidationMsgs: true,
                 dateFormat: 'dd.MM.yy',
                 timeFormat: 'HH:MM'
@@ -265,10 +265,6 @@ angular.module('ngFabForm')
             {
                 config = angular.extend(config, newConfig);
             },
-            extendAdvancedValidations: function (newAdvancedValidations)
-            {
-                advancedValidations = angular.extend(advancedValidations, newAdvancedValidations);
-            },
             setWrapperTplFunction: function (tplFunction)
             {
                 makeAlertWrapperTpl = tplFunction;
@@ -289,7 +285,8 @@ angular.module('ngFabForm')
                     insertErrorTpl: insertErrorTpl,
                     makeAlertTpl: makeAlertTpl,
                     config: config,
-                    validationMessages: validationMessages
+                    validationMessages: validationMessages,
+                    advancedValidations: advancedValidations
                 };
             }
         };

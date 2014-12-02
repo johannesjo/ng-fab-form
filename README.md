@@ -159,7 +159,7 @@ angular.module('exampleApp', [
 ])
     .config(function (ngFabFormProvider)
     {
-        ngFabFormProvider.extendAdvancedValidations([
+        ngFabFormProvider.advancedValidations = [
            // for all inputs, textareas, and selects with...
         {
             // ...the attribute `maxlength` return the following validation message
@@ -187,7 +187,7 @@ angular.module('exampleApp', [
                 return 'The time should be no later than {{"' + attrs.max + '"|date:"' + config.timeFormat + '"}}';
             }
         }
-        ]);
+        ];
     });
     
 ```
