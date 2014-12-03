@@ -7,8 +7,6 @@ AngularJS forms are pretty nice. But if you have worked with angular for a while
 
 The most repitive part by far is validation. I understand why the angular-developers want to give us the freedom, of doing this stuff in the most flexible manner, but I personally like to keep things consistent, which is hard with how forms work out of the box.`ng-fab-form` tries solve all of those issues without requiring you to change anything. Just set your forms up as usual and let `ng-fab-form` do the rest for you. 
 
-There are also a lot of [form builders and other directives](https://github.com/search?o=desc&q=angular+form&s=stars&type=Repositories&utf8=%E2%9C%93) out there. But either they take only a small part of the reptiveness out of your job or like some of the form builders give you little flexibility when comes to the form markup. `ng-fab-form` takes another approach, by extending how forms work application-wide.
-
 [Bug-reports or feature request](https://github.com/johannesjo/ng-fab-form/issues) as well as any other kind of **feedback is highly welcome!**
 
 ## getting started
@@ -47,7 +45,16 @@ It automatically:
 * should work with any custom validation directive you have running in your project (as long as they're correctly working with the ngModel-Controller)
 
 
-### manual installation and dependencies
+## why choose ng-fab-form over another form helper module?
+
+There are a lot of [form builders and other modules with the intention of simplyfing form handling](https://github.com/search?o=desc&q=angular+form&s=stars&type=Repositories&utf8=%E2%9C%93) out there. Why choose `ng-fab-form` then? First of all you likely will not have to choose one or the other as it should be compatible with every module using ngModel for validations and because you will probably be able to deactiavte any conflicting functionalities (be sure to [report incompatibilties](https://github.com/johannesjo/ng-fab-form/issues)). 
+
+The reason why `ng-fab-form` was build is that the modules I tried either take only a small part of the reptiveness out of your job or they take a framework-like approach and you're becoming very dependent on them, the markup they require and spit out and the functionalities they introduce and probably more important, those they don't introduce and those who hinder other features. This is not necessarily a bad thing and they might greatly improve your productivity, but if some project is discontinued or you find out, that you need a functionality you won't we be able to implement without a significant investment and the project owner doesn't care about, you're stuck. Sure make a fork, but we all know how this usually ends at least beyond the scale of the current project. 
+
+This is why `ng-fab-form` tries most of the basic angular functions, to extend them application-wide, while always giving you always the option to throw out what doesn't fit in. Worst case scenario: You completely remove `ng-fab-form` because you don't like it and then you're back to standard angular, with probably almost no effort spend, almost no time wasted.
+
+
+## manual installation and dependencies
 
 Grab the minified [ng-fab-form file](https://github.com/johannesjo/ng-fab-form/blob/master/dist/ng-fab-form.min.js) from the dist folder. You also need to install [ng-messags](https://docs.angularjs.org/api/ngMessages/directive/ngMessages), jQuery and [jquery.bind-first](https://github.com/private-face/jquery.bind-first). 
 There might be a jQuery-independend version in the future, but for now it is much easier and also safer to just rely on exeternal sources, when it comes to cross-browser-event-handling.
