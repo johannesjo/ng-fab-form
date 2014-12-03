@@ -410,7 +410,7 @@ module.exports = function (grunt)
         ]);
     });
 
-    grunt.registerTask('gh-pages', function (target)
+    grunt.registerTask('ghp', function (target)
     {
         grunt.task.run([
             'build',

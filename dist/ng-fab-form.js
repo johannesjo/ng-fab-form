@@ -450,7 +450,7 @@ angular.module('ngFabForm')
                 }
             ];
 
-        
+
         // *****************
         // HELPER FUNCTIONS
         // ****************
