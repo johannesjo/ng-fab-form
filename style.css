@@ -6,34 +6,33 @@
     display: none;
 }
 
-.main-header{
-    background: #000;
+.main-header {
+    background:     #000;
     padding-bottom: 15px;
+    color:          #eee;
+}
+
+.main-header h1 {
     color: #eee;
 }
-.main-header h1{
-    color: #eee;
-}
-p.header{
+
+p.header {
     font-style: italic;
 }
 
-.motto{
+.motto {
     font-size: 16px;
 }
 
-
-.help-block.with-errors {
-    color:      #b60d33;
-    position:   absolute;
-    top:        100%;
-    margin-top: -10px;
-    text-align: right;
-    right:      6px;
-    background: rgba(255, 255, 255, 0.8);
+.help-block .list-unstyled {
+    padding: 0;
+    margin:  0;
+    display: block;
 }
 
 .ng-hide-add.ng-hide-add-active {
+    -webkit-transition: all linear 0.5s;
+    transition:         all linear 0.5s;
 }
 
 .ng-hide-remove.ng-hide-remove-active {
@@ -47,7 +46,7 @@ p.header{
 
 .ng-show {
     display: block !important;
-    outline: 10px solid orange !important;
+    opacity: 1;
 }
 
 input,
@@ -56,10 +55,125 @@ select {
     -webkit-transition: 0.5s linear all;
     transition:         0.5s linear all;
     opacity:            1;
+    position:           relative;
+    border-radius:      0 !important;
 }
 
 input:focus,
 textarea:focus,
 select:focus {
-
 }
+
+.help-block.with-errors li {
+    color: #ca3854;
+}
+
+/** CSS TRICKERY **/
+
+.trick input.ng-valid.ng-dirty {
+    border:     1px solid #62b14c;
+    box-shadow: inset 0 0 3px #62b14c;
+}
+
+.trick input.ng-pristine + .help-block li,
+.trick input.ng-valid.ng-dirty + .help-block li {
+    display: none !important;
+}
+
+.trick input.ng-valid.ng-dirty:focus + *:before {
+    margin-top: 0px;
+}
+
+.trick input {
+    position: relative;
+    z-index:  1;
+}
+
+.trick input + *:before,
+.trick .help-block li {
+    color:       #fff;
+    transition:  color linear 0.5s,
+                 background linear 0.5s,
+                 opacity linear 0.5s;
+    line-height: 1;
+    position:    absolute;
+    padding:     2px 5px;
+    height:      20px;
+    display:     block !important;
+    margin:      0;
+    text-align:  right !important;
+    width:       100%;
+    font-size:   14px;
+    /*border:      none;*/
+}
+
+.trick input + *:before {
+    margin-top: -20px;
+    opacity: 0;
+    transition:  color linear 0.5s,
+                 background linear 0.5s,
+                 opacity linear 0.5s;
+}
+
+.trick .help-block,
+.trick .help-block.with-errors {
+    height: 20px;
+}
+
+.trick .help-block.with-errors.ng-hide {
+    opacity: 1;
+    display: block !important;
+}
+
+.trick .help-block.with-errors.ng-hide li {
+    display: none;
+}
+
+.trick input:focus + .help-block {
+    margin-bottom: 0px;
+    opacity: 1;
+}
+
+.trick .help-block.with-errors li {
+}
+
+.trick input + *:before {
+    content:          'You got it right dude!';
+    background-color: #62b14c;
+    display:          block;
+    opacity:          0.2;
+}
+
+.trick input:focus + *:before {
+    opacity: 0.1;
+}
+
+.trick input.ng-valid.ng-dirty + *:before {
+    opacity: 1;
+}
+
+.trick input:focus + .help-block.with-errors li {
+    background-color: #63bff8;
+}
+
+.trick .help-block,
+.trick .help-block.with-errors {
+    bottom:   0;
+    margin:   0;
+    padding:  0;
+    overflow: hidden;
+}
+
+.trick .help-block.with-errors.ng-hide * {
+    opacity: 1;
+}
+
+.trick .help-block.with-errors.ng-hide * {
+    opacity: 1;
+}
+
+.trick .help-block.with-errors li {
+    background: #ca3854;
+    color:      #fff;
+}
+
