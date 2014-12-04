@@ -144,7 +144,7 @@ angular.module('ngFabForm')
 
                 return '<div ng-show="' + ngShowCondition + '"' +
                     'ng-messages="' + formName + '.' + elName + '.$error" ' +
-                    'class="help-block with-errors">' +
+                    'class="help-block">' +
                     '<ul class ="list-unstyled">' +
                     msgs +
                     '</ul></div>';

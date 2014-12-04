@@ -1,0 +1,172 @@
+// variables
+$c-success: #62b14c;
+$c-error: #c00640;
+$c-info: #63bff8;
+$p-left-right: 10px;
+$height: 20px;
+$f-size: 14px;
+$error-wrapper: '.help-block';
+$form-elements: 'input, textarea, select';
+$check-size: 62px;
+
+@mixin hideError() {
+    li {
+        opacity: 0;
+    }
+}
+
+@mixin hideSuccess() {
+    &:before {
+        opacity: 0;
+    }
+}
+
+@mixin showError() {
+    li {
+        display: block;
+    }
+}
+
+@mixin showSuccess() {
+    &:before {
+        display: block;
+    }
+}
+
+input,
+textarea,
+select {
+    border-radius: 0 !important;
+}
+
+// all messages
+#{$error-wrapper} {
+    &:after {
+        clear: both;
+    }
+
+    color:      #fff;
+    margin:     0;
+    padding:    0 $p-left-right;
+    position:   relative;
+    font-size:  $f-size;
+    overflow:   visible;
+    background: $c-error;
+
+    // child error
+    li {
+        display:          block;
+        height:           $height;
+        line-height:      $height;
+        background:       $c-error;
+        position:         absolute;
+        right:            -$height/6;
+        top:              -$height/2;
+        margin-right:     0;
+        text-align:       center;
+        font-weight:      bold;
+        min-width:        20%;
+        padding:          0 $p-left-right;
+        color:            #fff;
+        z-index:          2;
+        transform:        rotate(0deg);
+        transition:       all ease-out 0.2s;
+        transition-delay: 0s;
+        opacity:          1;
+
+        &.ng-enter {
+            opacity:      0.1;
+            transform:    rotate(-10deg);
+            margin-right: -20px;
+            transition:   all ease-in 0.0s;
+        }
+        &.ng-leave {
+            transition: all ease-in 0.5s;
+            opacity:    0;
+            transform:  rotate(30deg);
+        }
+    }
+
+    // success pseudo
+    .ng-valid + &:before {
+        opacity:          0;
+        position:         absolute;
+        right:            -$check-size/2;
+        bottom:           -$check-size/2;
+        font-size:        $check-size;
+        width:            $check-size;
+        height:           $check-size;
+        line-height:      1;
+        text-align:       center;
+        border-radius:    $check-size;
+        z-index:          20;
+        color:            $c-success;
+        content:          '✓';
+        transform:        rotate(0deg);
+        transition:       all ease-out 0.2s;
+        transition-delay: 0s;
+    }
+    // always show success when valid
+    .ng-valid + &:before {
+        opacity: 1 !important;
+        opacity: 1;
+    }
+    .ng-valid.ng-invalid + &:before {
+        opacity: 0 !important;
+        opacity: 0;
+    }
+
+    // when hidden show success
+    &.ng-hide {
+        // always show container
+        display: block !important;
+        @include hideError();
+        @include showSuccess();
+    }
+
+    // focused elements
+    *:focus + & {
+        // show all (initially, might be overwritten depending on state)
+        @include showError();
+        @include hideSuccess();
+        li {
+            background-color: $c-info;
+        }
+    }
+    &.ng-hide {
+        *:focus + & {
+            // make error to info
+            @include hideError();
+            @include showSuccess();
+        }
+    }
+}
+
+// Basic animation timings
+.ng-hide-add.ng-hide-add-active * {
+    opacity:      0.1;
+    transform:    rotate(-20deg);
+    margin-right: -20px;
+    transition:   all ease-in 0.0s;
+    //    opacity:            1;
+}
+
+.ng-hide-remove.ng-hide-remove-active * {
+    opacity:      0.1;
+    transform:    rotate(-10deg);
+    margin-right: -20px;
+    -webkit-transition: all linear 0.5s;
+    transition:         all linear 0.5s;
+    outline:            11px solid orange;
+
+    //    opacity:            0;
+}
+
+@keyframes enter_sequence {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

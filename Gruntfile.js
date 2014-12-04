@@ -56,6 +56,46 @@ module.exports = function (grunt)
                     '<%= appConfig.app %>/**/*.html',
                     '.tmp/styles/**/*.css'
                 ]
+            },
+            sass: {
+                files: ['<%= appConfig.app %>/styles/**/*.{scss,sass}'],
+                tasks: ['sass:server', 'autoprefixer'],
+                options: {
+                    livereload: '<%= connect.options.livereload %>'
+                }
+            }
+        },
+
+        // Add vendor prefixed styles
+        autoprefixer: {
+            options: {
+                browsers: ['last 1 version']
+            },
+            dist: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: '.tmp/styles/',
+                        src: '**/*.css',
+                        dest: '.tmp/styles/'
+                    }
+                ]
+            }
+        },
+
+        sass: {
+            options: {
+                sourceMap: true
+            },
+            server: {
+                files: {
+                    '<%= appConfig.example %>/style.css': '<%= appConfig.app %>/styles/style.scss'
+                }
+            },
+            dist: {
+                files: {
+                    '<%= appConfig.example %>/styles/style.css': 'app/styles/style.scss'
+                }
             }
         },
 

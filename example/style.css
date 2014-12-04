@@ -1,179 +1,156 @@
+/* line 1, /home/johannes/www/ng-fab-form/src/styles/example */
 .form-group {
-    position: relative;
-}
+  position: relative; }
 
+/* line 5, /home/johannes/www/ng-fab-form/src/styles/example */
 .anchor {
-    display: none;
-}
+  display: none; }
 
+/* line 9, /home/johannes/www/ng-fab-form/src/styles/example */
 .main-header {
-    background:     #000;
-    padding-bottom: 15px;
-    color:          #eee;
-}
+  background: #000;
+  padding-bottom: 15px;
+  color: #eee; }
 
+/* line 15, /home/johannes/www/ng-fab-form/src/styles/example */
 .main-header h1 {
-    color: #eee;
-}
+  color: #eee; }
 
+/* line 19, /home/johannes/www/ng-fab-form/src/styles/example */
 p.header {
-    font-style: italic;
-}
+  font-style: italic; }
 
+/* line 23, /home/johannes/www/ng-fab-form/src/styles/example */
 .motto {
-    font-size: 16px;
-}
+  font-size: 16px; }
 
+/* line 27, /home/johannes/www/ng-fab-form/src/styles/example */
 .help-block .list-unstyled {
-    padding: 0;
-    margin:  0;
+  padding: 0;
+  margin: 0;
+  display: block; }
+
+/* line 38, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+input, textarea, select {
+  border-radius: 0 !important; }
+
+/* line 42, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+.help-block {
+  color: #fff;
+  margin: 0;
+  padding: 0 10px;
+  position: relative;
+  font-size: 14px;
+  overflow: visible;
+  background: #c00640; }
+  /* line 43, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+  .help-block:after {
+    clear: both; }
+  /* line 56, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+  .help-block li {
     display: block;
-}
-
-.ng-hide-add.ng-hide-add-active {
-    -webkit-transition: all linear 0.5s;
-    transition:         all linear 0.5s;
-}
-
-.ng-hide-remove.ng-hide-remove-active {
-    -webkit-transition: all linear 0.5s;
-    transition:         all linear 0.5s;
-}
-
-.ng-hide {
-    opacity: 0;
-}
-
-.ng-show {
-    display: block !important;
-    opacity: 1;
-}
-
-input,
-textarea,
-select {
-    -webkit-transition: 0.5s linear all;
-    transition:         0.5s linear all;
-    opacity:            1;
-    position:           relative;
-    border-radius:      0 !important;
-}
-
-input:focus,
-textarea:focus,
-select:focus {
-}
-
-.help-block.with-errors li {
-    color: #ca3854;
-}
-
-/** CSS TRICKERY **/
-
-.trick input.ng-valid.ng-dirty {
-    border:     1px solid #62b14c;
-    box-shadow: inset 0 0 3px #62b14c;
-}
-
-.trick input.ng-pristine + .help-block li,
-.trick input.ng-valid.ng-dirty + .help-block li {
-    display: none !important;
-}
-
-.trick input.ng-valid.ng-dirty:focus + *:before {
-    margin-top: 0px;
-}
-
-.trick input {
-    position: relative;
-    z-index:  1;
-}
-
-.trick input + *:before,
-.trick .help-block li {
-    color:       #fff;
-    transition:  color linear 0.5s,
-                 background linear 0.5s,
-                 opacity linear 0.5s;
-    line-height: 1;
-    position:    absolute;
-    padding:     2px 5px;
-    height:      20px;
-    display:     block !important;
-    margin:      0;
-    text-align:  right !important;
-    width:       100%;
-    font-size:   14px;
-    /*border:      none;*/
-}
-
-.trick input + *:before {
-    margin-top: -20px;
-    opacity: 0;
-    transition:  color linear 0.5s,
-                 background linear 0.5s,
-                 opacity linear 0.5s;
-}
-
-.trick .help-block,
-.trick .help-block.with-errors {
     height: 20px;
-}
+    line-height: 20px;
+    background: #c00640;
+    position: absolute;
+    right: -3.3333333333px;
+    top: -10px;
+    margin-right: 0;
+    text-align: center;
+    font-weight: bold;
+    min-width: 20%;
+    padding: 0 10px;
+    color: #fff;
+    z-index: 2;
+    transform: rotate(0deg);
+    transition: all ease-out 0.2s;
+    transition-delay: 0s;
+    opacity: 1; }
+    /* line 76, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+    .help-block li.ng-enter {
+      opacity: 0.1;
+      transform: rotate(-10deg);
+      margin-right: -20px;
+      transition: all ease-in 0s; }
+    /* line 82, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+    .help-block li.ng-leave {
+      transition: all ease-in 0.5s;
+      opacity: 0;
+      transform: rotate(30deg); }
+  /* line 90, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+  .ng-valid + .help-block:before {
+    opacity: 0;
+    position: absolute;
+    right: -31px;
+    bottom: -31px;
+    font-size: 62px;
+    width: 62px;
+    height: 62px;
+    line-height: 1;
+    text-align: center;
+    border-radius: 62px;
+    z-index: 20;
+    color: #62b14c;
+    content: '✓';
+    transform: rotate(0deg);
+    transition: all ease-out 0.2s;
+    transition-delay: 0s; }
+  /* line 109, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+  .ng-valid + .help-block:before {
+    opacity: 1 !important;
+    opacity: 1; }
+  /* line 113, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+  .ng-valid.ng-invalid + .help-block:before {
+    opacity: 0 !important;
+    opacity: 0; }
+  /* line 119, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+  .help-block.ng-hide {
+    display: block !important; }
+    /* line 13, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+    .help-block.ng-hide li {
+      opacity: 0; }
+    /* line 31, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+    .help-block.ng-hide:before {
+      display: block; }
+  /* line 25, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+  *:focus + .help-block li {
+    display: block; }
+  /* line 19, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+  *:focus + .help-block:before {
+    opacity: 0; }
+  /* line 131, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+  *:focus + .help-block li {
+    background-color: #63bff8; }
+  /* line 13, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+  *:focus + .help-block.ng-hide li {
+    opacity: 0; }
+  /* line 31, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+  *:focus + .help-block.ng-hide:before {
+    display: block; }
 
-.trick .help-block.with-errors.ng-hide {
-    opacity: 1;
-    display: block !important;
-}
+/* line 145, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+.ng-hide-add.ng-hide-add-active * {
+  opacity: 0.1;
+  transform: rotate(-20deg);
+  margin-right: -20px;
+  transition: all ease-in 0s; }
 
-.trick .help-block.with-errors.ng-hide li {
-    display: none;
-}
+/* line 153, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+.ng-hide-remove.ng-hide-remove-active * {
+  opacity: 0.1;
+  transform: rotate(-10deg);
+  margin-right: -20px;
+  -webkit-transition: all linear 0.5s;
+  transition: all linear 0.5s;
+  outline: 11px solid orange; }
 
-.trick input:focus + .help-block {
-    margin-bottom: 0px;
-    opacity: 1;
-}
+@keyframes enter_sequence {
+  /* line 165, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+  from {
+    opacity: 0; }
 
-.trick .help-block.with-errors li {
-}
+  /* line 168, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+  to {
+    opacity: 1; } }
 
-.trick input + *:before {
-    content:          'You got it right dude!';
-    background-color: #62b14c;
-    display:          block;
-    opacity:          0.2;
-}
-
-.trick input:focus + *:before {
-    opacity: 0.1;
-}
-
-.trick input.ng-valid.ng-dirty + *:before {
-    opacity: 1;
-}
-
-.trick input:focus + .help-block.with-errors li {
-    background-color: #63bff8;
-}
-
-.trick .help-block,
-.trick .help-block.with-errors {
-    bottom:   0;
-    margin:   0;
-    padding:  0;
-    overflow: hidden;
-}
-
-.trick .help-block.with-errors.ng-hide * {
-    opacity: 1;
-}
-
-.trick .help-block.with-errors.ng-hide * {
-    opacity: 1;
-}
-
-.trick .help-block.with-errors li {
-    background: #ca3854;
-    color:      #fff;
-}
-
+/*# sourceMappingURL=style.css.map */
