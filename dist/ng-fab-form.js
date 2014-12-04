@@ -264,7 +264,7 @@ angular.module('ngFabForm')
     });
 
 angular.module('ngFabForm')
-    .factory('ngFabFormDirective', function (ngFabForm, $compile, $timeout)
+    .factory('ngFabFormDirective', function (ngFabForm, $compile, $templateRequest, $rootScope)
     {
         'use strict';
 
@@ -292,17 +292,24 @@ angular.module('ngFabForm')
                         ngModelCtrl = controllers[1];
 
                     // only execute if there is a form and model controller
-                    if (formCtrl && ngModelCtrl) {
-                        // wait for validators to be ready
-                        $timeout(function ()
-                        {
-                            var alertTpl = ngFabForm.makeAlertTpl(formCtrl.$name, attrs, ngModelCtrl.$validators);
-                            var compiledAlert = $compile(alertTpl)(scope);
-
-                            ngFabForm.insertErrorTpl(compiledAlert, el, attrs);
-                        });
+                    var tpl = ngFabForm.config.template;
+                    if (formCtrl && ngModelCtrl && tpl) {
+                        // load validation directive template
+                        $templateRequest(tpl)
+                            .then(function processTemplate(html)
+                            {
+                                var privateScope = $rootScope.$new(true);
+                                //privateScope.params = alertParams;
+                                privateScope.attrs = attrs;
+                                privateScope.field = scope[formCtrl.$name][ngModelCtrl.$name];
+                                privateScope.error = scope[formCtrl.$name][ngModelCtrl.$name].$error;
+                                var compiledAlert = $compile(html)(privateScope);
+                                ngFabForm.insertErrorTpl(compiledAlert, el, attrs);
+                            });
                     }
 
+
+                    // set asterisk for labels
                     if (ngFabForm.config.setAsteriskForRequiredLabel && attrs.required === true) {
                         var label = $('label[for=' + attrs.name + ']');
                         if (label.length < 1) {
@@ -314,7 +321,8 @@ angular.module('ngFabForm')
                             }
                         }
                     }
-                };
+                }
+                    ;
             }
         };
     });
@@ -329,248 +337,66 @@ angular.module('ngFabForm')
         // *****************
 
         var config = {
-                showErrorsOn: [
-                    '$touched', // if element was focussed
-                    '$dirty' // if element was edited
-                ],
-                // add noovalidate to forms
-                setNovalidate: true,
+            // template-url/templateId
+            // to disable validation alltogether set it false
+            template: 'ng-fab-form-default-validation.tpl.html',
 
-                // add asterisk to required fields
-                setAsteriskForRequiredLabel: false,
+            // prevent submission of invalid forms
+            preventInvalidSubmit: true,
 
-                // asterisk string to be added if enabled
-                asteriskStr: '*',
+            // prevent double clicks
+            preventDoubleSubmit: true,
 
-                // prevent submission of invalid forms
-                preventInvalidSubmit: true,
+            // double click delay duration
+            preventDoubleSubmitTimeoutLength: 1000,
 
-                // prevent double clicks
-                preventDoubleSubmit: true,
+            // show validation-messages on failed submit
+            setFormDirtyOnSubmit: true,
 
-                // double click delay duration
-                preventDoubleSubmitTimeoutLength: 1000,
+            // autofocus first error-element
+            scrollToAndFocusFirstErrorOnSubmit: true,
 
-                // show validation-messages on failed submit
-                setFormDirtyOnSubmit: true,
+            // set either to fixed duration or to 'smooth'
+            // 'smooth' means that the duration is calculated,
+            // based on the distance to scroll (the more the faster it scrolls)
+            scrollAnimationTime: 'smooth',
 
-                // autofocus first error-element
-                scrollToAndFocusFirstErrorOnSubmit: true,
+            // fixed offset for scroll to elment
+            scrollOffset: -100,
 
-                // set either to fixed duration or to 'smooth'
-                // 'smooth' means that the duration is calculated,
-                // based on the distance to scroll (the more the faster it scrolls)
-                scrollAnimationTime: 'smooth',
+            // option to disable forms by wrapping them in a disabled <fieldset> elment
+            disabledForms: true,
 
-                // fixed offset for scroll to elment
-                scrollOffset: -100,
+            // add noovalidate to forms
+            setNovalidate: true,
 
-                // option to disable forms by wrapping them in a disabled <fieldset> elment
-                disabledForms: true,
+            // add asterisk to required fields
+            setAsteriskForRequiredLabel: false,
 
-                // event-name-space, usually you won't need to change anything here
-                eventNameSpace: 'ngFabForm',
+            // asterisk string to be added if enabled
+            asteriskStr: '*',
 
-                // the validation message prefix, results for the default state
-                // `validation-msg-required` or `validation-msg-your-custom-validation`
-                validationMsgPrefix: 'validationMsg',
+            // event-name-space, usually you won't need to change anything here
+            eventNameSpace: 'ngFabForm',
 
-
-                // uses advanced dynamic validations,e .g. for min and max
-                useAdvancedValidationMsgs: true,
-                dateFormat: 'dd.MM.yy',
-                timeFormat: 'HH:MM'
-            },
-
-            validationMessages = {
-                // types
-                email: 'This is not a valid email-address',
-                password: 'This is not a valid password',
-                date: 'This is not a valid date',
-                time: 'This is not a valid time',
-                datetime: 'This is no valid datetime',
-                'datetime-local': 'This is no valid local datetime',
-                number: 'This is no valid number',
-                color: 'This no valid color',
-                range: 'This is not a valid range',
-                month: 'This is not a valid month',
-                url: 'This is not a valid url',
-                file: 'This not a valid file',
-
-                // attributes
-                required: 'This field is required',
-                pattern: 'Your input does not match the requirements',
-                size: 'This no valid size',
-
-                // special validations (over written if
-                // specialValidations is set to true
-                max: 'Your input is too large',
-                min: 'Your input is too short',
-                maxlength: 'Your input is too long',
-                minlength: 'Your input is too short'
-            },
-
-        // used to check for key value pairs in attributes if value is string
-        // the function attributes are used to create the message
-            advancedValidations = [
-                // for all inputs
-                {
-                    maxlength: function (attrs)
-                    {
-                        return 'Your input should have max ' + attrs.maxlength + ' characters';
-                    },
-                    minlength: function (attrs)
-                    {
-                        return 'Your input should have at least ' + attrs.minlength + ' characters';
-                    }
-                },
-                // date-fields
-                {
-                    type: 'time',
-                    min: function (attrs)
-                    {
-                        return 'The time provided should be no earlier than {{"' + attrs.min + '"|date:"' + config.timeFormat + '"}}';
-                    },
-                    max: function (attrs)
-                    {
-                        return 'The time should be no later than {{"' + attrs.max + '"|date:"' + config.timeFormat + '"}}';
-                    }
-                },
-                // date
-                {
-                    type: 'date',
-                    min: function (attrs)
-                    {
-                        return 'The date provided should be no earlier than the {{"' + attrs.min + '"|date:"' + config.dateFormat + '"}}';
-                    },
-                    max: function (attrs)
-                    {
-                        return 'The date provided should be no later than the {{"' + attrs.max + '"|date:"' + config.dateFormat + '"}}';
-                    }
-                }
-            ];
-
-
-        // *****************
-        // HELPER FUNCTIONS
-        // ****************
-
-        var makeAlertWrapperTpl = function (ngShowCondition, formName, elName, messages)
-            {
-                var msgs = '';
-                angular.forEach(messages, function (msg, key)
-                {
-                    msgs += '<li ng-message="' + key + '">' + msg + '</li>';
-                });
-
-                return '<div ng-show="' + ngShowCondition + '"' +
-                    'ng-messages="' + formName + '.' + elName + '.$error" ' +
-                    'class="help-block with-errors">' +
-                    '<ul class ="list-unstyled">' +
-                    msgs +
-                    '</ul></div>';
-            },
-
-
-            makeMsgs = function (validators, attrs)
-            {
-                var allMgs = {},
-                    customMsgs = {};
-
-                // special handlers
-                setMgsForSpecialValidationCombinations(attrs, customMsgs);
-
-                // check for custom validation msgs added via validation-attribute
-                angular.forEach(attrs, function (attr, attrKey)
-                {
-                    var regExp = new RegExp(config.validationMsgPrefix);
-                    if (attrKey.match(regExp)) {
-                        var sanitizedKey = attrKey.replace(config.validationMsgPrefix, '');
-                        sanitizedKey = sanitizedKey.charAt(0).toLowerCase() + sanitizedKey.slice(1);
-                        customMsgs[sanitizedKey] = attr;
-                    }
-                });
-                angular.forEach(validators, function (validator, validatorKey)
-                {
-                    if (customMsgs && customMsgs[validatorKey]) {
-                        allMgs[validatorKey] = customMsgs[validatorKey];
-                    } else {
-                        allMgs[validatorKey] = validationMessages[validatorKey];
-                    }
-                });
-
-                return allMgs;
-            },
-
-            setMgsForSpecialValidationCombinations = function (attrs, customMsgs)
-            {
-                var applyRule,
-                    msgFnKeys;
-
-                var parseSpecialValidations = function (val, key)
-                {
-                    if (applyRule) {
-                        if (angular.isFunction(val)) {
-                            msgFnKeys.push(key);
-                        } else {
-                            applyRule = (attrs[key] && attrs[key] === val);
-                        }
-                    }
-                };
-
-                if (config.useAdvancedValidationMsgs) {
-                    for (var i = 0; i < advancedValidations.length; i++) {
-                        var validationObj = advancedValidations[i];
-                        applyRule = true;
-                        msgFnKeys = [];
-                        angular.forEach(validationObj, parseSpecialValidations);
-                        if (applyRule && msgFnKeys.length > 0) {
-                            for (var j = 0; j < msgFnKeys.length; j++) {
-                                var msgFnKey = msgFnKeys[j];
-                                customMsgs[msgFnKey] = validationObj[msgFnKey](attrs);
-                            }
-                        }
-                    }
-                }
-            };
+            // the validation message prefix, results for the default state
+            // `validation-msg-required` or `validation-msg-your-custom-validation`
+            validationMsgPrefix: 'validationMsg'
+        };
 
 
         // *****************
         // SERVICE-FUNCTIONS
         // *****************
-
-        var makeAlertTpl = function (formName, attrs, validators)
-            {
-                var elName = attrs.name;
-
-                var ngShowCondition = formName + '.' + elName + '.$invalid';
-                ngShowCondition += ' && (';
-                angular.forEach(config.showErrorsOn, function (state, index)
-                {
-                    if (index === 0) {
-                        ngShowCondition += formName + '.' + elName + '.' + state;
-                    } else {
-                        ngShowCondition += ' || ' + formName + '.' + elName + '.' + state;
-                    }
-                });
-                ngShowCondition += '|| ' + formName + '.$triedSubmit';
-                ngShowCondition += ')';
-
-
-                var messages = makeMsgs(validators, attrs);
-                return makeAlertWrapperTpl(ngShowCondition, formName, elName, messages);
-            },
-
-
-            insertErrorTpl = function (compiledAlert, el, attrs)
-            {
-                // insert after or after parent if checkbox or radio
-                if (attrs.type === 'checkbox' || attrs.type === 'radio') {
-                    el.parent().after(compiledAlert);
-                } else {
-                    el.after(compiledAlert);
-                }
-            };
+        var insertErrorTpl = function (compiledAlert, el, attrs)
+        {
+            // insert after or after parent if checkbox or radio
+            if (attrs.type === 'checkbox' || attrs.type === 'radio') {
+                el.parent().after(compiledAlert);
+            } else {
+                el.after(compiledAlert);
+            }
+        };
 
 
         // *************************
@@ -578,17 +404,9 @@ angular.module('ngFabForm')
         // *************************
 
         return {
-            extendValidationMessages: function (newValidationMessages)
-            {
-                validationMessages = angular.extend(validationMessages, newValidationMessages);
-            },
             extendConfig: function (newConfig)
             {
                 config = angular.extend(config, newConfig);
-            },
-            setWrapperTplFunction: function (tplFunction)
-            {
-                makeAlertWrapperTpl = tplFunction;
             },
             setInsertErrorTplFn: function (insertErrorTplFn)
             {
@@ -604,13 +422,74 @@ angular.module('ngFabForm')
             {
                 return {
                     insertErrorTpl: insertErrorTpl,
-                    makeAlertTpl: makeAlertTpl,
                     config: config,
-                    validationMessages: validationMessages,
-                    advancedValidations: advancedValidations
                 };
             }
         };
+    });
+
+angular.module('ngFabForm')
+    .directive('ngFabVal', function ()
+    {
+        'use strict';
+
+        return {
+            restrict: 'E',
+            scope: {},
+            templateUrl: 'ng-fab-val-d.html',
+            link: function (scope, el, attrs, controller)
+            {
+
+            }
+        };
+    });
+
+/* jshint quotmark: false */
+
+angular.module('ngFabForm')
+    .run(function ($templateCache, ngFabForm)
+    {
+        'use strict';
+
+        var tpl = "";
+        tpl += "<div ng-messages=\"field.$error\"";
+        tpl += "     class=\"help-block\">";
+        tpl += "    <ul class=\"list-unstyled\"";
+        tpl += "        ng-show=\"field.$invalid && (field.$touched || field.$dirty)\">";
+        tpl += "        <li ng-message=\"required\">You did not enter a field<\/li>";
+        tpl += "        <li ng-message=\"password\">This is not a valid password<\/li>";
+        tpl += "        <li ng-message=\"email\"> This is not a valid email-address<\/li>";
+        tpl += "        <li ng-message=\"pattern\">pattern Your input does not match the requirements<\/li>";
+        tpl += "        <li ng-message=\"date\">This is not a valid date<\/li>";
+        tpl += "        <li ng-message=\"time\">This is not a valid time<\/li>";
+        tpl += "        <li ng-message=\"datetime\"> This is no valid datetime<\/li>";
+        tpl += "        <li ng-message=\"datetime-local\">This is no valid local datetime<\/li>";
+        tpl += "        <li ng-message=\"number\">This is no valid number<\/li>";
+        tpl += "        <li ng-message=\"color\">This no valid color<\/li>";
+        tpl += "        <li ng-message=\"range\">This is not a valid range<\/li>";
+        tpl += "        <li ng-message=\"month\">This is not a valid month<\/li>";
+        tpl += "        <li ng-message=\"url\">This is not a valid url<\/li>";
+        tpl += "        <li ng-message=\"file\">This not a valid file<\/li>";
+        tpl += "        <li ng-message=\"minlength\">Your field should have at least {{ attrs.minlength }} characters<\/li>";
+        tpl += "        <li ng-message=\"maxlength\">Your field should have max {{ attrs.maxlength }} characters<\/li>";
+        tpl += "        <li ng-if=\"attrs.type == 'time' \"";
+        tpl += "            ng-message=\"min\">The time provided should be no earlier than {{ attrs.min |date: 'HH:MM' }}";
+        tpl += "        <\/li>";
+        tpl += "        <li ng-message=\"max\"";
+        tpl += "            ng-if=\"attrs.type == 'time' \">The time should be no later than {{attrs.max |date: 'HH:MM'}}";
+        tpl += "        <\/li>";
+        tpl += "        <li ng-message=\"min\"";
+        tpl += "            ng-if=\"attrs.type == 'date' \">The date provided should be no earlier than then {{attrs.max";
+        tpl += "            |date:'dd.MM.yy'}}";
+        tpl += "        <\/li>";
+        tpl += "        <li ng-message=\"max\"";
+        tpl += "            ng-if=\"attrs.type == 'date' \">The time should be no later than {{attrs.max |date: 'dd.MM.yy'}}";
+        tpl += "        <\/li>";
+        tpl += "    <\/ul>";
+        tpl += "<\/div>";
+        tpl += "";
+
+        $templateCache.put(ngFabForm.config.template, tpl);
     });
 
 //# sourceMappingURL=ng-fab-form.min.js.map

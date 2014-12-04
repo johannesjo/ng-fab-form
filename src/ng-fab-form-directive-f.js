@@ -1,5 +1,5 @@
 angular.module('ngFabForm')
-    .factory('ngFabFormDirective', function (ngFabForm, $compile, $timeout, $templateRequest, $rootScope)
+    .factory('ngFabFormDirective', function (ngFabForm, $compile, $templateRequest, $rootScope)
     {
         'use strict';
 
@@ -27,28 +27,24 @@ angular.module('ngFabForm')
                         ngModelCtrl = controllers[1];
 
                     // only execute if there is a form and model controller
-                    if (formCtrl && ngModelCtrl) {
-                        // wait for validators to be ready
-                        //$timeout(function ()
-                        //{
-                        //    var alertParams = ngFabForm.makeAlertParams(formCtrl.$name, attrs, ngModelCtrl.$validators);
-                        //
-                        //});
-
-                        $templateRequest('test.html')
+                    var tpl = ngFabForm.config.template;
+                    if (formCtrl && ngModelCtrl && tpl) {
+                        // load validation directive template
+                        $templateRequest(tpl)
                             .then(function processTemplate(html)
                             {
                                 var privateScope = $rootScope.$new(true);
                                 //privateScope.params = alertParams;
                                 privateScope.attrs = attrs;
                                 privateScope.field = scope[formCtrl.$name][ngModelCtrl.$name];
-                                privateScope.error =  scope[formCtrl.$name][ngModelCtrl.$name].$error;
-                                privateScope.p = scope;
+                                privateScope.error = scope[formCtrl.$name][ngModelCtrl.$name].$error;
                                 var compiledAlert = $compile(html)(privateScope);
                                 ngFabForm.insertErrorTpl(compiledAlert, el, attrs);
                             });
                     }
 
+
+                    // set asterisk for labels
                     if (ngFabForm.config.setAsteriskForRequiredLabel && attrs.required === true) {
                         var label = $('label[for=' + attrs.name + ']');
                         if (label.length < 1) {
