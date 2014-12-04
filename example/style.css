@@ -152,4 +152,38 @@ input.ng-valid-required.ng-valid:not(.ng-invalid), textarea.ng-valid-required.ng
   transition: all ease-in 0s;
   transition-delay: 0s; }
 
+/* line 173, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+form[class*="ng-invalid"] button.btn {
+  background: #63bff8 !important; }
+  /* line 176, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+  form[class*="ng-invalid"] button.btn:after {
+    opacity: 0;
+    color: #63bff8; }
+
+/* line 182, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+form button.btn {
+  transition: all ease-in 0.5s;
+  background: #62b14c;
+  font-weight: bold !important; }
+  /* line 186, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+  form button.btn:after {
+    border: 1px solid #3a6a2d;
+    transition: all ease-in 0.5s;
+    font-size: 11.4285714286px;
+    background: #62b14c;
+    width: 20px;
+    margin-right: -9px;
+    height: 20px;
+    line-height: 20px;
+    display: inline-block;
+    vertical-align: middle;
+    background: #fff;
+    text-align: center;
+    border-radius: 20px;
+    z-index: 20;
+    color: #62b14c;
+    content: '\e013';
+    font-family: 'Glyphicons Halflings';
+    opacity: 1; }
+
 /*# sourceMappingURL=style.css.map */

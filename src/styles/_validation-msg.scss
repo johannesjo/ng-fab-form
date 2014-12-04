@@ -73,10 +73,10 @@ $check-size: 40px;
 
         &.ng-enter {
             transition-delay: 1s;
-            opacity:      0;
-            transform:    rotate(-20deg);
-            margin-right: -$height*2;
-            transition:   all ease-in 0.0s;
+            opacity:          0;
+            transform:        rotate(-20deg);
+            margin-right:     -$height*2;
+            transition:       all ease-in 0.0s;
         }
         &.ng-leave {
             transition: all ease-in 0.0s;
@@ -99,7 +99,7 @@ $check-size: 40px;
         border:        1px solid $c-success;
         border-top:    0;
         border-left:   0;
-        border-bottom:   0;
+        border-bottom: 0;
         text-align:    center;
         border-radius: $check-size;
         z-index:       20;
@@ -155,18 +155,54 @@ select {
 
 // Basic animation timings
 .ng-hide-add.ng-hide-add-active * {
-    opacity:      0.1;
-    transform:    rotate(-30deg);
-    margin-right: -220px;
-    transition:   all ease-in 0.0s;
+    opacity:          0.1;
+    transform:        rotate(-30deg);
+    margin-right:     -220px;
+    transition:       all ease-in 0.0s;
     transition-delay: 0s;
     //    opacity:            1;
 }
 
 .ng-hide-remove.ng-hide-remove-active li {
-    opacity:      0.1;
-    transform:    rotate(-20deg);
-    margin-right: -$height*2;
-    transition:   all ease-in 0.0s;
+    opacity:          0.1;
+    transform:        rotate(-20deg);
+    margin-right:     -$height*2;
+    transition:       all ease-in 0.0s;
     transition-delay: 0s;
 }
+
+form[class*="ng-invalid"] button.btn {
+    background: $c-info !important;
+
+    &:after {
+        opacity: 0;
+        color:   $c-info;
+    }
+}
+
+form button.btn {
+    transition:  all ease-in 0.5s;
+    background:  $c-success;
+    font-weight: bold !important;
+    &:after {
+        border:         1px solid darken($c-success, 20%);
+        transition:     all ease-in 0.5s;
+        font-size:      $check-size/3.5;
+        background:     $c-success;
+        width:          $check-size/2;
+        margin-right:   -9px;
+        height:         $check-size/2;
+        line-height:    $check-size/2;
+        display:        inline-block;
+        vertical-align: middle;
+        background:     #fff;
+        text-align:     center;
+        border-radius:  $check-size/2;
+        z-index:        20;
+        color:          $c-success;
+        content:        '\e013';
+        font-family:    'Glyphicons Halflings';
+        opacity:        1;
+    }
+}
+
