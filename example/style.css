@@ -30,11 +30,7 @@ p.header {
   margin: 0;
   display: block; }
 
-/* line 38, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
-input, textarea, select {
-  border-radius: 0 !important; }
-
-/* line 42, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+/* line 40, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
 .help-block {
   color: #fff;
   margin: 0;
@@ -43,10 +39,10 @@ input, textarea, select {
   font-size: 14px;
   overflow: visible;
   background: #c00640; }
-  /* line 43, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+  /* line 41, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
   .help-block:after {
     clear: both; }
-  /* line 56, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+  /* line 53, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
   .help-block li {
     display: block;
     height: 20px;
@@ -64,93 +60,96 @@ input, textarea, select {
     z-index: 2;
     transform: rotate(0deg);
     transition: all ease-out 0.2s;
-    transition-delay: 0s;
-    opacity: 1; }
-    /* line 76, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+    opacity: 1;
+    transition-delay: 0s; }
+    /* line 73, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
     .help-block li.ng-enter {
-      opacity: 0.1;
-      transform: rotate(-10deg);
-      margin-right: -20px;
-      transition: all ease-in 0s; }
-    /* line 82, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
-    .help-block li.ng-leave {
-      transition: all ease-in 0.5s;
+      transition-delay: 1s;
       opacity: 0;
-      transform: rotate(30deg); }
-  /* line 90, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+      transform: rotate(-20deg);
+      margin-right: -40px;
+      transition: all ease-in 0s; }
+    /* line 80, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+    .help-block li.ng-leave {
+      transition: all ease-in 0s;
+      opacity: 0; }
+  /* line 87, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
   .ng-valid + .help-block:before {
     opacity: 0;
+    display: block;
     position: absolute;
-    right: -31px;
-    bottom: -31px;
-    font-size: 62px;
-    width: 62px;
-    height: 62px;
-    line-height: 1;
+    right: -20px;
+    bottom: -20px;
+    font-size: 26.6666666667px;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    background: #fff;
+    border: 1px solid #62b14c;
+    border-top: 0;
+    border-left: 0;
+    border-bottom: 0;
     text-align: center;
-    border-radius: 62px;
+    border-radius: 40px;
     z-index: 20;
     color: #62b14c;
-    content: '✓';
-    transform: rotate(0deg);
-    transition: all ease-out 0.2s;
-    transition-delay: 0s; }
-  /* line 109, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
-  .ng-valid + .help-block:before {
-    opacity: 1 !important;
-    opacity: 1; }
-  /* line 113, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+    content: '\e013';
+    font-family: 'Glyphicons Halflings'; }
+  /* line 110, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
   .ng-valid.ng-invalid + .help-block:before {
-    opacity: 0 !important;
     opacity: 0; }
-  /* line 119, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+  /* line 115, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
   .help-block.ng-hide {
     display: block !important; }
     /* line 13, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
     .help-block.ng-hide li {
-      opacity: 0; }
-    /* line 31, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+      display: none; }
+    /* line 32, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
     .help-block.ng-hide:before {
-      display: block; }
-  /* line 25, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+      opacity: 1;
+      transition: all ease-out 0.52s;
+      transform: rotate(360deg);
+      transition-delay: 0.3s; }
+  /* line 19, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
   *:focus + .help-block li {
     display: block; }
-  /* line 19, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
-  *:focus + .help-block:before {
-    opacity: 0; }
-  /* line 131, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+  /* line 126, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
   *:focus + .help-block li {
     background-color: #63bff8; }
   /* line 13, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
   *:focus + .help-block.ng-hide li {
-    opacity: 0; }
-  /* line 31, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+    display: none; }
+  /* line 32, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
   *:focus + .help-block.ng-hide:before {
-    display: block; }
+    opacity: 1;
+    transition: all ease-out 0.52s;
+    transform: rotate(360deg);
+    transition-delay: 0.3s; }
 
+/* line 141, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+input.ng-touched.ng-invalid:not(.ng-valid), textarea.ng-touched.ng-invalid:not(.ng-valid), select.ng-touched.ng-invalid:not(.ng-valid) {
+  border-color: #c00640; }
 /* line 145, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+input:focus, input:focus.ng-touched.ng-invalid:not(.ng-valid), textarea:focus, textarea:focus.ng-touched.ng-invalid:not(.ng-valid), select:focus, select:focus.ng-touched.ng-invalid:not(.ng-valid) {
+  border-color: #63bff8; }
+/* line 149, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+input.ng-valid-required.ng-valid:not(.ng-invalid), textarea.ng-valid-required.ng-valid:not(.ng-invalid), select.ng-valid-required.ng-valid:not(.ng-invalid) {
+  border-color: #62b14c; }
+
+/* line 156, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
 .ng-hide-add.ng-hide-add-active * {
   opacity: 0.1;
-  transform: rotate(-20deg);
-  margin-right: -20px;
-  transition: all ease-in 0s; }
+  transform: rotate(-30deg);
+  margin-right: -220px;
+  transition: all ease-in 0s;
+  transition-delay: 0s; }
 
-/* line 153, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
-.ng-hide-remove.ng-hide-remove-active * {
+/* line 165, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+.ng-hide-remove.ng-hide-remove-active li {
   opacity: 0.1;
-  transform: rotate(-10deg);
-  margin-right: -20px;
-  -webkit-transition: all linear 0.5s;
-  transition: all linear 0.5s;
-  outline: 11px solid orange; }
-
-@keyframes enter_sequence {
-  /* line 165, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
-  from {
-    opacity: 0; }
-
-  /* line 168, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
-  to {
-    opacity: 1; } }
+  transform: rotate(-20deg);
+  margin-right: -40px;
+  transition: all ease-in 0s;
+  transition-delay: 0s; }
 
 /*# sourceMappingURL=style.css.map */
