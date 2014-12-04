@@ -303,6 +303,18 @@ module.exports = function (grunt)
             dev: {}
         },
 
+        md2html: {
+            one_file :{
+                options: {
+                    layout:'<%= appConfig.dist %>/example/index.html',
+                },
+                files: [{
+                    src: ['*.md'],
+                    dest: '<%= appConfig.dist %>/example/index.html'
+                }]
+            }
+        },
+
 
         'gh-pages': {
             options: {
@@ -406,7 +418,8 @@ module.exports = function (grunt)
             'uglify:generated',
             'usemin',
             'copy:ghPages',
-            'cdnify:dist'
+            'cdnify:dist',
+            'md2html:one_file'
         ]);
     });
 

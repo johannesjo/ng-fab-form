@@ -278,7 +278,7 @@ angular.module('ngFabForm')
                 // no name attr is set already
                 if (attrs.ngModel && !attrs.name) {
                     // set name attribute if none is set
-                    var newNameAttr = attrs.ngModel.replace('.', '_');
+                    var newNameAttr = attrs.ngModel.replace(/\./g, '_');
                     el.attr('name', newNameAttr);
                     attrs.name = newNameAttr;
                 }
