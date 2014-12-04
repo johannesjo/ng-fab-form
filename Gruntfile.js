@@ -153,13 +153,19 @@ module.exports = function (grunt)
 // Automatically inject Bower components into the app
         wiredep: {
             dev: {
-                src: ['<%= appConfig.example %>/index.html'],
+                src: [
+                    '<%= appConfig.example %>/index.html',
+                    '<%= appConfig.example %>/index.html'
+                ],
                 ignorePath: /\.\.\//,
                 exclude: [],
                 devDependencies: true
             },
             dist: {
-                src: ['<%= appConfig.example %>/index.html'],
+                src: [
+                    '<%= appConfig.example %>/index.html',
+                    '<%= appConfig.example %>/index.html'
+                ],
                 ignorePath: /\.\.\//,
                 exclude: [],
                 devDependencies: true
@@ -203,7 +209,7 @@ module.exports = function (grunt)
             options: {
                 removeFiles: true
             },
-            all: {
+            index: {
                 src: '<%= appConfig.example %>/index.html',
                 blocks: {
                     'module': {
@@ -217,17 +223,22 @@ module.exports = function (grunt)
                             '!{,*/}**/*.spec.js'
                         ]
                     }
-                    //, 'example': {
-                    //    cwd: '<%= appConfig.example %>',
-                    //    src: [
-                    //        // module then submodules
-                    //        '{,*/}**/_*.js',
-                    //        // all the rest of the files
-                    //        '{,*/}**/*.js',
-                    //        // without test files
-                    //        '!{,*/}**/*.spec.js'
-                    //    ]
-                    //}
+                }
+            },
+            dev: {
+                src: '<%= appConfig.example %>/dev.html',
+                blocks: {
+                    'module': {
+                        cwd: '<%= appConfig.app %>',
+                        src: [
+                            // module then submodules
+                            '{,*/}**/_*.js',
+                            // all the rest of the files
+                            '{,*/}**/*.js',
+                            // without test files
+                            '!{,*/}**/*.spec.js'
+                        ]
+                    }
                 }
             }
         },
@@ -391,7 +402,7 @@ module.exports = function (grunt)
 
         grunt.task.run([
             'clean:server',
-            'fileblocks:all',
+            'fileblocks:dev',
             'wiredep:dev',
             'connect:livereload',
             'concurrent:server'
@@ -404,7 +415,7 @@ module.exports = function (grunt)
         grunt.task.run([
             'clean:dist',
             'wiredep:dist',
-            'fileblocks:all',
+            'fileblocks',
             'copy:bowerComponentsToTmp',
             'jshint:all',
             //'karma:unitSingleRun',
