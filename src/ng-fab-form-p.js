@@ -136,6 +136,7 @@ angular.module('ngFabForm')
 
         var makeAlertWrapperTpl = function (ngShowCondition, formName, elName, messages)
             {
+
                 var msgs = '';
                 angular.forEach(messages, function (msg, key)
                 {
@@ -218,7 +219,7 @@ angular.module('ngFabForm')
         // SERVICE-FUNCTIONS
         // *****************
 
-        var makeAlertTpl = function (formName, attrs, validators)
+        var makeAlertParams = function (formName, attrs, validators)
             {
                 var elName = attrs.name;
 
@@ -237,7 +238,12 @@ angular.module('ngFabForm')
 
 
                 var messages = makeMsgs(validators, attrs);
-                return makeAlertWrapperTpl(ngShowCondition, formName, elName, messages);
+                return {
+                    ngShowCondition: ngShowCondition,
+                    formName: formName,
+                    elName: elName,
+                    messages: messages
+                };
             },
 
 
@@ -283,7 +289,8 @@ angular.module('ngFabForm')
             {
                 return {
                     insertErrorTpl: insertErrorTpl,
-                    makeAlertTpl: makeAlertTpl,
+                    makeAlertParams: makeAlertParams,
+                    makeWrapperTpl: makeAlertWrapperTpl,
                     config: config,
                     validationMessages: validationMessages,
                     advancedValidations: advancedValidations

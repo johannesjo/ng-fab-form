@@ -1,5 +1,5 @@
 angular.module('ngFabForm')
-    .factory('ngFabFormDirective', function (ngFabForm, $compile, $timeout)
+    .factory('ngFabFormDirective', function (ngFabForm, $compile, $timeout, $templateRequest, $rootScope)
     {
         'use strict';
 
@@ -29,13 +29,24 @@ angular.module('ngFabForm')
                     // only execute if there is a form and model controller
                     if (formCtrl && ngModelCtrl) {
                         // wait for validators to be ready
-                        $timeout(function ()
-                        {
-                            var alertTpl = ngFabForm.makeAlertTpl(formCtrl.$name, attrs, ngModelCtrl.$validators);
-                            var compiledAlert = $compile(alertTpl)(scope);
+                        //$timeout(function ()
+                        //{
+                        //    var alertParams = ngFabForm.makeAlertParams(formCtrl.$name, attrs, ngModelCtrl.$validators);
+                        //
+                        //});
 
-                            ngFabForm.insertErrorTpl(compiledAlert, el, attrs);
-                        });
+                        $templateRequest('test.html')
+                            .then(function processTemplate(html)
+                            {
+                                var privateScope = $rootScope.$new(true);
+                                //privateScope.params = alertParams;
+                                privateScope.attrs = attrs;
+                                privateScope.field = scope[formCtrl.$name][ngModelCtrl.$name];
+                                privateScope.error =  scope[formCtrl.$name][ngModelCtrl.$name].$error;
+                                privateScope.p = scope;
+                                var compiledAlert = $compile(html)(privateScope);
+                                ngFabForm.insertErrorTpl(compiledAlert, el, attrs);
+                            });
                     }
 
                     if (ngFabForm.config.setAsteriskForRequiredLabel && attrs.required === true) {
@@ -49,7 +60,8 @@ angular.module('ngFabForm')
                             }
                         }
                     }
-                };
+                }
+                    ;
             }
         };
     });
