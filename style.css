@@ -1,179 +1,94 @@
-.form-group {
-    position: relative;
-}
-
-.anchor {
-    display: none;
-}
-
-.main-header {
-    background:     #000;
-    padding-bottom: 15px;
-    color:          #eee;
-}
-
-.main-header h1 {
-    color: #eee;
-}
-
-p.header {
-    font-style: italic;
-}
-
-.motto {
-    font-size: 16px;
-}
-
-.help-block .list-unstyled {
-    padding: 0;
-    margin:  0;
+/* line 14, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+.validation-success {
+  opacity: 1;
+  display: block;
+  position: absolute;
+  right: -7.2px;
+  bottom: -7.2px;
+  font-size: 28.8px;
+  width: 36px;
+  height: 36px;
+  line-height: 36px;
+  text-align: center;
+  border-radius: 36px;
+  color: #62b14c;
+  transition: all ease-out 0.32s; }
+  /* line 29, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+  .validation-success:after {
     display: block;
-}
-
-.ng-hide-add.ng-hide-add-active {
-    -webkit-transition: all linear 0.5s;
-    transition:         all linear 0.5s;
-}
-
-.ng-hide-remove.ng-hide-remove-active {
-    -webkit-transition: all linear 0.5s;
-    transition:         all linear 0.5s;
-}
-
-.ng-hide {
+    content: '\e013';
+    font-family: 'Glyphicons Halflings'; }
+  /* line 35, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+  .validation-success.ng-hide {
+    transition-delay: 0s;
+    transition: all ease-out 0.12s;
     opacity: 0;
-}
+    transform: rotate(360deg); }
 
-.ng-show {
-    display: block !important;
-    opacity: 1;
-}
+/* line 43, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+.ng-hide-remove li {
+  opacity: 0; }
 
-input,
-textarea,
-select {
-    -webkit-transition: 0.5s linear all;
-    transition:         0.5s linear all;
-    opacity:            1;
-    position:           relative;
-    border-radius:      0 !important;
-}
-
-input:focus,
-textarea:focus,
-select:focus {
-}
-
-.help-block.with-errors li {
-    color: #ca3854;
-}
-
-/** CSS TRICKERY **/
-
-.trick input.ng-valid.ng-dirty {
-    border:     1px solid #62b14c;
-    box-shadow: inset 0 0 3px #62b14c;
-}
-
-.trick input.ng-pristine + .help-block li,
-.trick input.ng-valid.ng-dirty + .help-block li {
-    display: none !important;
-}
-
-.trick input.ng-valid.ng-dirty:focus + *:before {
-    margin-top: 0px;
-}
-
-.trick input {
-    position: relative;
-    z-index:  1;
-}
-
-.trick input + *:before,
-.trick .help-block li {
-    color:       #fff;
-    transition:  color linear 0.5s,
-                 background linear 0.5s,
-                 opacity linear 0.5s;
+/* line 47, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+.validation {
+  color: #fff;
+  margin: 0;
+  position: relative;
+  font-size: 14px;
+  overflow: visible;
+  background: #c00640; }
+  /* line 55, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+  .validation ul {
+    display: block;
+    overflow: hidden; }
+  /* line 60, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+  .validation li {
+    display: block;
     line-height: 1;
-    position:    absolute;
-    padding:     2px 5px;
-    height:      20px;
-    display:     block !important;
-    margin:      0;
-    text-align:  right !important;
-    width:       100%;
-    font-size:   14px;
-    /*border:      none;*/
-}
-
-.trick input + *:before {
-    margin-top: -20px;
-    opacity: 0;
-    transition:  color linear 0.5s,
-                 background linear 0.5s,
-                 opacity linear 0.5s;
-}
-
-.trick .help-block,
-.trick .help-block.with-errors {
-    height: 20px;
-}
-
-.trick .help-block.with-errors.ng-hide {
+    background: #c00640;
+    position: absolute;
+    right: -4px;
+    top: -10px;
+    text-align: center;
+    font-weight: bold;
+    padding: 2px 10px;
+    color: #fff;
+    transform: rotate(0deg);
+    transition: all ease-out 0.2s;
     opacity: 1;
-    display: block !important;
-}
+    transition-delay: 0s; }
+    /* line 76, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+    .validation li.ng-enter {
+      opacity: 0;
+      transform: rotate(20deg);
+      right: -20px; }
+    /* line 81, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+    .validation li.ng-leave {
+      transition: all ease-in 0s;
+      opacity: 0;
+      outline: 30px solid red; }
+  /* line 89, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+  *:focus + .validation li {
+    background-color: #63bff8 !important; }
 
-.trick .help-block.with-errors.ng-hide li {
-    display: none;
-}
+/* line 98, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+input.ng-touched.ng-invalid:not(.ng-valid), textarea.ng-touched.ng-invalid:not(.ng-valid), select.ng-touched.ng-invalid:not(.ng-valid) {
+  border-color: #c00640; }
+/* line 102, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+input:focus, input:focus.ng-touched.ng-invalid:not(.ng-valid), textarea:focus, textarea:focus.ng-touched.ng-invalid:not(.ng-valid), select:focus, select:focus.ng-touched.ng-invalid:not(.ng-valid) {
+  border-color: #63bff8; }
+/* line 106, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+input.ng-valid-required.ng-valid:not(.ng-invalid), textarea.ng-valid-required.ng-valid:not(.ng-invalid), select.ng-valid-required.ng-valid:not(.ng-invalid) {
+  border-color: #62b14c; }
 
-.trick input:focus + .help-block {
-    margin-bottom: 0px;
-    opacity: 1;
-}
+/* line 112, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+form[class*="ng-invalid"] button.btn {
+  background: #63bff8;
+  transition: none; }
 
-.trick .help-block.with-errors li {
-}
+/* line 117, /home/johannes/www/ng-fab-form/src/styles/validation-msg */
+form button.btn {
+  transition: all ease-in 0.5s;
+  background: #62b14c; }
 
-.trick input + *:before {
-    content:          'You got it right dude!';
-    background-color: #62b14c;
-    display:          block;
-    opacity:          0.2;
-}
-
-.trick input:focus + *:before {
-    opacity: 0.1;
-}
-
-.trick input.ng-valid.ng-dirty + *:before {
-    opacity: 1;
-}
-
-.trick input:focus + .help-block.with-errors li {
-    background-color: #63bff8;
-}
-
-.trick .help-block,
-.trick .help-block.with-errors {
-    bottom:   0;
-    margin:   0;
-    padding:  0;
-    overflow: hidden;
-}
-
-.trick .help-block.with-errors.ng-hide * {
-    opacity: 1;
-}
-
-.trick .help-block.with-errors.ng-hide * {
-    opacity: 1;
-}
-
-.trick .help-block.with-errors li {
-    background: #ca3854;
-    color:      #fff;
-}
-
+/*# sourceMappingURL=style.css.map */

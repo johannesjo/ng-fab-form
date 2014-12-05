@@ -5,7 +5,7 @@
 <html class="no-js"><!--<![endif]-->
 <head>
     <meta charset="utf-8">
-    <title>ng-fabulous-forms example</title>
+    <title>angular fabulous forms - ng-fab-form</title>
     <meta name="viewport"
           content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
@@ -21,6 +21,40 @@
     <link rel="stylesheet"
           href="style.css">
 
+    <style>
+        .form-group {
+            position: relative;
+        }
+
+        .anchor {
+            display: none;
+        }
+
+        .main-header {
+            background:     #000;
+            padding-bottom: 15px;
+            color:          #eee;
+        }
+
+        .main-header h1 {
+            color: #eee;
+        }
+
+        p.header {
+            font-style: italic;
+        }
+
+        .motto {
+            font-size: 16px;
+        }
+
+        .help-block .list-unstyled {
+            padding: 0;
+            margin:  0;
+            display: block;
+        }
+
+    </style>
 </head>
 <body>
 <header class="main-header">
@@ -73,328 +107,201 @@
 </header>
 
 <div class="container">
-    <article class="markdown-body entry-content"
-             itemprop="mainContentOfPage"><h1>
-        <a id="user-content-ng-fab-form"
-           class="anchor"
-           href="#ng-fab-form"
-           aria-hidden="true"><span class="octicon octicon-link"></span></a>ng-fab-form</h1>
-
-        <p>AngularJS forms are pretty nice. But if you have worked with angular for a while, you'll find that the
-            out-of-the-box-mechanics like the instant validation are far from perfect from the common users perspective.
-            Furthermore you probably catch yourself declaring (and sometimes forgetting) the same stuff on and on again
-            like giving a <code>novalidate</code> attribute, preventing submission for invalid forms or declaring a
-            proper name attribute. </p>
-
-        <p>The most repitive part by far is validation. I understand why the angular-developers want to give us the
-            freedom, of doing this stuff in the most flexible manner, but I personally like to keep things consistent,
-            which is hard with how forms work out of the box.<code>ng-fab-form</code> tries solve all of those issues
-            without requiring you to change anything. Just set your forms up as usual and let <code>ng-fab-form</code>
-            do the rest for you. </p>
-
-        <p>There are also a lot of
-            <a href="https://github.com/search?o=desc&amp;q=angular+form&amp;s=stars&amp;type=Repositories&amp;utf8=%E2%9C%93">form
-                builders and other directives</a> out there. But either they take only a small part of the reptiveness
-            out of your job or like some of the form builders give you little flexibility when comes to the form markup.
-            <code>ng-fab-form</code> takes another approach, by extending how forms work application-wide.</p>
-
-        <p><a href="https://github.com/johannesjo/ng-fab-form/issues">Bug-reports or feature request</a> as well as any
-            other kind of <strong>feedback is highly welcome!</strong></p>
-
-        <h2>
-            <a id="user-content-getting-started"
-               class="anchor"
-               href="#getting-started"
-               aria-hidden="true"><span class="octicon octicon-link"></span></a>getting started</h2>
-
-        <p>Install it via bower:</p>
-
+    <h1 id="ng-fab-form">ng-fab-form</h1>
+<p><em>Convenient forms for Angular with no extra markup? Fabulous!</em></p>
+<p>AngularJS forms are pretty nice. But if you have worked with angular for a while, you&#39;ll find that the out of the box mechanics like the instant validation are far from perfect from the common users perspective. Furthermore you probably catch yourself declaring (and sometimes forgetting) the same stuff on and on again like giving a <code>novalidate</code> attribute, preventing submission for invalid forms or declaring a proper name attribute. </p>
+<p>The most repitive part by far is validation. I understand why the angular-developers want to give us the freedom, of doing this stuff in the most flexible manner, but I personally like to keep things consistent, which is hard with how forms work out of the box.<code>ng-fab-form</code> tries solve all of those issues without requiring you to change anything. Just set your forms up as usual and let <code>ng-fab-form</code> do the rest for you. </p>
+<p><a href="https://github.com/johannesjo/ng-fab-form/issues">Bug-reports or feature request</a> as well as any other kind of <strong>feedback is highly welcome!</strong></p>
+<h2 id="getting-started">getting started</h2>
+<p>Install it via bower</p>
 <pre><code>bower install ng-fab-form angular-messages -S
-</code></pre>
+</code></pre><p>and add <code>ngFabForm</code> and <code>ngMessages</code> as dependency in your main module:</p>
+<pre><code>angular.module(&#39;yourApp&#39;,[
+  &#39;ngFabForm&#39;,
+  &#39;ngMessages&#39;
+]);
+</code></pre><p>That is all you need to do to get started.</p>
+<h3 id="features">features</h3>
+<p>Have a look at the <a href="http://johannesjo.github.io/ng-fab-form#demo">DEMO</a> or the <a href="http://plnkr.co/edit/EvJErlndub8JG2ktKeoZ?p=preview">plunkr</a> or another <a href="http://embed.plnkr.co/3GUMzQC4hcxBJnQUZkGn/preview">plunkr with nicer styles</a>!</p>
+<p>Keep in mind that if you don&#39;t like one of the functionalities, ng-fab-form is build with customization in mind. <strong>It&#39;s possible to disable almost any feature easily in your app configuration</strong>.</p>
+<p>It automatically:</p>
+<ul>
+<li>appends configurable validation messages (using <code>ng-messages</code>, <a href="https://docs.angularjs.org/api/ngMessages/directive/ngMessages">see</a>) to any element  with a validation directive on it like <code>required</code>, <code>ng-required</code>, <code>ng-pattern</code>, <code>ng-minlength</code> and even new ones added</li>
+<li>adds a validation directive in case you have an exception to the rule</li>
+<li>adds <code>name</code> attributes based on ng-model, if none is set</li>
+<li>adds a <code>novalidate</code> attribute to forms</li>
+<li>prevents submission of invalid forms</li>
+<li>adds an option to disable a form completly via a <code>disable-form</code> attribute</li>
+<li>adds a trigger to show field validations after the user tries to submmit</li>
+<li>prevents double submissions of forms when double clicked via a configurable delay</li>
+<li>scrolls to and focusses the first form element with an error, if the submission fails</li>
+<li>tries to set an asterisk to the corresponding label, if <code>required</code> or <code>ng-required</code> is set</li>
+<li>should work with any custom validation directive you have running in your project (as long as they&#39;re correctly working with the ngModel-Controller)</li>
+</ul>
+<h2 id="why-choose-ng-fab-form-over-another-form-helper-module-">why choose ng-fab-form over another form helper module?</h2>
+<p>There are a lot of <a href="https://github.com/search?o=desc&amp;q=angular+form&amp;s=stars&amp;type=Repositories&amp;utf8=%E2%9C%93">form builders and other modules with the intention of simplyfing form handling</a> out there. Why choose <code>ng-fab-form</code> then? First of all you likely will not have to choose one or the other as it should be compatible with every module using ngModel for validations and because you will probably be able to deactivate any conflicting functionalities (be sure to <a href="https://github.com/johannesjo/ng-fab-form/issues">report incompatibilties</a>). </p>
+<p>The reason why <code>ng-fab-form</code> was build, is that the modules I tried either take only a small part of the reptiveness out of your job or they take a framework-like approach and you&#39;re becoming very dependent on them, the markup they require and spit out, the functionalities they introduce and probably more important, those they don&#39;t introduce and those who hinder other features. This is not necessarily a bad thing and they might greatly improve your productivity, but if some project is discontinued or you find out, that you need a functionality you won&#39;t we be able to implement without a significant investment and the project owner doesn&#39;t care about, you&#39;re stuck. Sure make a fork, but we all know how they usually don&#39;t evolve beyond the scale of the current project. </p>
+<p>This is why <code>ng-fab-form</code> focusses on the basic angular functions and tries to extend them application-wide, while always giving you the option to throw out what doesn&#39;t fit in. Worst case scenario: You completely remove <code>ng-fab-form</code> because you don&#39;t like it and then you&#39;re back to standard angular, with probably almost no effort spend, almost no time wasted.</p>
+<h2 id="manual-installation-and-dependencies">manual installation and dependencies</h2>
+<p>Grab the minified <a href="https://github.com/johannesjo/ng-fab-form/blob/master/dist/ng-fab-form.min.js">ng-fab-form file</a> from the dist folder. You also need to install <a href="https://docs.angularjs.org/api/ngMessages/directive/ngMessages">ng-messags</a>, jQuery and <a href="https://github.com/private-face/jquery.bind-first">jquery.bind-first</a>. 
+There might be a jQuery-independend version in the future, but for now it is much easier and also safer to just rely on exeternal sources, when it comes to cross-browser-event-handling.</p>
+<h2 id="configuring-options">configuring options</h2>
+<p>Currently the configuration object of ng-fab-forms looks like this:</p>
+<pre><code>// validation template-url/templateId
+// to disable validation completely set it false
+template: &#39;default-validation-msgs.html&#39;,
 
-        <p>And add <code>ngFabForm</code> and <code>ngMessages</code> as dependency in your main module:</p>
+// show validation messages
+showValidationMsgs: true,
 
-<pre><code>angular.module('yourApp',[
-    'ngFabForm',
-    'ngMessages'
-    ]);
-</code></pre>
+// prevent submission of invalid forms
+preventInvalidSubmit: true,
 
-        <p>Thats all you need to do to get started.</p>
+// prevent double clicks
+preventDoubleSubmit: true,
 
-        <h2>
-            <a id="user-content-features"
-               class="anchor"
-               href="#features"
-               aria-hidden="true"><span class="octicon octicon-link"></span></a>features</h2>
+// double click delay duration
+preventDoubleSubmitTimeoutLength: 1000,
 
-        <p>Have a look at the <a href="http://johannesjo.github.io/ng-fab-form#demo">DEMO</a>!</p>
+// show validation-messages on failed submit
+setFormDirtyOnSubmit: true,
 
-        <p>Keep in mind that if you don't like one of the functionalities, ng-fab-form is build with customization in
-            mind. <strong>It's possible to disable almost any feature easily in your app configuration</strong>.</p>
+// autofocus first error-element
+scrollToAndFocusFirstErrorOnSubmit: true,
 
-        <p>It automatically:</p>
+// set either to fixed duration or to &#39;smooth&#39;
+// &#39;smooth&#39; means that the duration is calculated,
+// based on the distance to scroll (the more the faster it scrolls)
+scrollAnimationTime: &#39;smooth&#39;,
 
-        <ul class="task-list">
-            <li>appends configurable validation messages (using <code>ng-messages</code>,
-                <a href="https://docs.angularjs.org/api/ngMessages/directive/ngMessages">see</a>) to any element with a
-                validation directive on it like <code>required</code>, <code>ng-required</code>, <code>ng-pattern</code>,
-                <code>ng-minlength</code> and so on
-            </li>
-            <li>adds a validation directive in case you have an exception to the rule</li>
-            <li>adds <code>name</code> attributes based on ng-model, if none is set</li>
-            <li>adds a <code>novalidate</code> attribute to forms</li>
-            <li>prevents submission of invalid forms</li>
-            <li>adds an option to disable a form completly via a <code>disable-form</code> attribute</li>
-            <li>adds a trigger to show field validations after the user tries to submmit</li>
-            <li>prevents double submissions of forms when double clicked via a configurable delay</li>
-            <li>scrolls to and focusses the first form element with an error, if the submission fails</li>
-            <li>tries to set an asterisk to the corresponding label, if <code>required</code> or
-                <code>ng-required</code> is set
-            </li>
-            <li>should work with any custom validation directive you have running in your project (as long as they're
-                correctly working with the ngModel-Controller)
-            </li>
-        </ul>
+// fixed offset for scroll to elment
+scrollOffset: -100,
 
-        <h2>
-            <a id="user-content-configuring-options"
-               class="anchor"
-               href="#configuring-options"
-               aria-hidden="true"><span class="octicon octicon-link"></span></a>configuring options</h2>
+// option to disable forms by wrapping them in a disabled &lt;fieldset&gt; elment
+disabledForms: true,
 
-        <p>Currently the configuration object of ng-fab-forms looks like this:</p>
+// add noovalidate to forms
+setNovalidate: true,
 
-<pre><code>showErrorsOn: [
-    '$touched', // if element was focussed
-    '$dirty' // if element was edited
-    ],
+// set form-element names based on ngModel if not set
+setNamesByNgModel: true,
 
-    // add noovalidate to forms
-    setNovalidate: true,
+// add asterisk to required fields
+setAsteriskForRequiredLabel: false,
 
-    // add asterisk to required fields
-    setAsteriskForRequiredLabel: false,
+// asterisk string to be added if enabled
+asteriskStr: &#39;*&#39;,
 
-    // asterisk string to be added if enabled
-    asteriskStr: '*',
+// event-name-space, usually you won&#39;t need to change anything here
+eventNameSpace: &#39;ngFabForm&#39;,
 
-    // prevent submission of invalid forms
-    preventInvalidSubmit: true,
-
-    // prevent double clicks
-    preventDoubleSubmit: true,
-
-    // double click delay duration
-    preventDoubleSubmitTimeoutLength: 1000,
-
-    // show validation-messages on failed submit
-    setFormDirtyOnSubmit: true,
-
-    // autofocus first error-element
-    scrollToAndFocusFirstErrorOnSubmit: true,
-
-    // set either to fixed duration or to 'smooth'
-    // 'smooth' means that the duration is calculated,
-    // based on the distance to scroll (the more the faster it scrolls)
-    scrollAnimationTime: 'smooth',
-
-    // fixed offset for scroll to elment
-    scrollOffset: -100,
-
-    // option to disable forms by wrapping them in a disabled &lt;fieldset&gt; elment
-    disabledForms: true,
-
-    // event-name-space, usually you won't need to change anything here
-    eventNameSpace: 'ngFabForm',
-
-    // the validation message prefix, results for the default state
-    // `validation-msg-required` or `validation-msg-your-custom-validation`
-    validationMsgPrefix: 'validationMsg'
-
-    // uses advanced dynamic validations,e .g. for min and max
-    useAdvancedValidationMsgs: true,
-    dateFormat: 'dd.MM.yy',
-    timeFormat: 'HH:MM'
-</code></pre>
-
-        <p>You can easily extend those configurations like this;</p>
-
-        <div class="highlight highlight-javascript"><pre>angular.module(<span class="pl-s1"><span class="pl-pds">'</span>exampleApp<span class="pl-pds">'</span></span>, [
-    <span class="pl-s1"><span class="pl-pds">'</span>ngFabForm<span class="pl-pds">'</span></span>,
-    <span class="pl-s1"><span class="pl-pds">'</span>ngMessages<span class="pl-pds">'</span></span>
+// the validation message prefix, results for the default state
+// `validation-msg-required` or `validation-msg-your-custom-validation`
+validationMsgPrefix: &#39;validationMsg&#39;
+</code></pre><p>You can easily extend those configurations like this:</p>
+<pre><code class="lang-javascript">angular.module(&#39;exampleApp&#39;, [
+    &#39;ngFabForm&#39;,
+    &#39;ngMessages&#39;
 ])
-    .config(<span class="pl-st">function</span> (<span class="pl-vpf">ngFabFormProvider</span>)
+    .config(function (ngFabFormProvider)
     {
         ngFabFormProvider.extendConfig({
-            scrollToAndFocusFirstErrorOnSubmit<span class="pl-k">:</span> <span class="pl-c1">false</span>,
-            setNovalidate<span class="pl-k">:</span> <span class="pl-c1">false</span>
+            scrollToAndFocusFirstErrorOnSubmit: false,
+            setNovalidate: false
         });
     });
-</pre>
-        </div>
+</code></pre>
+<h2 id="create-your-own-validation-template">create your own validation template</h2>
+<p><code>ng-fab-form</code> comes with a reasonable default validation template, which is used for every form element with <code>ng-model</code> set, but you can easily create your own! You can use any attribute and directive, as you would with vanilla angular. In addition the input-element attributes are available for you convenience, too!</p>
+<pre><code class="lang-html">
+&lt;div ng-messages=&quot;field.$error&quot;
+     class=&quot;validation&quot;&gt;
+     &lt;!-- Show errors for invalid fields, when it has been either focused, has been changed or the user tried to submit the form without success (requires the setDirtyOnSubmit-option to be set--&gt;
+    &lt;ul class=&quot;list-unstyled validation-errors&quot;
+        ng-show=&quot;field.$invalid &amp;&amp; (field.$touched || field.$dirty || form.$triedSubmit)&quot;&gt;
+        &lt;li ng-message=&quot;required&quot;&gt;This field is required&lt;/li&gt;
+        &lt;li ng-message=&quot;password&quot;&gt;This is not a valid password&lt;/li&gt;
+        &lt;li ng-message=&quot;email&quot;&gt; This is not a valid email-address&lt;/li&gt;
+        &lt;li ng-message=&quot;pattern&quot;&gt;Your input does not match the requirements&lt;/li&gt;
+        &lt;li ng-message=&quot;date&quot;&gt;This is not a valid date&lt;/li&gt;
+        &lt;li ng-message=&quot;time&quot;&gt;This is not a valid time&lt;/li&gt;
+        &lt;li ng-message=&quot;datetime&quot;&gt; This is no valid datetime&lt;/li&gt;
+        &lt;li ng-message=&quot;datetime-local&quot;&gt;This is no valid local datetime&lt;/li&gt;
+        &lt;li ng-message=&quot;number&quot;&gt;This is no valid number&lt;/li&gt;
+        &lt;li ng-message=&quot;color&quot;&gt;This no valid color&lt;/li&gt;
+        &lt;li ng-message=&quot;range&quot;&gt;This is not a valid range&lt;/li&gt;
+        &lt;li ng-message=&quot;month&quot;&gt;This is not a valid month&lt;/li&gt;
+        &lt;li ng-message=&quot;url&quot;&gt;This is not a valid url&lt;/li&gt;
+        &lt;li ng-message=&quot;file&quot;&gt;This not a valid file&lt;/li&gt;
 
-        <h2>
-            <a id="user-content-configuring-default-messages"
-               class="anchor"
-               href="#configuring-default-messages"
-               aria-hidden="true"><span class="octicon octicon-link"></span></a>configuring default messages</h2>
+        &lt;!-- ng-fab-form provides you with access to the input-element-attributes, allowing you to display their values inside of the message--&gt;
+        &lt;li ng-message=&quot;minlength&quot;&gt;Your field should have at least {{ attrs.minlength }} characters&lt;/li&gt;
+        &lt;li ng-message=&quot;maxlength&quot;&gt;Your field should have max {{ attrs.maxlength }} characters&lt;/li&gt;
 
-        <p>Like the options, the default messages are an easily configurable ;</p>
+        &lt;li ng-if=&quot;attrs.type == &#39;time&#39; &quot;
+            ng-message=&quot;min&quot;&gt;The time provided should be no earlier than {{ attrs.min |date: &#39;HH:MM&#39; }}
+        &lt;/li&gt;
 
-        <div class="highlight highlight-javascript"><pre>angular.module(<span class="pl-s1"><span class="pl-pds">'</span>exampleApp<span class="pl-pds">'</span></span>, [
-    <span class="pl-s1"><span class="pl-pds">'</span>ngFabForm<span class="pl-pds">'</span></span>,
-    <span class="pl-s1"><span class="pl-pds">'</span>ngMessages<span class="pl-pds">'</span></span>
+        &lt;!-- you can use ng-if or ng-show for more advanced error messages --&gt;
+        &lt;li ng-message=&quot;max&quot;
+            ng-if=&quot;attrs.type == &#39;time&#39; &quot;&gt;The time should be no later than {{attrs.max |date: &#39;HH:MM&#39;}}
+        &lt;/li&gt;
+        &lt;li ng-message=&quot;min&quot;
+            ng-if=&quot;attrs.type == &#39;date&#39; &quot;&gt;The date provided should be no earlier than then {{attrs.max
+            |date:&#39;dd.MM.yy&#39;}}
+        &lt;/li&gt;        
+        &lt;li ng-message=&quot;max&quot;
+            ng-if=&quot;attrs.type == &#39;date&#39; &quot;&gt;The time should be no later than {{attrs.max |date: &#39;dd.MM.yy&#39;}}
+        &lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;!-- It is also possible to show a success element using the standard form syntax --&gt;
+    &lt;div class=&quot;validation-success&quot;
+         ng-show=&quot;field.$valid &amp;&amp; !field.$invalid&quot;&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<p>To load you own validations simply set the template url in your configuration:</p>
+<pre><code class="lang-javascript">angular.module(&#39;exampleApp&#39;, [
+    &#39;ngFabForm&#39;,
+    &#39;ngMessages&#39;
 ])
-    .config(<span class="pl-st">function</span> (<span class="pl-vpf">ngFabFormProvider</span>)
+    .config(function (ngFabFormProvider)
     {
-        ngFabFormProvider.extendValidationMessages({
-            required<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">'</span>This field is required!!!<span class="pl-pds">'</span></span>,
-            maxlength<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">'</span>Your input is way too long<span class="pl-pds">'</span></span>,
-            minlength<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">'</span>Your input is just short<span class="pl-pds">'</span></span>,
-            email<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">'</span>This is not a gmail-address<span class="pl-pds">'</span></span>
+        ngFabFormProvider.extendConfig({
+            validationsTemplate : &#39;path/to/your-fabolous-validation-template.html&#39;
         });
     });
-</pre>
-        </div>
-
-        <h2>
-            <a id="user-content-special-validations-eg-ng-pattern"
-               class="anchor"
-               href="#special-validations-eg-ng-pattern"
-               aria-hidden="true"><span class="octicon octicon-link"></span></a>special validations (e.g. ng-pattern)
-        </h2>
-
-        <p>Sometimes you might want to have another text for a specifc context. Special validation-messages like this
-            are easily added like this:</p>
-
-        <div class="highlight highlight-html"><pre>&lt;<span class="pl-ent">input</span> <span class="pl-e">type</span>=<span class="pl-s1"><span class="pl-pds">"</span>text<span class="pl-pds">"</span></span>
-       <span class="pl-e">mg-model</span>=<span class="pl-s1"><span class="pl-pds">"</span>my-model<span class="pl-pds">"</span></span>
-       <span class="pl-e">ng-pattern</span>=<span class="pl-s1"><span class="pl-pds">"</span>/abcdefg/<span class="pl-pds">"</span></span>
-       <span class="pl-e">vallidation-msg-pattern</span>=<span class="pl-s1"><span class="pl-pds">"</span>Not abcdefg :(<span class="pl-pds">"</span></span>&gt;</pre>
-        </div>
-
-        <h2>
-            <a id="user-content-advanced-validations-eg-min--max-display-attribute-value"
-               class="anchor"
-               href="#advanced-validations-eg-min--max-display-attribute-value"
-               aria-hidden="true"><span class="octicon octicon-link"></span></a>advanced validations (eg. min &amp; max
-            display attribute value)</h2>
-
-        <p>For some validation attributes it might be nice to to display the value provied, as the chracter count for
-            <code>minlength</code> or the earliest date, when using <code>min</code> for a date input field. If you want
-            to modify the default values provided or add mew ones, you can do that like this:</p>
-
-        <div class="highlight highlight-javascript"><pre>angular.module(<span class="pl-s1"><span class="pl-pds">'</span>exampleApp<span class="pl-pds">'</span></span>, [
-    <span class="pl-s1"><span class="pl-pds">'</span>ngFabForm<span class="pl-pds">'</span></span>,
-    <span class="pl-s1"><span class="pl-pds">'</span>ngMessages<span class="pl-pds">'</span></span>
+</code></pre>
+<h2 id="special-validations-e-g-ng-pattern-">special validations (e.g. ng-pattern)</h2>
+<p>Sometimes you might want to have another text for a specifc context. Special validation-messages like this are easily added like this:</p>
+<pre><code class="lang-html">&lt;input type=&quot;text&quot;
+       ng-model=&quot;my-model&quot;
+       ng-pattern=&quot;/abcdefg/&quot;
+       validation-msg-pattern=&quot;Not abcdefg :(&quot;&gt;
+</code></pre>
+<h2 id="advanced-configuration">advanced configuration</h2>
+<p>And edit where and how the messages are inserted in relation to their corresponding form-element:</p>
+<pre><code class="lang-javascript">angular.module(&#39;exampleApp&#39;, [
+    &#39;ngFabForm&#39;,
+    &#39;ngAnimate&#39;
 ])
-    .config(<span class="pl-st">function</span> (<span class="pl-vpf">ngFabFormProvider</span>)
+    .config(function (ngFabFormProvider)
     {
-        ngFabFormProvider.advancedValidations <span class="pl-k">=</span> [
-           <span class="pl-c">// for all inputs, textareas, and selects with...</span>
-        {
-            <span class="pl-c">// ...the attribute `maxlength` return the following validation message</span>
-             <span class="pl-en">maxlength</span>: <span class="pl-st">function</span> (<span class="pl-vpf">attrs</span>)
+        var customInsertFn = function (compiledAlert, el, attrs)
             {
-                <span class="pl-k">return</span> <span class="pl-s1"><span class="pl-pds">'</span>Your input should have max <span class="pl-pds">'</span></span> <span class="pl-k">+</span> attrs.maxlength <span class="pl-k">+</span> <span class="pl-s1"><span class="pl-pds">'</span> characters<span class="pl-pds">'</span></span>;
-            },
-            <span class="pl-en">minlength</span>: <span class="pl-st">function</span> (<span class="pl-vpf">attrs</span>)
-            {
-                <span class="pl-k">return</span> <span class="pl-s1"><span class="pl-pds">'</span>Your input should have at least <span class="pl-pds">'</span></span> <span class="pl-k">+</span> attrs.minlength <span class="pl-k">+</span> <span class="pl-s1"><span class="pl-pds">'</span> characters<span class="pl-pds">'</span></span>;
-            }
-        },
-        <span class="pl-c">// date-fields</span>
-        {
-           <span class="pl-c">// for all inputs with the attribute type="time"...</span>
-            type<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">'</span>time<span class="pl-pds">'</span></span>,
-            <span class="pl-c">// ...and the attribute min or...</span>
-            <span class="pl-en">min</span>: <span class="pl-st">function</span> (<span class="pl-vpf">attrs</span>)
-            {
-                <span class="pl-k">return</span> <span class="pl-s1"><span class="pl-pds">'</span>The time provided should be no earlier than {{"<span class="pl-pds">'</span></span> <span class="pl-k">+</span> attrs.min <span class="pl-k">+</span> <span class="pl-s1"><span class="pl-pds">'</span>"|date:"<span class="pl-pds">'</span></span> <span class="pl-k">+</span> config.timeFormat <span class="pl-k">+</span> <span class="pl-s1"><span class="pl-pds">'</span>"}}<span class="pl-pds">'</span></span>;
-            },
-            <span class="pl-c">// ... max return the following validation message.</span>
-            <span class="pl-en">max</span>: <span class="pl-st">function</span> (<span class="pl-vpf">attrs</span>)
-            {
-                <span class="pl-k">return</span> <span class="pl-s1"><span class="pl-pds">'</span>The time should be no later than {{"<span class="pl-pds">'</span></span> <span class="pl-k">+</span> attrs.max <span class="pl-k">+</span> <span class="pl-s1"><span class="pl-pds">'</span>"|date:"<span class="pl-pds">'</span></span> <span class="pl-k">+</span> config.timeFormat <span class="pl-k">+</span> <span class="pl-s1"><span class="pl-pds">'</span>"}}<span class="pl-pds">'</span></span>;
-            }
-        }
-        ];
-    });
-</pre>
-        </div>
-
-        <h2>
-            <a id="user-content-advanced-configuration"
-               class="anchor"
-               href="#advanced-configuration"
-               aria-hidden="true"><span class="octicon octicon-link"></span></a>advanced configuration</h2>
-
-        <p>Furthermore you can adjust the validation template to your needs:</p>
-
-        <div class="highlight highlight-javascript"><pre>angular.module(<span class="pl-s1"><span class="pl-pds">'</span>exampleApp<span class="pl-pds">'</span></span>, [
-    <span class="pl-s1"><span class="pl-pds">'</span>ngFabForm<span class="pl-pds">'</span></span>,
-    <span class="pl-s1"><span class="pl-pds">'</span>ngMessages<span class="pl-pds">'</span></span>
-])
-    .config(<span class="pl-st">function</span> (<span class="pl-vpf">ngFabFormProvider</span>)
-    {
-        <span class="pl-s">var</span> <span class="pl-en">customTplFn</span> <span class="pl-k">=</span> <span class="pl-st">function</span> (<span class="pl-vpf">ngShowCondition</span>, <span class="pl-vpf">formName</span>, <span class="pl-vpf">elName</span>, <span class="pl-vpf">messages</span>)
-            {
-                <span class="pl-s">var</span> msgs <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">'</span><span class="pl-pds">'</span></span>;
-                angular.forEach(messages, <span class="pl-st">function</span> (<span class="pl-vpf">msg</span>, <span class="pl-vpf">key</span>)
-                {
-                    msgs <span class="pl-k">+=</span> <span class="pl-s1"><span class="pl-pds">'</span>&lt;li ng-message="<span class="pl-pds">'</span></span> <span class="pl-k">+</span> key <span class="pl-k">+</span> <span class="pl-s1"><span class="pl-pds">'</span>"&gt;<span class="pl-pds">'</span></span> <span class="pl-k">+</span> msg <span class="pl-k">+</span> <span class="pl-s1"><span class="pl-pds">'</span>&lt;/li&gt;<span class="pl-pds">'</span></span>;
-                });
-
-                <span class="pl-k">return</span> <span class="pl-s1"><span class="pl-pds">'</span>&lt;div ng-show="<span class="pl-pds">'</span></span> <span class="pl-k">+</span> ngShowCondition <span class="pl-k">+</span> <span class="pl-s1"><span class="pl-pds">'</span>"<span class="pl-pds">'</span></span> <span class="pl-k">+</span>
-                    <span class="pl-s1"><span class="pl-pds">'</span>ng-messages="<span class="pl-pds">'</span></span> <span class="pl-k">+</span> formName <span class="pl-k">+</span> <span class="pl-s1"><span class="pl-pds">'</span>.<span class="pl-pds">'</span></span> <span class="pl-k">+</span> elName <span class="pl-k">+</span> <span class="pl-s1"><span class="pl-pds">'</span>.$error" <span class="pl-pds">'</span></span> <span class="pl-k">+</span>
-                    <span class="pl-s1"><span class="pl-pds">'</span>class="help-block with-errors"&gt;<span class="pl-pds">'</span></span> <span class="pl-k">+</span>
-                    <span class="pl-s1"><span class="pl-pds">'</span>&lt;ul class ="list-unstyled"&gt;<span class="pl-pds">'</span></span> <span class="pl-k">+</span>
-                    msgs <span class="pl-k">+</span>
-                    <span class="pl-s1"><span class="pl-pds">'</span>&lt;/ul&gt;&lt;/div&gt;<span class="pl-pds">'</span></span>;
-            };
-        ngFabFormProvider.setWrapperTplFunction(customTplFn);
-    });
-</pre>
-        </div>
-
-        <p>And edit where and how the messages are inserted in relation to their corresponding form-element:</p>
-
-        <div class="highlight highlight-javascript"><pre>angular.module(<span class="pl-s1"><span class="pl-pds">'</span>exampleApp<span class="pl-pds">'</span></span>, [
-    <span class="pl-s1"><span class="pl-pds">'</span>ngFabForm<span class="pl-pds">'</span></span>,
-    <span class="pl-s1"><span class="pl-pds">'</span>ngAnimate<span class="pl-pds">'</span></span>
-])
-    .config(<span class="pl-st">function</span> (<span class="pl-vpf">ngFabFormProvider</span>)
-    {
-        <span class="pl-s">var</span> <span class="pl-en">customInsertFn</span> <span class="pl-k">=</span> <span class="pl-st">function</span> (<span class="pl-vpf">compiledAlert</span>, <span class="pl-vpf">el</span>, <span class="pl-vpf">attrs</span>)
-            {
-                <span class="pl-c">// insert after or after parent if checkbox or radio</span>
-                <span class="pl-k">if</span> (attrs.<span class="pl-sc">type</span> <span class="pl-k">===</span> <span class="pl-s1"><span class="pl-pds">'</span>checkbox<span class="pl-pds">'</span></span> <span class="pl-k">||</span> attrs.<span class="pl-sc">type</span> <span class="pl-k">===</span> <span class="pl-s1"><span class="pl-pds">'</span>radio<span class="pl-pds">'</span></span>) {
-                    el.<span class="pl-sc">parent</span>().after(compiledAlert);
-                } <span class="pl-k">else</span> {
+                // insert after or after parent if checkbox or radio
+                if (attrs.type === &#39;checkbox&#39; || attrs.type === &#39;radio&#39;) {
+                    el.parent().after(compiledAlert);
+                } else {
                     el.after(compiledAlert);
                 }
             };
         ngFabFormProvider.setInsertErrorTplFn(customInsertFn);
     });
-</pre>
-        </div>
-
-        <h2>
-            <a id="user-content--contribute-"
-               class="anchor"
-               href="#-contribute-"
-               aria-hidden="true"><span class="octicon octicon-link"></span></a>❤ contribute ❤</h2>
-
-        <p>I'm happy for any <a href="https://github.com/johannesjo/ng-fab-form/issues">issue or feature request</a>,
-            you might encounter or want to have. Even a one liner is better, than no feedback at all. Pull requests are
-            also highly welcome. Just fork the repository, clone it and run <code>grunt serve</code> for development.
-        </p>
-
-        <p><code>ng-fab-form</code> is published under the
-            <a href="https://github.com/johannesjo/ng-fab-form/blob/master/LICENSE">The GNU Lesser General Public
-                License V2.1</a>.</p>
-    </article>
+</code></pre>
+<h2 id="-contribute-">❤ contribute ❤</h2>
+<p>I&#39;m happy for any <a href="https://github.com/johannesjo/ng-fab-form/issues">issue or feature request</a>, you might encounter or want to have. Even a one liner is better, than no feedback at all. Pull requests are also highly welcome. Just fork the repository, clone it and run <code>grunt serve</code> for development.</p>
+<p><code>ng-fab-form</code> is published under the <a href="https://github.com/johannesjo/ng-fab-form/blob/master/LICENSE">The GNU Lesser General Public License V2.1</a>.</p>
 
 </div>
 <hr>
@@ -412,7 +319,6 @@
                 style="width: 100%;min-height: 700px; border: none;"></iframe>
     </div>
 
-
     <div ng-include="'example1.html'"
          class="example"></div>
 </div>
@@ -421,6 +327,19 @@
     <a name="discussion"></a>
 
     <h2>Discussion</h2>
+    <!-- Begin Super Simple Survey code for . -->
+
+    <script src="http://www.supersimplesurvey.com/scripts/embed/1.0/survey.js" type="text/javascript"></script>
+    <script type="text/javascript" charset="utf-8">
+        SuperSimpleSurvey.Init({
+            survey_id: 10518,
+            x: "right",
+            y: "top",
+            color: "blue"
+        });
+    </script>
+
+    <!-- /End Super Simple Survey code -->
 
     <div id="disqus_thread"></div>
     <script type="text/javascript">
