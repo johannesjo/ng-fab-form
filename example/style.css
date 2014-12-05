@@ -177,3 +177,6 @@ select:focus {
     color:      #fff;
 }
 
+.validation-errors{
+    color: #ca3854;
+}

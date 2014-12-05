@@ -2,8 +2,7 @@
      class="validation">
     <ul class="list-unstyled validation-errors"
         ng-show="field.$invalid && (field.$touched || field.$dirty || form.$triedSubmit)">
-        <li class="test"></li>
-        <li ng-message="required">You did not enter a field</li>
+        <li ng-message="required">This field is required</li>
         <li ng-message="password">This is not a valid password</li>
         <li ng-message="email"> This is not a valid email-address</li>
         <li ng-message="pattern">Your input does not match the requirements</li>

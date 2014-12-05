@@ -14,7 +14,8 @@ module.exports = function (grunt)
     var appConfig = {
         app: 'src',
         example: 'example',
-        dist: 'dist'
+        dist: 'dist',
+        tpl: 'src/templates'
     };
     // Define the configuration for all the tasks
     grunt.initConfig({
@@ -25,15 +26,24 @@ module.exports = function (grunt)
                 interrupt: true,
                 spawn: true
             },
+            validationMsgs: {
+                files: ['<%= appConfig.tpl %>/*.html'],
+                tasks: ['ngtemplates:ngFabForm']
+            },
             bower: {
                 files: ['bower.json'],
                 tasks: ['wiredep:dev']
             },
             js: {
-                files: ['<%= appConfig.app %>/**/*.js', '<%= appConfig.example %>/**/*.js'],
+                files: [
+                    '<%= appConfig.app %>/**/*.js',
+                    '<%= appConfig.example %>/**/*.js',
+                    '<%= appConfig.src%>/default-validation-msgs.js'
+                ],
                 tasks: [
                     'newer:jshint:all',
-                    'fileblocks:all'
+                    'fileblocks:index',
+                    'fileblocks:dev'
                 ],
                 options: {
                     livereload: '<%= connect.options.livereload %>'
@@ -69,7 +79,7 @@ module.exports = function (grunt)
             },
             livereload: {
                 options: {
-                    //open: false,
+                    open: 'http://localhost:9000/dev.html',
                     middleware: function (connect)
                     {
                         return [
@@ -119,7 +129,8 @@ module.exports = function (grunt)
             all: {
                 src: [
                     'Gruntfile.js',
-                    '<%= appConfig.app %>/**/*.js'
+                    '<%= appConfig.app %>/**/*.js',
+                    '!<%= appConfig.app %>/default-validation-msgs.js'
                 ]
             }
         },
@@ -243,6 +254,14 @@ module.exports = function (grunt)
             }
         },
 
+        ngtemplates: {
+            ngFabForm: {
+                cwd: 'src/templates',
+                src: '*.html',
+                dest: 'src/default-validation-msgs.js'
+            }
+        },
+
 
 // ngmin tries to make the code safe for minification automatically by
 // using the Angular long form for dependency injection. It doesn't work on
@@ -315,9 +334,9 @@ module.exports = function (grunt)
         },
 
         md2html: {
-            one_file :{
+            one_file: {
                 options: {
-                    layout:'<%= appConfig.dist %>/example/index.html',
+                    layout: '<%= appConfig.dist %>/example/index.html',
                 },
                 files: [{
                     src: ['*.md'],
@@ -402,6 +421,7 @@ module.exports = function (grunt)
 
         grunt.task.run([
             'clean:server',
+            'ngtemplates',
             'fileblocks:dev',
             'wiredep:dev',
             'connect:livereload',
@@ -416,6 +436,7 @@ module.exports = function (grunt)
             'clean:dist',
             'wiredep:dist',
             'fileblocks',
+            'ngtemplates',
             'copy:bowerComponentsToTmp',
             'jshint:all',
             //'karma:unitSingleRun',

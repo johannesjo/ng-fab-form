@@ -10,7 +10,7 @@ angular.module('ngFabForm')
         var config = {
             // template-url/templateId
             // to disable validation alltogether set it false
-            template: 'validation-msgs.html',
+            template: 'default-validation-msgs.html',
 
             // show validation messages
             showValidationMsgs: true,
