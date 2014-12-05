@@ -25,7 +25,7 @@ angular.module('ngFabForm')
                 {
                     var formCtrl = controllers[0],
                         ngModelCtrl = controllers[1],
-                        validationsTpl = ngFabForm.config.template;
+                        validationsTpl = ngFabForm.config.validationsTemplate;
 
                     // apply validation messages
                     // only if required controllers and validators are set

@@ -32,7 +32,7 @@ Keep in mind that if you don't like one of the functionalities, ng-fab-form is b
 
 It automatically:
 
-* appends configurable validation messages (using `ng-messages`, [see](https://docs.angularjs.org/api/ngMessages/directive/ngMessages)) to any element  with a validation directive on it like `required`, `ng-required`, `ng-pattern`, `ng-minlength` and so on
+* appends configurable validation messages (using `ng-messages`, [see](https://docs.angularjs.org/api/ngMessages/directive/ngMessages)) to any element  with a validation directive on it like `required`, `ng-required`, `ng-pattern`, `ng-minlength` and even new ones added
 * adds a validation directive in case you have an exception to the rule
 * adds `name` attributes based on ng-model, if none is set
 * adds a `novalidate` attribute to forms
@@ -64,37 +64,30 @@ There might be a jQuery-independend version in the future, but for now it is muc
 
 Currently the configuration object of ng-fab-forms looks like this:
 ```
-showErrorsOn: [
-    '$touched', // if element was focussed 
-    '$dirty' // if element was edited
-],
+// validation template-url/templateId
+// to disable validation completely set it false
+template: 'default-validation-msgs.html',
 
-// add noovalidate to forms
-setNovalidate: true, 
-
-// add asterisk to required fields
-setAsteriskForRequiredLabel: false, 
-
-// asterisk string to be added if enabled
-asteriskStr: '*', 
+// show validation messages
+showValidationMsgs: true,
 
 // prevent submission of invalid forms
 preventInvalidSubmit: true,
 
-// prevent double clicks 
-preventDoubleSubmit: true, 
+// prevent double clicks
+preventDoubleSubmit: true,
 
 // double click delay duration
-preventDoubleSubmitTimeoutLength: 1000, 
+preventDoubleSubmitTimeoutLength: 1000,
 
 // show validation-messages on failed submit
-setFormDirtyOnSubmit: true, 
+setFormDirtyOnSubmit: true,
 
 // autofocus first error-element
-scrollToAndFocusFirstErrorOnSubmit: true, 
+scrollToAndFocusFirstErrorOnSubmit: true,
 
 // set either to fixed duration or to 'smooth'
-// 'smooth' means that the duration is calculated, 
+// 'smooth' means that the duration is calculated,
 // based on the distance to scroll (the more the faster it scrolls)
 scrollAnimationTime: 'smooth',
 
@@ -104,17 +97,24 @@ scrollOffset: -100,
 // option to disable forms by wrapping them in a disabled <fieldset> elment
 disabledForms: true,
 
+// add noovalidate to forms
+setNovalidate: true,
+
+// set form-element names based on ngModel if not set
+setNamesByNgModel: true,
+
+// add asterisk to required fields
+setAsteriskForRequiredLabel: false,
+
+// asterisk string to be added if enabled
+asteriskStr: '*',
+
 // event-name-space, usually you won't need to change anything here
 eventNameSpace: 'ngFabForm',
 
 // the validation message prefix, results for the default state
 // `validation-msg-required` or `validation-msg-your-custom-validation`
 validationMsgPrefix: 'validationMsg'
-
-// uses advanced dynamic validations,e .g. for min and max
-useAdvancedValidationMsgs: true,
-dateFormat: 'dd.MM.yy',
-timeFormat: 'HH:MM'
 ```
 You can easily extend those configurations like this:
 ```javascript
@@ -132,9 +132,59 @@ angular.module('exampleApp', [
 
 ```
 
-## configuring default messages
+## create your own validation template
 
-Like the options, the default messages are an easily configurable:
+`ng-fab-form` comes with a reasonable default validation template, which is used for every form element with `ng-model` set, but you can easily create your own! You can use any attribute and directive, as you would with vanilla angular. In addition the input-element attributes are available for you convenience, too!
+```html
+
+<div ng-messages="field.$error"
+     class="validation">
+     <!-- Show errors for invalid fields, when it has been either focused, has been changed or the user tried to submit the form without success (requires the setDirtyOnSubmit-option to be set-->
+    <ul class="list-unstyled validation-errors"
+        ng-show="field.$invalid && (field.$touched || field.$dirty || form.$triedSubmit)">
+        <li ng-message="required">This field is required</li>
+        <li ng-message="password">This is not a valid password</li>
+        <li ng-message="email"> This is not a valid email-address</li>
+        <li ng-message="pattern">Your input does not match the requirements</li>
+        <li ng-message="date">This is not a valid date</li>
+        <li ng-message="time">This is not a valid time</li>
+        <li ng-message="datetime"> This is no valid datetime</li>
+        <li ng-message="datetime-local">This is no valid local datetime</li>
+        <li ng-message="number">This is no valid number</li>
+        <li ng-message="color">This no valid color</li>
+        <li ng-message="range">This is not a valid range</li>
+        <li ng-message="month">This is not a valid month</li>
+        <li ng-message="url">This is not a valid url</li>
+        <li ng-message="file">This not a valid file</li>
+
+        <!-- ng-fab-form provides you with access to the input-element-attributes, allowing you to display their values inside of the message-->
+        <li ng-message="minlength">Your field should have at least {{ attrs.minlength }} characters</li>
+        <li ng-message="maxlength">Your field should have max {{ attrs.maxlength }} characters</li>
+
+        <li ng-if="attrs.type == 'time' "
+            ng-message="min">The time provided should be no earlier than {{ attrs.min |date: 'HH:MM' }}
+        </li>
+        
+        <!-- you can use ng-if or ng-show for more advanced error messages -->
+        <li ng-message="max"
+            ng-if="attrs.type == 'time' ">The time should be no later than {{attrs.max |date: 'HH:MM'}}
+        </li>
+        <li ng-message="min"
+            ng-if="attrs.type == 'date' ">The date provided should be no earlier than then {{attrs.max
+            |date:'dd.MM.yy'}}
+        </li>        
+        <li ng-message="max"
+            ng-if="attrs.type == 'date' ">The time should be no later than {{attrs.max |date: 'dd.MM.yy'}}
+        </li>
+    </ul>
+    <!-- It is also possible to show a success element using the standard form syntax -->
+    <div class="validation-success"
+         ng-show="field.$valid && !field.$invalid">
+    </div>
+</div>
+
+```
+To load you own validations simply set the template url in your configuration:
 ```javascript
 angular.module('exampleApp', [
     'ngFabForm',
@@ -142,15 +192,12 @@ angular.module('exampleApp', [
 ])
     .config(function (ngFabFormProvider)
     {
-        ngFabFormProvider.extendValidationMessages({
-            required: 'This field is required!!!',
-            maxlength: 'Your input is way too long',
-            minlength: 'Your input is just short',
-            email: 'This is not a gmail-address'
+        ngFabFormProvider.extendConfig({
+            validationsTemplate : 'path/to/your-fabolous-validation-template.html'
         });
     });
-
 ```
+
 
 ## special validations (e.g. ng-pattern)
 
@@ -162,81 +209,10 @@ Sometimes you might want to have another text for a specifc context. Special val
        validation-msg-pattern="Not abcdefg :(">
 ```
 
-## advanced validations (eg. min & max display attribute value)
-
-For some validation attributes it might be nice to to display the value provied, as the character count for `minlength` or the earliest date, when using `min` for a date input field. If you want to modify the default values provided or add new ones, you can do that like this:
-
-```javascript
-angular.module('exampleApp', [
-    'ngFabForm',
-    'ngMessages'
-])
-    .config(function (ngFabFormProvider)
-    {
-        ngFabFormProvider.advancedValidations = [
-           // for all inputs, textareas, and selects with...
-        {
-            // ...the attribute `maxlength` return the following validation message
-             maxlength: function (attrs)
-            {
-                return 'Your input should have max ' + attrs.maxlength + ' characters';
-            },
-            minlength: function (attrs)
-            {
-                return 'Your input should have at least ' + attrs.minlength + ' characters';
-            }
-        },
-        // date-fields
-        {
-           // for all inputs with the attribute type="time"...
-            type: 'time',
-            // ...and the attribute min or...
-            min: function (attrs)
-            {
-                return 'The time provided should be no earlier than {{"' + attrs.min + '"|date:"' + config.timeFormat + '"}}';
-            },
-            // ... max return the following validation message.
-            max: function (attrs)
-            {
-                return 'The time should be no later than {{"' + attrs.max + '"|date:"' + config.timeFormat + '"}}';
-            }
-        }
-        ];
-    });
-    
-```
 
 
 ## advanced configuration
 
-Furthermore you can adjust the validation template to your needs:
-
-```javascript
-angular.module('exampleApp', [
-    'ngFabForm',
-    'ngMessages'
-])
-    .config(function (ngFabFormProvider)
-    {
-        var customTplFn = function (ngShowCondition, formName, elName, messages)
-            {
-                var msgs = '';
-                angular.forEach(messages, function (msg, key)
-                {
-                    msgs += '<li ng-message="' + key + '">' + msg + '</li>';
-                });
-
-                return '<div ng-show="' + ngShowCondition + '"' +
-                    'ng-messages="' + formName + '.' + elName + '.$error" ' +
-                    'class="help-block with-errors">' +
-                    '<ul class ="list-unstyled">' +
-                    msgs +
-                    '</ul></div>';
-            };
-        ngFabFormProvider.setWrapperTplFunction(customTplFn);
-    });
-    
-```
 
 And edit where and how the messages are inserted in relation to their corresponding form-element:
 
