@@ -1,0 +1,92 @@
+<div class="row">
+    <div class="col-md-8">
+        <h3>Example Form</h3>
+        <form role="form"
+              name="exampleForm3"
+              ng-submit="submit()"
+              novalidate="">
+            <div class="form-group">
+                <label class="control-label">Email (required)
+                </label>
+                <input type="email"
+                       class="form-control"
+                       placeholder="Email"
+                       ng-model="formData3.email"
+                       required>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Password (required)
+                </label>
+                <input type="password"
+                       class="form-control"
+                       id="inputPassword1"
+                       placeholder="Password"
+                       ng-model="formData3.password"
+                       required>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox"
+                               required
+                               ng-model="formData3.check">
+                        Checkbox (required)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label">required & ng-pattern (/asd/) with validation-msg-required attribute
+                </label>
+                <input type="text"
+                       class="form-control"
+                       placeholder="TestText"
+                       ng-pattern="/^asd$/i"
+                       validation-msg-pattern="Not asd :("
+                       name="text"
+                       required=""
+                       ng-model="formData3.patternRequired">
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">required & maxlength(5) with validation-msg-required attribute
+                </label>
+                <input type="text"
+                       class="form-control"
+                       placeholder="TestText"
+                       ng-maxlength="5"
+                       required
+                       validation-msg-required="CUSTOM REQUIRED-MSG FTW!"
+                       ng-model="formData3.requiredMaxlength">
+            </div>
+
+            <div class="form-group">
+                <label>Textarea (required & ng-minlength(4))</label>
+        <textarea ng-model="formData3.textarea"
+                  ng-minlength="4"
+                  class="form-control"
+                  required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Select (required)</label>
+                <select ng-model="formData3.select"
+                        class="form-control"
+                        required>
+                    <option value=""></option>
+                    <option value="aa">aaa</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <button type="submit"
+                        class="btn">Submit Form
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<br>
+<br>
+<br>
+<br>
+

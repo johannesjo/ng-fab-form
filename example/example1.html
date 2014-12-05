@@ -1,222 +1,225 @@
-<h3>Example Form</h3>
+<div class="row">
 
-<form role="form"
-      ng-fab-form
-      name="exampleForm"
-      ng-submit="submit()"
-      novalidate="">
-    <div class="form-group">
-        <label class="control-label">Email (required)
-        </label>
-        <input type="email"
-               class="form-control"
-               placeholder="Email"
-               ng-model="formData.email"
-               required>
-    </div>
-    <div class="form-group">
-        <label class="control-label">Password (required)
-        </label>
-        <input type="password"
-               class="form-control"
-               id="inputPassword1"
-               placeholder="Password"
-               ng-model="formData.password"
-               required>
-    </div>
-    <div class="form-group">
-        <div class="checkbox">
-            <label>
-                <input type="checkbox"
+    <div class="col-sm-6">
+        <h3>Example Form</h3>
+
+        <form role="form"
+              ng-fab-form
+              name="exampleForm"
+              ng-submit="submit()"
+              novalidate="">
+            <div class="form-group">
+                <label class="control-label">Email (required)
+                </label>
+                <input type="email"
+                       class="form-control"
+                       placeholder="Email"
+                       ng-model="formData.email"
+                       required>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Password (required)
+                </label>
+                <input type="password"
+                       class="form-control"
+                       id="inputPassword1"
+                       placeholder="Password"
+                       ng-model="formData.password"
+                       required>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox"
+                               required
+                               ng-model="formData.check">
+                        Checkbox (required)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label">required & ng-pattern (/asd/) with validation-msg-required attribute
+                </label>
+                <input type="text"
+                       class="form-control"
+                       placeholder="TestText"
+                       ng-pattern="/^asd$/i"
+                       validation-msg-pattern="Not asd :("
+                       name="text"
+                       required=""
+                       ng-model="formData.patternRequired">
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">required & maxlength(5) with validation-msg-required attribute
+                </label>
+                <input type="text"
+                       class="form-control"
+                       placeholder="TestText"
+                       ng-maxlength="5"
                        required
-                       ng-model="formData.check">
-                Checkbox (required)
-            </label>
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label">required & ng-pattern (/asd/) with validation-msg-required attribute
-        </label>
-        <input type="text"
-               class="form-control"
-               placeholder="TestText"
-               ng-pattern="/^asd$/i"
-               validation-msg-pattern="Not asd :("
-               name="text"
-               required=""
-               ng-model="formData.patternRequired">
-    </div>
+                       validation-msg-required="CUSTOM REQUIRED-MSG FTW!"
+                       ng-model="formData.requiredMaxlength">
+            </div>
 
-    <div class="form-group">
-        <label class="control-label">required & maxlength(5) with validation-msg-required attribute
-        </label>
-        <input type="text"
-               class="form-control"
-               placeholder="TestText"
-               ng-maxlength="5"
-               required
-               validation-msg-required="CUSTOM REQUIRED-MSG FTW!"
-               ng-model="formData.requiredMaxlength">
-    </div>
-
-    <div class="form-group">
-        <label>non required</label>
-        <input type="text"
-               class="form-control"
-               placeholder="TestText"
-               ng-model="formData.nonRequired">
-    </div>
+            <div class="form-group">
+                <label>non required</label>
+                <input type="text"
+                       class="form-control"
+                       placeholder="TestText"
+                       ng-model="formData.nonRequired">
+            </div>
 
 
-    <div class="form-group">
-        <label>Textarea (required & ng-minlength(4))</label>
+            <div class="form-group">
+                <label>Textarea (required & ng-minlength(4))</label>
         <textarea ng-model="formData.textarea"
                   ng-minlength="4"
                   class="form-control"
                   required></textarea>
-    </div>
+            </div>
 
-    <div class="form-group">
-        <label>Select (required)</label>
-        <select ng-model="formData.select"
-                class="form-control"
-                required>
-            <option value=""></option>
-            <option value="aa">aaa</option>
-        </select>
-    </div>
-
-
-    <div class="form-group">
-        <label>Input without ngModel (does not do anything)</label>
-        <input type="text"
-               class="form-control"
-               placeholder="TestText"
-               required="">
-    </div>
-    <div class="form-group">
-        <button type="submit"
-                class="btn btn-primary">Submit Form
-        </button>
-    </div>
-</form>
-
-<hr>
-<div class="form-group">
-    <label>Input outside form (required) does/should not work</label>
-
-    <input type="text"
-           class="form-control"
-           placeholder="TestText"
-           required=""
-           ng-model="aaatestText2">
-</div>
-
-<hr>
+            <div class="form-group">
+                <label>Select (required)</label>
+                <select ng-model="formData.select"
+                        class="form-control"
+                        required>
+                    <option value=""></option>
+                    <option value="aa">aaa</option>
+                </select>
+            </div>
 
 
-<h3>Advanced Validations</h3>
+            <div class="form-group">
+                <label>Input without ngModel (does not do anything)</label>
+                <input type="text"
+                       class="form-control"
+                       placeholder="TestText"
+                       required="">
+            </div>
+            <div class="form-group">
+                <button type="submit"
+                        class="btn btn-primary">Submit Form
+                </button>
+            </div>
+        </form>
 
-<form name="form2"
-      ng-submit="submit()">
-    <div class="form-group">
-        <label for="customName">date (required, min=2014-01-02, max=2015-03-03)</label>
-        <input type="date"
-               class="form-control"
-               placeholder="date"
-               required=""
-               min="2014-01-02"
-               max="2015-03-03"
-               ng-model="otherForm.date">
-    </div>
-
-    <div class="form-group">
-        <label for="customName">date (required, min=15:55, max=17:00)</label>
-        <input type="time"
-               class="form-control"
-               placeholder="time"
-               required=""
-               min="15:55"
-               max="17:00"
-               ng-model="otherForm.time">
-    </div>
-
-
-    <div class="form-group">
-        <label for="customName">required</label>
-
-        <input type="text"
-               class="form-control"
-               placeholder="TestText"
-               required=""
-               id="customName"
-               name="customName"
-               ng-model="otherForm.text">
-    </div>
-    <button type="submit"
-            class="btn btn-primary">Submit Form
-    </button>
-</form>
-
-
-<h3>With some non aggressive focus errors css</h3>
-
-
-<div class="trick">
-    <form name="form3"
-          ng-submit="submit()">
-
+        <hr>
         <div class="form-group">
-            <label class="control-label">required
-            </label>
+            <label>Input outside form (required) does/should not work</label>
+
             <input type="text"
                    class="form-control"
                    placeholder="TestText"
                    required=""
-                   ng-model="form3Data.required">
+                   ng-model="aaatestText2">
         </div>
 
-        <div class="form-group">
-            <label class="control-label">required & ng-pattern (/asd/) with validation-msg-required attribute
-            </label>
-            <input type="text"
-                   class="form-control"
-                   placeholder="TestText"
-                   ng-pattern="/^asd$/i"
-                   validation-msg-pattern="Not asd :("
-                   name="text"
-                   required=""
-                   ng-model="form3Data.patternRequired">
+        <hr>
+
+
+        <h3>Advanced Validations</h3>
+
+        <form name="form2"
+              ng-submit="submit()">
+            <div class="form-group">
+                <label for="customName">date (required, min=2014-01-02, max=2015-03-03)</label>
+                <input type="date"
+                       class="form-control"
+                       placeholder="date"
+                       required=""
+                       min="2014-01-02"
+                       max="2015-03-03"
+                       ng-model="otherForm.date">
+            </div>
+
+            <div class="form-group">
+                <label for="customName">date (required, min=15:55, max=17:00)</label>
+                <input type="time"
+                       class="form-control"
+                       placeholder="time"
+                       required=""
+                       min="15:55"
+                       max="17:00"
+                       ng-model="otherForm.time">
+            </div>
+
+
+            <div class="form-group">
+                <label for="customName">required</label>
+
+                <input type="text"
+                       class="form-control"
+                       placeholder="TestText"
+                       required=""
+                       id="customName"
+                       name="customName"
+                       ng-model="otherForm.text">
+            </div>
+            <button type="submit"
+                    class="btn btn-primary">Submit Form
+            </button>
+        </form>
+
+
+        <h3>With some non aggressive focus errors css</h3>
+
+
+        <div class="trick">
+            <form name="form3"
+                  ng-submit="submit()">
+
+                <div class="form-group">
+                    <label class="control-label">required
+                    </label>
+                    <input type="text"
+                           class="form-control"
+                           placeholder="TestText"
+                           required=""
+                           ng-model="form3Data.required.deeper">
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">required & ng-pattern (/asd/) with validation-msg-required attribute
+                    </label>
+                    <input type="text"
+                           class="form-control"
+                           placeholder="TestText"
+                           ng-pattern="/^asd$/i"
+                           validation-msg-pattern="Not asd :("
+                           name="text"
+                           required=""
+                           ng-model="form3Data.patternRequired">
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">required & maxlength(5) with validation-msg-required attribute
+                    </label>
+                    <input type="text"
+                           class="form-control"
+                           placeholder="TestText"
+                           ng-maxlength="5"
+                           required
+                           validation-msg-required="This is really required!"
+                           ng-model="form3Data.requiredMaxlength">
+                </div>
+                <button type="submit"
+                        class="btn btn-primary">Submit Form
+                </button>
+            </form>
         </div>
+    </div>
 
-        <div class="form-group">
-            <label class="control-label">required & maxlength(5) with validation-msg-required attribute
-            </label>
-            <input type="text"
-                   class="form-control"
-                   placeholder="TestText"
-                   ng-maxlength="5"
-                   required
-                   validation-msg-required="This is really required!"
-                   ng-model="form3Data.requiredMaxlength">
-        </div>
-        <button type="submit"
-                class="btn btn-primary">Submit Form
-        </button>
-    </form>
-</div>
+    <div class="col-sm-6">
+        <h3>Form-Data</h3>
+        <pre>{{ formData|json}}</pre>
 
-<h3>Form-Data</h3>
-<pre>{{ formData|json}}</pre>
+        <h3>Config-Options</h3>
+        <pre>{{ formOpt|json}}</pre>
 
-<h3>Config-Options</h3>
-<pre>{{ formOpt|json}}</pre>
-
-<h3>Validation Messages</h3>
-<pre>{{ validationMessages|json}}</pre>
-
-<div class="trick">
-
+        <h3>Validation Messages</h3>
+        <pre>{{ validationMessages|json}}</pre>
+    </div>
 
 </div>
 

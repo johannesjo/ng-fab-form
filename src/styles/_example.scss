@@ -1,0 +1,31 @@
+.form-group {
+    position: relative;
+}
+
+.anchor {
+    display: none;
+}
+
+.main-header {
+    background:     #000;
+    padding-bottom: 15px;
+    color:          #eee;
+}
+
+.main-header h1 {
+    color: #eee;
+}
+
+p.header {
+    font-style: italic;
+}
+
+.motto {
+    font-size: 16px;
+}
+
+.help-block .list-unstyled {
+    padding: 0;
+    margin:  0;
+    display: block;
+}

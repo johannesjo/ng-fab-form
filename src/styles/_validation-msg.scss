@@ -1,0 +1,208 @@
+// variables
+$c-success: #62b14c;
+$c-error: #c00640;
+$c-info: #63bff8;
+$p-left-right: 10px;
+$height: 20px;
+$f-size: 14px;
+$error-wrapper: '.help-block';
+$form-elements: 'input, textarea, select';
+$check-size: 40px;
+
+@mixin hideError() {
+    li {
+        display: none;
+    }
+}
+
+@mixin showError() {
+    li {
+        display: block;
+    }
+}
+
+@mixin hideSuccess() {
+    &:before {
+        opacity:    0 !important;
+        transition: all ease-out 0.52s;
+    }
+}
+
+@mixin showSuccess() {
+    &:before {
+        opacity:          1;
+        transition:       all ease-out 0.52s;
+        transform:        rotate(360deg);
+        transition-delay: 0.3s;
+    }
+}
+
+// all messages
+#{$error-wrapper} {
+    &:after {
+        clear: both;
+    }
+    color:      #fff;
+    margin:     0;
+    padding:    0 $p-left-right;
+    position:   relative;
+    font-size:  $f-size;
+    overflow:   visible;
+    background: $c-error;
+
+    // child error
+    li {
+        display:          block;
+        height:           $height;
+        line-height:      $height;
+        background:       $c-error;
+        position:         absolute;
+        right:            -$height/6;
+        top:              -$height/2;
+        margin-right:     0;
+        text-align:       center;
+        font-weight:      bold;
+        min-width:        20%;
+        padding:          0 $p-left-right;
+        color:            #fff;
+        z-index:          2;
+        transform:        rotate(0deg);
+        transition:       all ease-out 0.2s;
+        opacity:          1;
+        transition-delay: 0s;
+
+        &.ng-enter {
+            transition-delay: 1s;
+            opacity:          0;
+            transform:        rotate(-20deg);
+            margin-right:     -$height*2;
+            transition:       all ease-in 0.0s;
+        }
+        &.ng-leave {
+            transition: all ease-in 0.0s;
+            opacity:    0;
+        }
+    }
+
+    // success pseudo
+    .ng-valid + &:before {
+        opacity:       0;
+        display:       block;
+        position:      absolute;
+        right:         -$check-size/2;
+        bottom:        -$check-size/2;
+        font-size:     $check-size/1.5;
+        width:         $check-size;
+        height:        $check-size;
+        line-height:   $check-size;
+        background:    #fff;
+        border:        1px solid $c-success;
+        border-top:    0;
+        border-left:   0;
+        border-bottom: 0;
+        text-align:    center;
+        border-radius: $check-size;
+        z-index:       20;
+        color:         $c-success;
+        content:       '\e013';
+        font-family:   'Glyphicons Halflings';
+
+    }
+    .ng-valid.ng-invalid + &:before {
+        opacity: 0;
+    }
+
+    // when hidden show success
+    &.ng-hide {
+        // always show container
+        display: block !important;
+        @include hideError();
+        @include showSuccess();
+    }
+
+    // focused elements
+    *:focus + & {
+        // show all (initially, might be overwritten depending on state)
+        @include showError();
+        li {
+            background-color: $c-info;
+        }
+    }
+    *:focus + &.ng-hide {
+        // make error to info
+        @include hideError();
+        @include showSuccess();
+    }
+}
+
+input,
+textarea,
+select {
+
+    &.ng-touched.ng-invalid:not(.ng-valid) {
+        border-color: $c-error;
+    }
+    &:focus,
+    &:focus.ng-touched.ng-invalid:not(.ng-valid) {
+        border-color: $c-info;
+    }
+    &.ng-valid-required {
+        &.ng-valid:not(.ng-invalid) {
+            border-color: $c-success;
+        }
+    }
+}
+
+// Basic animation timings
+.ng-hide-add.ng-hide-add-active * {
+    opacity:          0.1;
+    transform:        rotate(-30deg);
+    margin-right:     -220px;
+    transition:       all ease-in 0.0s;
+    transition-delay: 0s;
+    //    opacity:            1;
+}
+
+.ng-hide-remove.ng-hide-remove-active li {
+    opacity:          0.1;
+    transform:        rotate(-20deg);
+    margin-right:     -$height*2;
+    transition:       all ease-in 0.0s;
+    transition-delay: 0s;
+}
+
+form[class*="ng-invalid"] button.btn {
+    background: $c-info !important;
+
+    &:after {
+        opacity: 0;
+        color:   $c-info;
+    }
+}
+
+form button.btn {
+    transition:  all ease-in 0.5s;
+    background:  $c-success;
+    font-weight: bold !important;
+    &:after {
+        border:         1px solid darken($c-success, 20%);
+        transition:     all ease-in 0.5s;
+        font-size:      $check-size/3.5;
+        background:     $c-success;
+        width:          $check-size/2;
+        margin-right:   -9px;
+        height:         $check-size/2;
+        line-height:    $check-size/2;
+        display:        inline-block;
+        vertical-align: middle;
+        background:     #fff;
+        text-align:     center;
+        border-radius:  $check-size/2;
+        z-index:        20;
+        color:          $c-success;
+        content:        '\e013';
+        font-family:    'Glyphicons Halflings';
+        opacity:        1;
+    }
+}
+
