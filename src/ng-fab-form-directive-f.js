@@ -11,7 +11,7 @@ angular.module('ngFabForm')
             {
                 // only execute if ng-model is present and
                 // no name attr is set already
-                if (attrs.ngModel && !attrs.name) {
+                if (ngFabForm.config.setNamesByNgModel && attrs.ngModel && !attrs.name) {
                     // set name attribute if none is set
                     var newNameAttr = attrs.ngModel.replace(/\./g, '_');
                     el.attr('name', newNameAttr);
@@ -24,20 +24,27 @@ angular.module('ngFabForm')
                 return function (scope, el, attrs, controllers)
                 {
                     var formCtrl = controllers[0],
-                        ngModelCtrl = controllers[1];
+                        ngModelCtrl = controllers[1],
+                        validationsTpl = ngFabForm.config.template;
 
-                    // only execute if there is a form and model controller
-                    var tpl = ngFabForm.config.template;
-                    if (formCtrl && ngModelCtrl && tpl) {
+                    // apply validation messages
+                    // only if required controllers and validators are set
+                    if (ngFabForm.config.showValidationMsgs && formCtrl && ngModelCtrl && validationsTpl && (Object.keys(ngModelCtrl.$validators).length !== 0)) {
+
                         // load validation directive template
-                        $templateRequest(tpl)
+                        $templateRequest(validationsTpl)
                             .then(function processTemplate(html)
                             {
+                                // add custom (attr) validations
+                                html = ngFabForm.addCustomValidations(html, ngModelCtrl.$validators, attrs);
+
+                                // create new scope for validation messages
                                 var privateScope = $rootScope.$new(true);
-                                //privateScope.params = alertParams;
                                 privateScope.attrs = attrs;
+                                privateScope.form = scope[formCtrl.$name];
                                 privateScope.field = scope[formCtrl.$name][ngModelCtrl.$name];
-                                privateScope.error = scope[formCtrl.$name][ngModelCtrl.$name].$error;
+
+                                // compile and insert messages
                                 var compiledAlert = $compile(html)(privateScope);
                                 ngFabForm.insertErrorTpl(compiledAlert, el, attrs);
                             });
@@ -56,8 +63,7 @@ angular.module('ngFabForm')
                             }
                         }
                     }
-                }
-                    ;
+                };
             }
         };
     });

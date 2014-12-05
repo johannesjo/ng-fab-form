@@ -10,7 +10,10 @@ angular.module('ngFabForm')
         var config = {
             // template-url/templateId
             // to disable validation alltogether set it false
-            template: 'ng-fab-form-default-validation.tpl.html',
+            template: 'validation-msgs.html',
+
+            // show validation messages
+            showValidationMsgs: true,
 
             // prevent submission of invalid forms
             preventInvalidSubmit: true,
@@ -41,6 +44,9 @@ angular.module('ngFabForm')
             // add noovalidate to forms
             setNovalidate: true,
 
+            // set form-element names based on ngModel if not set
+            setNamesByNgModel: true,
+
             // add asterisk to required fields
             setAsteriskForRequiredLabel: false,
 
@@ -60,14 +66,29 @@ angular.module('ngFabForm')
         // SERVICE-FUNCTIONS
         // *****************
         var insertErrorTpl = function (compiledAlert, el, attrs)
-        {
-            // insert after or after parent if checkbox or radio
-            if (attrs.type === 'checkbox' || attrs.type === 'radio') {
-                el.parent().after(compiledAlert);
-            } else {
-                el.after(compiledAlert);
-            }
-        };
+            {
+                // insert after or after parent if checkbox or radio
+                if (attrs.type === 'checkbox' || attrs.type === 'radio') {
+                    el.parent().after(compiledAlert);
+                } else {
+                    el.after(compiledAlert);
+                }
+            },
+            addCustomValidations = function (html, validators, attrs)
+            {
+                var container = angular.element('<div/>').html(html);
+                angular.forEach(attrs, function (attr, attrKey)
+                {
+                    var regExp = new RegExp(config.validationMsgPrefix);
+                    if (attrKey.match(regExp)) {
+                        var sanitizedKey = attrKey.replace(config.validationMsgPrefix, '');
+                        sanitizedKey = sanitizedKey.charAt(0).toLowerCase() + sanitizedKey.slice(1);
+                        var message = container.find('[ng-message="' + sanitizedKey + '"]');
+                        message.text(attr);
+                    }
+                });
+                return container;
+            };
 
 
         // *************************
@@ -93,7 +114,8 @@ angular.module('ngFabForm')
             {
                 return {
                     insertErrorTpl: insertErrorTpl,
-                    config: config,
+                    addCustomValidations: addCustomValidations,
+                    config: config
                 };
             }
         };
