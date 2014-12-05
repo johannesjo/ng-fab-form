@@ -114,7 +114,8 @@ angular.module('ngFabForm')
                 var scrollActualAnimationTime = scrollAnimationTime;
                 el.bindFirst('submit.' + eventNameSpace, function ()
                 {
-                    var scrollTargetEl = el.find('.ng-invalid')[0];
+                    var scrollTargetEl = el.find('.ng-invalid').first();
+                    scrollTargetEl.addClass('is-scroll-target');
                     if (scrollTargetEl && formCtrl.$invalid) {
                         var scrollTop = $(scrollTargetEl).offset().top + scrollOffset;
                         if (scrollAnimationTime) {
@@ -126,6 +127,7 @@ angular.module('ngFabForm')
                             }, scrollActualAnimationTime, function ()
                             {
                                 scrollTargetEl.focus();
+                                scrollTargetEl.removeClass('is-scroll-target');
                             });
                         } else {
                             window.scrollTo(0, scrollTop);
