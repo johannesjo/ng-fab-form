@@ -32,17 +32,18 @@ Keep in mind that if you don't like one of the functionalities, ng-fab-form is b
 
 It automatically:
 
-* appends configurable validation messages (using `ng-messages`, [see](https://docs.angularjs.org/api/ngMessages/directive/ngMessages)) to any element  with a validation directive on it like `required`, `ng-required`, `ng-pattern`, `ng-minlength` and even new ones added
+* appends **configurable validation messages** (using `ng-messages`, [see](https://docs.angularjs.org/api/ngMessages/directive/ngMessages)) to any element  with a validation directive on it like `required`, `ng-required`, `ng-pattern`, `ng-minlength` and even new ones added
+* **prevents submission of invalid forms**
+* adds an option to **disable a form completly** via a `disable-form` attribute
+* adds a trigger to **show field validations after submmit**
+* **prevents double submissions** of forms when double clicked via a configurable delay
+* **works with any custom validation directive** you have running in your project (as long as they're correctly working with the ngModel-Controller)
+* **compatibility**  with most other form modules
 * adds a validation directive in case you have an exception to the rule
 * adds `name` attributes based on ng-model, if none is set
 * adds a `novalidate` attribute to forms
-* prevents submission of invalid forms
-* adds an option to disable a form completly via a `disable-form` attribute
-* adds a trigger to show field validations after the user tries to submmit
-* prevents double submissions of forms when double clicked via a configurable delay
 * scrolls to and focusses the first form element with an error, if the submission fails
 * tries to set an asterisk to the corresponding label, if `required` or `ng-required` is set
-* should work with any custom validation directive you have running in your project (as long as they're correctly working with the ngModel-Controller)
 
 
 ## why choose ng-fab-form over another form helper module?
