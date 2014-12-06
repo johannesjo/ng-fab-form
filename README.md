@@ -135,8 +135,10 @@ angular.module('exampleApp', [
 ## create your own validation template
 
 `ng-fab-form` comes with a reasonable default validation template, which is used for every form element with `ng-model` set, but you can easily create your own! You can use any attribute and directive, as you would with vanilla angular. In addition the input-element attributes are available for you convenience, too!
-```html
 
+This is what the default validation template looks like:
+```html
+<!-- Default Validation Template -->
 <div ng-messages="field.$error"
      class="validation">
      <!-- Show errors for invalid fields, when it has been either focused, has been changed or the user tried to submit the form without success (requires the setDirtyOnSubmit-option to be set-->
