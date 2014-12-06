@@ -126,17 +126,18 @@
 <p>Keep in mind that if you don&#39;t like one of the functionalities, ng-fab-form is build with customization in mind. <strong>It&#39;s possible to disable almost any feature easily in your app configuration</strong>.</p>
 <p>It automatically:</p>
 <ul>
-<li>appends configurable validation messages (using <code>ng-messages</code>, <a href="https://docs.angularjs.org/api/ngMessages/directive/ngMessages">see</a>) to any element  with a validation directive on it like <code>required</code>, <code>ng-required</code>, <code>ng-pattern</code>, <code>ng-minlength</code> and even new ones added</li>
+<li>appends <strong>configurable validation messages</strong> (using <code>ng-messages</code>, <a href="https://docs.angularjs.org/api/ngMessages/directive/ngMessages">see</a>) to any element  with a validation directive on it like <code>required</code>, <code>ng-required</code>, <code>ng-pattern</code>, <code>ng-minlength</code> and even new ones added</li>
+<li><strong>prevents submission of invalid forms</strong></li>
+<li>adds an option to <strong>disable a form completly</strong> via a <code>disable-form</code> attribute</li>
+<li>adds a trigger to <strong>show field validations after submmit</strong></li>
+<li><strong>prevents double submissions</strong> of forms when double clicked via a configurable delay</li>
+<li><strong>works with any custom validation directive</strong> you have running in your project (as long as they&#39;re correctly working with the ngModel-Controller)</li>
+<li><strong>compatibility</strong>  with most other form modules</li>
 <li>adds a validation directive in case you have an exception to the rule</li>
 <li>adds <code>name</code> attributes based on ng-model, if none is set</li>
 <li>adds a <code>novalidate</code> attribute to forms</li>
-<li>prevents submission of invalid forms</li>
-<li>adds an option to disable a form completly via a <code>disable-form</code> attribute</li>
-<li>adds a trigger to show field validations after the user tries to submmit</li>
-<li>prevents double submissions of forms when double clicked via a configurable delay</li>
 <li>scrolls to and focusses the first form element with an error, if the submission fails</li>
 <li>tries to set an asterisk to the corresponding label, if <code>required</code> or <code>ng-required</code> is set</li>
-<li>should work with any custom validation directive you have running in your project (as long as they&#39;re correctly working with the ngModel-Controller)</li>
 </ul>
 <h2 id="why-choose-ng-fab-form-over-another-form-helper-module-">why choose ng-fab-form over another form helper module?</h2>
 <p>There are a lot of <a href="https://github.com/search?o=desc&amp;q=angular+form&amp;s=stars&amp;type=Repositories&amp;utf8=%E2%9C%93">form builders and other modules with the intention of simplyfing form handling</a> out there. Why choose <code>ng-fab-form</code> then? First of all you likely will not have to choose one or the other as it should be compatible with every module using ngModel for validations and because you will probably be able to deactivate any conflicting functionalities (be sure to <a href="https://github.com/johannesjo/ng-fab-form/issues">report incompatibilties</a>). </p>
