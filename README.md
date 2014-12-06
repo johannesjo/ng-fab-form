@@ -246,7 +246,15 @@ I'm happy for any [issue or feature request](https://github.com/johannesjo/ng-fa
 `ng-fab-form` is published under the [The GNU Lesser General Public License V2.1](https://github.com/johannesjo/ng-fab-form/blob/master/LICENSE).
 
 
+## (possible) fabulous future features
 
+* themeable autowrappers for form elements: switch between bootstrap style forms, to semantic-ui, to foundation, to ionic and back.
+* grunt templating tasks
+* full unit and e2e testing
+* implement native javascript wherever possible
+* better documentation, e.g.: how to use and create vanilla angular `$validators`
+* moularized grunt file structure
+* [your feature request](https://github.com/johannesjo/ng-fab-form/issues)!
 
 
 
