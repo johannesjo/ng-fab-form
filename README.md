@@ -26,7 +26,7 @@ That is all you need to do to get started.
 
 ### features
 
-Have a look at the [DEMO](http://johannesjo.github.io/ng-fab-form#demo) or the [plunkr](http://plnkr.co/edit/3GUMzQC4hcxBJnQUZkGn?p=preview)!
+Have a look at the [DEMO](http://johannesjo.github.io/ng-fab-form#demo) or the [plunkr](http://plnkr.co/edit/8vCSPw?p=preview)!
 
 Keep in mind that if you don't like one of the functionalities, ng-fab-form is build with customization in mind. **It's possible to disable almost any feature easily in your app configuration**.
 
@@ -182,8 +182,8 @@ angular.module('exampleApp', [
          ng-show="field.$valid && !field.$invalid">
     </div>
 </div>
-
 ```
+
 To load you own validations simply set the template url in your configuration:
 ```javascript
 angular.module('exampleApp', [
@@ -193,10 +193,15 @@ angular.module('exampleApp', [
     .config(function (ngFabFormProvider)
     {
         ngFabFormProvider.extendConfig({
-            validationsTemplate : 'path/to/your-fabolous-validation-template.html'
+            validationsTemplate : 'path/to/your-fabulous-validation-template.html'
         });
     });
 ```
+
+#### create and share
+You can use this [plunkr  as base for your fabulous creation](http://plnkr.co/edit/wVW8ih?p=info)! Think you created something useful? Then share it!!! Either provide a pull-request or leave a comment on the [projects public page](http://johannesjo.github.io/ng-fab-form/). 
+
+If you provie a pull-reqest, please use a feature-branch. The commit should usually contain two files: A html template and a scss-file.
 
 
 ## special validations (e.g. ng-pattern)
