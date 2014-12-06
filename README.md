@@ -132,9 +132,19 @@ angular.module('exampleApp', [
 
 ```
 
-## create your own validation template
+## special validations (e.g. ng-pattern)
 
-`ng-fab-form` comes with a reasonable default validation template, which is used for every form element with `ng-model` set, but you can easily create your own! You can use any attribute and directive, as you would with vanilla angular. In addition the input-element attributes are available for you convenience, too!
+Sometimes you might want to have another text for a specifc context. Special validation-messages like this are easily added like this:
+```html
+<input type="text"
+       ng-model="my-model"
+       ng-pattern="/abcdefg/"
+       validation-msg-pattern="Not abcdefg :(">
+```
+
+## default validations and creating your own validation template
+
+`ng-fab-form` comes with a reasonable default validation template, which is used for every form element with `ng-model` set. But you can easily create your own if you don't like the either the messages or the markup! In your own template you can use any attribute and directive, as you would with vanilla angular. In addition the input-element attributes are available for you convenience, too!
 
 This is what the default validation template looks like:
 ```html
@@ -204,18 +214,6 @@ angular.module('exampleApp', [
 You can use this [plunkr  as base for your fabulous creation](http://plnkr.co/edit/wVW8ih?p=info)! Think you created something useful? Then share it!!! Either provide a pull-request or leave a comment on the [projects public page](http://johannesjo.github.io/ng-fab-form/). 
 
 If you provie a pull-reqest, please use a feature-branch. The commit should usually contain two files: A html template and a scss-file.
-
-
-## special validations (e.g. ng-pattern)
-
-Sometimes you might want to have another text for a specifc context. Special validation-messages like this are easily added like this:
-```html
-<input type="text"
-       ng-model="my-model"
-       ng-pattern="/abcdefg/"
-       validation-msg-pattern="Not abcdefg :(">
-```
-
 
 
 ## advanced configuration
