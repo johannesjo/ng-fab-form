@@ -68,9 +68,6 @@ Currently the configuration object of ng-fab-forms looks like this:
 // to disable validation completely set it false
 template: 'default-validation-msgs.html',
 
-// show validation messages
-showValidationMsgs: true,
-
 // prevent submission of invalid forms
 preventInvalidSubmit: true,
 
