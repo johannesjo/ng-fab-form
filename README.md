@@ -26,7 +26,7 @@ That is all you need to do to get started.
 
 ### features
 
-Have a look at the [DEMO](http://johannesjo.github.io/ng-fab-form#demo) or the [plunkr](http://plnkr.co/edit/EvJErlndub8JG2ktKeoZ?p=preview) or another [plunkr with nicer styles](http://embed.plnkr.co/3GUMzQC4hcxBJnQUZkGn/preview)!
+Have a look at the [DEMO](http://johannesjo.github.io/ng-fab-form#demo) or the [plunkr](http://plnkr.co/edit/EvJErlndub8JG2ktKeoZ?p=preview)!
 
 Keep in mind that if you don't like one of the functionalities, ng-fab-form is build with customization in mind. **It's possible to disable almost any feature easily in your app configuration**.
 
@@ -97,7 +97,7 @@ scrollOffset: -100,
 // option to disable forms by wrapping them in a disabled <fieldset> elment
 disabledForms: true,
 
-// add noovalidate to forms
+// add novalidate to forms
 setNovalidate: true,
 
 // set form-element names based on ngModel if not set
@@ -214,7 +214,7 @@ Sometimes you might want to have another text for a specifc context. Special val
 ## advanced configuration
 
 
-And edit where and how the messages are inserted in relation to their corresponding form-element:
+You can edit where and how the messages are inserted in relation to their corresponding form-element:
 
 ```javascript
 angular.module('exampleApp', [
