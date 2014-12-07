@@ -10,10 +10,9 @@
           content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- bower:css -->
-    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
     <!-- endbower -->
     <link rel="stylesheet"
-          href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+          href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
 
     <link rel="stylesheet"
           href="//cdnjs.cloudflare.com/ajax/libs/octicons/2.1.2/octicons.css">
@@ -139,6 +138,7 @@
 <li>scrolls to and focusses the first form element with an error, if the submission fails</li>
 <li>tries to set an asterisk to the corresponding label, if <code>required</code> or <code>ng-required</code> is set</li>
 </ul>
+<p>Want a little help and the same flexibility with your form-markup? Then <a href="https://github.com/johannesjo/angular-auto-forms">check out ng-fab-forms little companion <strong>angular-auto-forms</strong></a>!!</p>
 <h2 id="why-choose-ng-fab-form-over-another-form-helper-module-">why choose ng-fab-form over another form helper module?</h2>
 <p>There are a lot of <a href="https://github.com/search?o=desc&amp;q=angular+form&amp;s=stars&amp;type=Repositories&amp;utf8=%E2%9C%93">form builders and other modules with the intention of simplyfing form handling</a> out there. Why choose <code>ng-fab-form</code> then? First of all you likely will not have to choose one or the other as it should be compatible with every module using ngModel for validations and because you will probably be able to deactivate any conflicting functionalities (be sure to <a href="https://github.com/johannesjo/ng-fab-form/issues">report incompatibilties</a>). </p>
 <p>The reason why <code>ng-fab-form</code> was build, is that the modules I tried either take only a small part of the reptiveness out of your job or they take a framework-like approach and you&#39;re becoming very dependent on them, the markup they require and spit out, the functionalities they introduce and probably more important, those they don&#39;t introduce and those who hinder other features. This is not necessarily a bad thing and they might greatly improve your productivity, but if some project is discontinued or you find out, that you need a functionality you won&#39;t we be able to implement without a significant investment and the project owner doesn&#39;t care about, you&#39;re stuck. Sure make a fork, but we all know how they usually don&#39;t evolve beyond the scale of the current project. </p>
@@ -401,7 +401,6 @@ validationMsgPrefix: &#39;validationMsg&#39;
 <script src="bower_components/angular-messages/angular-messages.js"></script>
 <script src="bower_components/jquery.bind-first/release/jquery.bind-first-0.2.3.min.js"></script>
 <script src="bower_components/angular-animate/angular-animate.js"></script>
-<script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
 <!-- endbower -->
 
 <script src="ng-fab-form.min.js"></script>
