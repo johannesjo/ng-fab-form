@@ -45,6 +45,8 @@ It automatically:
 * scrolls to and focusses the first form element with an error, if the submission fails
 * tries to set an asterisk to the corresponding label, if `required` or `ng-required` is set
 
+Want a little help and the same flexibility with your form-markup? Then [check out ng-fab-forms little companion **angular-auto-forms**](https://github.com/johannesjo/angular-auto-forms)!!
+
 
 ## why choose ng-fab-form over another form helper module?
 
@@ -245,7 +247,6 @@ angular.module('exampleApp', [
 I'm happy for any [issue or feature request](https://github.com/johannesjo/ng-fab-form/issues), you might encounter or want to have. Even a one liner is better, than no feedback at all. Pull requests are also highly welcome. Just fork the repository, clone it and run `grunt serve` for development.
 
 `ng-fab-form` is published under the [The GNU Lesser General Public License V2.1](https://github.com/johannesjo/ng-fab-form/blob/master/LICENSE).
-
 
 ## (possible) fabulous future features
 
