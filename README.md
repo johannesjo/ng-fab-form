@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/johannesjo/ng-fab-form.png?label=ready&title=Ready)](https://waffle.io/johannesjo/ng-fab-form)
 ng-fab-form
 ===========
 
