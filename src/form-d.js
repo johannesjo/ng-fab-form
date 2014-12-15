@@ -31,15 +31,20 @@ angular.module('ngFabForm')
 
             scrollToAndFocusFirstErrorOnSubmit = function (el, formCtrl, scrollAnimationTime, scrollOffset)
             {
-                if (!window.$) {
-                    throw 'scroll-to requires jQuery to be installed';
-                } else {
-                    var scrollActualAnimationTime = scrollAnimationTime;
+                var scrollTargetEl = el[0].querySelector('.ng-invalid');
+                if (scrollTargetEl && formCtrl.$invalid) {
+                    var scrollTop = scrollTargetEl.offsetTop + scrollOffset;
 
-                    var scrollTargetEl = el.find('.ng-invalid').first();
-                    scrollTargetEl.addClass('is-scroll-target');
-                    if (scrollTargetEl && formCtrl.$invalid) {
-                        var scrollTop = $(scrollTargetEl).offset().top + scrollOffset;
+                    // if no jquery just go to element
+                    if (!window.$ || !scrollAnimationTime) {
+                        window.scrollTo(0, scrollTop);
+                        scrollTargetEl.focus();
+                    }
+
+                    // otherwise scroll to element
+                    else {
+                        var scrollActualAnimationTime = scrollAnimationTime;
+                        scrollTargetEl.addClass('is-scroll-target');
                         if (scrollAnimationTime) {
                             if (scrollAnimationTime === 'smooth') {
                                 scrollActualAnimationTime = (Math.abs(window.scrollY - scrollTop)) / 4 + 200;
@@ -51,8 +56,6 @@ angular.module('ngFabForm')
                                 scrollTargetEl.focus();
                                 scrollTargetEl.removeClass('is-scroll-target');
                             });
-                        } else {
-                            window.scrollTo(0, scrollTop);
                         }
                     }
                 }
@@ -65,14 +68,16 @@ angular.module('ngFabForm')
             require: 'form',
             compile: function (el, attrs)
             {
+                var config = angular.copy(ngFabForm.config);
+
                 var formCtrlInCompile,
                     scopeInCompile,
                     formSubmitDisabledTimeout,
-                    formSubmitDisabledTimeoutLength = ngFabForm.config.preventDoubleSubmitTimeoutLength;
+                    formSubmitDisabledTimeoutLength = config.preventDoubleSubmitTimeoutLength;
 
 
                 // autoset novalidate
-                if (!attrs.novalidate && ngFabForm.config.setNovalidate) {
+                if (!attrs.novalidate && config.setNovalidate) {
                     // set name attribute if none is set
                     el.attr('novalidate', true);
                     attrs.novalidate = true;
@@ -83,7 +88,7 @@ angular.module('ngFabForm')
                 el.bind('submit', function (ev)
                 {
                     // set dirty if option is set
-                    if (ngFabForm.config.setFormDirtyOnSubmit) {
+                    if (config.setFormDirtyOnSubmit) {
                         scopeInCompile.$apply(function ()
                         {
                             formCtrlInCompile.$triedSubmit = true;
@@ -91,12 +96,12 @@ angular.module('ngFabForm')
                     }
 
                     // prevent submit for invalid if option is set
-                    if (ngFabForm.config.preventInvalidSubmit && !formCtrlInCompile.$valid) {
+                    if (config.preventInvalidSubmit && !formCtrlInCompile.$valid) {
                         preventFormSubmit(ev);
                     }
 
                     // prevent double submission if option is set
-                    else if (ngFabForm.config.preventDoubleSubmit) {
+                    else if (config.preventDoubleSubmit) {
                         if (formCtrlInCompile.$preventDoubleSubmit) {
                             preventFormSubmit(ev);
                         }
@@ -113,8 +118,8 @@ angular.module('ngFabForm')
                         }, formSubmitDisabledTimeoutLength);
                     }
 
-                    if (ngFabForm.config.scrollToAndFocusFirstErrorOnSubmit) {
-                        scrollToAndFocusFirstErrorOnSubmit(el, formCtrlInCompile, ngFabForm.config.scrollAnimationTime, ngFabForm.config.scrollOffset);
+                    if (config.scrollToAndFocusFirstErrorOnSubmit) {
+                        scrollToAndFocusFirstErrorOnSubmit(el, formCtrlInCompile, config.scrollAnimationTime, config.scrollOffset);
                     }
                 });
                 // /SUBMISSION HANDLING
@@ -135,7 +140,7 @@ angular.module('ngFabForm')
                      */
 
 
-                    if (ngFabForm.config.disabledForms) {
+                    if (config.disabledForms) {
                         setupDisabledForms(el, attrs);
                     }
 
@@ -150,4 +155,5 @@ angular.module('ngFabForm')
                 };
             }
         };
-    });
+    })
+;
