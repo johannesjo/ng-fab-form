@@ -53,9 +53,6 @@ angular.module('ngFabForm')
             // asterisk string to be added if enabled
             asteriskStr: '*',
 
-            // event-name-space, usually you won't need to change anything here
-            eventNameSpace: 'ngFabForm',
-
             // the validation message prefix, results for the default state
             // `validation-msg-required` or `validation-msg-your-custom-validation`
             validationMsgPrefix: 'validationMsg'
