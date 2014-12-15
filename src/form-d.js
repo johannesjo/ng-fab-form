@@ -95,7 +95,26 @@ angular.module('ngFabForm')
 
                 var formCtrlInCompile,
                     scopeInCompile,
-                    formSubmitDisabledTimeout;
+                    formSubmitDisabledTimeout,
+                    newFormName;
+
+                // error helper for unique name issues
+                if (attrs.name) {
+                    if (formNames.indexOf(attrs.name) > -1) {
+                        newFormName = attrs.name + formNames.length;
+                        console.warn('ngFabForm: duplicate form name "' + attrs.name + '", setting name to: ' + newFormName);
+                    } else {
+                        formNames.push(attrs.name);
+                    }
+                } else {
+                    newFormName = 'ngFabForm' + formNames.length;
+                    console.warn('ngFabForm: all forms should have a unique name set, setting name to: ' + newFormName);
+                }
+                if (newFormName) {
+                    el.attr('name', newFormName);
+                    attrs.name = newFormName;
+                }
+
 
                 // autoset novalidate
                 if (!attrs.novalidate && cfg.setNovalidate) {
@@ -157,18 +176,6 @@ angular.module('ngFabForm')
                     formCtrl.$triedSubmit = false;
                     formCtrl.$preventDoubleSubmit = false;
                     formCtrl.ngFabFormConfig = cfg;
-
-
-                    // error helper
-                    if (formCtrl.$name) {
-                        if (formNames.indexOf(formCtrl.$name) > -1) {
-                            throw 'ngFabForm: duplicate form name "' + formCtrl.$name + '"';
-                        } else {
-                            formNames.push(formCtrl.$name);
-                        }
-                    } else {
-                        throw 'ngFabForm: all forms should have a unique name set';
-                    }
 
 
                     // disabledForm 'directive'
