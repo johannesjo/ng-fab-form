@@ -108,11 +108,8 @@ setNamesByNgModel: true,
 // add asterisk to required fields
 setAsteriskForRequiredLabel: false,
 
-// asterisk string to be added if enabled
+// asterisk string to be added if enabled (requires jQuery)
 asteriskStr: '*',
-
-// event-name-space, usually you won't need to change anything here
-eventNameSpace: 'ngFabForm',
 
 // the validation message prefix, results for the default state
 // `validation-msg-required` or `validation-msg-your-custom-validation`
