@@ -106,7 +106,9 @@
 </header>
 
 <div class="container">
-    <h1 id="ng-fab-form">ng-fab-form</h1>
+    <p><a href="http://waffle.io/johannesjo/ng-fab-form"><img src="https://badge.waffle.io/johannesjo/ng-fab-form.svg?label=ready&amp;title=Ready" alt="Stories in Ready"></a> 
+<a href="http://waffle.io/johannesjo/ng-fab-form"><img src="https://badge.waffle.io/johannesjo/ng-fab-form.svg?label=in%20progress&amp;title=In%20Progress" alt="Stories in progress"></a> </p>
+<h1 id="ng-fab-form">ng-fab-form</h1>
 <p><em>Convenient forms for Angular with no extra markup? Fabulous!</em></p>
 <p>AngularJS forms are pretty nice. But if you have worked with angular for a while, you&#39;ll find that the out of the box mechanics like the instant validation are far from perfect from the common users perspective. Furthermore you probably catch yourself declaring (and sometimes forgetting) the same stuff on and on again like giving a <code>novalidate</code> attribute, preventing submission for invalid forms or declaring a proper name attribute. </p>
 <p>The most repitive part by far is validation. I understand why the angular-developers want to give us the freedom, of doing this stuff in the most flexible manner, but I personally like to keep things consistent, which is hard with how forms work out of the box.<code>ng-fab-form</code> tries solve all of those issues without requiring you to change anything. Just set your forms up as usual and let <code>ng-fab-form</code> do the rest for you. </p>
@@ -144,8 +146,7 @@
 <p>The reason why <code>ng-fab-form</code> was build, is that the modules I tried either take only a small part of the reptiveness out of your job or they take a framework-like approach and you&#39;re becoming very dependent on them, the markup they require and spit out, the functionalities they introduce and probably more important, those they don&#39;t introduce and those who hinder other features. This is not necessarily a bad thing and they might greatly improve your productivity, but if some project is discontinued or you find out, that you need a functionality you won&#39;t we be able to implement without a significant investment and the project owner doesn&#39;t care about, you&#39;re stuck. Sure make a fork, but we all know how they usually don&#39;t evolve beyond the scale of the current project. </p>
 <p>This is why <code>ng-fab-form</code> focusses on the basic angular functions and tries to extend them application-wide, while always giving you the option to throw out what doesn&#39;t fit in. Worst case scenario: You completely remove <code>ng-fab-form</code> because you don&#39;t like it and then you&#39;re back to standard angular, with probably almost no effort spend, almost no time wasted.</p>
 <h2 id="manual-installation-and-dependencies">manual installation and dependencies</h2>
-<p>Grab the minified <a href="https://github.com/johannesjo/ng-fab-form/blob/master/dist/ng-fab-form.min.js">ng-fab-form file</a> from the dist folder. You also need to install <a href="https://docs.angularjs.org/api/ngMessages/directive/ngMessages">ng-messags</a>, jQuery and <a href="https://github.com/private-face/jquery.bind-first">jquery.bind-first</a>. 
-There might be a jQuery-independend version in the future, but for now it is much easier and also safer to just rely on exeternal sources, when it comes to cross-browser-event-handling.</p>
+<p>Grab the minified <a href="https://github.com/johannesjo/ng-fab-form/blob/master/dist/ng-fab-form.min.js">ng-fab-form file</a> from the dist folder. You also need to install <a href="https://docs.angularjs.org/api/ngMessages/directive/ngMessages">ng-messags</a> which is the only required dependency. There are two features which require jQuery: The auto-setting of an asterisk and the animated scrolling, which will just scroll instantly to the elment, when jQuery is not loaded.</p>
 <h2 id="configuring-options">configuring options</h2>
 <p>Currently the configuration object of ng-fab-forms looks like this:</p>
 <pre><code>// validation template-url/templateId
@@ -187,11 +188,8 @@ setNamesByNgModel: true,
 // add asterisk to required fields
 setAsteriskForRequiredLabel: false,
 
-// asterisk string to be added if enabled
+// asterisk string to be added if enabled (requires jQuery)
 asteriskStr: &#39;*&#39;,
-
-// event-name-space, usually you won&#39;t need to change anything here
-eventNameSpace: &#39;ngFabForm&#39;,
 
 // the validation message prefix, results for the default state
 // `validation-msg-required` or `validation-msg-your-custom-validation`
@@ -396,10 +394,9 @@ validationMsgPrefix: &#39;validationMsg&#39;
 <!-- /add ga tracking -->
 
 <!-- bower:js -->
-<script src="bower_components/jquery/dist/jquery.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="bower_components/angular/angular.js"></script>
 <script src="bower_components/angular-messages/angular-messages.js"></script>
-<script src="bower_components/jquery.bind-first/release/jquery.bind-first-0.2.3.min.js"></script>
 <script src="bower_components/angular-animate/angular-animate.js"></script>
 <!-- endbower -->
 
