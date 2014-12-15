@@ -1,13 +1,68 @@
 <div class="row">
-
     <div class="col-sm-6">
-        <h3>Example Form</h3>
+        <h3>Default Form</h3>
 
+        <form name="defaultForm"
+              ng-submit="submit()">
+
+            <div class="form-group">
+                <label class="control-label">required
+                </label>
+                <input type="text"
+                       class="form-control"
+                       placeholder="TestText"
+                       required=""
+                       ng-model="form3Data.required.deeper">
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">required & ng-pattern (/asd/) with validation-msg-required attribute
+                </label>
+                <input type="text"
+                       class="form-control"
+                       placeholder="TestText"
+                       ng-pattern="/^asd$/i"
+                       validation-msg-pattern="Not asd :("
+                       name="text"
+                       required=""
+                       ng-model="form3Data.patternRequired">
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">required & maxlength(5) with validation-msg-required attribute
+                </label>
+                <input type="text"
+                       class="form-control"
+                       placeholder="TestText"
+                       ng-maxlength="5"
+                       required
+                       validation-msg-required="This is really required!"
+                       ng-model="form3Data.requiredMaxlength">
+            </div>
+            <button type="submit"
+                    class="btn btn-primary">Submit Form
+            </button>
+        </form>
+
+
+    </div>
+    <div class="col-sm-6">
+        <h3>Form-Data</h3>
+        <pre>{{ form3Data|json}}</pre>
+
+        <h3>Config-Options</h3>
+        <pre>{{ defaultFormOptions|json}}</pre>
+    </div>
+</div>
+
+
+<h3>Form with custom options</h3>
+<div class="row">
+    <div class="col-sm-8">
         <form role="form"
-              ng-fab-form
-              name="exampleForm"
+              name="customOptionsForm"
               ng-submit="submit()"
-              novalidate="">
+              ng-fab-form-options="customFormOptions">
             <div class="form-group">
                 <label class="control-label">Email (required)
                 </label>
@@ -44,7 +99,7 @@
                        class="form-control"
                        placeholder="TestText"
                        ng-pattern="/^asd$/i"
-                       validation-msg-pattern="Not asd :("
+                       validation-msg-required="Really really required"
                        name="text"
                        required=""
                        ng-model="formData.patternRequired">
@@ -95,7 +150,7 @@
                 <input type="text"
                        class="form-control"
                        placeholder="TestText"
-                       required="">
+                       required>
             </div>
             <div class="form-group">
                 <button type="submit"
@@ -104,122 +159,134 @@
             </div>
         </form>
 
-        <hr>
-        <div class="form-group">
-            <label>Input outside form (required) does/should not work</label>
+    </div>
+    <div class="col-sm-4">
+        <h3>Config-Options</h3>
 
+        <form name="configOptions">
             <input type="text"
                    class="form-control"
-                   placeholder="TestText"
-                   required=""
-                   ng-model="aaatestText2">
-        </div>
-
-        <hr>
-
-
-        <h3>Advanced Validations</h3>
-
-        <form name="form2"
-              ng-submit="submit()">
+                   placeholder="validationsTemplate"
+                   required
+                   ng-model="customFormOptions.validationsTemplate">
             <div class="form-group">
-                <label for="customName">date (required, min=2014-01-02, max=2015-03-03)</label>
-                <input type="date"
-                       class="form-control"
-                       placeholder="date"
-                       required=""
-                       min="2014-01-02"
-                       max="2015-03-03"
-                       ng-model="otherForm.date">
-            </div>
-
-            <div class="form-group">
-                <label for="customName">date (required, min=15:55, max=17:00)</label>
-                <input type="time"
-                       class="form-control"
-                       placeholder="time"
-                       required=""
-                       min="15:55"
-                       max="17:00"
-                       ng-model="otherForm.time">
+                <button type="button"
+                        ng-click="(customFormOptions.validationsTemplate  != false) ? customFormOptions.validationsTemplate=false: customFormOptions.validationsTemplate=defaultFormOptions.validationsTemplate;">
+                    Set validationsTemplate to <span ng-show="customFormOptions.validationsTemplate">false</span>
+                    <span ng-hide="customFormOptions.validationsTemplate">{{ defaultFormOptions.validationsTemplate }}</span>
+                </button>
             </div>
 
 
             <div class="form-group">
-                <label for="customName">required</label>
-
-                <input type="text"
-                       class="form-control"
-                       placeholder="TestText"
-                       required=""
-                       id="customName"
-                       name="customName"
-                       ng-model="otherForm.text">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox"
+                               ng-model="customFormOptions.preventInvalidSubmit">
+                        preventInvalidSubmit
+                    </label>
+                </div>
             </div>
-            <button type="submit"
-                    class="btn btn-primary">Submit Form
-            </button>
+
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox"
+                               ng-model="customFormOptions.setFormDirtyOnSubmit">
+                        setFormDirtyOnSubmit
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox"
+                               ng-model="customFormOptions.preventDoubleSubmit">
+                        preventDoubleSubmit
+                    </label>
+                </div>
+            </div>
+            <input type="text"
+                   class="form-control"
+                   placeholder="preventDoubleSubmitTimeoutLength"
+                   required
+                   ng-show="customFormOptions.preventDoubleSubmit"
+                   ng-model="customFormOptions.preventDoubleSubmitTimeoutLength">
+
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox"
+                               ng-model="customFormOptions.scrollToAndFocusFirstErrorOnSubmit">
+                        scrollToAndFocusFirstErrorOnSubmit (requires jQuery for animation atm)
+                    </label>
+                </div>
+            </div>
+            <input type="text"
+                   class="form-control"
+                   placeholder="scrollAnimationTime in ms or 'smooth'"
+                   required
+                   ng-show="customFormOptions.scrollToAndFocusFirstErrorOnSubmit"
+                   ng-model="customFormOptions.scrollAnimationTime">
+
+            <input type="number"
+                   class="form-control"
+                   placeholder="scrollOffset in px"
+                   required
+                   ng-show="customFormOptions.scrollToAndFocusFirstErrorOnSubmit"
+                   ng-model="customFormOptions.scrollOffset">
         </form>
 
-
-        <h3>With some non aggressive focus errors css</h3>
-
-
-        <div class="trick">
-            <form name="form3"
-                  ng-submit="submit()">
-
-                <div class="form-group">
-                    <label class="control-label">required
-                    </label>
-                    <input type="text"
-                           class="form-control"
-                           placeholder="TestText"
-                           required=""
-                           ng-model="form3Data.required.deeper">
-                </div>
-
-                <div class="form-group">
-                    <label class="control-label">required & ng-pattern (/asd/) with validation-msg-required attribute
-                    </label>
-                    <input type="text"
-                           class="form-control"
-                           placeholder="TestText"
-                           ng-pattern="/^asd$/i"
-                           validation-msg-pattern="Not asd :("
-                           name="text"
-                           required=""
-                           ng-model="form3Data.patternRequired">
-                </div>
-
-                <div class="form-group">
-                    <label class="control-label">required & maxlength(5) with validation-msg-required attribute
-                    </label>
-                    <input type="text"
-                           class="form-control"
-                           placeholder="TestText"
-                           ng-maxlength="5"
-                           required
-                           validation-msg-required="This is really required!"
-                           ng-model="form3Data.requiredMaxlength">
-                </div>
-                <button type="submit"
-                        class="btn btn-primary">Submit Form
-                </button>
-            </form>
-        </div>
-    </div>
-
-    <div class="col-sm-6">
-        <h3>Form-Data</h3>
-        <pre>{{ formData|json}}</pre>
-
-        <h3>Config-Options</h3>
-        <pre>{{ formOpt|json}}</pre>
-
-        <h3>Validation Messages</h3>
-        <pre>{{ validationMessages|json}}</pre>
+        <h4>Options Object</h4>
+        <pre>{{ customFormOptions |json }}</pre>
     </div>
 
 </div>
+
+
+<h3>Advanced Validations</h3>
+
+<form name="form2"
+      ng-submit="submit()">
+    <div class="form-group">
+        <label for="customName">date (required, min=2014-01-02, max=2015-03-03)</label>
+        <input type="date"
+               class="form-control"
+               placeholder="date"
+               required=""
+               min="2014-01-02"
+               max="2015-03-03"
+               ng-model="otherForm.date">
+    </div>
+
+    <div class="form-group">
+        <label for="customName">date (required, min=15:55, max=17:00)</label>
+        <input type="time"
+               class="form-control"
+               placeholder="time"
+               required=""
+               min="15:55"
+               max="17:00"
+               ng-model="otherForm.time">
+    </div>
+
+
+    <div class="form-group">
+        <label for="customName">required</label>
+
+        <input type="text"
+               class="form-control"
+               placeholder="TestText"
+               required
+               id="customName"
+               name="customName"
+               ng-model="otherForm.text">
+    </div>
+    <button type="submit"
+            class="btn btn-primary">Submit Form
+    </button>
+</form>
+
+
 

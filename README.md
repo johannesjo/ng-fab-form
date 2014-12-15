@@ -71,7 +71,7 @@ Currently the configuration object of ng-fab-forms looks like this:
 ```
 // validation template-url/templateId
 // to disable validation completely set it false
-template: 'default-validation-msgs.html',
+validationsTemplate: 'default-validation-msgs.html',
 
 // prevent submission of invalid forms
 preventInvalidSubmit: true,
@@ -93,22 +93,32 @@ scrollToAndFocusFirstErrorOnSubmit: true,
 // based on the distance to scroll (the more the faster it scrolls)
 scrollAnimationTime: 'smooth',
 
-// fixed offset for scroll to elment
+// fixed offset for scroll to element
 scrollOffset: -100,
 
-// option to disable forms by wrapping them in a disabled <fieldset> elment
+
+// The following options are not configurable via the
+// ngFabFormOptions-directive as they need to be
+// available during the $compile-phase
+
+// option to disable forms by wrapping them in a disabled <fieldset> element
 disabledForms: true,
 
-// add novalidate to forms
+// add noovalidate to forms
 setNovalidate: true,
 
 // set form-element names based on ngModel if not set
+// NOTE: not changeable via ngFabFormOptions-directive as it needs to
+// available during the $compile-phase
+// NOTE2: name-attributes are required to be set here
+// or manually for the validations to work
 setNamesByNgModel: true,
 
-// add asterisk to required fields
+// add asterisk to required fields (requires jQuery)
 setAsteriskForRequiredLabel: false,
 
-// asterisk string to be added if enabled (requires jQuery)
+// asterisk string to be added if enabled (requires jQuery) and
+// setAsteriskForRequiredLabel-option set to true
 asteriskStr: '*',
 
 // the validation message prefix, results for the default state
