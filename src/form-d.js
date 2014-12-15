@@ -10,74 +10,7 @@ angular.module('ngFabForm')
             ev.stopImmediatePropagation();
         };
 
-        var setupPreventDoubleSubmit = function (scope, el, formSubmitDisabledTimeoutLength, eventNameSpace)
-            {
-                var formSubmitDisabledTimeout,
-                    formSubmitDisabled = false;
-
-                var enableFormSubmit = function ()
-                    {
-                        formSubmitDisabled = false;
-                    },
-                    disableFormSubmit = function ()
-                    {
-                        formSubmitDisabled = true;
-
-                        // cancel timeout if set before
-                        if (formSubmitDisabledTimeout) {
-                            $timeout.cancel(formSubmitDisabledTimeout);
-                        }
-                        formSubmitDisabledTimeout = $timeout(enableFormSubmit, formSubmitDisabledTimeoutLength);
-                    };
-
-                // don't forget to cancel set timeouts
-                scope.$on('$destroy', function ()
-                {
-                    if (formSubmitDisabledTimeout) {
-                        $timeout.cancel(formSubmitDisabledTimeout);
-                    }
-                });
-
-
-                // bind submit listener first to prevent submission
-                el.bindFirst('submit.' + eventNameSpace, function (ev)
-                {
-                    // prevent double submission
-                    if (formSubmitDisabled) {
-                        preventFormSubmit(ev);
-                        disableFormSubmit();
-                    } else {
-                        formSubmitDisabled = true;
-                        disableFormSubmit();
-                    }
-                });
-            },
-
-
-            setupPreventInvalidSubmit = function (scope, el, formCtrl, eventNameSpace)
-            {
-                var formSubmitDisabled = false;
-
-                // bind submit listener first to prevent submission
-                el.bindFirst('submit.' + eventNameSpace, function (ev)
-                {
-                    if (formSubmitDisabled) {
-                        preventFormSubmit(ev);
-                    }
-                });
-
-                // watch validity of the form
-                scope.$watch(function ()
-                {
-                    return formCtrl.$valid;
-                }, function (valid)
-                {
-                    formSubmitDisabled = !valid;
-                });
-            },
-
-
-            setupDisabledForms = function (el, attrs)
+        var setupDisabledForms = function (el, attrs)
             {
                 // watch disabled form if set (requires jQuery)
                 if (attrs.disableForm) {
@@ -96,24 +29,13 @@ angular.module('ngFabForm')
             },
 
 
-            setupDirtyOnSubmit = function (scope, el, eventNameSpace, formCtrl)
+            scrollToAndFocusFirstErrorOnSubmit = function (el, formCtrl, scrollAnimationTime, scrollOffset)
             {
-                // bind submit listener first to prevent submission
-                el.bindFirst('submit.' + eventNameSpace, function ()
-                {
-                    scope.$apply(function ()
-                    {
-                        formCtrl.$triedSubmit = true;
-                    });
-                });
-            },
+                if (!window.$) {
+                    throw 'scroll-to requires jQuery to be installed';
+                } else {
+                    var scrollActualAnimationTime = scrollAnimationTime;
 
-
-            setupScrollToAndFocusFirstErrorOnSubmit = function (el, formCtrl, eventNameSpace, scrollAnimationTime, scrollOffset)
-            {
-                var scrollActualAnimationTime = scrollAnimationTime;
-                el.bindFirst('submit.' + eventNameSpace, function ()
-                {
                     var scrollTargetEl = el.find('.ng-invalid').first();
                     scrollTargetEl.addClass('is-scroll-target');
                     if (scrollTargetEl && formCtrl.$invalid) {
@@ -133,7 +55,7 @@ angular.module('ngFabForm')
                             window.scrollTo(0, scrollTop);
                         }
                     }
-                });
+                }
             };
 
 
@@ -143,6 +65,12 @@ angular.module('ngFabForm')
             require: 'form',
             compile: function (el, attrs)
             {
+                var formCtrlInCompile,
+                    scopeInCompile,
+                    formSubmitDisabledTimeout,
+                    formSubmitDisabledTimeoutLength = ngFabForm.config.preventDoubleSubmitTimeoutLength;
+
+
                 // autoset novalidate
                 if (!attrs.novalidate && ngFabForm.config.setNovalidate) {
                     // set name attribute if none is set
@@ -150,13 +78,55 @@ angular.module('ngFabForm')
                     attrs.novalidate = true;
                 }
 
+
+                // SUBMISSION HANDLING
+                el.bind('submit', function (ev)
+                {
+                    // set dirty if option is set
+                    if (ngFabForm.config.setFormDirtyOnSubmit) {
+                        scopeInCompile.$apply(function ()
+                        {
+                            formCtrlInCompile.$triedSubmit = true;
+                        });
+                    }
+
+                    // prevent submit for invalid if option is set
+                    if (ngFabForm.config.preventInvalidSubmit && !formCtrlInCompile.$valid) {
+                        preventFormSubmit(ev);
+                    }
+
+                    // prevent double submission if option is set
+                    else if (ngFabForm.config.preventDoubleSubmit) {
+                        if (formCtrlInCompile.$preventDoubleSubmit) {
+                            preventFormSubmit(ev);
+                        }
+
+                        // cancel timeout if set before
+                        if (formSubmitDisabledTimeout) {
+                            $timeout.cancel(formSubmitDisabledTimeout);
+                        }
+
+                        formCtrlInCompile.$preventDoubleSubmit = true;
+                        formSubmitDisabledTimeout = $timeout(function ()
+                        {
+                            formCtrlInCompile.$preventDoubleSubmit = false;
+                        }, formSubmitDisabledTimeoutLength);
+                    }
+
+                    if (ngFabForm.config.scrollToAndFocusFirstErrorOnSubmit) {
+                        scrollToAndFocusFirstErrorOnSubmit(el, formCtrlInCompile, ngFabForm.config.scrollAnimationTime, ngFabForm.config.scrollOffset);
+                    }
+                });
+                // /SUBMISSION HANDLING
+
+
                 /**
                  * linking function
                  */
                 return function (scope, el, attrs, formCtrl)
                 {
-                    var formSubmitDisabledTimeoutLength = ngFabForm.config.preventDoubleSubmitTimeoutLength,
-                        eventNameSpace = ngFabForm.config.eventNameSpace;
+                    formCtrlInCompile = formCtrl;
+                    scopeInCompile = scope;
 
                     /**
                      * NOTE: order is important
@@ -164,22 +134,19 @@ angular.module('ngFabForm')
                      * so the last attached handler comes first
                      */
 
-                    if (ngFabForm.config.preventInvalidSubmit) {
-                        setupPreventInvalidSubmit(scope, el, formCtrl, eventNameSpace);
-                    }
-                    if (ngFabForm.config.preventDoubleSubmit) {
-                        setupPreventDoubleSubmit(scope, el, formSubmitDisabledTimeoutLength, eventNameSpace);
-                    }
+
                     if (ngFabForm.config.disabledForms) {
                         setupDisabledForms(el, attrs);
                     }
-                    if (ngFabForm.config.setFormDirtyOnSubmit) {
-                        setupDirtyOnSubmit(scope, el, eventNameSpace, formCtrl);
-                    }
-                    if (ngFabForm.config.scrollToAndFocusFirstErrorOnSubmit) {
-                        setupScrollToAndFocusFirstErrorOnSubmit(el, formCtrl, eventNameSpace, ngFabForm.config.scrollAnimationTime, ngFabForm.config.scrollOffset);
-                    }
 
+
+                    // don't forget to cancel set timeouts
+                    scope.$on('$destroy', function ()
+                    {
+                        if (formSubmitDisabledTimeout) {
+                            $timeout.cancel(formSubmitDisabledTimeout);
+                        }
+                    });
                 };
             }
         };
