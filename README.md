@@ -1,4 +1,5 @@
-[![Stories in Ready](https://badge.waffle.io/johannesjo/ng-fab-form.png?label=ready&title=Ready)](https://waffle.io/johannesjo/ng-fab-form)
+
+[![Stories in Backlog](https://badge.waffle.io/jmdobry/angular-data.svg?label=backlog&title=Backlog)](http://waffle.io/jmdobry/angular-data) [![Stories in Ready](https://badge.waffle.io/jmdobry/angular-data.svg?label=ready&title=Ready)](http://waffle.io/jmdobry/angular-data) [![Stories in progress](https://badge.waffle.io/jmdobry/angular-data.svg?label=in%20progress&title=In%20Progress)](http://waffle.io/jmdobry/angular-data) [![Stories Done](https://badge.waffle.io/jmdobry/angular-data.svg?label=done&title=Done)](http://waffle.io/jmdobry/angular-data)
 ng-fab-form
 ===========
 
