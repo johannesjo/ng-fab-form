@@ -44,7 +44,8 @@ angular.module('ngFabForm')
                     // otherwise scroll to element
                     else {
                         var scrollActualAnimationTime = scrollAnimationTime;
-                        scrollTargetEl.addClass('is-scroll-target');
+                        var $scrollTargetEl= angular.element(scrollTargetEl);
+                        $scrollTargetEl.addClass('is-scroll-target');
                         if (scrollAnimationTime) {
                             if (scrollAnimationTime === 'smooth') {
                                 scrollActualAnimationTime = (Math.abs(window.scrollY - scrollTop)) / 4 + 200;
@@ -53,8 +54,8 @@ angular.module('ngFabForm')
                                 scrollTop: scrollTop
                             }, scrollActualAnimationTime, function ()
                             {
-                                scrollTargetEl.focus();
-                                scrollTargetEl.removeClass('is-scroll-target');
+                                $scrollTargetEl.focus();
+                                $scrollTargetEl.removeClass('is-scroll-target');
                             });
                         }
                     }
