@@ -368,7 +368,7 @@ angular.module('ngFabForm')
             // add asterisk to required fields
             setAsteriskForRequiredLabel: false,
 
-            // asterisk string to be added if enabled
+            // asterisk string to be added if enabled (requires jQuery)
             asteriskStr: '*',
 
             // the validation message prefix, results for the default state
