@@ -28,8 +28,6 @@ angular.module('ngFabForm')
             scrollToAndFocusFirstErrorOnSubmit: true,
 
             // set in ms
-            // uses requestAnimationFrame for a polyfill see:
-            // https://github.com/darius/requestAnimationFrame/blob/master/requestAnimationFrame.js
             scrollAnimationTime: 500,
 
             // fixed offset for scroll to element
