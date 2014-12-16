@@ -297,7 +297,7 @@ A good starting point for you might be the [default function which can be found 
 
 ## ❤ contribute ❤
 
-I'm happy for any [issue or feature request](https://github.com/johannesjo/ng-fab-form/issues), you might encounter or want to have. Even a one liner is better, than no feedback at all. Pull requests are also highly welcome. Just fork the repository, clone it and run `grunt serve` for development.
+I'm happy for any [issue or feature request](https://github.com/johannesjo/ng-fab-form/issues), you might encounter or want to have. Even a one liner is better, than no feedback at all. Pull requests are also highly welcome. Just fork the repository, clone it and run `grunt serve` for development. Another important factor is the number of developers using and thus testing `ng-fab-form`. Tell your fellow programmers, [say that you use it on ng-modules](http://ngmodules.org/modules/ng-fab-form), tweet or even blog about it.
 
 `ng-fab-form` is published under the [The GNU Lesser General Public License V2.1](https://github.com/johannesjo/ng-fab-form/blob/master/LICENSE).
 
