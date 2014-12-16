@@ -65,7 +65,7 @@ This is why `ng-fab-form` focusses on the basic angular functions and tries to e
 Grab the minified [ng-fab-form file](https://github.com/johannesjo/ng-fab-form/blob/master/dist/ng-fab-form.min.js) from the dist folder. You also need to install [ng-messags](https://docs.angularjs.org/api/ngMessages/directive/ngMessages) which is the only required dependency. At the moment there is only one features which require jQuery: The auto-setting of an asterisk, which won't work as long as jQuery is not loaded before.
 
 
-## configuring options
+## configuring default options
 
 Currently the configuration object of ng-fab-forms looks like this:
 ```
@@ -137,6 +137,33 @@ angular.module('exampleApp', [
         });
     });
 
+```
+## multiple configurations via `ng-fab-form-ptions`
+`validationsTemplate`, `preventInvalidSubmit`, `preventDoubleSubmit`, `preventDoubleSubmitTimeoutLength`, `setFormDirtyOnSubmit`, `scrollToAndFocusFirstErrorOnSubmit`, `scrollAnimationTime` and `scrollOffset` can also be changed in realtime from your controllers or directives:
+```javascript
+angular.module('exampleApp', [
+    'ngFabForm',
+    'ngMessages'
+])
+.controller('exampleCtrl', function ($scope, ngFabForm)
+    {
+        $scope.customFormOptions = {
+            validationsTemplate: 'your-tpl.html',
+            preventInvalidSubmit: false,
+            preventDoubleSubmit: false,
+            setFormDirtyOnSubmit: true,
+            scrollToAndFocusFirstErrorOnSubmit: true,
+            scrollAnimationTime: 900,
+            scrollOffset: -100,
+        };
+    });
+```
+And in your template:
+```html
+<form name="customOptionsForm"
+      ng-fab-form-options="customFormOptions">
+      ...
+</form>
 ```
 
 ## special validations (e.g. ng-pattern)
