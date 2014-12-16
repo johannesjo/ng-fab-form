@@ -303,10 +303,10 @@ I'm happy for any [issue or feature request](https://github.com/johannesjo/ng-fa
 
 ## (possible) fabulous future features
 
-* themeable autowrappers for form elements: switch between bootstrap style forms, to semantic-ui, to foundation, to ionic and back.
+* ~~themeable autowrappers for form elements: switch between bootstrap style forms, to semantic-ui, to foundation, to ionic and back.~~ implemented via angular-auto-forms
 * grunt templating tasks
 * full unit and e2e testing
-* implement native javascript wherever possible
+* ~~implement native javascript wherever possible~~ done
 * better documentation, e.g.: how to use and create vanilla angular `$validators`
 * moularized grunt file structure
 * [your feature request](https://github.com/johannesjo/ng-fab-form/issues)!
