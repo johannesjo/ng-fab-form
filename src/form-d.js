@@ -6,6 +6,7 @@ angular.module('ngFabForm')
         // HELPER VARIABLES
         var formNames = [];
 
+
         // HELPER FUNCTIONS
         function preventFormSubmit(ev)
         {
@@ -51,36 +52,8 @@ angular.module('ngFabForm')
         {
             var scrollTargetEl = el[0].querySelector('.ng-invalid');
             if (scrollTargetEl && formCtrl.$invalid) {
-                var scrollTop = scrollTargetEl.offsetTop + scrollOffset;
-
                 // if no jquery just go to element
-                if (!window.$ || !scrollAnimationTime) {
-                    scrollTargetEl.scrollIntoView();
-                    scrollTargetEl.focus();
-                }
-
-                // otherwise scroll to element
-                else {
-                    var scrollActualAnimationTime = scrollAnimationTime;
-
-                    var $scrollTargetEl = angular.element(scrollTargetEl);
-                    $scrollTargetEl.addClass('is-scroll-target');
-                    if (scrollAnimationTime) {
-                        if (scrollAnimationTime === 'smooth') {
-                            scrollActualAnimationTime = (Math.abs(window.scrollY - scrollTop)) / 4 + 200;
-                        }
-
-                        scrollActualAnimationTime = parseInt(scrollActualAnimationTime);
-
-                        $('html, body').animate({
-                            scrollTop: scrollTop
-                        }, scrollActualAnimationTime, function ()
-                        {
-                            $scrollTargetEl.focus();
-                            $scrollTargetEl.removeClass('is-scroll-target');
-                        });
-                    }
-                }
+                ngFabForm.scrollTo(scrollTargetEl, parseInt(scrollAnimationTime), scrollOffset);
             }
         }
 

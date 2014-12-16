@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-sm-6">
+    <div class="col-sm-7">
         <h3>Default Form</h3>
 
         <form name="defaultForm"
@@ -46,7 +46,7 @@
 
 
     </div>
-    <div class="col-sm-6">
+    <div class="col-sm-5">
         <h3>Form-Data</h3>
         <pre>{{ form3Data|json}}</pre>
 
@@ -58,7 +58,7 @@
 
 <h3>Form with custom options</h3>
 <div class="row">
-    <div class="col-sm-8">
+    <div class="col-sm-7">
         <form role="form"
               name="customOptionsForm"
               ng-submit="submit()"
@@ -160,7 +160,7 @@
         </form>
 
     </div>
-    <div class="col-sm-4">
+    <div class="col-sm-5">
         <h3>Config-Options</h3>
 
         <form name="configOptions">
@@ -211,7 +211,7 @@
                    class="form-control"
                    placeholder="preventDoubleSubmitTimeoutLength"
                    required
-                   ng-show="customFormOptions.preventDoubleSubmit"
+                   ng-if="customFormOptions.preventDoubleSubmit"
                    ng-model="customFormOptions.preventDoubleSubmitTimeoutLength">
 
             <div class="form-group">
@@ -219,7 +219,7 @@
                     <label>
                         <input type="checkbox"
                                ng-model="customFormOptions.scrollToAndFocusFirstErrorOnSubmit">
-                        scrollToAndFocusFirstErrorOnSubmit (requires jQuery for animation atm)
+                        scrollToAndFocusFirstErrorOnSubmit
                     </label>
                 </div>
             </div>
@@ -227,14 +227,14 @@
                    class="form-control"
                    placeholder="scrollAnimationTime in ms or 'smooth'"
                    required
-                   ng-show="customFormOptions.scrollToAndFocusFirstErrorOnSubmit"
+                   ng-if="customFormOptions.scrollToAndFocusFirstErrorOnSubmit"
                    ng-model="customFormOptions.scrollAnimationTime">
 
             <input type="number"
                    class="form-control"
                    placeholder="scrollOffset in px"
                    required
-                   ng-show="customFormOptions.scrollToAndFocusFirstErrorOnSubmit"
+                   ng-if="customFormOptions.scrollToAndFocusFirstErrorOnSubmit"
                    ng-model="customFormOptions.scrollOffset">
         </form>
 
