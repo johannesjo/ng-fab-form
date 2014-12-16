@@ -64,10 +64,7 @@ angular.module('ngFabForm')
             require: 'form',
             compile: function (el, attrs)
             {
-                var cfg = angular.copy(ngFabForm.config);
-
-                var formCtrlInCompile,
-                    scopeInCompile,
+                var cfg = ngFabForm.config,
                     formSubmitDisabledTimeout,
                     newFormName;
 
@@ -96,92 +93,93 @@ angular.module('ngFabForm')
                     attrs.novalidate = true;
                 }
 
-                // SUBMISSION HANDLING
-                el.bind('submit', function (ev)
-                {
-                    // set dirty if option is set
-                    if (cfg.setFormDirtyOnSubmit) {
-                        scopeInCompile.$apply(function ()
-                        {
-                            formCtrlInCompile.$triedSubmit = true;
-                        });
-                    }
-
-                    // prevent submit for invalid if option is set
-                    if (cfg.preventInvalidSubmit && !formCtrlInCompile.$valid) {
-                        preventFormSubmit(ev);
-                    }
-
-                    // prevent double submission if option is set
-                    else if (cfg.preventDoubleSubmit) {
-                        if (formCtrlInCompile.$preventDoubleSubmit) {
-                            preventFormSubmit(ev);
-                        }
-
-                        // cancel timeout if set before
-                        if (formSubmitDisabledTimeout) {
-                            $timeout.cancel(formSubmitDisabledTimeout);
-                        }
-
-                        formCtrlInCompile.$preventDoubleSubmit = true;
-                        formSubmitDisabledTimeout = $timeout(function ()
-                        {
-                            formCtrlInCompile.$preventDoubleSubmit = false;
-                        }, cfg.preventDoubleSubmitTimeoutLength);
-                    }
-
-                    if (cfg.scrollToAndFocusFirstErrorOnSubmit) {
-                        scrollToAndFocusFirstErrorOnSubmit(el, formCtrlInCompile, cfg.scrollAnimationTime, cfg.scrollOffset);
-                    }
-                });
-                // /SUBMISSION HANDLING
-
 
                 /**
-                 * linking function
+                 * linking functions
                  */
-                return function (scope, el, attrs, formCtrl)
-                {
-                    formCtrlInCompile = formCtrl;
-                    scopeInCompile = scope;
-
-                    // default state for new form variables
-                    formCtrl.$triedSubmit = false;
-                    formCtrl.$preventDoubleSubmit = false;
-                    formCtrl.ngFabFormConfig = cfg;
-
-
-                    // disabledForm 'directive'
-                    if (cfg.disabledForms) {
-                        setupDisabledForms(el, attrs);
-                    }
-
-                    // ngFabFormOptions 'directive'
-                    if (attrs.ngFabFormOptions) {
-                        scope.$watch(attrs.ngFabFormOptions, function (mVal)
-                        {
-                            if (mVal) {
-
-                                var oldCfg = angular.copy(cfg);
-                                cfg = formCtrl.ngFabFormConfig = angular.extend(cfg, mVal);
-
-                                // broadcast event and config to input directives
-                                scope.$broadcast('NG_FAB_FORM_OPTIONS_CHANGED_FOR_' + formCtrl.$name, cfg, oldCfg);
-                            }
-                        }, true);
-                    }
-
-                    // on unload
-                    scope.$on('$destroy', function ()
+                return {
+                    pre: function (scope, el, attrs, formCtrl)
                     {
-                        // don't forget to cancel set timeouts
-                        if (formSubmitDisabledTimeout) {
-                            $timeout.cancel(formSubmitDisabledTimeout);
+                        // SUBMISSION HANDLING
+                        // set in pre-linking function for event handlers
+                        // to be set before other bindings (ng-submit)
+                        el.bind('submit', function (ev)
+                        {
+                            // set dirty if option is set
+                            if (cfg.setFormDirtyOnSubmit) {
+                                scope.$apply(function ()
+                                {
+                                    formCtrl.$triedSubmit = true;
+                                });
+                            }
+
+                            // prevent submit for invalid if option is set
+                            if (cfg.preventInvalidSubmit && !formCtrl.$valid) {
+                                preventFormSubmit(ev);
+                            }
+
+                            // prevent double submission if option is set
+                            else if (cfg.preventDoubleSubmit) {
+                                if (formCtrl.$preventDoubleSubmit) {
+                                    preventFormSubmit(ev);
+                                }
+
+                                // cancel timeout if set before
+                                if (formSubmitDisabledTimeout) {
+                                    $timeout.cancel(formSubmitDisabledTimeout);
+                                }
+
+                                formCtrl.$preventDoubleSubmit = true;
+                                formSubmitDisabledTimeout = $timeout(function ()
+                                {
+                                    formCtrl.$preventDoubleSubmit = false;
+                                }, cfg.preventDoubleSubmitTimeoutLength);
+                            }
+
+                            if (cfg.scrollToAndFocusFirstErrorOnSubmit) {
+                                scrollToAndFocusFirstErrorOnSubmit(el, formCtrl, cfg.scrollAnimationTime, cfg.scrollOffset);
+                            }
+                        });
+                    },
+                    post: function (scope, el, attrs, formCtrl)
+                    {
+                        // default state for new form variables
+                        formCtrl.$triedSubmit = false;
+                        formCtrl.$preventDoubleSubmit = false;
+                        formCtrl.ngFabFormConfig = cfg;
+
+
+                        // disabledForm 'directive'
+                        if (cfg.disabledForms) {
+                            setupDisabledForms(el, attrs);
                         }
 
-                        // remove from helper array
-                        removeFromArray(formNames, formCtrl.$name);
-                    });
+                        // ngFabFormOptions 'directive'
+                        if (attrs.ngFabFormOptions) {
+                            scope.$watch(attrs.ngFabFormOptions, function (mVal)
+                            {
+                                if (mVal) {
+                                    var oldCfg = angular.copy(cfg);
+                                    cfg = formCtrl.ngFabFormConfig = angular.extend(cfg, mVal);
+
+                                    // broadcast event and config to input directives
+                                    scope.$broadcast('NG_FAB_FORM_OPTIONS_CHANGED_FOR_' + formCtrl.$name, cfg, oldCfg);
+                                }
+                            }, true);
+                        }
+
+                        // on unload
+                        scope.$on('$destroy', function ()
+                        {
+                            // don't forget to cancel set timeouts
+                            if (formSubmitDisabledTimeout) {
+                                $timeout.cancel(formSubmitDisabledTimeout);
+                            }
+
+                            // remove from helper array
+                            removeFromArray(formNames, formCtrl.$name);
+                        });
+                    }
                 };
             }
         };
