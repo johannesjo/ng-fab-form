@@ -42,7 +42,7 @@ $ng-message-padding: 2px 10px;
 }
 
 .ng-hide-remove #{$ng-message-sel} {
-    opacity:          0;
+    opacity: 0;
 }
 
 #{$validation-wrapper-sel} {
@@ -71,19 +71,17 @@ $ng-message-padding: 2px 10px;
         padding:          $ng-message-padding;
         color:            #fff;
         transform:        rotate(0deg);
-        transition:       all ease-out 0.2s;
+        transition:       all ease-in 0.2s;
         opacity:          1;
         transition-delay: 0s;
 
         &.ng-enter {
-            opacity:   0;
-            transform: rotate(20deg);
-            right:     -$ng-message-height;
+            opacity: 0;
+            top:     0;
         }
         &.ng-leave {
             transition: all ease-in 0.0s;
             opacity:    0;
-            outline:    30px solid red;
         }
     }
     // focused elements
