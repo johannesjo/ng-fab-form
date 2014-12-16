@@ -115,7 +115,7 @@
 <p><a href="https://github.com/johannesjo/ng-fab-form/issues">Bug-reports or feature request</a> as well as any other kind of <strong>feedback is highly welcome!</strong></p>
 <h2 id="getting-started">getting started</h2>
 <p>Install it via bower</p>
-<pre><code>bower install ng-fab-form angular-messages -S
+<pre><code>bower install ng-fab-form -S
 </code></pre><p>and add <code>ngFabForm</code> and <code>ngMessages</code> as dependency in your main module:</p>
 <pre><code>angular.module(&#39;yourApp&#39;,[
   &#39;ngFabForm&#39;,
@@ -146,12 +146,12 @@
 <p>The reason why <code>ng-fab-form</code> was build, is that the modules I tried either take only a small part of the reptiveness out of your job or they take a framework-like approach and you&#39;re becoming very dependent on them, the markup they require and spit out, the functionalities they introduce and probably more important, those they don&#39;t introduce and those who hinder other features. This is not necessarily a bad thing and they might greatly improve your productivity, but if some project is discontinued or you find out, that you need a functionality you won&#39;t we be able to implement without a significant investment and the project owner doesn&#39;t care about, you&#39;re stuck. Sure make a fork, but we all know how they usually don&#39;t evolve beyond the scale of the current project. </p>
 <p>This is why <code>ng-fab-form</code> focusses on the basic angular functions and tries to extend them application-wide, while always giving you the option to throw out what doesn&#39;t fit in. Worst case scenario: You completely remove <code>ng-fab-form</code> because you don&#39;t like it and then you&#39;re back to standard angular, with probably almost no effort spend, almost no time wasted.</p>
 <h2 id="manual-installation-and-dependencies">manual installation and dependencies</h2>
-<p>Grab the minified <a href="https://github.com/johannesjo/ng-fab-form/blob/master/dist/ng-fab-form.min.js">ng-fab-form file</a> from the dist folder. You also need to install <a href="https://docs.angularjs.org/api/ngMessages/directive/ngMessages">ng-messags</a> which is the only required dependency. There are two features which require jQuery: The auto-setting of an asterisk and the animated scrolling, which will just scroll instantly to the elment, when jQuery is not loaded.</p>
-<h2 id="configuring-options">configuring options</h2>
+<p>Grab the minified <a href="https://github.com/johannesjo/ng-fab-form/blob/master/dist/ng-fab-form.min.js">ng-fab-form file</a> from the dist folder. You also need to install <a href="https://docs.angularjs.org/api/ngMessages/directive/ngMessages">ng-messags</a> which is the only required dependency. At the moment there is only one features which require jQuery: The auto-setting of an asterisk, which won&#39;t work as long as jQuery is not loaded before.</p>
+<h2 id="configuring-default-options">configuring default options</h2>
 <p>Currently the configuration object of ng-fab-forms looks like this:</p>
 <pre><code>// validation template-url/templateId
 // to disable validation completely set it false
-template: &#39;default-validation-msgs.html&#39;,
+validationsTemplate: &#39;default-validation-msgs.html&#39;,
 
 // prevent submission of invalid forms
 preventInvalidSubmit: true,
@@ -168,27 +168,35 @@ setFormDirtyOnSubmit: true,
 // autofocus first error-element
 scrollToAndFocusFirstErrorOnSubmit: true,
 
-// set either to fixed duration or to &#39;smooth&#39;
-// &#39;smooth&#39; means that the duration is calculated,
-// based on the distance to scroll (the more the faster it scrolls)
-scrollAnimationTime: &#39;smooth&#39;,
+// set in ms
+scrollAnimationTime: 500,
 
-// fixed offset for scroll to elment
+// fixed offset for scroll to element
 scrollOffset: -100,
 
-// option to disable forms by wrapping them in a disabled &lt;fieldset&gt; elment
+
+// The following options are not configurable via the
+// ngFabFormOptions-directive as they need to be
+// available during the $compile-phase
+
+// option to disable forms by wrapping them in a disabled &lt;fieldset&gt; element
 disabledForms: true,
 
-// add novalidate to forms
+// add noovalidate to forms
 setNovalidate: true,
 
 // set form-element names based on ngModel if not set
+// NOTE: not changeable via ngFabFormOptions-directive as it needs to
+// available during the $compile-phase
+// NOTE2: name-attributes are required to be set here
+// or manually for the validations to work
 setNamesByNgModel: true,
 
-// add asterisk to required fields
+// add asterisk to required fields (requires jQuery)
 setAsteriskForRequiredLabel: false,
 
-// asterisk string to be added if enabled (requires jQuery)
+// asterisk string to be added if enabled (requires jQuery) and
+// setAsteriskForRequiredLabel-option set to true
 asteriskStr: &#39;*&#39;,
 
 // the validation message prefix, results for the default state
@@ -206,6 +214,31 @@ validationMsgPrefix: &#39;validationMsg&#39;
             setNovalidate: false
         });
     });
+</code></pre>
+<h2 id="multiple-configurations-via-ng-fab-form-options-">multiple configurations via <code>ng-fab-form-options</code></h2>
+<p><code>validationsTemplate</code>, <code>preventInvalidSubmit</code>, <code>preventDoubleSubmit</code>, <code>preventDoubleSubmitTimeoutLength</code>, <code>setFormDirtyOnSubmit</code>, <code>scrollToAndFocusFirstErrorOnSubmit</code>, <code>scrollAnimationTime</code> and <code>scrollOffset</code> can also be changed in realtime from your controllers or directives:</p>
+<pre><code class="lang-javascript">angular.module(&#39;exampleApp&#39;, [
+    &#39;ngFabForm&#39;,
+    &#39;ngMessages&#39;
+])
+.controller(&#39;exampleCtrl&#39;, function ($scope, ngFabForm)
+    {
+        $scope.customFormOptions = {
+            validationsTemplate: &#39;your-tpl.html&#39;,
+            preventInvalidSubmit: false,
+            preventDoubleSubmit: false,
+            setFormDirtyOnSubmit: true,
+            scrollToAndFocusFirstErrorOnSubmit: true,
+            scrollAnimationTime: 900,
+            scrollOffset: -100,
+        };
+    });
+</code></pre>
+<p>And in your template:</p>
+<pre><code class="lang-html">&lt;form name=&quot;customOptionsForm&quot;
+      ng-fab-form-options=&quot;customFormOptions&quot;&gt;
+      ...
+&lt;/form&gt;
 </code></pre>
 <h2 id="special-validations-e-g-ng-pattern-">special validations (e.g. ng-pattern)</h2>
 <p>Sometimes you might want to have another text for a specifc context. Special validation-messages like this are easily added like this:</p>
@@ -299,15 +332,31 @@ validationMsgPrefix: &#39;validationMsg&#39;
         ngFabFormProvider.setInsertErrorTplFn(customInsertFn);
     });
 </code></pre>
+<p>And you can change the scroll animation-handler to one of your liking:</p>
+<pre><code class="lang-javascript">angular.module(&#39;exampleApp&#39;, [
+    &#39;ngFabForm&#39;,
+    &#39;ngAnimate&#39;
+])
+    .config(function (ngFabFormProvider)
+    {
+        var customScrollToFn = function (targetElement, duration, scrollOffset)
+            {
+               targetElement.scrollIntoView(true);
+               targetElement.focus();
+            };
+        ngFabFormProvider.setScrollToFn(customScrollToFn);
+    });
+</code></pre>
+<p>A good starting point for you might be the <a href="https://github.com/johannesjo/ng-fab-form/blob/master/src/ng-fab-form-p.js">default function which can be found inside of the <code>ngFabFormProvider</code></a>.</p>
 <h2 id="-contribute-">❤ contribute ❤</h2>
 <p>I&#39;m happy for any <a href="https://github.com/johannesjo/ng-fab-form/issues">issue or feature request</a>, you might encounter or want to have. Even a one liner is better, than no feedback at all. Pull requests are also highly welcome. Just fork the repository, clone it and run <code>grunt serve</code> for development.</p>
 <p><code>ng-fab-form</code> is published under the <a href="https://github.com/johannesjo/ng-fab-form/blob/master/LICENSE">The GNU Lesser General Public License V2.1</a>.</p>
 <h2 id="-possible-fabulous-future-features">(possible) fabulous future features</h2>
 <ul>
-<li>themeable autowrappers for form elements: switch between bootstrap style forms, to semantic-ui, to foundation, to ionic and back.</li>
+<li><del>themeable autowrappers for form elements: switch between bootstrap style forms, to semantic-ui, to foundation, to ionic and back.</del> implemented via angular-auto-forms</li>
 <li>grunt templating tasks</li>
 <li>full unit and e2e testing</li>
-<li>implement native javascript wherever possible</li>
+<li><del>implement native javascript wherever possible</del> done</li>
 <li>better documentation, e.g.: how to use and create vanilla angular <code>$validators</code></li>
 <li>moularized grunt file structure</li>
 <li><a href="https://github.com/johannesjo/ng-fab-form/issues">your feature request</a>!</li>
