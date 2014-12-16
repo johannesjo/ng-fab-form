@@ -138,7 +138,7 @@ angular.module('exampleApp', [
     });
 
 ```
-## multiple configurations via `ng-fab-form-ptions`
+## multiple configurations via `ng-fab-form-options`
 `validationsTemplate`, `preventInvalidSubmit`, `preventDoubleSubmit`, `preventDoubleSubmitTimeoutLength`, `setFormDirtyOnSubmit`, `scrollToAndFocusFirstErrorOnSubmit`, `scrollAnimationTime` and `scrollOffset` can also be changed in realtime from your controllers or directives:
 ```javascript
 angular.module('exampleApp', [
