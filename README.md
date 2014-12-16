@@ -16,7 +16,7 @@ The most repitive part by far is validation. I understand why the angular-develo
 
 Install it via bower
 ```
-bower install ng-fab-form angular-messages -S
+bower install ng-fab-form -S
 ```
 and add `ngFabForm` and `ngMessages` as dependency in your main module:
 ```
@@ -62,7 +62,7 @@ This is why `ng-fab-form` focusses on the basic angular functions and tries to e
 
 ## manual installation and dependencies
 
-Grab the minified [ng-fab-form file](https://github.com/johannesjo/ng-fab-form/blob/master/dist/ng-fab-form.min.js) from the dist folder. You also need to install [ng-messags](https://docs.angularjs.org/api/ngMessages/directive/ngMessages) which is the only required dependency. There are two features which require jQuery: The auto-setting of an asterisk and the animated scrolling, which will just scroll instantly to the elment, when jQuery is not loaded.
+Grab the minified [ng-fab-form file](https://github.com/johannesjo/ng-fab-form/blob/master/dist/ng-fab-form.min.js) from the dist folder. You also need to install [ng-messags](https://docs.angularjs.org/api/ngMessages/directive/ngMessages) which is the only required dependency. At the moment there is only one features which require jQuery: The auto-setting of an asterisk, which won't work as long as jQuery is not loaded before.
 
 
 ## configuring options
@@ -88,10 +88,10 @@ setFormDirtyOnSubmit: true,
 // autofocus first error-element
 scrollToAndFocusFirstErrorOnSubmit: true,
 
-// set either to fixed duration or to 'smooth'
-// 'smooth' means that the duration is calculated,
-// based on the distance to scroll (the more the faster it scrolls)
-scrollAnimationTime: 'smooth',
+// set in ms
+// uses requestAnimationFrame for a polyfill see:
+// https://github.com/darius/requestAnimationFrame/blob/master/requestAnimationFrame.js
+scrollAnimationTime: 500,
 
 // fixed offset for scroll to element
 scrollOffset: -100,
@@ -250,6 +250,25 @@ angular.module('exampleApp', [
     });
     
 ```
+And you can change the scroll animation-handler to one of your liking:
+
+```javascript
+angular.module('exampleApp', [
+    'ngFabForm',
+    'ngAnimate'
+])
+    .config(function (ngFabFormProvider)
+    {
+        var customScrollToFn = function (targetElement, duration, scrollOffset)
+            {
+               targetElement.scrollIntoView(true);
+               targetElement.focus();
+            };
+        ngFabFormProvider.setScrollToFn(customScrollToFn);
+    });
+    
+```
+A good starting point for you might be the [default function which can be found inside of the `ngFabFormProvider`](https://github.com/johannesjo/ng-fab-form/blob/master/src/ng-fab-form-p.js).
 
 ## ❤ contribute ❤
 

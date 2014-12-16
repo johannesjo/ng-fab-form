@@ -8,6 +8,7 @@ angular.module('ngFabForm')
         // HELPER VARIABLES
         var formNames = [];
 
+
         // HELPER FUNCTIONS
         function preventFormSubmit(ev)
         {
@@ -53,36 +54,8 @@ angular.module('ngFabForm')
         {
             var scrollTargetEl = el[0].querySelector('.ng-invalid');
             if (scrollTargetEl && formCtrl.$invalid) {
-                var scrollTop = scrollTargetEl.offsetTop + scrollOffset;
-
                 // if no jquery just go to element
-                if (!window.$ || !scrollAnimationTime) {
-                    scrollTargetEl.scrollIntoView();
-                    scrollTargetEl.focus();
-                }
-
-                // otherwise scroll to element
-                else {
-                    var scrollActualAnimationTime = scrollAnimationTime;
-
-                    var $scrollTargetEl = angular.element(scrollTargetEl);
-                    $scrollTargetEl.addClass('is-scroll-target');
-                    if (scrollAnimationTime) {
-                        if (scrollAnimationTime === 'smooth') {
-                            scrollActualAnimationTime = (Math.abs(window.scrollY - scrollTop)) / 4 + 200;
-                        }
-
-                        scrollActualAnimationTime = parseInt(scrollActualAnimationTime);
-
-                        $('html, body').animate({
-                            scrollTop: scrollTop
-                        }, scrollActualAnimationTime, function ()
-                        {
-                            $scrollTargetEl.focus();
-                            $scrollTargetEl.removeClass('is-scroll-target');
-                        });
-                    }
-                }
+                ngFabForm.scrollTo(scrollTargetEl, parseInt(scrollAnimationTime), scrollOffset);
             }
         }
 
@@ -465,10 +438,10 @@ angular.module('ngFabForm')
             // autofocus first error-element
             scrollToAndFocusFirstErrorOnSubmit: true,
 
-            // set either to fixed duration or to 'smooth'
-            // 'smooth' means that the duration is calculated,
-            // based on the distance to scroll (the more the faster it scrolls)
-            scrollAnimationTime: 'smooth',
+            // set in ms
+            // uses requestAnimationFrame for a polyfill see:
+            // https://github.com/darius/requestAnimationFrame/blob/master/requestAnimationFrame.js
+            scrollAnimationTime: 500,
 
             // fixed offset for scroll to element
             scrollOffset: -100,
@@ -507,6 +480,22 @@ angular.module('ngFabForm')
         // *****************
         // SERVICE-FUNCTIONS
         // *****************
+        function addCustomValidations(html, validators, attrs)
+        {
+            var container = angular.element('<div/>').html(html);
+            angular.forEach(attrs, function (attr, attrKey)
+            {
+                var regExp = new RegExp(config.validationMsgPrefix);
+                if (attrKey.match(regExp)) {
+                    var sanitizedKey = attrKey.replace(config.validationMsgPrefix, '');
+                    sanitizedKey = sanitizedKey.charAt(0).toLowerCase() + sanitizedKey.slice(1);
+                    var message = container.find('[ng-message="' + sanitizedKey + '"]');
+                    message.text(attr);
+                }
+            });
+            return container;
+        }
+
         var insertErrorTpl = function (compiledAlert, el, attrs)
             {
                 // insert after or after parent if checkbox or radio
@@ -516,21 +505,64 @@ angular.module('ngFabForm')
                     el.after(compiledAlert);
                 }
             },
-            addCustomValidations = function (html, validators, attrs)
+
+            scrollTo = (function ()
             {
-                var container = angular.element('<div/>').html(html);
-                angular.forEach(attrs, function (attr, attrKey)
+                // t: current time, b: begInnIng value, c: change In value, d: duration
+                // see: https://github.com/danro/jquery-easing/blob/master/jquery.easing.js
+                // and: http://upshots.org/actionscript/jsas-understanding-easing
+                function easeInOutQuad(t, b, c, d)
                 {
-                    var regExp = new RegExp(config.validationMsgPrefix);
-                    if (attrKey.match(regExp)) {
-                        var sanitizedKey = attrKey.replace(config.validationMsgPrefix, '');
-                        sanitizedKey = sanitizedKey.charAt(0).toLowerCase() + sanitizedKey.slice(1);
-                        var message = container.find('[ng-message="' + sanitizedKey + '"]');
-                        message.text(attr);
+                    if ((t /= d / 2) < 1) {
+                        return c / 2 * t * t + b;
                     }
-                });
-                return container;
-            };
+                    return -c / 2 * ((--t) * (t - 2) - 1) + b;
+                }
+
+                // longer scroll duration for longer distances
+                function scaleTimeToDistance(distance, duration)
+                {
+                    var baseDistance = 500;
+                    var distanceAbs = Math.abs(distance);
+                    var min = duration / 10;
+                    return duration * distanceAbs / baseDistance + min;
+                }
+
+
+                return function (targetEl, durationP, scrollOffset)
+                {
+                    function animateScroll()
+                    {
+                        currentTime += increment;
+                        var val = easeInOutQuad(currentTime, start, change, duration);
+                        window.scrollTo(targetX, val);
+
+                        if (currentTime < duration) {
+                            setTimeout(animateScroll, increment);
+                        } else {
+                            targetEl.focus();
+                        }
+                    }
+
+                    var targetY = targetEl.getBoundingClientRect().top + parseInt(scrollOffset),
+                        targetX = targetEl.getBoundingClientRect().left;
+                    var duration = scaleTimeToDistance(targetY, durationP);
+
+                    var start = window.pageYOffset,
+                        change = targetY,
+                        currentTime = 0,
+                        increment = 20;
+
+                    // return if no animation is required
+                    if (change === 0) {
+                        targetEl.focus();
+                        return;
+                    }
+
+                    // init recursive function
+                    animateScroll();
+                };
+            }());
 
 
         // *************************
@@ -546,6 +578,10 @@ angular.module('ngFabForm')
             {
                 insertErrorTpl = insertErrorTplFn;
             },
+            setScrollToFn: function (scrollToFn)
+            {
+                scrollTo = scrollToFn;
+            },
 
 
             // ************************************************
@@ -557,6 +593,7 @@ angular.module('ngFabForm')
                 return {
                     insertErrorTpl: insertErrorTpl,
                     addCustomValidations: addCustomValidations,
+                    scrollTo: scrollTo,
                     config: config
                 };
             }
