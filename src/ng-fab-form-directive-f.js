@@ -97,11 +97,6 @@ angular.module('ngFabForm')
 
                     function ngFabFormCycle(oldCfg)
                     {
-                        // if there is no form-wrapper just return
-                        if (!formCtrl) {
-                            return;
-                        }
-
                         // apply validation messages
                         // only if required controllers and validators are set
                         if (ngModelCtrl && cfg.validationsTemplate && (Object.keys(ngModelCtrl.$validators).length !== 0) && (!oldCfg || cfg.validationsTemplate !== oldCfg.validationsTemplate)) {
@@ -126,22 +121,27 @@ angular.module('ngFabForm')
                         }
                     }
 
-                    // wait for formCtrl to be ready
+                    // INIT
+                    // after formCtrl should be ready
                     $timeout(function ()
                     {
-                        // get configuration from parent form
-                        if (!cfg) {
-                            cfg = formCtrl.ngFabFormConfig;
-                        }
-                        ngFabFormCycle();
-                    }, 0);
+                        // only execute if formCtrl is set
+                        if (formCtrl) {
+                            // get configuration from parent form
+                            if (!cfg) {
+                                cfg = formCtrl.ngFabFormConfig;
+                            }
+                            ngFabFormCycle();
 
-                    // watch for config changes
-                    scope.$on('NG_FAB_FORM_OPTIONS_CHANGED_FOR_' + formCtrl.$name, function (ev, newCfg, oldCfg)
-                    {
-                        cfg = newCfg;
-                        ngFabFormCycle(oldCfg);
-                    });
+
+                            // watch for config changes
+                            scope.$on('NG_FAB_FORM_OPTIONS_CHANGED_FOR_' + formCtrl.$name, function (ev, newCfg, oldCfg)
+                            {
+                                cfg = newCfg;
+                                ngFabFormCycle(oldCfg);
+                            });
+                        }
+                    }, 0);
                 };
             }
         };

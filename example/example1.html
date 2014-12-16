@@ -290,5 +290,31 @@
     </button>
 </form>
 
-
+<h3>special cases</h3>
+<h4>forms with no name</h4>
+<form>
+    <input type="text"
+           required
+           ng-model="test">
+</form>
+<form>
+    <input type="text"
+           required
+           ng-model="test">
+</form>
+<h4>forms with same name</h4>
+<form name="samesame">
+    <input type="text"
+           required
+           ng-model="test">
+</form>
+<form name="samesame">
+    <input type="text"
+           required
+           ng-model="test">
+</form>
+<h4>ng-model input with no form</h4>
+<input type="text"
+       required
+       ng-model="test">
 

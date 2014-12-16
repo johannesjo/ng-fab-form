@@ -27,6 +27,39 @@ angular.module('ngFabForm')
             return arr;
         }
 
+        // see http://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
+        function generateUUID()
+        {
+            /* jshint ignore:start */
+            var d = new Date().getTime();
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c)
+            {
+                var r = (d + Math.random() * 16) % 16 | 0;
+                d = Math.floor(d / 16);
+                return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+            });
+            /* jshint ignore:end */
+        }
+
+        function checkSetUniqueName(el, attrs)
+        {
+            var newFormName;
+            if (attrs.name) {
+                if (formNames.indexOf(attrs.name) > -1) {
+                    newFormName = attrs.name + '_' + generateUUID();
+                    console.warn('ngFabForm: duplicate form name "' + attrs.name + '", setting name to: ' + newFormName);
+                }
+            } else {
+                newFormName = 'ngFabForm_' + generateUUID();
+                console.warn('ngFabForm: all forms should have a unique name set, setting name to: ' + newFormName);
+            }
+            if (newFormName) {
+                el.attr('name', newFormName);
+                attrs.name = newFormName;
+            }
+            formNames.push(attrs.name);
+        }
+
 
         // CONFIGURABLE ACTIONS
         function setupDisabledForms(el, attrs)
@@ -69,22 +102,7 @@ angular.module('ngFabForm')
                     newFormName;
 
                 // error helper for unique name issues
-                if (attrs.name) {
-                    if (formNames.indexOf(attrs.name) > -1) {
-                        newFormName = attrs.name + formNames.length;
-                        console.warn('ngFabForm: duplicate form name "' + attrs.name + '", setting name to: ' + newFormName);
-                    } else {
-                        formNames.push(attrs.name);
-                    }
-                } else {
-                    newFormName = 'ngFabForm' + formNames.length;
-                    console.warn('ngFabForm: all forms should have a unique name set, setting name to: ' + newFormName);
-                }
-                if (newFormName) {
-                    el.attr('name', newFormName);
-                    attrs.name = newFormName;
-                }
-
+                checkSetUniqueName(el, attrs);
 
                 // autoset novalidate
                 if (!attrs.novalidate && cfg.setNovalidate) {
