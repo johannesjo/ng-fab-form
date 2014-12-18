@@ -1,14 +1,14 @@
-[![Stories in Ready](https://badge.waffle.io/johannesjo/ng-fab-form.svg?label=ready&title=Ready)](http://waffle.io/johannesjo/ng-fab-form) 
-[![Stories in progress](https://badge.waffle.io/johannesjo/ng-fab-form.svg?label=in%20progress&title=In%20Progress)](http://waffle.io/johannesjo/ng-fab-form) 
+[![Stories in Ready](https://badge.waffle.io/johannesjo/ng-fab-form.svg?label=ready&title=Ready)](http://waffle.io/johannesjo/ng-fab-form)
+[![Stories in progress](https://badge.waffle.io/johannesjo/ng-fab-form.svg?label=in%20progress&title=In%20Progress)](http://waffle.io/johannesjo/ng-fab-form)
 
 ng-fab-form
 ===========
 
 *Convenient forms for Angular with no extra markup? Fabulous!*
 
-AngularJS forms are pretty nice. But if you have worked with angular for a while, you'll find that the out of the box mechanics like the instant validation are far from perfect from the common users perspective. Furthermore you probably catch yourself declaring (and sometimes forgetting) the same stuff on and on again like giving a `novalidate` attribute, preventing submission for invalid forms or declaring a proper name attribute. 
+AngularJS forms are pretty nice. But if you have worked with angular for a while, you'll find that the out of the box mechanics like the instant validation are far from perfect from the common users perspective. Furthermore you probably catch yourself declaring (and sometimes forgetting) the same stuff on and on again like giving a `novalidate` attribute, preventing submission for invalid forms or declaring a proper name attribute and worst of all: setting up validation messages again and again.
 
-The most repitive part by far is validation. I understand why the angular-developers want to give us the freedom, of doing this stuff in the most flexible manner, but I personally like to keep things consistent, which is hard with how forms work out of the box.`ng-fab-form` tries solve all of those issues without requiring you to change anything. Just set your forms up as usual and let `ng-fab-form` do the rest for you. 
+It is understandable why the angular-developers want to give us the freedom, of doing all this stuff in the most flexible manner, but most of the time you want to keep things consistent and not handle every form differently.`ng-fab-form` tries to help you with this with a reasonable but highly configurable default behavior for your forms.
 
 [Bug-reports or feature request](https://github.com/johannesjo/ng-fab-form/issues) as well as any other kind of **feedback is highly welcome!**
 
@@ -45,19 +45,19 @@ It automatically:
 * adds a validation directive in case you have an exception to the rule
 * adds `name` attributes based on ng-model, if none is set
 * adds a `novalidate` attribute to forms
-* scrolls to and focusses the first form element with an error, if the submission fails
-* tries to set an asterisk to the corresponding label, if `required` or `ng-required` is set
+* scrolls to and focuses the first form element with an error, if the submission fails
+
 
 Want a little help and the same flexibility with your form-markup? Then [check out ng-fab-forms little companion **angular-auto-forms**](https://github.com/johannesjo/angular-auto-forms)!!
 
 
 ## why choose ng-fab-form over another form helper module?
 
-There are a lot of [form builders and other modules with the intention of simplyfing form handling](https://github.com/search?o=desc&q=angular+form&s=stars&type=Repositories&utf8=%E2%9C%93) out there. Why choose `ng-fab-form` then? First of all you likely will not have to choose one or the other as it should be compatible with every module using ngModel for validations and because you will probably be able to deactivate any conflicting functionalities (be sure to [report incompatibilties](https://github.com/johannesjo/ng-fab-form/issues)). 
+There are a lot of [form builders and other modules with the intention of simplifying form handling](https://github.com/search?o=desc&q=angular+form&s=stars&type=Repositories&utf8=%E2%9C%93) out there. Why choose `ng-fab-form` then? First of all you likely will not have to choose one or the other as it should be compatible with every module using `ngModel` for validations and because you will probably be able to deactivate any conflicting functionalities (be sure to [report incompatibilties](https://github.com/johannesjo/ng-fab-form/issues)).
 
-The reason why `ng-fab-form` was build, is that the modules I tried either take only a small part of the reptiveness out of your job or they take a framework-like approach and you're becoming very dependent on them, the markup they require and spit out, the functionalities they introduce and probably more important, those they don't introduce and those who hinder other features. This is not necessarily a bad thing and they might greatly improve your productivity, but if some project is discontinued or you find out, that you need a functionality you won't we be able to implement without a significant investment and the project owner doesn't care about, you're stuck. Sure make a fork, but we all know how they usually don't evolve beyond the scale of the current project. 
+The reason why `ng-fab-form` was build, is that the modules I tried either take only a small part of the repetitiveness out of your job or they take a framework-like approach and you're becoming very dependent on them, the markup they require and spit out, the functionalities they introduce and probably more important, those they don't introduce and those who hinder other features. This is not necessarily a bad thing and they might greatly improve your productivity, but the (non angular-canon) restrictions and rules they introduce made them too limited for some projects and less of a universal form tool, which can be used again and again.
 
-This is why `ng-fab-form` focusses on the basic angular functions and tries to extend them application-wide, while always giving you the option to throw out what doesn't fit in. Worst case scenario: You completely remove `ng-fab-form` because you don't like it and then you're back to standard angular, with probably almost no effort spend, almost no time wasted.
+This is why `ng-fab-form` focuses on the basic angular functions and tries to extend them application-wide, while always giving you the option to throw out what doesn't fit in. Worst case scenario: You completely remove `ng-fab-form` because you don't like it and then you're back to standard angular, with probably almost no effort spend, almost no time wasted.
 
 
 ## manual installation and dependencies
@@ -65,7 +65,7 @@ This is why `ng-fab-form` focusses on the basic angular functions and tries to e
 Grab the minified [ng-fab-form file](https://github.com/johannesjo/ng-fab-form/blob/master/dist/ng-fab-form.min.js) from the dist folder. You also need to install [ng-messags](https://docs.angularjs.org/api/ngMessages/directive/ngMessages) which is the only required dependency. At the moment there is only one features which require jQuery: The auto-setting of an asterisk, which won't work as long as jQuery is not loaded before.
 
 
-## configuring default options
+## configuring default form options
 
 Currently the configuration object of ng-fab-forms looks like this:
 ```
@@ -136,44 +136,46 @@ angular.module('exampleApp', [
             setNovalidate: false
         });
     });
-
 ```
-## multiple configurations via `ng-fab-form-options`
-`validationsTemplate`, `preventInvalidSubmit`, `preventDoubleSubmit`, `preventDoubleSubmitTimeoutLength`, `setFormDirtyOnSubmit`, `scrollToAndFocusFirstErrorOnSubmit`, `scrollAnimationTime` and `scrollOffset` can also be changed in realtime from your controllers or directives:
+
+## multiple form configurations via `ng-fab-form-options`
+`validationsTemplate`, `preventInvalidSubmit`, `preventDoubleSubmit`, `preventDoubleSubmitTimeoutLength`, `setFormDirtyOnSubmit`, `scrollToAndFocusFirstErrorOnSubmit`, `scrollAnimationTime` and `scrollOffset` can also be changed in real-time from your controllers or directives:
 ```javascript
 angular.module('exampleApp', [
-    'ngFabForm',
-    'ngMessages'
+'ngFabForm',
+'ngMessages'
 ])
 .controller('exampleCtrl', function ($scope, ngFabForm)
-    {
-        $scope.customFormOptions = {
-            validationsTemplate: 'your-tpl.html',
-            preventInvalidSubmit: false,
-            preventDoubleSubmit: false,
-            setFormDirtyOnSubmit: true,
-            scrollToAndFocusFirstErrorOnSubmit: true,
-            scrollAnimationTime: 900,
-            scrollOffset: -100,
-        };
-    });
+{
+  $scope.customFormOptions = {
+    validationsTemplate: 'your-tpl.html',
+    preventInvalidSubmit: false,
+    preventDoubleSubmit: false,
+    setFormDirtyOnSubmit: true,
+    scrollToAndFocusFirstErrorOnSubmit: true,
+    scrollAnimationTime: 900,
+    scrollOffset: -100,
+  };
+});
 ```
+
+## special validations for special cases (e.g. ng-pattern)
+
+Sometimes you might want to have another text for a specific context. Special validation-messages like this are easily added like this:
+```html
+<input type="text"
+ng-model="my-model"
+ng-pattern="/abcdefg/"
+validation-msg-pattern="Not abcdefg :(">
+```
+
+
 And in your template:
 ```html
 <form name="customOptionsForm"
       ng-fab-form-options="customFormOptions">
       ...
 </form>
-```
-
-## special validations (e.g. ng-pattern)
-
-Sometimes you might want to have another text for a specifc context. Special validation-messages like this are easily added like this:
-```html
-<input type="text"
-       ng-model="my-model"
-       ng-pattern="/abcdefg/"
-       validation-msg-pattern="Not abcdefg :(">
 ```
 
 ## default validations and creating your own validation template
@@ -185,7 +187,9 @@ This is what the default validation template looks like:
 <!-- Default Validation Template -->
 <div ng-messages="field.$error"
      class="validation">
-     <!-- Show errors for invalid fields, when it has been either focused, has been changed or the user tried to submit the form without success (requires the setDirtyOnSubmit-option to be set-->
+     <!-- Show errors for invalid fields, when it has been either focused,
+      has been changed or the user tried to submit the form without success
+      (requires the setDirtyOnSubmit-option to be set-->
     <ul class="list-unstyled validation-errors"
         ng-show="field.$invalid && (field.$touched || field.$dirty || form.$triedSubmit)">
         <li ng-message="required">This field is required</li>
@@ -203,27 +207,31 @@ This is what the default validation template looks like:
         <li ng-message="url">This is not a valid url</li>
         <li ng-message="file">This not a valid file</li>
 
-        <!-- ng-fab-form provides you with access to the input-element-attributes, allowing you to display their values inside of the message-->
+        <!-- ng-fab-form provides you with access to the
+        input-element-attributes, allowing you to display their values
+        inside of the message-->
         <li ng-message="minlength">Your field should have at least {{ attrs.minlength }} characters</li>
         <li ng-message="maxlength">Your field should have max {{ attrs.maxlength }} characters</li>
 
         <li ng-if="attrs.type == 'time' "
             ng-message="min">The time provided should be no earlier than {{ attrs.min |date: 'HH:MM' }}
         </li>
-        
-        <!-- you can use ng-if or ng-show for more advanced error messages -->
+
+        <!-- you can use ng-if or ng-show for more advanced
+        error messages -->
         <li ng-message="max"
             ng-if="attrs.type == 'time' ">The time should be no later than {{attrs.max |date: 'HH:MM'}}
         </li>
         <li ng-message="min"
             ng-if="attrs.type == 'date' ">The date provided should be no earlier than then {{attrs.max
             |date:'dd.MM.yy'}}
-        </li>        
+        </li>
         <li ng-message="max"
             ng-if="attrs.type == 'date' ">The time should be no later than {{attrs.max |date: 'dd.MM.yy'}}
         </li>
     </ul>
-    <!-- It is also possible to show a success element using the standard form syntax -->
+    <!-- It is also possible to show a success element
+    using the standard form syntax -->
     <div class="validation-success"
          ng-show="field.$valid && !field.$invalid">
     </div>
@@ -245,14 +253,13 @@ angular.module('exampleApp', [
 ```
 
 #### create and share
-You can use this [plunkr  as base for your fabulous creation](http://plnkr.co/edit/wVW8ih?p=info)! Think you created something useful? Then share it!!! Either provide a pull-request or leave a comment on the [projects public page](http://johannesjo.github.io/ng-fab-form/). 
+You can use this [plunkr as base for your fabulous creation](http://plnkr.co/edit/wVW8ih?p=info)! Think you created something useful? Then share it!!! Either provide a pull-request or leave a comment on the [projects public page](http://johannesjo.github.io/ng-fab-form/).
 
 If you provie a pull-reqest, please use a feature-branch. The commit should usually contain two files: A html template and a scss-file.
 
 
-## advanced configuration
-
-
+## advanced configurations
+### adjust insertion function of validation messages
 You can edit where and how the messages are inserted in relation to their corresponding form-element:
 
 ```javascript
@@ -273,9 +280,10 @@ angular.module('exampleApp', [
             };
         ngFabFormProvider.setInsertErrorTplFn(customInsertFn);
     });
-    
+
 ```
-And you can change the scroll animation-handler to one of your liking:
+### use a custom scroll-to handler
+You can change the scroll animation-handler to one of your liking:
 
 ```javascript
 angular.module('exampleApp', [
@@ -291,25 +299,15 @@ angular.module('exampleApp', [
             };
         ngFabFormProvider.setScrollToFn(customScrollToFn);
     });
-    
+
 ```
 A good starting point for you might be the [default function which can be found inside of the `ngFabFormProvider`](https://github.com/johannesjo/ng-fab-form/blob/master/src/ng-fab-form-p.js).
 
-## ❤ contribute ❤
 
+## ❤ contribute ❤
 I'm happy for any [issue or feature request](https://github.com/johannesjo/ng-fab-form/issues), you might encounter or want to have. Even a one liner is better, than no feedback at all. Pull requests are also highly welcome. Just fork the repository, clone it and run `grunt serve` for development. Another important factor is the number of developers using and thus testing `ng-fab-form`. Tell your fellow programmers, [say that you use it on ng-modules](http://ngmodules.org/modules/ng-fab-form), tweet or even blog about it.
 
 `ng-fab-form` is published under the [The GNU Lesser General Public License V2.1](https://github.com/johannesjo/ng-fab-form/blob/master/LICENSE).
 
 ## (possible) fabulous future features
-
-* ~~themeable autowrappers for form elements: switch between bootstrap style forms, to semantic-ui, to foundation, to ionic and back.~~ implemented via angular-auto-forms
-* grunt templating tasks
-* full unit and e2e testing
-* ~~implement native javascript wherever possible~~ done
-* better documentation, e.g.: how to use and create vanilla angular `$validators`
-* moularized grunt file structure
 * [your feature request](https://github.com/johannesjo/ng-fab-form/issues)!
-
-
-
