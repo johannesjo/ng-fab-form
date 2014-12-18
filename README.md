@@ -8,7 +8,7 @@ ng-fab-form
 
 AngularJS forms are pretty nice. But if you have worked with angular for a while, you'll find that the out of the box mechanics like the instant validation are far from perfect from the common users perspective. Furthermore you probably catch yourself declaring (and sometimes forgetting) the same stuff on and on again like giving a `novalidate` attribute, preventing submission for invalid forms or declaring a proper name attribute and worst of all: setting up validation messages again and again.
 
-It is understandable why the angular-developers want to give us the freedom, of doing all this stuff in the most flexible manner, but most of the time you want to keep things consistent and not handle every form differently.`ng-fab-form` tries to help you with this with a reasonable but highly configurable default behavior for your forms.
+It is understandable why the angular-developers want to give us the freedom, of doing all this stuff in the most flexible manner, but most of the time you want to keep things consistent and not handle every form differently.`ng-fab-form` tries to help you with this with a reasonable default but highly configurable behavior for your forms.
 
 [Bug-reports or feature request](https://github.com/johannesjo/ng-fab-form/issues) as well as any other kind of **feedback is highly welcome!**
 
