@@ -298,6 +298,13 @@ angular.module('ngFabForm')
                 ngModelCtrl = params.ngModelCtrl,
                 attrs = params.attrs;
 
+            //credit: http://stackoverflow.com/questions/6393943/convert-javascript-string-in-dot-notation-into-an-object-reference
+            function stringToRef(object, reference) {
+                function arrDeRef(o, ref, i) { return !ref ? o : (o[ref.slice(0, i ? -1 : ref.length)]); }
+                function dotDeref(o, ref) { return ref.split('[').reduce(arrDeRef, o); }
+                return !reference ? object : reference.split('.').reduce(dotDeref, object);
+            }
+
             // remove error tpl if any
             if (params.currentValidationVars.tpl && (Object.keys(params.currentValidationVars.tpl).length !== 0)) {
                 params.currentValidationVars.tpl.remove();
@@ -313,8 +320,8 @@ angular.module('ngFabForm')
                     // create new scope for validation messages
                     var privateScope = $rootScope.$new(true);
                     privateScope.attrs = attrs;
-                    privateScope.form = scope[formCtrl.$name];
-                    privateScope.field = scope[formCtrl.$name][ngModelCtrl.$name];
+                    privateScope.form = stringToRef(scope, formCtrl.$name);
+                    privateScope.field = stringToRef(privateScope.form, ngModelCtrl.$name);
 
                     // compile and insert messages
                     var compiledAlert = $compile(html)(privateScope);
