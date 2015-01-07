@@ -34,7 +34,7 @@ angular.module('ngFabForm')
         {
             /* jshint ignore:start */
             var d = new Date().getTime();
-            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c)
+            return 'xxxxxxxx_xxxx_4xxx_yxxx_xxxxxxxxxxxx'.replace(/[xy]/g, function (c)
             {
                 var r = (d + Math.random() * 16) % 16 | 0;
                 d = Math.floor(d / 16);
@@ -298,13 +298,6 @@ angular.module('ngFabForm')
                 ngModelCtrl = params.ngModelCtrl,
                 attrs = params.attrs;
 
-            //credit: http://stackoverflow.com/questions/6393943/convert-javascript-string-in-dot-notation-into-an-object-reference
-            function stringToRef(object, reference) {
-                function arrDeRef(o, ref, i) { return !ref ? o : (o[ref.slice(0, i ? -1 : ref.length)]); }
-                function dotDeref(o, ref) { return ref.split('[').reduce(arrDeRef, o); }
-                return !reference ? object : reference.split('.').reduce(dotDeref, object);
-            }
-
             // remove error tpl if any
             if (params.currentValidationVars.tpl && (Object.keys(params.currentValidationVars.tpl).length !== 0)) {
                 params.currentValidationVars.tpl.remove();
@@ -320,8 +313,8 @@ angular.module('ngFabForm')
                     // create new scope for validation messages
                     var privateScope = $rootScope.$new(true);
                     privateScope.attrs = attrs;
-                    privateScope.form = stringToRef(scope, formCtrl.$name);
-                    privateScope.field = stringToRef(privateScope.form, ngModelCtrl.$name);
+                    privateScope.form = formCtrl;
+                    privateScope.field = ngModelCtrl;
 
                     // compile and insert messages
                     var compiledAlert = $compile(html)(privateScope);
