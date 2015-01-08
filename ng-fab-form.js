@@ -34,7 +34,7 @@ angular.module('ngFabForm')
         {
             /* jshint ignore:start */
             var d = new Date().getTime();
-            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c)
+            return 'xxxxxxxx_xxxx_4xxx_yxxx_xxxxxxxxxxxx'.replace(/[xy]/g, function (c)
             {
                 var r = (d + Math.random() * 16) % 16 | 0;
                 d = Math.floor(d / 16);
@@ -313,8 +313,8 @@ angular.module('ngFabForm')
                     // create new scope for validation messages
                     var privateScope = $rootScope.$new(true);
                     privateScope.attrs = attrs;
-                    privateScope.form = scope[formCtrl.$name];
-                    privateScope.field = scope[formCtrl.$name][ngModelCtrl.$name];
+                    privateScope.form = formCtrl;
+                    privateScope.field = ngModelCtrl;
 
                     // compile and insert messages
                     var compiledAlert = $compile(html)(privateScope);
