@@ -95,7 +95,7 @@ module.exports = function (grunt)
 
         sass: {
             options: {
-                sourceMap: true
+                sourceMap: false
             },
             server: {
                 files: {
@@ -461,6 +461,7 @@ module.exports = function (grunt)
 
         grunt.task.run([
             'clean:server',
+            'sass:server',
             'ngtemplates',
             'fileblocks:dev',
             'wiredep:dev',
