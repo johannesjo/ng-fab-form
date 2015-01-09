@@ -77,9 +77,8 @@ angular.module('ngFabForm')
                 // NOTE: needs to be set in $compile-function for the validation too work
                 if (ngFabForm.config.setNamesByNgModel && attrs.ngModel && !attrs.name) {
                     // set name attribute if none is set
-                    var newNameAttr = attrs.ngModel.replace(/\./g, '_');
-                    el.attr('name', newNameAttr);
-                    attrs.name = newNameAttr;
+                    el.attr('name', attrs.ngModel);
+                    attrs.name = attrs.ngModel;
                 }
 
 
