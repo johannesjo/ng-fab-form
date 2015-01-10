@@ -1,1 +1,3 @@
-angular.module('ngFabForm', []);
+angular.module('ngFabForm', [
+    'ngMessages'
+]);

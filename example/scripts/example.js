@@ -1,6 +1,5 @@
 angular.module('exampleApp', [
     'ngFabForm',
-    'ngMessages',
     'ngAnimate'
 ])
     .config(function (ngFabFormProvider)

@@ -18,11 +18,10 @@ Install it via bower
 ```
 bower install ng-fab-form -S
 ```
-and add `ngFabForm` and `ngMessages` as dependency in your main module:
+and add `ngFabForm` as dependency in your main module:
 ```
 angular.module('yourApp',[
-  'ngFabForm',
-  'ngMessages'
+  'ngFabForm'
 ]);
 ```
 That is all you need to do to get started.
@@ -126,8 +125,7 @@ validationMsgPrefix: 'validationMsg'
 You can easily extend those configurations like this:
 ```javascript
 angular.module('exampleApp', [
-    'ngFabForm',
-    'ngMessages'
+    'ngFabForm'
 ])
     .config(function (ngFabFormProvider)
     {
@@ -142,8 +140,7 @@ angular.module('exampleApp', [
 `validationsTemplate`, `preventInvalidSubmit`, `preventDoubleSubmit`, `preventDoubleSubmitTimeoutLength`, `setFormDirtyOnSubmit`, `scrollToAndFocusFirstErrorOnSubmit`, `scrollAnimationTime` and `scrollOffset` can also be changed in real-time from your controllers or directives:
 ```javascript
 angular.module('exampleApp', [
-'ngFabForm',
-'ngMessages'
+'ngFabForm'
 ])
 .controller('exampleCtrl', function ($scope, ngFabForm)
 {
@@ -246,8 +243,7 @@ This is what the default validation template looks like:
 To load you own validations simply set the template url in your configuration:
 ```javascript
 angular.module('exampleApp', [
-    'ngFabForm',
-    'ngMessages'
+    'ngFabForm'
 ])
     .config(function (ngFabFormProvider)
     {
