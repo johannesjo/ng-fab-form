@@ -517,6 +517,14 @@ module.exports = function (grunt)
         ]);
     });
 
+    grunt.registerTask('release', function (target)
+    {
+        grunt.task.run([
+            'ghp',
+            'bump'
+        ]);
+    });
+
     grunt.registerTask('ghp', function (target)
     {
         grunt.task.run([
