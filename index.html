@@ -116,10 +116,9 @@
 <h2 id="getting-started">getting started</h2>
 <p>Install it via bower</p>
 <pre><code>bower install ng-fab-form -S
-</code></pre><p>and add <code>ngFabForm</code> and <code>ngMessages</code> as dependency in your main module:</p>
+</code></pre><p>and add <code>ngFabForm</code> as dependency in your main module:</p>
 <pre><code>angular.module(&#39;yourApp&#39;,[
-  &#39;ngFabForm&#39;,
-  &#39;ngMessages&#39;
+  &#39;ngFabForm&#39;
 ]);
 </code></pre><p>That is all you need to do to get started.</p>
 <h3 id="features">features</h3>
@@ -203,8 +202,7 @@ asteriskStr: &#39;*&#39;,
 validationMsgPrefix: &#39;validationMsg&#39;
 </code></pre><p>You can easily extend those configurations like this:</p>
 <pre><code class="lang-javascript">angular.module(&#39;exampleApp&#39;, [
-    &#39;ngFabForm&#39;,
-    &#39;ngMessages&#39;
+    &#39;ngFabForm&#39;
 ])
     .config(function (ngFabFormProvider)
     {
@@ -217,8 +215,7 @@ validationMsgPrefix: &#39;validationMsg&#39;
 <h2 id="multiple-form-configurations-via-ng-fab-form-options-">multiple form configurations via <code>ng-fab-form-options</code></h2>
 <p><code>validationsTemplate</code>, <code>preventInvalidSubmit</code>, <code>preventDoubleSubmit</code>, <code>preventDoubleSubmitTimeoutLength</code>, <code>setFormDirtyOnSubmit</code>, <code>scrollToAndFocusFirstErrorOnSubmit</code>, <code>scrollAnimationTime</code> and <code>scrollOffset</code> can also be changed in real-time from your controllers or directives:</p>
 <pre><code class="lang-javascript">angular.module(&#39;exampleApp&#39;, [
-&#39;ngFabForm&#39;,
-&#39;ngMessages&#39;
+&#39;ngFabForm&#39;
 ])
 .controller(&#39;exampleCtrl&#39;, function ($scope, ngFabForm)
 {
@@ -232,6 +229,10 @@ validationMsgPrefix: &#39;validationMsg&#39;
     scrollOffset: -100,
   };
 });
+</code></pre>
+<pre><code class="lang-html">&lt;form role=&quot;form&quot;
+  name=&quot;youFormName&quot;
+  ng-fab-form-options=&quot;customFormOptions&quot;&gt;...&lt;/form&gt;
 </code></pre>
 <h2 id="special-validations-for-special-cases-e-g-ng-pattern-">special validations for special cases (e.g. ng-pattern)</h2>
 <p>Sometimes you might want to have another text for a specific context. Special validation-messages like this are easily added like this:</p>
@@ -304,8 +305,7 @@ validation-msg-pattern=&quot;Not abcdefg :(&quot;&gt;
 </code></pre>
 <p>To load you own validations simply set the template url in your configuration:</p>
 <pre><code class="lang-javascript">angular.module(&#39;exampleApp&#39;, [
-    &#39;ngFabForm&#39;,
-    &#39;ngMessages&#39;
+    &#39;ngFabForm&#39;
 ])
     .config(function (ngFabFormProvider)
     {
