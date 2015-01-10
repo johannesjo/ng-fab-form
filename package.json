@@ -1,12 +1,13 @@
 {
   "name": "ng-fab-forms",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "devDependencies": {
     "google-cdn": "^1.0.0",
     "google-cdn-data": "^0.1.14",
     "grunt": "^0.4.1",
-    "grunt-autoprefixer": "^2.0.0",
     "grunt-angular-templates": "^0.5.7",
+    "grunt-autoprefixer": "^2.0.0",
+    "grunt-bump": "0.0.16",
     "grunt-concurrent": "^0.5.0",
     "grunt-contrib-clean": "^0.5.0",
     "grunt-contrib-concat": "^0.5.0",

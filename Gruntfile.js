@@ -449,6 +449,27 @@ module.exports = function (grunt)
             dist: {
                 html: ['<%= appConfig.dist %>/**/*.html']
             }
+        },
+        bump: {
+            options: {
+                files: ['package.json', 'bower.json'],
+                updateConfigs: [],
+                commit: true,
+                commitMessage: 'Release v%VERSION%',
+                commitFiles: [
+                    'package.json',
+                    'bower.json',
+                    'dist/ng-fab-form.min.js',
+                    'dist/ng-fab-form.js'
+                ],
+                createTag: true,
+                tagName: 'v%VERSION%',
+                tagMessage: 'Version %VERSION%',
+                push: true,
+                pushTo: 'upstream',
+                gitDescribeOptions: '--tags --always --abbrev=1 --dirty=-d',
+                globalReplace: false
+            }
         }
     });
 
