@@ -158,6 +158,11 @@ angular.module('exampleApp', [
   };
 });
 ```
+```html
+<form role="form"
+  name="youFormName"
+  ng-fab-form-options="customFormOptions">...</form>
+```
 
 ## special validations for special cases (e.g. ng-pattern)
 
