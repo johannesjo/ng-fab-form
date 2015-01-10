@@ -1,4 +1,6 @@
-angular.module('ngFabForm', []);
+angular.module('ngFabForm', [
+    'ngMessages'
+]);
 
 angular.module('ngFabForm')
     .directive('form', function ($compile, $timeout, ngFabForm)
