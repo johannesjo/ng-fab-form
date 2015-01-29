@@ -310,7 +310,7 @@ angular.module('ngFabForm')
                 .then(function processTemplate(html)
                 {
                     // add custom (attr) validations
-                    html = ngFabForm.addCustomValidations(html, ngModelCtrl.$validators, attrs);
+                    html = ngFabForm.addCustomValidations(html, attrs);
 
                     // create new scope for validation messages
                     var privateScope = $rootScope.$new(true);
@@ -385,7 +385,7 @@ angular.module('ngFabForm')
                     {
                         // apply validation messages
                         // only if required controllers and validators are set
-                        if (ngModelCtrl && cfg.validationsTemplate && (Object.keys(ngModelCtrl.$validators).length !== 0) && (!oldCfg || cfg.validationsTemplate !== oldCfg.validationsTemplate)) {
+                        if (ngModelCtrl && cfg.validationsTemplate && ((Object.keys(ngModelCtrl.$validators).length !== 0) || (Object.keys(ngModelCtrl.$asyncValidators).length !== 0)) && (!oldCfg || cfg.validationsTemplate !== oldCfg.validationsTemplate)) {
                             insertValidationMsgs({
                                 scope: scope,
                                 el: el,
@@ -502,7 +502,7 @@ angular.module('ngFabForm')
         // *****************
         // SERVICE-FUNCTIONS
         // *****************
-        function addCustomValidations(html, validators, attrs)
+        function addCustomValidations(html, attrs)
         {
             var container = angular.element('<div/>').html(html);
             angular.forEach(attrs, function (attr, attrKey)

@@ -67,7 +67,7 @@ angular.module('ngFabForm')
         // *****************
         // SERVICE-FUNCTIONS
         // *****************
-        function addCustomValidations(html, validators, attrs)
+        function addCustomValidations(html, attrs)
         {
             var container = angular.element('<div/>').html(html);
             angular.forEach(attrs, function (attr, attrKey)
