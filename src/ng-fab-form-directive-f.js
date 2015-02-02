@@ -32,7 +32,7 @@ angular.module('ngFabForm')
                     privateScope.field = ngModelCtrl;
 
                     // compile and insert messages
-                    var compiledAlert = $compile(html)(privateScope);
+                    var compiledAlert = $compile(html.children())(privateScope);
                     params.currentValidationVars.tpl = compiledAlert[0];
                     ngFabForm.insertErrorTpl(compiledAlert[0], el, attrs);
                 });
