@@ -34,6 +34,7 @@
   },
   "devDependencies": {
     "angular-animate": "~1.3.4",
-    "jquery": "~2.1.1"
+    "jquery": "~2.1.1",
+    "angular-mocks": "~1.3.13"
   }
 }

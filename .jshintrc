@@ -25,6 +25,7 @@
         "$": false,
         "moment": false,
         "jasmine": false,
+        "spyOn": false,
         "describe": false,
         "it": false,
         "before": false,

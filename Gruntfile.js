@@ -32,7 +32,7 @@ module.exports = function (grunt)
             },
             bower: {
                 files: ['bower.json'],
-                tasks: ['wiredep:dev']
+                tasks: ['wiredep:dev', 'wiredep:test']
             },
             js: {
                 files: [
@@ -128,8 +128,8 @@ module.exports = function (grunt)
                                 '/bower_components',
                                 connect.static('./bower_components')
                             ),
-                            connect.static('./src'),
-                            connect.static('./example')
+                            connect.static(appConfig.app),
+                            connect.static(appConfig.example)
                         ];
                     }
                 }
@@ -207,6 +207,14 @@ module.exports = function (grunt)
                 src: [
                     '<%= appConfig.example %>/index.html',
                     '<%= appConfig.example %>/index.html'
+                ],
+                ignorePath: /\.\.\//,
+                exclude: [],
+                devDependencies: true
+            },
+            test: {
+                src: [
+                    './karma.conf.js'
                 ],
                 ignorePath: /\.\.\//,
                 exclude: [],
@@ -325,6 +333,7 @@ module.exports = function (grunt)
             },
             server: [
                 'watch',
+                'karma:unit'
             ],
             test: [],
             dist: []
@@ -486,6 +495,7 @@ module.exports = function (grunt)
             'ngtemplates',
             'fileblocks:dev',
             'wiredep:dev',
+            'wiredep:test',
             'connect:livereload',
             'concurrent:server'
         ]);
@@ -539,11 +549,15 @@ module.exports = function (grunt)
         grunt.task.run(['serve:' + target]);
     });
 
-    grunt.registerTask('test', [
-        'clean:server',
-        'connect:test',
-        'karma'
-    ]);
+    grunt.registerTask('test', function (target)
+    {
+        target = target || 'unit';
+        grunt.task.run([
+            'clean:server',
+            'wiredep:test',
+            'karma:' + target
+        ]);
+    });
 
     grunt.registerTask('e2e', [
         'connect:test',

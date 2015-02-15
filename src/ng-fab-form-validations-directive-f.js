@@ -1,5 +1,5 @@
 angular.module('ngFabForm')
-    .factory('ngFabFormDirective', function (ngFabForm, $compile, $templateRequest, $rootScope, $timeout)
+    .factory('ngFabFormValidationsDirective', function (ngFabForm, $compile, $templateRequest, $rootScope, $timeout)
     {
         'use strict';
 
