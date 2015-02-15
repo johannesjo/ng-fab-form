@@ -155,6 +155,8 @@ angular.module('exampleApp', [
   };
 });
 ```
+
+And in your template:
 ```html
 <form role="form"
   name="youFormName"
@@ -169,15 +171,6 @@ Sometimes you might want to have another text for a specific context. Special va
 ng-model="my-model"
 ng-pattern="/abcdefg/"
 validation-msg-pattern="Not abcdefg :(">
-```
-
-
-And in your template:
-```html
-<form name="customOptionsForm"
-      ng-fab-form-options="customFormOptions">
-      ...
-</form>
 ```
 
 ## default validations and creating your own validation template
