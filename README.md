@@ -1,5 +1,6 @@
 [![Stories in Ready](https://badge.waffle.io/johannesjo/ng-fab-form.svg?label=ready&title=Ready)](http://waffle.io/johannesjo/ng-fab-form)
 [![Stories in progress](https://badge.waffle.io/johannesjo/ng-fab-form.svg?label=in%20progress&title=In%20Progress)](http://waffle.io/johannesjo/ng-fab-form)
+[![Build Status](https://travis-ci.org/johannesjo/ng-fab-form.svg?branch=master)](https://travis-ci.org/johannesjo/ng-fab-form)
 
 ng-fab-form
 ===========
