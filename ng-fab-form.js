@@ -581,20 +581,15 @@ angular.module('ngFabForm')
 
         function setAsteriskForLabel(el, attrs, cfg)
         {
-            // check if jquery is loaded
-            if (window.$) {
-                var label = $('label[for=' + attrs.name + ']');
-                if (label.length < 1) {
-                    label = el.prev('label');
-                }
+            var label = document.querySelector('label[for="' + attrs.name + '"]');
+            if (!label || label.length < 1) {
+                label = el.prev('label');
+            }
 
-                if (label && label[0]) {
-                    if (attrs.type !== 'radio' && attrs.type !== 'checkbox') {
-                        label[0].innerText = label[0].innerText + cfg.asteriskStr;
-                    }
+            if (label && label[0]) {
+                if (attrs.type !== 'radio' && attrs.type !== 'checkbox') {
+                    label[0].innerText = label[0].innerText + cfg.asteriskStr;
                 }
-            } else {
-                throw 'auto-setting an asterisk requires jQuery';
             }
         }
 
