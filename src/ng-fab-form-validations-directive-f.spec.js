@@ -147,4 +147,85 @@ describe('validations directive', function ()
         var message = messageContainer.find('li');
         expect(message.length).toBe(0);
     });
+
+
+    describe('non inputs and checkboxes', function ()
+    {
+        it('textarea -display a validation message if invalid and no success message', function ()
+        {
+            var html = '<form name="testForm" ng-fab-form-options="customFormOptions">' +
+                '<textarea ng-model="testInput" required></textarea>' +
+                '</form>';
+            var element = $compile(html)(scope);
+            scope.$digest();
+            // as timeout is used, we need to flush it here
+            $timeout.flush();
+            var form = scope.testForm;
+            var messageContainer = angular.element(element.children()[1]);
+
+            // we have to use $setViewValue otherwise the formCtrl
+            // will not update properly
+            form.testInput.$setViewValue(null);
+
+            var message = messageContainer.find('li');
+            expect(message.length).toBe(1);
+            expect(message.attr('ng-message')).toBe('required');
+            expect(message.text()).toBe('This field is required');
+
+            var successMessage = messageContainer.find('div');
+            expect(successMessage.hasClass('ng-hide')).toBe(true);
+        });
+
+        it('textarea -display a validation message if invalid and no success message', function ()
+        {
+            var html = '<form name="testForm" ng-fab-form-options="customFormOptions">' +
+                '<select ng-model="testInput" required><option value=""></option></select>' +
+                '</form>';
+            var element = $compile(html)(scope);
+            scope.$digest();
+            // as timeout is used, we need to flush it here
+            $timeout.flush();
+            var form = scope.testForm;
+            var messageContainer = angular.element(element.children()[1]);
+
+            // we have to use $setViewValue otherwise the formCtrl
+            // will not update properly
+            form.testInput.$setViewValue(null);
+
+            var message = messageContainer.find('li');
+            expect(message.length).toBe(1);
+            expect(message.attr('ng-message')).toBe('required');
+            expect(message.text()).toBe('This field is required');
+
+            var successMessage = messageContainer.find('div');
+            expect(successMessage.hasClass('ng-hide')).toBe(true);
+        });
+
+        it('input:checkbox -display a validation message if invalid and no success message', function ()
+        {
+            var html = '<form name="testForm" ng-fab-form-options="customFormOptions">' +
+                '<label>' +
+                '<input type="checkbox" ng-model="testInput" required>' +
+                '</label>' +
+                '</form>';
+            var element = $compile(html)(scope);
+            scope.$digest();
+            // as timeout is used, we need to flush it here
+            $timeout.flush();
+            var form = scope.testForm;
+            var messageContainer = angular.element(element.children()[1]);
+
+            // we have to use $setViewValue otherwise the formCtrl
+            // will not update properly
+            form.testInput.$setViewValue(false);
+
+            var message = messageContainer.find('li');
+            expect(message.length).toBe(1);
+            expect(message.attr('ng-message')).toBe('required');
+            expect(message.text()).toBe('This field is required');
+
+            var successMessage = messageContainer.find('div');
+            expect(successMessage.hasClass('ng-hide')).toBe(true);
+        });
+    });
 });
