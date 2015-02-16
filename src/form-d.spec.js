@@ -239,3 +239,87 @@ describe('a form', function ()
 });
 
 
+describe('a form with config', function ()
+{
+    'use strict';
+
+    var provider;
+
+    beforeEach(module('ngFabForm', function (ngFabFormProvider)
+    {
+        provider = ngFabFormProvider;
+    }));
+
+    var scope,
+        $timeout,
+        $rootScope,
+        $compile;
+
+
+    beforeEach(inject(function (_$rootScope_, _$compile_, _$timeout_)
+    {
+        $rootScope = _$rootScope_;
+        $compile = _$compile_;
+        $timeout = _$timeout_;
+        scope = $rootScope.$new();
+    }));
+
+    it('can change all options via extend config', inject(function ()
+    {
+        var opts = {
+            validationsTemplate: false,
+            preventInvalidSubmit: false,
+            preventDoubleSubmit: false,
+            preventDoubleSubmitTimeoutLength: 100,
+            setFormDirtyOnSubmit: false,
+            scrollToAndFocusFirstErrorOnSubmit: false,
+            scrollAnimationTime: 0,
+            scrollOffset: -2100,
+            disabledForms: false,
+            setNovalidate: false,
+            setNamesByNgModel: false,
+            setAsteriskForRequiredLabel: false,
+            asteriskStr: '***',
+            validationMsgPrefix: 'validationMessssg'
+        };
+        provider.extendConfig(opts);
+
+        $compile('<form name="myForm"></form>')(scope);
+        scope.$digest();
+        $timeout.flush();
+        var form = scope.myForm;
+
+        expect(form.ngFabFormConfig).toBeDefined();
+
+        for (var key in form.ngFabFormConfig) {
+            if (typeof opts[key] !== 'undefined') {
+                expect(opts[key]).toBe(form.ngFabFormConfig[key]);
+            }
+        }
+
+        // giving all options are changed
+        expect(provider.$get().config).toEqual(opts);
+    }));
+
+
+    it('can set a custom error-insert function', function ()
+    {
+        var customInsertFn = function ()
+        {
+        };
+        provider.setInsertErrorTplFn(customInsertFn);
+        expect(provider.$get().insertErrorTpl).toEqual(customInsertFn);
+    });
+
+    it('can set a custom scroll-to function', function ()
+    {
+        var customScrollFn = function ()
+        {
+        };
+        provider.setScrollToFn(customScrollFn);
+        expect(provider.$get().scrollTo).toEqual(customScrollFn);
+    });
+});
+
+
+
