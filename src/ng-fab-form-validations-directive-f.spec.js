@@ -2,14 +2,11 @@ describe('validations directive', function ()
 {
     'use strict';
 
-    var element,
-        form,
-        scope,
-        input,
-        messageContainer,
+    var scope,
         $timeout,
         $rootScope,
         $compile;
+
     beforeEach(module('ngFabForm'));
 
     beforeEach(inject(function (_$rootScope_, _$compile_, _$timeout_)
@@ -25,7 +22,12 @@ describe('validations directive', function ()
     {
         // TODO run all tests for all kind of input elements
 
-        beforeEach(inject(function ()
+        var element,
+            form,
+            input,
+            messageContainer;
+
+        beforeEach(function ()
         {
             var html = '<form name="testForm">' +
                 '<input type="text" ng-model="testInput" required>' +
@@ -37,8 +39,8 @@ describe('validations directive', function ()
             form = scope.testForm;
             input = angular.element(element.children()[0]);
             messageContainer = angular.element(element.children()[1]);
+        });
 
-        }));
 
         it('should set a name according to model', function ()
         {
@@ -80,19 +82,20 @@ describe('validations directive', function ()
 
     it('should display a custom validation if set', function ()
     {
-        element = $compile('<form name="testForm">' +
+        var element = $compile('<form name="testForm">' +
         '<input type="text" ng-model="testInput" validation-msg-required ="some custom message" required>' +
         '</form>')(scope);
         scope.$digest();
         $timeout.flush();
-        form = scope.testForm;
+        var form = scope.testForm;
 
         // we have to use $setViewValue otherwise the formCtrl
         // will not update properly
         form.testInput.$setViewValue(null);
 
-        messageContainer = angular.element(element.children()[1]);
+        var messageContainer = angular.element(element.children()[1]);
         var message = messageContainer.find('li');
+
         expect(message.length).toBe(1);
         expect(message.attr('ng-message')).toBe('required');
         expect(message.text()).toBe('some custom message');
@@ -101,15 +104,15 @@ describe('validations directive', function ()
 
     it('should work with nested model values', function ()
     {
-        element = $compile('<form name="testForm">' +
+        var element = $compile('<form name="testForm">' +
         '<input type="text" ng-model="testInput.deeper.andDeeper.andDeeper" required>' +
         '</form>')(scope);
         scope.$digest();
         $timeout.flush();
 
-        form = scope.testForm;
+        var form = scope.testForm;
+        var messageContainer = angular.element(element.children()[1]);
 
-        messageContainer = angular.element(element.children()[1]);
         form['testInput.deeper.andDeeper.andDeeper'].$setViewValue('test aa');
 
         var successMessage = messageContainer.find('div');
