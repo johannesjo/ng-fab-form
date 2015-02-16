@@ -108,7 +108,8 @@
 <div class="container">
     <p><a href="http://waffle.io/johannesjo/ng-fab-form"><img src="https://badge.waffle.io/johannesjo/ng-fab-form.svg?label=ready&amp;title=Ready" alt="Stories in Ready"></a>
 <a href="http://waffle.io/johannesjo/ng-fab-form"><img src="https://badge.waffle.io/johannesjo/ng-fab-form.svg?label=in%20progress&amp;title=In%20Progress" alt="Stories in progress"></a>
-<a href="https://travis-ci.org/johannesjo/ng-fab-form"><img src="https://travis-ci.org/johannesjo/ng-fab-form.svg?branch=master" alt="Build Status"></a></p>
+<a href="https://travis-ci.org/johannesjo/ng-fab-form"><img src="https://travis-ci.org/johannesjo/ng-fab-form.svg" alt="Build Status"></a>
+<a href="https://coveralls.io/r/johannesjo/ng-fab-form"><img src="https://coveralls.io/repos/johannesjo/ng-fab-form/badge.svg" alt="Coverage Status"></a></p>
 <h1 id="ng-fab-form">ng-fab-form</h1>
 <p><em>Convenient forms for Angular with no extra markup? Fabulous!</em></p>
 <p>AngularJS forms are pretty nice. But if you have worked with angular for a while, you&#39;ll find that the out of the box mechanics like the instant validation are far from perfect from the common users perspective. Furthermore you probably catch yourself declaring (and sometimes forgetting) the same stuff on and on again like giving a <code>novalidate</code> attribute, preventing submission for invalid forms or declaring a proper name attribute and worst of all: setting up validation messages again and again.</p>
@@ -145,7 +146,7 @@
 <p>The reason why <code>ng-fab-form</code> was build, is that the modules I tried either take only a small part of the repetitiveness out of your job or they take a framework-like approach and you&#39;re becoming very dependent on them, the markup they require and spit out, the functionalities they introduce and probably more important, those they don&#39;t introduce and those who hinder other features. This is not necessarily a bad thing and they might greatly improve your productivity, but the (non angular-canon) restrictions and rules they introduce make them too limited for some projects and less of a universal form tool, which can be used again and again.</p>
 <p>This is why <code>ng-fab-form</code> focuses on the basic angular functions and tries to extend them application-wide, while always giving you the option to throw out what doesn&#39;t fit in. Worst case scenario: You completely remove <code>ng-fab-form</code> because you don&#39;t like it and then you&#39;re back to standard angular, with probably almost no effort spend, almost no time wasted.</p>
 <h2 id="manual-installation-and-dependencies">manual installation and dependencies</h2>
-<p>Grab the minified <a href="https://github.com/johannesjo/ng-fab-form/blob/master/dist/ng-fab-form.min.js">ng-fab-form file</a> from the dist folder. You also need to install <a href="https://docs.angularjs.org/api/ngMessages/directive/ngMessages">ng-messags</a> which is the only required dependency. </p>
+<p>Grab the minified <a href="https://github.com/johannesjo/ng-fab-form/blob/master/dist/ng-fab-form.min.js">ng-fab-form file</a> from the dist folder. You also need to install <a href="https://docs.angularjs.org/api/ngMessages/directive/ngMessages">ng-messags</a> which is the only required dependency.</p>
 <h2 id="configuring-default-form-options">configuring default form options</h2>
 <p>Currently the configuration object of ng-fab-forms looks like this:</p>
 <pre><code>// validation template-url/templateId
