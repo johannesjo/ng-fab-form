@@ -29,7 +29,7 @@ describe('validations directive', function ()
 
         beforeEach(function ()
         {
-            var html = '<form name="testForm">' +
+            var html = '<form name="testForm" ng-fab-form-options="customFormOptions">' +
                 '<input type="text" ng-model="testInput" required>' +
                 '</form>';
             element = $compile(html)(scope);
@@ -77,6 +77,31 @@ describe('validations directive', function ()
 
             var message = messageContainer.find('li');
             expect(message.length).toBe(0);
+        });
+
+        it('display messages according to option', function ()
+        {
+            scope.customFormOptions = {
+                validationsTemplate: false
+            };
+            scope.$digest();
+            form.testInput.$setViewValue(null);
+            messageContainer = angular.element(element.children()[1]);
+            expect(messageContainer).toEqual({});
+
+            scope.customFormOptions.validationsTemplate = 'default-validation-msgs.html';
+            form.testInput.$setViewValue(null);
+            scope.$digest();
+            messageContainer = angular.element(element.children()[1]);
+            expect(messageContainer).not.toEqual({});
+
+            var message = messageContainer.find('li');
+            expect(message.length).toBe(1);
+            expect(message.attr('ng-message')).toBe('required');
+            expect(message.text()).toBe('This field is required');
+
+            var successMessage = messageContainer.find('div');
+            expect(successMessage.hasClass('ng-hide')).toBe(true);
         });
     });
 

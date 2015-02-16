@@ -15,7 +15,7 @@ angular.module('ngFabForm')
 
             // remove error tpl if any
             if (params.currentValidationVars.tpl && (Object.keys(params.currentValidationVars.tpl).length !== 0)) {
-                params.currentValidationVars.tpl.remove();
+                angular.element(params.currentValidationVars.tpl).remove();
             }
 
             // load validation directive template
@@ -106,7 +106,7 @@ angular.module('ngFabForm')
                         }
                         // otherwise remove if a tpl was set before
                         else if (!cfg.validationsTemplate && currentValidationVars.tpl && (Object.keys(currentValidationVars.tpl).length !== 0)) {
-                            currentValidationVars.tpl.remove();
+                            angular.element(currentValidationVars.tpl).remove();
                         }
 
                         // set asterisk for labels

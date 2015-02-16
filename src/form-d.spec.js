@@ -61,18 +61,46 @@ describe('a form', function ()
     });
 
 
+    it('should have settable options', function ()
+    {
+        $compile('<form name="myForm" ng-fab-form-options="customFormOptions"></form>')(scope);
+        scope.$digest();
+        $timeout.flush();
+        var form = scope.myForm;
+
+        expect(form.ngFabFormConfig).toBeDefined();
+
+        scope.customFormOptions = {
+            validationsTemplate: false,
+            preventInvalidSubmit: false,
+            preventDoubleSubmit: false,
+            setFormDirtyOnSubmit: true,
+            scrollToAndFocusFirstErrorOnSubmit: true,
+            scrollAnimationTime: 200,
+            scrollOffset: -100
+        };
+        scope.$digest();
+
+        for (var key in form.ngFabFormConfig) {
+            if (typeof scope.customFormOptions[key] !== 'undefined') {
+                expect(scope.customFormOptions[key]).toBe(form.ngFabFormConfig[key]);
+            }
+        }
+    });
+
+
     describe('with an input', function ()
     {
-        var element, form, submitCount;
+        var element, form;
 
         beforeEach(function ()
         {
-            var html = '<form name="myForm" ng-submit="submitFn()"><input type="text" ng-model="testModel" required></form>';
-            submitCount = 0;
+            var html = '<form name="myForm" ng-submit="submitFn()"  ng-fab-form-options="customFormOptions"><input type="text" ng-model="testModel" required></form>';
             scope = $rootScope.$new();
+            scope.submitCount = 0;
             scope.submitFn = function ()
             {
-                submitCount++;
+                scope.submitCount++;
             };
             spyOn(scope, 'submitFn').and.callThrough();
 
@@ -86,16 +114,33 @@ describe('a form', function ()
         it('should be submittable if input is valid', function ()
         {
             scope.testModel = 'some input provided';
-
             element.triggerHandler('submit');
             expect(scope.submitFn).toHaveBeenCalled();
         });
 
-        it('should NOT be submittable if input is valid', function ()
+        it('should NOT be submittable if input is invalid', function ()
         {
             scope.testModel = null;
             element.triggerHandler('submit');
             expect(scope.submitFn).not.toHaveBeenCalled();
+        });
+
+        it('should be still submittable if input is invalid, but OPTION is deactivated', function ()
+        {
+            scope.testModel = null;
+            scope.customFormOptions = {
+                preventInvalidSubmit: false
+            };
+            element.triggerHandler('submit');
+            expect(scope.submitFn).toHaveBeenCalled();
+            expect(scope.submitCount).toBe(1);
+
+            scope.customFormOptions = {
+                preventInvalidSubmit: true
+            };
+
+            element.triggerHandler('submit');
+            expect(scope.submitCount).toBe(1);
         });
 
         it('should only be submitted once', function ()
@@ -104,7 +149,19 @@ describe('a form', function ()
             element.triggerHandler('submit');
             element.triggerHandler('submit');
             element.triggerHandler('submit');
-            expect(submitCount).toBe(1);
+            expect(scope.submitCount).toBe(1);
+        });
+
+        it('could be submitted multiple times if OPTION is deactivated', function ()
+        {
+            scope.customFormOptions = {
+                preventDoubleSubmit: false
+            };
+            scope.testModel = 'some input provided';
+            element.triggerHandler('submit');
+            element.triggerHandler('submit');
+            element.triggerHandler('submit');
+            expect(scope.submitCount).toBe(3);
         });
 
         it('should have $triedSubmit set after submit attempt', function ()
@@ -115,55 +172,68 @@ describe('a form', function ()
     });
 
 
-    describe('with an input', function ()
+    describe('with autofocus errors', function ()
     {
-        var element, form, submitCount;
-
+        var element, form, input;
         beforeEach(function ()
         {
-            var html = '<form name="myForm" ng-submit="submitFn()"><input type="text" ng-model="testModel" required></form>';
-            submitCount = 0;
+            var html = '<form name="myForm" ng-fab-form-options="customFormOptions">' +
+                '<input type="text" ng-model="testModel0" required>' +
+                '<input type="text" ng-model="testModel1" required>' +
+                '<input type="text" ng-model="testModel2" required>' +
+                '</form>';
             scope = $rootScope.$new();
-            scope.submitFn = function ()
-            {
-                submitCount++;
-            };
-            spyOn(scope, 'submitFn').and.callThrough();
-
             element = $compile(html)(scope);
             scope.$digest();
             $timeout.flush();
 
             form = scope.myForm;
+            input = element.find('input');
+            spyOn(input[0], 'focus');
+            spyOn(input[1], 'focus');
+            spyOn(input[2], 'focus');
+
+            scope.customFormOptions = {
+                // set animation time to 0 for better testing
+                scrollAnimationTime: 0
+            };
         });
 
-        it('should be submittable if input is valid', function ()
+        it('should focus the first error-element(0) on submit', function ()
         {
-            scope.testModel = 'some input provided';
             element.triggerHandler('submit');
-            expect(scope.submitFn).toHaveBeenCalled();
+            expect(input[0].focus).toHaveBeenCalled();
+            expect(input[1].focus).not.toHaveBeenCalled();
+            expect(input[2].focus).not.toHaveBeenCalled();
         });
 
-        it('should NOT be submittable if input is valid', function ()
+        it('should focus the first error-element(1) on submit', function ()
         {
-            scope.testModel = null;
+            form.testModel0.$setViewValue('blablablaba');
             element.triggerHandler('submit');
-            expect(scope.submitFn).not.toHaveBeenCalled();
+            expect(input[0].focus).not.toHaveBeenCalled();
+            expect(input[1].focus).toHaveBeenCalled();
+            expect(input[2].focus).not.toHaveBeenCalled();
         });
 
-        it('should only be submitted once', function ()
+        it('should focus the first error-element(2) on submit', function ()
         {
-            scope.testModel = 'some input provided';
+            form.testModel0.$setViewValue('blablablaba');
+            form.testModel1.$setViewValue('blablablaba');
+
             element.triggerHandler('submit');
-            element.triggerHandler('submit');
-            element.triggerHandler('submit');
-            expect(submitCount).toBe(1);
+            expect(input[0].focus).not.toHaveBeenCalled();
+            expect(input[1].focus).not.toHaveBeenCalled();
+            expect(input[2].focus).toHaveBeenCalled();
         });
 
-        it('should have $triedSubmit set after submit attempt', function ()
+        it('should not focus any error element, if OPTION is deactivated', function ()
         {
+            scope.customFormOptions.scrollToAndFocusFirstErrorOnSubmit = false;
             element.triggerHandler('submit');
-            expect(form.$triedSubmit).toBeTruthy();
+            expect(input[0].focus).not.toHaveBeenCalled();
+            expect(input[1].focus).not.toHaveBeenCalled();
+            expect(input[2].focus).not.toHaveBeenCalled();
         });
     });
 });
