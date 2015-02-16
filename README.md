@@ -1,6 +1,7 @@
 [![Stories in Ready](https://badge.waffle.io/johannesjo/ng-fab-form.svg?label=ready&title=Ready)](http://waffle.io/johannesjo/ng-fab-form)
 [![Stories in progress](https://badge.waffle.io/johannesjo/ng-fab-form.svg?label=in%20progress&title=In%20Progress)](http://waffle.io/johannesjo/ng-fab-form)
 [![Build Status](https://travis-ci.org/johannesjo/ng-fab-form.svg)](https://travis-ci.org/johannesjo/ng-fab-form)
+[![Coverage Status](https://coveralls.io/repos/johannesjo/ng-fab-form/badge.svg)](https://coveralls.io/r/johannesjo/ng-fab-form)
 
 ng-fab-form
 ===========
@@ -62,7 +63,7 @@ This is why `ng-fab-form` focuses on the basic angular functions and tries to ex
 
 ## manual installation and dependencies
 
-Grab the minified [ng-fab-form file](https://github.com/johannesjo/ng-fab-form/blob/master/dist/ng-fab-form.min.js) from the dist folder. You also need to install [ng-messags](https://docs.angularjs.org/api/ngMessages/directive/ngMessages) which is the only required dependency. 
+Grab the minified [ng-fab-form file](https://github.com/johannesjo/ng-fab-form/blob/master/dist/ng-fab-form.min.js) from the dist folder. You also need to install [ng-messags](https://docs.angularjs.org/api/ngMessages/directive/ngMessages) which is the only required dependency.
 
 
 ## configuring default form options

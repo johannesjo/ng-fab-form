@@ -363,7 +363,8 @@ module.exports = function (grunt)
                     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
                     reporters: [
                         'dots',
-                        'coverage'
+                        'coverage',
+                        'coveralls'
                     ],
 
                     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
@@ -375,8 +376,8 @@ module.exports = function (grunt)
                     },
                     coverageReporter: {
                         reporters: [
-                            {type: 'html', dir: 'coverage/'},
-                            {type: 'text-summary'}
+                            {type: 'text-summary'},
+                            {type: 'lcov', dir: 'coverage/'}
                         ]
                     }
                 }
