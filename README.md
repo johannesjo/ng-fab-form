@@ -62,7 +62,7 @@ This is why `ng-fab-form` focuses on the basic angular functions and tries to ex
 
 ## manual installation and dependencies
 
-Grab the minified [ng-fab-form file](https://github.com/johannesjo/ng-fab-form/blob/master/dist/ng-fab-form.min.js) from the dist folder. You also need to install [ng-messags](https://docs.angularjs.org/api/ngMessages/directive/ngMessages) which is the only required dependency. At the moment there is only one features which require jQuery: The auto-setting of an asterisk, which won't work as long as jQuery is not loaded before.
+Grab the minified [ng-fab-form file](https://github.com/johannesjo/ng-fab-form/blob/master/dist/ng-fab-form.min.js) from the dist folder. You also need to install [ng-messags](https://docs.angularjs.org/api/ngMessages/directive/ngMessages) which is the only required dependency. At the moment there is only one feature which requires jQuery: The auto-setting of an asterisk, which won't work as long as jQuery is not loaded before.
 
 
 ## configuring default form options
@@ -99,7 +99,7 @@ scrollOffset: -100,
 // ngFabFormOptions-directive as they need to be
 // available during the $compile-phase
 
-// option to disable forms by wrapping them in a disabled <fieldset> element
+// option to disable forms by wrapping them in a disabled <fieldset> element 
 disabledForms: true,
 
 // add noovalidate to forms
@@ -163,6 +163,14 @@ And in your template:
   name="youFormName"
   ng-fab-form-options="customFormOptions">...</form>
 ```
+
+## disable form completly
+```html
+<form role="form"
+name="youFormName"
+disable-form="{{booeleanVar}}">...</form>
+```
+
 
 ## special validations for special cases (e.g. ng-pattern)
 
