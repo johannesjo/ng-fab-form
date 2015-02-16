@@ -181,7 +181,8 @@ module.exports = function (grunt)
                 files: [
                     {
                         src: [
-                            '.tmp'
+                            '.tmp',
+                            'coverage'
                         ]
                     }
                 ]
@@ -342,7 +343,9 @@ module.exports = function (grunt)
 // Test settings
         karma: {
             options: {
-                //files: getBowerComponentPaths(),
+                reporters: [
+                    'dots'
+                ],
                 preprocessors: {
                     '<%= appConfig.dist %>/**/*.html': [
                         'ng-html2js'
@@ -355,7 +358,28 @@ module.exports = function (grunt)
             },
             unitSingleRun: {
                 configFile: 'karma.conf.js',
-                singleRun: true
+                singleRun: true,
+                options: {
+                    // available reporters: https://npmjs.org/browse/keyword/karma-reporter
+                    reporters: [
+                        'dots',
+                        'coverage'
+                    ],
+
+                    // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
+                    preprocessors: {
+                        '<%= appConfig.dist %>/**/*.html': [
+                            'ng-html2js'
+                        ],
+                        '**/src/**/!(*.spec)+(.js)': ['coverage']
+                    },
+                    coverageReporter: {
+                        reporters: [
+                            {type: 'html', dir: 'coverage/'},
+                            {type: 'text-summary'}
+                        ]
+                    }
+                }
             }
         },
 
