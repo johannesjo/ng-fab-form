@@ -70,7 +70,7 @@ angular.module('ngFabForm')
         {
             // watch disabled form if set (requires jQuery)
             if (attrs.disableForm) {
-                el.wrapInner('<fieldset>');
+                el.contents().wrap('<fieldset>');
                 var fieldSetWrapper = el.children();
                 attrs.$observe('disableForm', function ()
                 {
@@ -78,7 +78,7 @@ angular.module('ngFabForm')
                     if (attrs.disableForm === 'true' || attrs.disableForm === true) {
                         fieldSetWrapper.attr('disabled', true);
                     } else {
-                        fieldSetWrapper.removeAttr('disabled');
+                        fieldSetWrapper.attr('disabled', false);
                     }
                 });
             }
@@ -262,175 +262,27 @@ angular.module('ngFabForm')
     });
 
 angular.module('ngFabForm')
-    .directive('input', function (ngFabFormDirective)
+    .directive('input', function (ngFabFormValidationsDirective)
     {
         'use strict';
 
-        return ngFabFormDirective;
+        return ngFabFormValidationsDirective;
     });
 
 angular.module('ngFabForm')
-    .directive('textarea', function ($compile, ngFabFormDirective)
+    .directive('textarea', function ($compile, ngFabFormValidationsDirective)
     {
         'use strict';
 
-        return ngFabFormDirective;
+        return ngFabFormValidationsDirective;
     });
 
 angular.module('ngFabForm')
-    .directive('select', function (ngFabFormDirective)
+    .directive('select', function (ngFabFormValidationsDirective)
     {
         'use strict';
 
-        return ngFabFormDirective;
-    });
-
-angular.module('ngFabForm')
-    .factory('ngFabFormDirective', function (ngFabForm, $compile, $templateRequest, $rootScope, $timeout)
-    {
-        'use strict';
-
-
-        function insertValidationMsgs(params)
-        {
-            var scope = params.scope,
-                el = params.el,
-                cfg = params.cfg,
-                formCtrl = params.formCtrl,
-                ngModelCtrl = params.ngModelCtrl,
-                attrs = params.attrs;
-
-            // remove error tpl if any
-            if (params.currentValidationVars.tpl && (Object.keys(params.currentValidationVars.tpl).length !== 0)) {
-                params.currentValidationVars.tpl.remove();
-            }
-
-            // load validation directive template
-            $templateRequest(cfg.validationsTemplate)
-                .then(function processTemplate(html)
-                {
-                    // add custom (attr) validations
-                    html = ngFabForm.addCustomValidations(html, attrs);
-
-                    // create new scope for validation messages
-                    var privateScope = $rootScope.$new(true);
-                    privateScope.attrs = attrs;
-                    privateScope.form = formCtrl;
-                    privateScope.field = ngModelCtrl;
-
-                    // compile and insert messages
-                    var compiledAlert = $compile(html.children())(privateScope);
-                    params.currentValidationVars.tpl = compiledAlert[0];
-                    ngFabForm.insertErrorTpl(compiledAlert[0], el, attrs);
-                });
-        }
-
-
-        function setAsteriskForLabel(el, attrs, cfg)
-        {
-            // check if jquery is loaded
-            if (window.$) {
-                var label = $('label[for=' + attrs.name + ']');
-                if (label.length < 1) {
-                    label = el.prev('label');
-                }
-
-                if (label && label[0]) {
-                    if (attrs.type !== 'radio' && attrs.type !== 'checkbox') {
-                        label[0].innerText = label[0].innerText + cfg.asteriskStr;
-                    }
-                }
-            } else {
-                throw 'auto-setting an asterisk requires jQuery';
-            }
-        }
-
-
-        // return factory
-        return {
-            restrict: 'E',
-            require: ['?^form', '?ngModel'],
-            compile: function (el, attrs)
-            {
-                // don't execute for buttons
-                if (attrs.type) {
-                    if (attrs.type.toLowerCase() === 'submit' || attrs.type.toLowerCase() === 'button') {
-                        return;
-                    }
-                }
-
-                // only execute if ng-model is present and
-                // no name attr is set already
-                // NOTE: needs to be set in $compile-function for the validation too work
-                if (ngFabForm.config.setNamesByNgModel && attrs.ngModel && !attrs.name) {
-                    // set name attribute if none is set
-                    el.attr('name', attrs.ngModel);
-                    attrs.name = attrs.ngModel;
-                }
-
-
-                return function (scope, el, attrs, controllers)
-                {
-
-                    var formCtrl = controllers[0],
-                        cfg,
-                        ngModelCtrl = controllers[1],
-                    // is object to pass by reference
-                        currentValidationVars = {
-                            tpl: undefined
-                        };
-
-
-                    function ngFabFormCycle(oldCfg)
-                    {
-                        // apply validation messages
-                        // only if required controllers and validators are set
-                        if (ngModelCtrl && cfg.validationsTemplate && ((Object.keys(ngModelCtrl.$validators).length !== 0) || (Object.keys(ngModelCtrl.$asyncValidators).length !== 0)) && (!oldCfg || cfg.validationsTemplate !== oldCfg.validationsTemplate)) {
-                            insertValidationMsgs({
-                                scope: scope,
-                                el: el,
-                                cfg: cfg,
-                                formCtrl: formCtrl,
-                                ngModelCtrl: ngModelCtrl,
-                                attrs: attrs,
-                                currentValidationVars: currentValidationVars
-                            });
-                        }
-                        // otherwise remove if a tpl was set before
-                        else if (!cfg.validationsTemplate && currentValidationVars.tpl && (Object.keys(currentValidationVars.tpl).length !== 0)) {
-                            currentValidationVars.tpl.remove();
-                        }
-
-                        // set asterisk for labels
-                        if (cfg.setAsteriskForRequiredLabel && attrs.required === true && (!oldCfg || cfg.setAsteriskForRequiredLabel !== oldCfg.setAsteriskForRequiredLabel || cfg.asteriskStr !== oldCfg.asteriskStr)) {
-                            setAsteriskForLabel(el, attrs, cfg);
-                        }
-                    }
-
-                    // INIT
-                    // after formCtrl should be ready
-                    $timeout(function ()
-                    {
-                        // only execute if formCtrl is set
-                        if (formCtrl) {
-                            // get configuration from parent form
-                            if (!cfg) {
-                                cfg = formCtrl.ngFabFormConfig;
-                            }
-                            ngFabFormCycle();
-
-
-                            // watch for config changes
-                            scope.$on('NG_FAB_FORM_OPTIONS_CHANGED_FOR_' + formCtrl.$name, function (ev, newCfg, oldCfg)
-                            {
-                                cfg = newCfg;
-                                ngFabFormCycle(oldCfg);
-                            });
-                        }
-                    }, 0);
-                };
-            }
-        };
+        return ngFabFormValidationsDirective;
     });
 
 angular.module('ngFabForm')
@@ -504,15 +356,15 @@ angular.module('ngFabForm')
         // *****************
         function addCustomValidations(html, attrs)
         {
-            var container = angular.element('<div/>').html(html);
+            var container = angular.element(angular.element('<div/>').html(html));
             angular.forEach(attrs, function (attr, attrKey)
             {
                 var regExp = new RegExp(config.validationMsgPrefix);
                 if (attrKey.match(regExp)) {
                     var sanitizedKey = attrKey.replace(config.validationMsgPrefix, '');
                     sanitizedKey = sanitizedKey.charAt(0).toLowerCase() + sanitizedKey.slice(1);
-                    var message = container.find('[ng-message="' + sanitizedKey + '"]');
-                    message.text(attr);
+                    var message = container[0].querySelector('[ng-message="' + sanitizedKey + '"]');
+                    angular.element(message).text(attr);
                 }
             });
             return container;
@@ -682,6 +534,154 @@ angular.module('ngFabForm')
             link: function (scope, el, attrs, controller)
             {
 
+            }
+        };
+    });
+
+angular.module('ngFabForm')
+    .factory('ngFabFormValidationsDirective', function (ngFabForm, $compile, $templateRequest, $rootScope, $timeout)
+    {
+        'use strict';
+
+
+        function insertValidationMsgs(params)
+        {
+            var scope = params.scope,
+                el = params.el,
+                cfg = params.cfg,
+                formCtrl = params.formCtrl,
+                ngModelCtrl = params.ngModelCtrl,
+                attrs = params.attrs;
+
+            // remove error tpl if any
+            if (params.currentValidationVars.tpl && (Object.keys(params.currentValidationVars.tpl).length !== 0)) {
+                params.currentValidationVars.tpl.remove();
+            }
+
+            // load validation directive template
+            $templateRequest(cfg.validationsTemplate)
+                .then(function processTemplate(html)
+                {
+                    // add custom (attr) validations
+                    html = ngFabForm.addCustomValidations(html, attrs);
+
+                    // create new scope for validation messages
+                    var privateScope = $rootScope.$new(true);
+                    privateScope.attrs = attrs;
+                    privateScope.form = formCtrl;
+                    privateScope.field = ngModelCtrl;
+
+                    // compile and insert messages
+                    var compiledAlert = $compile(html.children())(privateScope);
+                    params.currentValidationVars.tpl = compiledAlert[0];
+                    ngFabForm.insertErrorTpl(compiledAlert[0], el, attrs);
+                });
+        }
+
+
+        function setAsteriskForLabel(el, attrs, cfg)
+        {
+            // check if jquery is loaded
+            if (window.$) {
+                var label = $('label[for=' + attrs.name + ']');
+                if (label.length < 1) {
+                    label = el.prev('label');
+                }
+
+                if (label && label[0]) {
+                    if (attrs.type !== 'radio' && attrs.type !== 'checkbox') {
+                        label[0].innerText = label[0].innerText + cfg.asteriskStr;
+                    }
+                }
+            } else {
+                throw 'auto-setting an asterisk requires jQuery';
+            }
+        }
+
+
+        // return factory
+        return {
+            restrict: 'E',
+            require: ['?^form', '?ngModel'],
+            compile: function (el, attrs)
+            {
+                // don't execute for buttons
+                if (attrs.type) {
+                    if (attrs.type.toLowerCase() === 'submit' || attrs.type.toLowerCase() === 'button') {
+                        return;
+                    }
+                }
+
+                // only execute if ng-model is present and
+                // no name attr is set already
+                // NOTE: needs to be set in $compile-function for the validation too work
+                if (ngFabForm.config.setNamesByNgModel && attrs.ngModel && !attrs.name) {
+                    // set name attribute if none is set
+                    el.attr('name', attrs.ngModel);
+                    attrs.name = attrs.ngModel;
+                }
+
+
+                return function (scope, el, attrs, controllers)
+                {
+
+                    var formCtrl = controllers[0],
+                        cfg,
+                        ngModelCtrl = controllers[1],
+                    // is object to pass by reference
+                        currentValidationVars = {
+                            tpl: undefined
+                        };
+
+
+                    function ngFabFormCycle(oldCfg)
+                    {
+                        // apply validation messages
+                        // only if required controllers and validators are set
+                        if (ngModelCtrl && cfg.validationsTemplate && ((Object.keys(ngModelCtrl.$validators).length !== 0) || (Object.keys(ngModelCtrl.$asyncValidators).length !== 0)) && (!oldCfg || cfg.validationsTemplate !== oldCfg.validationsTemplate)) {
+                            insertValidationMsgs({
+                                scope: scope,
+                                el: el,
+                                cfg: cfg,
+                                formCtrl: formCtrl,
+                                ngModelCtrl: ngModelCtrl,
+                                attrs: attrs,
+                                currentValidationVars: currentValidationVars
+                            });
+                        }
+                        // otherwise remove if a tpl was set before
+                        else if (!cfg.validationsTemplate && currentValidationVars.tpl && (Object.keys(currentValidationVars.tpl).length !== 0)) {
+                            currentValidationVars.tpl.remove();
+                        }
+
+                        // set asterisk for labels
+                        if (cfg.setAsteriskForRequiredLabel && attrs.required === true && (!oldCfg || cfg.setAsteriskForRequiredLabel !== oldCfg.setAsteriskForRequiredLabel || cfg.asteriskStr !== oldCfg.asteriskStr)) {
+                            setAsteriskForLabel(el, attrs, cfg);
+                        }
+                    }
+
+                    // INIT
+                    // after formCtrl should be ready
+                    $timeout(function ()
+                    {
+                        // only execute if formCtrl is set
+                        if (formCtrl) {
+                            // get configuration from parent form
+                            if (!cfg) {
+                                cfg = formCtrl.ngFabFormConfig;
+                            }
+                            ngFabFormCycle();
+
+
+                            // watch for config changes
+                            scope.$on('NG_FAB_FORM_OPTIONS_CHANGED_FOR_' + formCtrl.$name, function (ev, newCfg, oldCfg)
+                            {
+                                cfg = newCfg;
+                                ngFabFormCycle(oldCfg);
+                            });
+                        }
+                    }, 0);
+                };
             }
         };
     });
