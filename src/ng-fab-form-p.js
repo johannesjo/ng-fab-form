@@ -69,15 +69,15 @@ angular.module('ngFabForm')
         // *****************
         function addCustomValidations(html, attrs)
         {
-            var container = angular.element('<div/>').html(html);
+            var container = angular.element(angular.element('<div/>').html(html));
             angular.forEach(attrs, function (attr, attrKey)
             {
                 var regExp = new RegExp(config.validationMsgPrefix);
                 if (attrKey.match(regExp)) {
                     var sanitizedKey = attrKey.replace(config.validationMsgPrefix, '');
                     sanitizedKey = sanitizedKey.charAt(0).toLowerCase() + sanitizedKey.slice(1);
-                    var message = container.find('[ng-message="' + sanitizedKey + '"]');
-                    message.text(attr);
+                    var message = container[0].querySelector('[ng-message="' + sanitizedKey + '"]');
+                    angular.element(message).text(attr);
                 }
             });
             return container;

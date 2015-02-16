@@ -66,7 +66,7 @@ angular.module('ngFabForm')
         {
             // watch disabled form if set (requires jQuery)
             if (attrs.disableForm) {
-                el.wrapInner('<fieldset>');
+                el.contents().wrap('<fieldset>');
                 var fieldSetWrapper = el.children();
                 attrs.$observe('disableForm', function ()
                 {
@@ -74,7 +74,7 @@ angular.module('ngFabForm')
                     if (attrs.disableForm === 'true' || attrs.disableForm === true) {
                         fieldSetWrapper.attr('disabled', true);
                     } else {
-                        fieldSetWrapper.removeAttr('disabled');
+                        fieldSetWrapper.attr('disabled', false);
                     }
                 });
             }
