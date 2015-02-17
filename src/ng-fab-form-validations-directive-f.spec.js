@@ -229,3 +229,115 @@ describe('validations directive', function ()
         });
     });
 });
+
+describe('validations directive with config', function ()
+{
+    'use strict';
+
+    var provider;
+
+    beforeEach(module('ngFabForm', function (ngFabFormProvider)
+    {
+        provider = ngFabFormProvider;
+    }));
+
+    var scope,
+        $timeout,
+        $rootScope,
+        $compile,
+        $document,
+        element;
+
+
+    beforeEach(inject(function (_$rootScope_, _$compile_, _$timeout_, _$document_)
+    {
+        $rootScope = _$rootScope_;
+        $compile = _$compile_;
+        $timeout = _$timeout_;
+        $document = _$document_;
+        scope = $rootScope.$new();
+    }));
+
+    afterEach(function ()
+    {
+        element.remove();
+    });
+
+    it('displays an asterisk for labels with proper for attribute for a required field, if config is set', function ()
+    {
+        provider.extendConfig({
+            setAsteriskForRequiredLabel: true,
+            asteriskStr: '*'
+        });
+
+        var html = '<form name="testForm" ng-fab-form-options="customFormOptions">' +
+            '<input id="inpID" name="inpID" type="text" ng-model="testInput" required>' +
+            '<div></div>' +
+            '<label for="inpID">label</label>' +
+            '</form>';
+
+        // label needs to be appended to the dom to be found by
+        // document.querySelector
+        element = $compile(html)(scope);
+        angular.element(document.body).append(element);
+
+        scope.$digest();
+        $timeout.flush();
+        var label = document.querySelectorAll('label[for="inpID"]');
+        label = angular.element(label[0]);
+        expect(label.text()).toContain('*');
+    });
+
+
+    it('displays an asterisk for labels directly before a required field, if config is set', function ()
+    {
+        provider.extendConfig({
+            setAsteriskForRequiredLabel: true,
+            asteriskStr: '*'
+        });
+
+        var html = '<form name="testForm" ng-fab-form-options="customFormOptions">' +
+            '<label>label</label>' +
+            '<input id="inpID" name="inpID" type="text" ng-model="testInput" required>' +
+            '</form>';
+
+        // needs to be appended to the dom to be found by
+        // document.querySelector
+        var element = $compile(html)(scope);
+        angular.element(document.body).append(element);
+
+        scope.$digest();
+        $timeout.flush();
+        var label = angular.element(element.children()[0]);
+        label = angular.element(label[0]);
+        expect(label.text()).toContain('*');
+    });
+
+    it('should display only one asterisk, if there are multiple inputs with the same name', function ()
+    {
+        var asteriskVal = '**';
+        provider.extendConfig({
+            setAsteriskForRequiredLabel: true,
+            asteriskStr: asteriskVal
+        });
+
+        var html = '<form name="testForm" ng-fab-form-options="customFormOptions">' +
+            '<label for="inpID">label</label>' +
+            '<input id="inpID" name="inpID" type="text" ng-model="inp" required>' +
+            '<input id="inpID" name="inpID" type="text" ng-model="inp" required>' +
+            '<div></div>' +
+            '</form>';
+
+        // label needs to be appended to the dom to be found by
+        // document.querySelector
+        element = $compile(html)(scope);
+        angular.element(document.body).append(element);
+
+        scope.$digest();
+        $timeout.flush();
+        var label = document.querySelectorAll('label[for="inpID"]');
+        label = angular.element(label[0]);
+
+        expect(label.text().slice(-2 * asteriskVal.length)).not.toBe(asteriskVal + asteriskVal);
+    });
+});

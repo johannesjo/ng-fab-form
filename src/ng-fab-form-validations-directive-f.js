@@ -41,14 +41,23 @@ angular.module('ngFabForm')
 
         function setAsteriskForLabel(el, attrs, cfg)
         {
-            var label = document.querySelector('label[for="' + attrs.name + '"]');
-            if (!label || label.length < 1) {
-                label = el.prev('label');
+            var labels = document.querySelectorAll('label[for="' + attrs.name + '"]');
+            // if nothing is found check previous element
+            if (!labels || labels.length < 1) {
+                var elBefore = el[0].previousElementSibling;
+                if (elBefore && elBefore.tagName === 'LABEL') {
+                    labels = [elBefore];
+                }
             }
 
-            if (label && label[0]) {
-                if (attrs.type !== 'radio' && attrs.type !== 'checkbox') {
-                    label[0].innerText = label[0].innerText + cfg.asteriskStr;
+            // set asterisk for match(es)
+            if (labels && labels.length > 0 && attrs.type !== 'radio' && attrs.type !== 'checkbox') {
+                for (var i = 0; i < labels.length; i++) {
+                    var label = labels[i];
+                    // don't append twice if multiple inputs with the same name
+                    if (label.innerText.slice(-cfg.asteriskStr.length) !== cfg.asteriskStr) {
+                        label.innerText = label.innerText + cfg.asteriskStr;
+                    }
                 }
             }
         }
