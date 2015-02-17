@@ -1,7 +1,7 @@
 [![Stories in Ready](https://badge.waffle.io/johannesjo/ng-fab-form.svg?label=ready&title=Ready)](http://waffle.io/johannesjo/ng-fab-form)
 [![Stories in progress](https://badge.waffle.io/johannesjo/ng-fab-form.svg?label=in%20progress&title=In%20Progress)](http://waffle.io/johannesjo/ng-fab-form)
 [![Build Status](https://travis-ci.org/johannesjo/ng-fab-form.svg)](https://travis-ci.org/johannesjo/ng-fab-form)
-[![Coverage Status](https://coveralls.io/repos/johannesjo/ng-fab-form/badge.svg)](https://coveralls.io/r/johannesjo/ng-fab-form)
+[![Coverage Status](https://coveralls.io/repos/johannesjo/ng-fab-form/badge.svg?branch=master)](https://coveralls.io/r/johannesjo/ng-fab-form?branch=master)
 
 ng-fab-form
 ===========
@@ -259,7 +259,7 @@ angular.module('exampleApp', [
 #### create and share
 You can use this [plunkr as base for your fabulous creation](http://plnkr.co/edit/wVW8ih?p=info)! Think you created something useful? Then share it!!! Either provide a pull-request or leave a comment on the [projects public page](http://johannesjo.github.io/ng-fab-form/).
 
-If you provie a pull-reqest, please use a feature-branch. The commit should usually contain two files: A html template and a scss-file.
+If you provide a pull-reqest, please use a feature-branch. The commit should usually contain two files: A html template and a scss-file.
 
 
 ## advanced configurations
