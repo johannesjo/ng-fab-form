@@ -392,3 +392,95 @@ describe('validations directive with config', function ()
         expect(message.length).toBe(0);
     });
 });
+
+
+describe('validations with async validators', function ()
+{
+    'use strict';
+
+    beforeEach(module('ngFabForm'));
+
+    var scope,
+        $timeout,
+        $rootScope,
+        $compile,
+        $document,
+        $templateCache,
+        $q,
+        element;
+
+
+    beforeEach(inject(function (_$rootScope_, _$compile_, _$timeout_, _$document_, _$templateCache_, _$q_)
+    {
+        $rootScope = _$rootScope_;
+        $compile = _$compile_;
+        $timeout = _$timeout_;
+        $document = _$document_;
+        $templateCache = _$templateCache_;
+        $q = _$q_;
+        scope = $rootScope.$new();
+    }));
+
+
+    it('should display validation messages, if there are async-validators', function ()
+    {
+        $templateCache.put('default-validation-msgs.html',
+            '<div ng-messages="field.$error" class="validation">' +
+            '<ul class="list-unstyled validation-errors" ng-show="field.$invalid && (field.$touched || field.$dirty || form.$triedSubmit)">' +
+            '<li ng-message="unique">NOT_UNIQUE</li>' +
+            '</ul>' +
+            '</div>'
+        );
+
+        var scope = $rootScope.$new();
+
+        var html = '<form name="testForm" ng-fab-form-options="customFormOptions">' +
+            '<input type="text" ng-model="username">' +
+            '</form>';
+
+        element = $compile(html)(scope);
+        var form = scope.testForm;
+        var ngModel = form.username;
+
+
+        ngModel.$asyncValidators.unique = function (modelValue, viewValue)
+        {
+            var deferred = $q.defer();
+            $timeout(function ()
+            {
+                if (viewValue === 'NOT_UNIQUE') {
+                    deferred.reject();
+
+                } else {
+                    deferred.resolve();
+                }
+            });
+            return deferred.promise;
+        };
+        scope.$digest();
+        $timeout.flush();
+
+
+        // test test asyncValidator
+        ngModel.$setViewValue('NOT_UNIQUE');
+        $timeout.flush();
+        expect(ngModel.$valid).toBeFalsy();
+        ngModel.$setViewValue('asd');
+        $timeout.flush();
+        expect(ngModel.$valid).toBeTruthy();
+
+
+        var messageContainer = angular.element(element.children()[1]);
+        form.username.$setViewValue('NOT_UNIQUE');
+        $timeout.flush();
+        var message = messageContainer.find('li');
+        expect(message.length).toBe(1);
+        expect(message.attr('ng-message')).toBe('unique');
+        expect(message.text()).toBe('NOT_UNIQUE');
+
+        form.username.$setViewValue('UNIQUE');
+        $timeout.flush();
+        message = messageContainer.find('li');
+        expect(message.length).toBe(0);
+    });
+});
