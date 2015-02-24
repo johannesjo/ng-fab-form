@@ -293,7 +293,10 @@ angular.module('ngFabForm')
 
             // the validation message prefix, results for the default state
             // `validation-msg-required` or `validation-msg-your-custom-validation`
-            validationMsgPrefix: 'validationMsg'
+            validationMsgPrefix: 'validationMsg',
+
+            // default email-regex, set to false to deactivate overwrite
+            emailRegex: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
         };
 
 
@@ -446,6 +449,8 @@ angular.module('ngFabForm').run(['$templateCache', function($templateCache) {
     "        <li ng-message=\"minlength\">Your field should have at least {{ attrs.minlength }} characters</li>\n" +
     "        <li ng-message=\"maxlength\">Your field should have max {{ attrs.maxlength }} characters</li>\n" +
     "\n" +
+    "        <li ng-message=\"match\">The {{ attrs.type ==='password'? 'passwords' : 'values' }} should match</li>\n" +
+    "\n" +
     "        <li ng-if=\"attrs.type == 'time' \"\n" +
     "            ng-message=\"min\">The time provided should be no earlier than {{ attrs.min |date: 'HH:MM' }}\n" +
     "        </li>\n" +
@@ -572,6 +577,7 @@ angular.module('ngFabForm')
                 }
 
 
+                // Linking function
                 return function (scope, el, attrs, controllers)
                 {
 
@@ -620,6 +626,15 @@ angular.module('ngFabForm')
                             if (!cfg) {
                                 cfg = formCtrl.ngFabFormConfig;
                             }
+
+                            // overwrite email-validation
+                            if (cfg.emailRegex && attrs.type === 'email') {
+                                ngModelCtrl.$validators.email = function (value)
+                                {
+                                    return ngModelCtrl.$isEmpty(value) || cfg.emailRegex.test(value);
+                                };
+                            }
+
                             ngFabFormCycle();
 
 
@@ -632,6 +647,31 @@ angular.module('ngFabForm')
                         }
                     }, 0);
                 };
+            }
+        };
+    });
+
+angular.module('ngFabForm')
+    .directive('match', function match()
+    {
+        'use strict';
+
+        return {
+            require: 'ngModel',
+            restrict: 'A',
+            scope: {
+                match: '='
+            },
+            link: function (scope, el, attrs, ngModel)
+            {
+                ngModel.$validators.match = function (modelValue)
+                {
+                    return Boolean(modelValue) && modelValue == scope.match;
+                };
+                scope.$watch('match', function ()
+                {
+                    ngModel.$validate();
+                });
             }
         };
     });

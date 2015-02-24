@@ -109,7 +109,7 @@
     <p><a href="http://waffle.io/johannesjo/ng-fab-form"><img src="https://badge.waffle.io/johannesjo/ng-fab-form.svg?label=ready&amp;title=Ready" alt="Stories in Ready"></a>
 <a href="http://waffle.io/johannesjo/ng-fab-form"><img src="https://badge.waffle.io/johannesjo/ng-fab-form.svg?label=in%20progress&amp;title=In%20Progress" alt="Stories in progress"></a>
 <a href="https://travis-ci.org/johannesjo/ng-fab-form"><img src="https://travis-ci.org/johannesjo/ng-fab-form.svg" alt="Build Status"></a>
-<a href="https://coveralls.io/r/johannesjo/ng-fab-form"><img src="https://coveralls.io/repos/johannesjo/ng-fab-form/badge.svg" alt="Coverage Status"></a></p>
+<a href="https://coveralls.io/r/johannesjo/ng-fab-form?branch=master"><img src="https://coveralls.io/repos/johannesjo/ng-fab-form/badge.svg?branch=master" alt="Coverage Status"></a></p>
 <h1 id="ng-fab-form">ng-fab-form</h1>
 <p><em>Convenient forms for Angular with no extra markup? Fabulous!</em></p>
 <p>AngularJS forms are pretty nice. But if you have worked with angular for a while, you&#39;ll find that the out of the box mechanics like the instant validation are far from perfect from the common users perspective. Furthermore you probably catch yourself declaring (and sometimes forgetting) the same stuff on and on again like giving a <code>novalidate</code> attribute, preventing submission for invalid forms or declaring a proper name attribute and worst of all: setting up validation messages again and again.</p>
@@ -135,9 +135,11 @@
 <li><strong>prevents double submissions</strong> of forms when double clicked via a configurable delay</li>
 <li><strong>works with any custom validation directive</strong> you have running in your project (as long as they&#39;re correctly working with the ngModel-Controller)</li>
 <li><strong>compatibility</strong>  with most other form modules</li>
+<li>adds a more reasonable email-validation</li>
 <li>adds a validation directive in case you have an exception to the rule</li>
 <li>adds <code>name</code> attributes based on ng-model, if none is set</li>
 <li>adds a <code>novalidate</code> attribute to forms</li>
+<li>adds a <code>match</code>-directive (e.g. for checking a repeated password)</li>
 <li>scrolls to and focuses the first form element with an error, if the submission fails</li>
 </ul>
 <p>Want a little help and the same flexibility with your form-markup? Then <a href="https://github.com/johannesjo/angular-auto-forms">check out ng-fab-forms little companion <strong>angular-auto-forms</strong></a>!!</p>
@@ -202,6 +204,9 @@ asteriskStr: &#39;*&#39;,
 // the validation message prefix, results for the default state
 // `validation-msg-required` or `validation-msg-your-custom-validation`
 validationMsgPrefix: &#39;validationMsg&#39;
+
+// default email-regex, set to false to deactivate overwrite
+emailRegex: /[a-z0-9!#$%&amp;&#39;*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&amp;&#39;*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
 </code></pre><p>You can easily extend those configurations like this:</p>
 <pre><code class="lang-javascript">angular.module(&#39;exampleApp&#39;, [
     &#39;ngFabForm&#39;
@@ -239,15 +244,21 @@ validationMsgPrefix: &#39;validationMsg&#39;
 </code></pre>
 <h2 id="disable-form-completly">disable form completly</h2>
 <pre><code class="lang-html">&lt;form role=&quot;form&quot;
-name=&quot;youFormName&quot;
-disable-form=&quot;{{booeleanVar}}&quot;&gt;...&lt;/form&gt;
+  name=&quot;youFormName&quot;
+  disable-form=&quot;{{booeleanVar}}&quot;&gt;...&lt;/form&gt;
+</code></pre>
+<h2 id="check-for-matching-passwords-via-match-directive">check for matching passwords via match-directive</h2>
+<pre><code class="lang-html">&lt;form name=&quot;youFormName&quot;&gt;
+  &lt;input type=&quot;password&quot; ng-model=&quot;realPassword&quot;&gt;
+  &lt;input type=&quot;password&quot; ng-model=&quot;pwRepeat&quot; match=&quot;realPassword&quot;&gt;
+&lt;/form&gt;
 </code></pre>
 <h2 id="special-validations-for-special-cases-e-g-ng-pattern-">special validations for special cases (e.g. ng-pattern)</h2>
 <p>Sometimes you might want to have another text for a specific context. Special validation-messages like this are easily added like this:</p>
 <pre><code class="lang-html">&lt;input type=&quot;text&quot;
-ng-model=&quot;my-model&quot;
-ng-pattern=&quot;/abcdefg/&quot;
-validation-msg-pattern=&quot;Not abcdefg :(&quot;&gt;
+  ng-model=&quot;my-model&quot;
+  ng-pattern=&quot;/abcdefg/&quot;
+  validation-msg-pattern=&quot;Not abcdefg :(&quot;&gt;
 </code></pre>
 <h2 id="default-validations-and-creating-your-own-validation-template">default validations and creating your own validation template</h2>
 <p><code>ng-fab-form</code> comes with a reasonable default validation template, which is used for every form element with <code>ng-model</code> set. But you can easily create your own if you don&#39;t like the either the messages or the markup! In your own template you can use any attribute and directive, as you would with vanilla angular. In addition the input-element attributes are available for you convenience, too!</p>
@@ -284,6 +295,8 @@ validation-msg-pattern=&quot;Not abcdefg :(&quot;&gt;
         &lt;li ng-if=&quot;attrs.type == &#39;time&#39; &quot;
             ng-message=&quot;min&quot;&gt;The time provided should be no earlier than {{ attrs.min |date: &#39;HH:MM&#39; }}
         &lt;/li&gt;
+        &lt;li ng-message=&quot;match&quot;&gt;The {{ attrs.type ===&#39;password&#39;? &#39;passwords&#39; : &#39;values&#39; }} should match&lt;/li&gt;
+
 
         &lt;!-- you can use ng-if or ng-show for more advanced
         error messages --&gt;
@@ -318,7 +331,7 @@ validation-msg-pattern=&quot;Not abcdefg :(&quot;&gt;
 </code></pre>
 <h4 id="create-and-share">create and share</h4>
 <p>You can use this <a href="http://plnkr.co/edit/wVW8ih?p=info">plunkr as base for your fabulous creation</a>! Think you created something useful? Then share it!!! Either provide a pull-request or leave a comment on the <a href="http://johannesjo.github.io/ng-fab-form/">projects public page</a>.</p>
-<p>If you provie a pull-reqest, please use a feature-branch. The commit should usually contain two files: A html template and a scss-file.</p>
+<p>If you provide a pull-reqest, please use a feature-branch. The commit should usually contain two files: A html template and a scss-file.</p>
 <h2 id="advanced-configurations">advanced configurations</h2>
 <h3 id="adjust-insertion-function-of-validation-messages">adjust insertion function of validation messages</h3>
 <p>You can edit where and how the messages are inserted in relation to their corresponding form-element:</p>
