@@ -85,6 +85,15 @@
                        required>
             </div>
             <div class="form-group">
+                <label class="control-label">Repeat Password (using match-directive)
+                </label>
+                <input type="password"
+                       class="form-control"
+                       placeholder="Repeat Password"
+                       ng-model="formData.passwordRepeat"
+                       match="formData.password">
+            </div>
+            <div class="form-group">
                 <div class="checkbox">
                     <label>
                         <input type="checkbox"

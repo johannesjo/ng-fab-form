@@ -24,6 +24,8 @@ angular.module('ngFabForm').run(['$templateCache', function($templateCache) {
     "        <li ng-message=\"minlength\">Your field should have at least {{ attrs.minlength }} characters</li>\n" +
     "        <li ng-message=\"maxlength\">Your field should have max {{ attrs.maxlength }} characters</li>\n" +
     "\n" +
+    "        <li ng-message=\"match\">The {{ attrs.type ==='password'? 'passwords' : 'values' }} should match</li>\n" +
+    "\n" +
     "        <li ng-if=\"attrs.type == 'time' \"\n" +
     "            ng-message=\"min\">The time provided should be no earlier than {{ attrs.min |date: 'HH:MM' }}\n" +
     "        </li>\n" +

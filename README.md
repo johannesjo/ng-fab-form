@@ -47,6 +47,7 @@ It automatically:
 * adds a validation directive in case you have an exception to the rule
 * adds `name` attributes based on ng-model, if none is set
 * adds a `novalidate` attribute to forms
+* adds a `match`-directive (e.g. for checking a repeated password)
 * scrolls to and focuses the first form element with an error, if the submission fails
 
 
@@ -172,9 +173,18 @@ And in your template:
 ## disable form completly
 ```html
 <form role="form"
-name="youFormName"
-disable-form="{{booeleanVar}}">...</form>
+  name="youFormName"
+  disable-form="{{booeleanVar}}">...</form>
 ```
+
+## check for matching passwords via match-directive
+```html
+<form name="youFormName">
+  <input type="password" ng-model="realPassword">
+  <input type="password" ng-model="pwRepeat" match="realPassword">
+</form>
+```
+
 
 
 ## special validations for special cases (e.g. ng-pattern)
@@ -182,9 +192,9 @@ disable-form="{{booeleanVar}}">...</form>
 Sometimes you might want to have another text for a specific context. Special validation-messages like this are easily added like this:
 ```html
 <input type="text"
-ng-model="my-model"
-ng-pattern="/abcdefg/"
-validation-msg-pattern="Not abcdefg :(">
+  ng-model="my-model"
+  ng-pattern="/abcdefg/"
+  validation-msg-pattern="Not abcdefg :(">
 ```
 
 ## default validations and creating your own validation template
@@ -225,6 +235,8 @@ This is what the default validation template looks like:
         <li ng-if="attrs.type == 'time' "
             ng-message="min">The time provided should be no earlier than {{ attrs.min |date: 'HH:MM' }}
         </li>
+        <li ng-message="match">The {{ attrs.type ==='password'? 'passwords' : 'values' }} should match</li>
+
 
         <!-- you can use ng-if or ng-show for more advanced
         error messages -->
