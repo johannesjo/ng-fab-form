@@ -86,6 +86,7 @@ angular.module('ngFabForm')
                 }
 
 
+                // Linking function
                 return function (scope, el, attrs, controllers)
                 {
 
@@ -134,6 +135,15 @@ angular.module('ngFabForm')
                             if (!cfg) {
                                 cfg = formCtrl.ngFabFormConfig;
                             }
+
+                            // overwrite email-validation
+                            if (cfg.emailRegex && attrs.type === 'email') {
+                                ngModelCtrl.$validators.email = function (value)
+                                {
+                                    return ngModelCtrl.$isEmpty(value) || cfg.emailRegex.test(value);
+                                };
+                            }
+
                             ngFabFormCycle();
 
 

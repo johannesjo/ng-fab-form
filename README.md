@@ -43,6 +43,7 @@ It automatically:
 * **prevents double submissions** of forms when double clicked via a configurable delay
 * **works with any custom validation directive** you have running in your project (as long as they're correctly working with the ngModel-Controller)
 * **compatibility**  with most other form modules
+* adds a more reasonable email-validation
 * adds a validation directive in case you have an exception to the rule
 * adds `name` attributes based on ng-model, if none is set
 * adds a `novalidate` attribute to forms
@@ -123,6 +124,9 @@ asteriskStr: '*',
 // the validation message prefix, results for the default state
 // `validation-msg-required` or `validation-msg-your-custom-validation`
 validationMsgPrefix: 'validationMsg'
+
+// default email-regex, set to false to deactivate overwrite
+emailRegex: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
 ```
 You can easily extend those configurations like this:
 ```javascript

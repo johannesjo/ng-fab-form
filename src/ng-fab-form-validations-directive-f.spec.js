@@ -126,6 +126,34 @@ describe('validations directive', function ()
         expect(message.text()).toBe('some custom message');
     });
 
+    it('should overwrite email-validations with a better pattern', function ()
+    {
+        var element = $compile('<form name="testForm">' +
+        '<input type="email" ng-model="testInput" validation-msg-email ="some custom message" required>' +
+        '</form>')(scope);
+        scope.$digest();
+        $timeout.flush();
+        var form = scope.testForm;
+
+        // we have to use $setViewValue otherwise the formCtrl
+        // will not update properly
+        form.testInput.$setViewValue('email@email');
+
+        var messageContainer = angular.element(element.children()[1]);
+        var message = messageContainer.find('li');
+
+        expect(message.length).toBe(1);
+        expect(message.attr('ng-message')).toBe('email');
+        expect(message.text()).toBe('some custom message');
+
+        // test correct email
+        form.testInput.$setViewValue('email@asdasd.de');
+        var successMessage = messageContainer.find('div');
+        expect(successMessage.length).toBe(1);
+        expect(successMessage.hasClass('ng-hide')).toBe(false);
+        message = messageContainer.find('li');
+        expect(message.length).toBe(0);
+    });
 
     it('should work with nested model values', function ()
     {
@@ -339,5 +367,28 @@ describe('validations directive with config', function ()
         label = angular.element(label[0]);
 
         expect(label.text().slice(-2 * asteriskVal.length)).not.toBe(asteriskVal + asteriskVal);
+    });
+
+    it('should be able to deactivate email-validation overwrite', function ()
+    {
+        provider.extendConfig({
+            emailRegex: false
+        });
+
+        var element = $compile('<form name="testForm">' +
+        '<input type="email" ng-model="testInput" validation-msg-email ="some custom message" required>' +
+        '</form>')(scope);
+        scope.$digest();
+        $timeout.flush();
+        var form = scope.testForm;
+
+        // we have to use $setViewValue otherwise the formCtrl
+        // will not update properly
+        form.testInput.$setViewValue('email@email');
+
+        var messageContainer = angular.element(element.children()[1]);
+        var message = messageContainer.find('li');
+
+        expect(message.length).toBe(0);
     });
 });

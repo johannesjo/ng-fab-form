@@ -60,7 +60,10 @@ angular.module('ngFabForm')
 
             // the validation message prefix, results for the default state
             // `validation-msg-required` or `validation-msg-your-custom-validation`
-            validationMsgPrefix: 'validationMsg'
+            validationMsgPrefix: 'validationMsg',
+
+            // default email-regex, set to false to deactivate overwrite
+            emailRegex: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
         };
 
 

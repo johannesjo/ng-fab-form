@@ -280,7 +280,8 @@ describe('a form with config', function ()
             setNamesByNgModel: false,
             setAsteriskForRequiredLabel: false,
             asteriskStr: '***',
-            validationMsgPrefix: 'validationMessssg'
+            validationMsgPrefix: 'validationMessssg',
+            emailRegex : false
         };
         provider.extendConfig(opts);
 
