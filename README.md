@@ -1,6 +1,6 @@
 [![Stories in Ready](https://badge.waffle.io/johannesjo/ng-fab-form.svg?label=ready&title=Ready)](http://waffle.io/johannesjo/ng-fab-form)
 [![Stories in progress](https://badge.waffle.io/johannesjo/ng-fab-form.svg?label=in%20progress&title=In%20Progress)](http://waffle.io/johannesjo/ng-fab-form)
-[![Build Status](https://travis-ci.org/johannesjo/ng-fab-form.svg)](https://travis-ci.org/johannesjo/ng-fab-form)
+[![Build Status](https://travis-ci.org/johannesjo/ng-fab-form.svg?branch=v1.1.13)](https://travis-ci.org/johannesjo/ng-fab-form?branch=v1.1.13)
 [![Coverage Status](https://coveralls.io/repos/johannesjo/ng-fab-form/badge.svg?branch=master)](https://coveralls.io/r/johannesjo/ng-fab-form?branch=master)
 
 ng-fab-form
@@ -124,7 +124,7 @@ setAsteriskForRequiredLabel: false,
 // setAsteriskForRequiredLabel-option set to true
 asteriskStr: '*',
 
-// the validation message prefix, results for the default state
+// the validation message prefix, results for the default state in
 // `validation-msg-required` or `validation-msg-your-custom-validation`
 validationMsgPrefix: 'validationMsg'
 
