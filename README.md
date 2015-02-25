@@ -39,7 +39,7 @@ It automatically:
 * appends **configurable validation messages** (using `ng-messages`, [see](https://docs.angularjs.org/api/ngMessages/directive/ngMessages)) to any element  with a validation directive on it like `required`, `ng-required`, `ng-pattern`, `ng-minlength` and even new ones added
 * **prevents submission of invalid forms**
 * adds an option to **disable a form completly** via a `disable-form` attribute
-* adds a trigger to **show field validations after submmit**
+* adds a trigger to **show field validations after submit**
 * **prevents double submissions** of forms when double clicked via a configurable delay
 * **works with any custom validation directive** you have running in your project (as long as they're correctly working with the ngModel-Controller)
 * **compatibility**  with most other form modules
@@ -48,7 +48,9 @@ It automatically:
 * adds `name` attributes based on ng-model, if none is set
 * adds a `novalidate` attribute to forms
 * adds a `match`-directive (e.g. for checking a repeated password)
+* has support for async-validators
 * scrolls to and focuses the first form element with an error, if the submission fails
+
 
 
 Want a little help and the same flexibility with your form-markup? Then [check out ng-fab-forms little companion **angular-auto-forms**](https://github.com/johannesjo/angular-auto-forms)!!
