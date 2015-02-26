@@ -34,7 +34,12 @@ angular.module('ngFabForm')
                     // compile and insert messages
                     var compiledAlert = $compile(html.children())(privateScope);
                     params.currentValidationVars.tpl = compiledAlert[0];
-                    ngFabForm.insertErrorTpl(compiledAlert[0], el, attrs);
+
+                    // timeout needed here to wait for the template to evaluate
+                    $timeout(function ()
+                    {
+                        ngFabForm.insertErrorTpl(compiledAlert[0], el, attrs);
+                    });
                 });
         }
 
