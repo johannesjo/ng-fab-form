@@ -42,7 +42,8 @@ It automatically:
 * adds a trigger to **show field validations after submit**
 * **prevents double submissions** of forms when double clicked via a configurable delay
 * **works with any custom validation directive** you have running in your project (as long as they're correctly working with the ngModel-Controller)
-* **compatibility**  with most other form modules
+* **compatibility** with most other form modules
+* compatibility with the most popular **translation modules**
 * adds a more reasonable email-validation
 * adds a validation directive in case you have an exception to the rule
 * adds `name` attributes based on ng-model, if none is set
