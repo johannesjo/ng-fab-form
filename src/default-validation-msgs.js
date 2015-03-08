@@ -3,7 +3,8 @@ angular.module('ngFabForm').run(['$templateCache', function($templateCache) {
 
   $templateCache.put('default-validation-msgs.html',
     "<div ng-messages=\"field.$error\"\n" +
-    "     class=\"validation\">\n" +
+    "     class=\"validation\"\n" +
+    "     ng-show=\"attrs.required==''|| attrs.required\">\n" +
     "    <ul class=\"list-unstyled validation-errors\"\n" +
     "        ng-show=\"field.$invalid && (field.$touched || field.$dirty || form.$triedSubmit)\">\n" +
     "        <li ng-message=\"required\">This field is required</li>\n" +

@@ -110,6 +110,49 @@ describe('validations directive', function ()
         });
     });
 
+    it('should not display a validation message for non required url input', function ()
+    {
+        var element = $compile('<form name="testForm">' +
+        '<input type="url" ng-model="testInput" >' +
+        '</form>')(scope);
+        scope.$digest();
+        $timeout.flush();
+        var form = scope.testForm;
+
+        form.testInput.$setViewValue('xxx');
+        var messageContainer = angular.element(element.children()[1]);
+        expect(messageContainer.attr('class')).toContain('ng-hide');
+    });
+
+    it('should not display a validation message for non required email input', function ()
+    {
+        var element = $compile('<form name="testForm">' +
+        '<input type="email" ng-model="testInput" >' +
+        '</form>')(scope);
+        scope.$digest();
+        $timeout.flush();
+        var form = scope.testForm;
+
+        form.testInput.$setViewValue('xxx');
+        var messageContainer = angular.element(element.children()[1]);
+        expect(messageContainer.attr('class')).toContain('ng-hide');
+    });
+
+    it('should not display the success element for simple inputs', function ()
+    {
+        var element = $compile('<form name="testForm">' +
+        '<input type="url" ng-model="testInput" >' +
+        '</form>')(scope);
+        scope.$digest();
+        $timeout.flush();
+        var form = scope.testForm;
+
+
+        form.testInput.$setViewValue('http://blabla.de');
+        var messageContainer = angular.element(element.children()[1]);
+        expect(messageContainer.attr('class')).toContain('ng-hide');
+    });
+
     it('should display a custom validation if set', function ()
     {
         var element = $compile('<form name="testForm">' +
