@@ -1,4 +1,5 @@
-describe('a form', function () {
+describe('a form', function ()
+{
     'use strict';
 
     var helper = {};
@@ -9,7 +10,8 @@ describe('a form', function () {
 
     beforeEach(module('ngFabForm'));
 
-    beforeEach(inject(function (_$rootScope_, _$compile_, _$timeout_) {
+    beforeEach(inject(function (_$rootScope_, _$compile_, _$timeout_)
+    {
         $rootScope = _$rootScope_;
         $compile = _$compile_;
         $timeout = _$timeout_;
@@ -17,7 +19,8 @@ describe('a form', function () {
     }));
 
 
-    it('without a name should auto- get a name', function () {
+    it('without a name should auto- get a name', function ()
+    {
         var element = $compile('<form></form>')(scope);
         scope.$digest();
         var formName = element.attr('name');
@@ -25,7 +28,8 @@ describe('a form', function () {
     });
 
 
-    it('and a second with the same name - the second should auto- get a new name', function () {
+    it('and a second with the same name - the second should auto- get a new name', function ()
+    {
         var html = '<form name="notUnique"></form>';
         scope = $rootScope.$new();
         var element1 = $compile(html)(scope),
@@ -38,7 +42,8 @@ describe('a form', function () {
     });
 
 
-    it('could be disabled and enabled again', function () {
+    it('could be disabled and enabled again', function ()
+    {
         var element = $compile('<form name="myForm" disable-form="{{ formDisabled || false }}"><input type="text" ng-model="myModel"></form>')(scope);
         scope.$digest();
         $timeout.flush();
@@ -56,7 +61,8 @@ describe('a form', function () {
     });
 
 
-    it('should have settable options', function () {
+    it('should have settable options', function ()
+    {
         $compile('<form name="myForm" ng-fab-form-options="customFormOptions"></form>')(scope);
         scope.$digest();
         $timeout.flush();
@@ -83,14 +89,17 @@ describe('a form', function () {
     });
 
 
-    describe('with an input', function () {
+    describe('with an input', function ()
+    {
         var element, form;
 
-        beforeEach(function () {
+        beforeEach(function ()
+        {
             var html = '<form name="myForm" ng-submit="submitFn()"  ng-fab-form-options="customFormOptions"><input type="text" ng-model="testModel" required></form>';
             scope = $rootScope.$new();
             scope.submitCount = 0;
-            scope.submitFn = function () {
+            scope.submitFn = function ()
+            {
                 scope.submitCount++;
             };
             spyOn(scope, 'submitFn').and.callThrough();
@@ -102,19 +111,22 @@ describe('a form', function () {
             form = scope.myForm;
         });
 
-        it('should be submittable if input is valid', function () {
+        it('should be submittable if input is valid', function ()
+        {
             scope.testModel = 'some input provided';
             element.triggerHandler('submit');
             expect(scope.submitFn).toHaveBeenCalled();
         });
 
-        it('should NOT be submittable if input is invalid', function () {
+        it('should NOT be submittable if input is invalid', function ()
+        {
             scope.testModel = null;
             element.triggerHandler('submit');
             expect(scope.submitFn).not.toHaveBeenCalled();
         });
 
-        it('should be still submittable if input is invalid, but OPTION is deactivated', function () {
+        it('should be still submittable if input is invalid, but OPTION is deactivated', function ()
+        {
             scope.testModel = null;
             scope.customFormOptions = {
                 preventInvalidSubmit: false
@@ -131,7 +143,8 @@ describe('a form', function () {
             expect(scope.submitCount).toBe(1);
         });
 
-        it('should only be submitted once', function () {
+        it('should only be submitted once', function ()
+        {
             scope.testModel = 'some input provided';
             element.triggerHandler('submit');
             element.triggerHandler('submit');
@@ -139,7 +152,8 @@ describe('a form', function () {
             expect(scope.submitCount).toBe(1);
         });
 
-        it('could be submitted multiple times if OPTION is deactivated', function () {
+        it('could be submitted multiple times if OPTION is deactivated', function ()
+        {
             scope.customFormOptions = {
                 preventDoubleSubmit: false
             };
@@ -150,16 +164,19 @@ describe('a form', function () {
             expect(scope.submitCount).toBe(3);
         });
 
-        it('should have $triedSubmit set after submit attempt', function () {
+        it('should have $triedSubmit set after submit attempt', function ()
+        {
             element.triggerHandler('submit');
             expect(form.$triedSubmit).toBeTruthy();
         });
     });
 
 
-    describe('with autofocus errors', function () {
+    describe('with autofocus errors', function ()
+    {
         var element, form, input;
-        beforeEach(function () {
+        beforeEach(function ()
+        {
             var html = '<form name="myForm" ng-fab-form-options="customFormOptions">' +
                 '<input type="text" ng-model="testModel0" required>' +
                 '<input type="text" ng-model="testModel1" required>' +
@@ -182,14 +199,16 @@ describe('a form', function () {
             };
         });
 
-        it('should focus the first error-element(0) on submit', function () {
+        it('should focus the first error-element(0) on submit', function ()
+        {
             element.triggerHandler('submit');
             expect(input[0].focus).toHaveBeenCalled();
             expect(input[1].focus).not.toHaveBeenCalled();
             expect(input[2].focus).not.toHaveBeenCalled();
         });
 
-        it('should focus the first error-element(1) on submit', function () {
+        it('should focus the first error-element(1) on submit', function ()
+        {
             form.testModel0.$setViewValue('blablablaba');
             element.triggerHandler('submit');
             expect(input[0].focus).not.toHaveBeenCalled();
@@ -197,7 +216,8 @@ describe('a form', function () {
             expect(input[2].focus).not.toHaveBeenCalled();
         });
 
-        it('should focus the first error-element(2) on submit', function () {
+        it('should focus the first error-element(2) on submit', function ()
+        {
             form.testModel0.$setViewValue('blablablaba');
             form.testModel1.$setViewValue('blablablaba');
 
@@ -207,7 +227,8 @@ describe('a form', function () {
             expect(input[2].focus).toHaveBeenCalled();
         });
 
-        it('should not focus any error element, if OPTION is deactivated', function () {
+        it('should not focus any error element, if OPTION is deactivated', function ()
+        {
             scope.customFormOptions.scrollToAndFocusFirstErrorOnSubmit = false;
             element.triggerHandler('submit');
             expect(input[0].focus).not.toHaveBeenCalled();
@@ -218,12 +239,14 @@ describe('a form', function () {
 });
 
 
-describe('a form with config', function () {
+describe('a form with config', function ()
+{
     'use strict';
 
     var provider;
 
-    beforeEach(module('ngFabForm', function (ngFabFormProvider) {
+    beforeEach(module('ngFabForm', function (ngFabFormProvider)
+    {
         provider = ngFabFormProvider;
     }));
 
@@ -233,14 +256,16 @@ describe('a form with config', function () {
         $compile;
 
 
-    beforeEach(inject(function (_$rootScope_, _$compile_, _$timeout_) {
+    beforeEach(inject(function (_$rootScope_, _$compile_, _$timeout_)
+    {
         $rootScope = _$rootScope_;
         $compile = _$compile_;
         $timeout = _$timeout_;
         scope = $rootScope.$new();
     }));
 
-    it('can change all options via extend config', inject(function () {
+    it('can change all options via extend config', inject(function ()
+    {
         var opts = {
             validationsTemplate: false,
             preventInvalidSubmit: false,
@@ -278,21 +303,26 @@ describe('a form with config', function () {
     }));
 
 
-    it('can set a custom error-insert function', function () {
-        var customInsertFn = function () {
+    it('can set a custom error-insert function', function ()
+    {
+        var customInsertFn = function ()
+        {
         };
         provider.setInsertErrorTplFn(customInsertFn);
         expect(provider.$get().insertErrorTpl).toEqual(customInsertFn);
     });
 
-    it('can set a custom scroll-to function', function () {
-        var customScrollFn = function () {
+    it('can set a custom scroll-to function', function ()
+    {
+        var customScrollFn = function ()
+        {
         };
         provider.setScrollToFn(customScrollFn);
         expect(provider.$get().scrollTo).toEqual(customScrollFn);
     });
 
-    it('can\'t submit invalid even if validations are set to false', function () {
+    it('can\'t submit invalid even if validations are set to false', function ()
+    {
         provider.extendConfig({
             validationsTemplate: false
         });
@@ -301,7 +331,8 @@ describe('a form with config', function () {
 
 
         scope.submitCount = 0;
-        scope.submitFn = function () {
+        scope.submitFn = function ()
+        {
             console.log('IM FN');
             scope.submitCount++;
         };
