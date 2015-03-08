@@ -135,7 +135,8 @@
 <li><strong>prevents double submissions</strong> of forms when double clicked via a configurable delay</li>
 <li><strong>works with any custom validation directive</strong> you have running in your project (as long as they&#39;re correctly working with the ngModel-Controller)</li>
 <li><strong>compatibility</strong> with most other form modules</li>
-<li><strong>compatibility</strong> with the most popular translation modules</li>
+<li>compatibility with the most popular <strong>translation modules</strong></li>
+<li>provides an api to add <strong>custom validators</strong></li>
 <li>adds a more reasonable email-validation</li>
 <li>adds a validation directive in case you have an exception to the rule</li>
 <li>adds <code>name</code> attributes based on ng-model, if none is set</li>
@@ -370,6 +371,26 @@ emailRegex: /[a-z0-9!#$%&amp;&#39;*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&amp;&#39;*+/=?
             };
         ngFabFormProvider.setScrollToFn(customScrollToFn);
     });
+</code></pre>
+<h3 id="adding-your-own-validators-or-overwriting-existing-ones-">adding your own validators (or overwriting existing ones)</h3>
+<p>The default validations for email, url and number fields are not always what you want. ng-fab-form provides you with an api to add your own or to overwrite the existing ones:</p>
+<pre><code class="lang-javascript">angular.module(&#39;exampleApp&#39;, [
+&#39;ngFabForm&#39;,
+])
+.config(function (ngFabFormProvider)
+{
+  var customValidatorFn = function (ngModelCtrl, attrs)
+  {
+    var regex = /www.only-awesome-urls.tu/;
+    if (attrs.type === &#39;url&#39;) {
+      ngModelCtrl.$validators.url = function (value)
+      {
+        return ngModelCtrl.$isEmpty(value) || regex.test(value);
+      };
+    }
+  };
+  ngFabFormProvider.setCustomValidatorsFn(customValidatorFn);
+});
 </code></pre>
 <p>A good starting point for you might be the <a href="https://github.com/johannesjo/ng-fab-form/blob/master/src/ng-fab-form-p.js">default function which can be found inside of the <code>ngFabFormProvider</code></a>.</p>
 <h2 id="-contribute-">❤ contribute ❤</h2>
