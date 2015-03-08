@@ -154,6 +154,7 @@ angular.module('ngFabForm')
                 };
             }());
 
+        var customValidators;
 
         // *************************
         // PROVIDER-CONFIG-FUNCTIONS
@@ -172,6 +173,9 @@ angular.module('ngFabForm')
             {
                 scrollTo = scrollToFn;
             },
+            setCustomValidatorsFn: function(customValidatorsFn){
+                customValidators = customValidatorsFn;
+            },
 
 
             // ************************************************
@@ -183,6 +187,7 @@ angular.module('ngFabForm')
                 return {
                     insertErrorTpl: insertErrorTpl,
                     addCustomValidations: addCustomValidations,
+                    customValidators: customValidators,
                     scrollTo: scrollTo,
                     config: config
                 };

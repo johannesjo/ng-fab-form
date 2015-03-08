@@ -347,6 +347,44 @@ describe('a form with config', function ()
         element.triggerHandler('submit');
         expect(scope.submitFn).not.toHaveBeenCalled();
     });
+
+    it('can set custom validators via a function', function ()
+    {
+        var customValidatorFn = function (ngModelCtrl, attrs)
+        {
+            var regex = /asd/;
+            if (attrs.type === 'url') {
+                ngModelCtrl.$validators.url = function (value)
+                {
+                    return ngModelCtrl.$isEmpty(value) || regex.test(value);
+                };
+            }
+        };
+        provider.setCustomValidatorsFn(customValidatorFn);
+        expect(provider.$get().customValidators).toEqual(customValidatorFn);
+
+
+        var html = '<form name="myForm"><input type="url" ng-model="testModel" required></form>';
+        scope = $rootScope.$new();
+        var element = $compile(html)(scope);
+        var form = scope.myForm;
+        scope.$digest();
+        $timeout.flush();
+        var messageContainer = angular.element(element.children()[1]);
+
+
+        form.testModel.$setViewValue('blablablaba');
+        var message = messageContainer.find('li');
+        expect(message.length).toBe(1);
+        expect(message.attr('ng-message')).toBe('url');
+
+        form.testModel.$setViewValue('asd');
+        scope.$digest();
+        var message = messageContainer.find('li');
+        expect(message.length).toBe(0);
+        var successMessage = messageContainer.find('div');
+        expect(successMessage.hasClass('ng-hide')).toBe(false);
+    });
 });
 
 

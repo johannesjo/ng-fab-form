@@ -149,6 +149,10 @@ angular.module('ngFabForm')
                                 };
                             }
 
+                            if(ngFabForm.customValidators){
+                                ngFabForm.customValidators(ngModelCtrl, attrs);
+                            }
+
                             ngFabFormCycle();
 
 
