@@ -11,7 +11,7 @@
   },
   "homepage": "http://johannesjo.github.io/ng-fab-form/",
   "license": "LGPL-2.1",
-  "main": "dist/ng-fab-form.min.js",
+  "main": "dist/ng-fab-form.js",
   "keywords": [
     "angular",
     "AngularJS",
