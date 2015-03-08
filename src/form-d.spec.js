@@ -380,7 +380,7 @@ describe('a form with config', function ()
 
         form.testModel.$setViewValue('asd');
         scope.$digest();
-        var message = messageContainer.find('li');
+        message = messageContainer.find('li');
         expect(message.length).toBe(0);
         var successMessage = messageContainer.find('div');
         expect(successMessage.hasClass('ng-hide')).toBe(false);
