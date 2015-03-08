@@ -44,6 +44,7 @@ It automatically:
 * **works with any custom validation directive** you have running in your project (as long as they're correctly working with the ngModel-Controller)
 * **compatibility** with most other form modules
 * compatibility with the most popular **translation modules**
+* provides an api to add **custom validators**
 * adds a more reasonable email-validation
 * adds a validation directive in case you have an exception to the rule
 * adds `name` attributes based on ng-model, if none is set
@@ -322,6 +323,30 @@ angular.module('exampleApp', [
             };
         ngFabFormProvider.setScrollToFn(customScrollToFn);
     });
+
+```
+
+### adding your own validators (or overwriting existing ones)
+The default validations for email, url and number fields are not always what you want. ng-fab-form provides you with an api to add your own or to overwrite the existing ones:
+
+```javascript
+angular.module('exampleApp', [
+'ngFabForm',
+])
+.config(function (ngFabFormProvider)
+{
+  var customValidatorFn = function (ngModelCtrl, attrs)
+  {
+    var regex = /www.only-awesome-urls.tu/;
+    if (attrs.type === 'url') {
+      ngModelCtrl.$validators.url = function (value)
+      {
+        return ngModelCtrl.$isEmpty(value) || regex.test(value);
+      };
+    }
+  };
+  ngFabFormProvider.setCustomValidatorsFn(customValidatorFn);
+});
 
 ```
 A good starting point for you might be the [default function which can be found inside of the `ngFabFormProvider`](https://github.com/johannesjo/ng-fab-form/blob/master/src/ng-fab-form-p.js).
