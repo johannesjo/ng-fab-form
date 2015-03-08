@@ -325,6 +325,7 @@ angular.module('exampleApp', [
     });
 
 ```
+A good starting point for you might be the [default function which can be found inside of the `ngFabFormProvider`](https://github.com/johannesjo/ng-fab-form/blob/master/src/ng-fab-form-p.js).
 
 ### adding your own validators (or overwriting existing ones)
 The default validations for email, url and number fields are not always what you want. ng-fab-form provides you with an api to add your own or to overwrite the existing ones:
@@ -349,7 +350,7 @@ angular.module('exampleApp', [
 });
 
 ```
-A good starting point for you might be the [default function which can be found inside of the `ngFabFormProvider`](https://github.com/johannesjo/ng-fab-form/blob/master/src/ng-fab-form-p.js).
+
 
 
 ## ❤ contribute ❤
