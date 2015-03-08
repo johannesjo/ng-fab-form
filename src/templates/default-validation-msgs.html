@@ -3,37 +3,35 @@
     <ul class="list-unstyled validation-errors"
         ng-show="field.$invalid && (field.$touched || field.$dirty || form.$triedSubmit)">
         <li ng-message="required">This field is required</li>
-        <li ng-message="password">This is not a valid password</li>
-        <li ng-message="email"> This is not a valid email-address</li>
-        <li ng-message="pattern">Your input does not match the requirements</li>
-        <li ng-message="date">This is not a valid date</li>
-        <li ng-message="time">This is not a valid time</li>
-        <li ng-message="datetime"> This is no valid datetime</li>
-        <li ng-message="datetime-local">This is no valid local datetime</li>
-        <li ng-message="number">This is no valid number</li>
-        <li ng-message="color">This no valid color</li>
-        <li ng-message="range">This is not a valid range</li>
-        <li ng-message="month">This is not a valid month</li>
-        <li ng-message="url">This is not a valid url</li>
-        <li ng-message="file">This not a valid file</li>
-
-        <li ng-message="minlength">Your field should have at least {{ attrs.minlength }} characters</li>
-        <li ng-message="maxlength">Your field should have max {{ attrs.maxlength }} characters</li>
-
+        <li ng-message="password">Please enter a valid password
+        </li>
+        <li ng-message="email">Please enter a valid e-mail</li>
+        <li ng-message="pattern">Invalid input format</li>
+        <li ng-message="date">Please enter a valid date</li>
+        <li ng-message="time">Please enter a valid time</li>
+        <li ng-message="datetime">Please enter a valid date and time</li>
+        <li ng-message="datetime-local">Please enter a valid date and time</li>
+        <li ng-message="number">This field must be numeric</li>
+        <li ng-message="color">Please enter a valid color</li>
+        <li ng-message="range">Please enter a valid range</li>
+        <li ng-message="month">Please enter a valid month</li>
+        <li ng-message="url">Please enter a valid URL</li>
+        <li ng-message="file">Invalid file</li>
+        <li ng-message="minlength">Please use at least {{ attrs.minlength }} characters</li>
+        <li ng-message="maxlength">Please do not exceed {{ attrs.maxlength }} characters</li>
         <li ng-message="match">The {{ attrs.type ==='password'? 'passwords' : 'values' }} should match</li>
-
         <li ng-if="attrs.type == 'time' "
-            ng-message="min">The time provided should be no earlier than {{ attrs.min |date: 'HH:MM' }}
+            ng-message="min">The time provided should after {{ attrs.min |date: 'HH:MM' }}
         </li>
         <li ng-message="max"
-            ng-if="attrs.type == 'time' ">The time should be no later than {{attrs.max |date: 'HH:MM'}}
+            ng-if="attrs.type == 'time' ">The time provided should be before {{attrs.max |date: 'HH:MM'}}
         </li>
         <li ng-message="min"
-            ng-if="attrs.type == 'date' ">The date provided should be no earlier than then {{attrs.max
+            ng-if="attrs.type == 'date' ">The date provided should be after {{attrs.min
             |date:'dd.MM.yy'}}
         </li>
         <li ng-message="max"
-            ng-if="attrs.type == 'date' ">The time should be no later than {{attrs.max |date: 'dd.MM.yy'}}
+            ng-if="attrs.type == 'date' ">The date provided should be before {{attrs.max |date: 'dd.MM.yy'}}
         </li>
     </ul>
     <div class="validation-success"

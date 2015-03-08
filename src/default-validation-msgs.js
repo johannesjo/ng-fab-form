@@ -7,7 +7,8 @@ angular.module('ngFabForm').run(['$templateCache', function($templateCache) {
     "    <ul class=\"list-unstyled validation-errors\"\n" +
     "        ng-show=\"field.$invalid && (field.$touched || field.$dirty || form.$triedSubmit)\">\n" +
     "        <li ng-message=\"required\">This field is required</li>\n" +
-    "        <li ng-message=\"password\">Please enter a valid password</li>\n" +
+    "        <li ng-message=\"password\">Please enter a valid password\n" +
+    "        </li>\n" +
     "        <li ng-message=\"email\">Please enter a valid e-mail</li>\n" +
     "        <li ng-message=\"pattern\">Invalid input format</li>\n" +
     "        <li ng-message=\"date\">Please enter a valid date</li>\n" +
@@ -20,12 +21,9 @@ angular.module('ngFabForm').run(['$templateCache', function($templateCache) {
     "        <li ng-message=\"month\">Please enter a valid month</li>\n" +
     "        <li ng-message=\"url\">Please enter a valid URL</li>\n" +
     "        <li ng-message=\"file\">Invalid file</li>\n" +
-    "\n" +
     "        <li ng-message=\"minlength\">Please use at least {{ attrs.minlength }} characters</li>\n" +
     "        <li ng-message=\"maxlength\">Please do not exceed {{ attrs.maxlength }} characters</li>\n" +
-    "\n" +
     "        <li ng-message=\"match\">The {{ attrs.type ==='password'? 'passwords' : 'values' }} should match</li>\n" +
-    "\n" +
     "        <li ng-if=\"attrs.type == 'time' \"\n" +
     "            ng-message=\"min\">The time provided should after {{ attrs.min |date: 'HH:MM' }}\n" +
     "        </li>\n" +
