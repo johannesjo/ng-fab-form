@@ -135,7 +135,7 @@ angular.module('ngFabForm')
                     $timeout(function ()
                     {
                         // only execute if formCtrl is set
-                        if (formCtrl) {
+                        if (formCtrl && ngModelCtrl) {
                             // get configuration from parent form
                             if (!cfg) {
                                 cfg = formCtrl.ngFabFormConfig;

@@ -138,6 +138,57 @@ describe('validations directive', function ()
         expect(messageContainer.attr('class')).toContain('ng-hide');
     });
 
+    it('should not throw an error for input:email without ng-model', function ()
+    {
+        var element = $compile('<form name="testForm">' +
+        '<input type="email">' +
+        '</form>')(scope);
+        scope.$digest();
+        $timeout.flush();
+        var form = scope.testForm;
+
+        var input = angular.element(element.children()[0]);
+        input.val('ballbalbla');
+        scope.$digest();
+
+        var messageContainer = angular.element(element.children()[1]);
+        expect(messageContainer.length).toBe(0);
+    });
+
+    it('should not throw an error for input:url without ng-model', function ()
+    {
+        var element = $compile('<form name="testForm">' +
+        '<input type="url">' +
+        '</form>')(scope);
+        scope.$digest();
+        $timeout.flush();
+        var form = scope.testForm;
+
+        var input = angular.element(element.children()[0]);
+        input.val('ballbalbla');
+        scope.$digest();
+
+        var messageContainer = angular.element(element.children()[1]);
+        expect(messageContainer.length).toBe(0);
+    });
+
+    it('should not display errors for input:email with required attribute, when no ng-model is set', function ()
+    {
+        var element = $compile('<form name="testForm">' +
+        '<input type="email" required>' +
+        '</form>')(scope);
+        scope.$digest();
+        $timeout.flush();
+        var form = scope.testForm;
+
+        var input = angular.element(element.children()[0]);
+        input.val('ballbalbla');
+        scope.$digest();
+
+        var messageContainer = angular.element(element.children()[1]);
+        expect(messageContainer.length).toBe(0);
+    });
+
     it('should not display the success element for simple inputs', function ()
     {
         var element = $compile('<form name="testForm">' +

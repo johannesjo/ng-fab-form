@@ -207,7 +207,7 @@ module.exports = function (grunt)
             dev: {
                 src: [
                     '<%= appConfig.example %>/index.html',
-                    '<%= appConfig.example %>/index.html'
+                    '<%= appConfig.example %>/dev.html'
                 ],
                 ignorePath: /\.\.\//,
                 exclude: [],
@@ -224,7 +224,7 @@ module.exports = function (grunt)
             dist: {
                 src: [
                     '<%= appConfig.example %>/index.html',
-                    '<%= appConfig.example %>/index.html'
+                    '<%= appConfig.example %>/dev.html'
                 ],
                 ignorePath: /\.\.\//,
                 exclude: [],
