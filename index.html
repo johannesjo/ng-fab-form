@@ -372,6 +372,7 @@ emailRegex: /[a-z0-9!#$%&amp;&#39;*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&amp;&#39;*+/=?
         ngFabFormProvider.setScrollToFn(customScrollToFn);
     });
 </code></pre>
+<p>A good starting point for you might be the <a href="https://github.com/johannesjo/ng-fab-form/blob/master/src/ng-fab-form-p.js">default function which can be found inside of the <code>ngFabFormProvider</code></a>.</p>
 <h3 id="adding-your-own-validators-or-overwriting-existing-ones-">adding your own validators (or overwriting existing ones)</h3>
 <p>The default validations for email, url and number fields are not always what you want. ng-fab-form provides you with an api to add your own or to overwrite the existing ones:</p>
 <pre><code class="lang-javascript">angular.module(&#39;exampleApp&#39;, [
@@ -392,7 +393,6 @@ emailRegex: /[a-z0-9!#$%&amp;&#39;*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&amp;&#39;*+/=?
   ngFabFormProvider.setCustomValidatorsFn(customValidatorFn);
 });
 </code></pre>
-<p>A good starting point for you might be the <a href="https://github.com/johannesjo/ng-fab-form/blob/master/src/ng-fab-form-p.js">default function which can be found inside of the <code>ngFabFormProvider</code></a>.</p>
 <h2 id="-contribute-">❤ contribute ❤</h2>
 <p>I&#39;m happy for any <a href="https://github.com/johannesjo/ng-fab-form/issues">issue or feature request</a>, you might encounter or want to have. Even a one liner is better, than no feedback at all. Pull requests are also highly welcome. Just fork the repository, clone it and run <code>grunt serve</code> for development. Another important factor is the number of developers using and thus testing <code>ng-fab-form</code>. Tell your fellow programmers, <a href="http://ngmodules.org/modules/ng-fab-form">say that you use it on ng-modules</a>, tweet or even blog about it.</p>
 <p><code>ng-fab-form</code> is published under the <a href="https://github.com/johannesjo/ng-fab-form/blob/master/LICENSE">The GNU Lesser General Public License V2.1</a>.</p>
