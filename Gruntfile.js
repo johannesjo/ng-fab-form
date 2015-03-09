@@ -262,7 +262,12 @@ module.exports = function (grunt)
 
         concat: {
             options: {
-                sourceMap: true
+                sourceMap: false
+            }
+        },
+        uglify: {
+            options: {
+                sourceMap: false
             }
         },
         fileblocks: {

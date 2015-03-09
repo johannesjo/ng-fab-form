@@ -688,5 +688,3 @@ angular.module('ngFabForm')
             }
         };
     });
-
-//# sourceMappingURL=ng-fab-form.min.js.map
