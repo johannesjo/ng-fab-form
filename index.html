@@ -210,6 +210,11 @@ validationMsgPrefix: &#39;validationMsg&#39;
 
 // default email-regex, set to false to deactivate overwrite
 emailRegex: /[a-z0-9!#$%&amp;&#39;*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&amp;&#39;*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
+
+// in very rare cases (e.g. for some form-builders) your form
+// controller might not be ready before your model-controllers are,
+// for those instances set this option to true
+watchForFormCtrl: false
 </code></pre><p>You can easily extend those configurations like this:</p>
 <pre><code class="lang-javascript">angular.module(&#39;exampleApp&#39;, [
     &#39;ngFabForm&#39;
@@ -268,32 +273,33 @@ emailRegex: /[a-z0-9!#$%&amp;&#39;*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&amp;&#39;*+/=?
 <p>This is what the default validation template looks like:</p>
 <pre><code class="lang-html">&lt;!-- Default Validation Template --&gt;
 &lt;div ng-messages=&quot;field.$error&quot;
-     class=&quot;validation&quot;&gt;
+     class=&quot;validation&quot;
+     ng-show=&quot;attrs.required==&#39;&#39;|| attrs.required&quot;&gt;
      &lt;!-- Show errors for invalid fields, when it has been either focused,
       has been changed or the user tried to submit the form without success
       (requires the setDirtyOnSubmit-option to be set--&gt;
     &lt;ul class=&quot;list-unstyled validation-errors&quot;
         ng-show=&quot;field.$invalid &amp;&amp; (field.$touched || field.$dirty || form.$triedSubmit)&quot;&gt;
         &lt;li ng-message=&quot;required&quot;&gt;This field is required&lt;/li&gt;
-        &lt;li ng-message=&quot;password&quot;&gt;This is not a valid password&lt;/li&gt;
-        &lt;li ng-message=&quot;email&quot;&gt; This is not a valid email-address&lt;/li&gt;
-        &lt;li ng-message=&quot;pattern&quot;&gt;Your input does not match the requirements&lt;/li&gt;
-        &lt;li ng-message=&quot;date&quot;&gt;This is not a valid date&lt;/li&gt;
-        &lt;li ng-message=&quot;time&quot;&gt;This is not a valid time&lt;/li&gt;
-        &lt;li ng-message=&quot;datetime&quot;&gt; This is no valid datetime&lt;/li&gt;
-        &lt;li ng-message=&quot;datetime-local&quot;&gt;This is no valid local datetime&lt;/li&gt;
-        &lt;li ng-message=&quot;number&quot;&gt;This is no valid number&lt;/li&gt;
-        &lt;li ng-message=&quot;color&quot;&gt;This no valid color&lt;/li&gt;
-        &lt;li ng-message=&quot;range&quot;&gt;This is not a valid range&lt;/li&gt;
-        &lt;li ng-message=&quot;month&quot;&gt;This is not a valid month&lt;/li&gt;
-        &lt;li ng-message=&quot;url&quot;&gt;This is not a valid url&lt;/li&gt;
-        &lt;li ng-message=&quot;file&quot;&gt;This not a valid file&lt;/li&gt;
+        &lt;li ng-message=&quot;password&quot;&gt;Please enter a valid password&lt;/li&gt;
+        &lt;li ng-message=&quot;email&quot;&gt;Please enter a valid e-mail&lt;/li&gt;
+        &lt;li ng-message=&quot;pattern&quot;&gt;Invalid input format&lt;/li&gt;
+        &lt;li ng-message=&quot;date&quot;&gt;Please enter a valid date&lt;/li&gt;
+        &lt;li ng-message=&quot;time&quot;&gt;Please enter a valid time&lt;/li&gt;
+        &lt;li ng-message=&quot;datetime&quot;&gt;Please enter a valid date and time&lt;/li&gt;
+        &lt;li ng-message=&quot;datetime-local&quot;&gt;Please enter a valid date and time&lt;/li&gt;
+        &lt;li ng-message=&quot;number&quot;&gt;This field must be numeric&lt;/li&gt;
+        &lt;li ng-message=&quot;color&quot;&gt;Please enter a valid color&lt;/li&gt;
+        &lt;li ng-message=&quot;range&quot;&gt;Please enter a valid range&lt;/li&gt;
+        &lt;li ng-message=&quot;month&quot;&gt;Please enter a valid month&lt;/li&gt;
+        &lt;li ng-message=&quot;url&quot;&gt;Please enter a valid URL&lt;/li&gt;
+        &lt;li ng-message=&quot;file&quot;&gt;Invalid file&lt;/li&gt;
 
         &lt;!-- ng-fab-form provides you with access to the
         input-element-attributes, allowing you to display their values
         inside of the message--&gt;
-        &lt;li ng-message=&quot;minlength&quot;&gt;Your field should have at least {{ attrs.minlength }} characters&lt;/li&gt;
-        &lt;li ng-message=&quot;maxlength&quot;&gt;Your field should have max {{ attrs.maxlength }} characters&lt;/li&gt;
+        &lt;li ng-message=&quot;minlength&quot;&gt;Please use at least {{ attrs.minlength }} characters&lt;/li&gt;
+        &lt;li ng-message=&quot;maxlength&quot;&gt;Please do not exceed {{ attrs.maxlength }} characters&lt;/li&gt;
 
         &lt;li ng-if=&quot;attrs.type == &#39;time&#39; &quot;
             ng-message=&quot;min&quot;&gt;The time provided should be no earlier than {{ attrs.min |date: &#39;HH:MM&#39; }}
@@ -303,15 +309,18 @@ emailRegex: /[a-z0-9!#$%&amp;&#39;*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&amp;&#39;*+/=?
 
         &lt;!-- you can use ng-if or ng-show for more advanced
         error messages --&gt;
+        &lt;li ng-if=&quot;attrs.type == &#39;time&#39; &quot;
+            ng-message=&quot;min&quot;&gt;The time provided should after {{ attrs.min |date: &#39;HH:MM&#39; }}
+        &lt;/li&gt;
         &lt;li ng-message=&quot;max&quot;
-            ng-if=&quot;attrs.type == &#39;time&#39; &quot;&gt;The time should be no later than {{attrs.max |date: &#39;HH:MM&#39;}}
+            ng-if=&quot;attrs.type == &#39;time&#39; &quot;&gt;The time provided should be before {{attrs.max |date: &#39;HH:MM&#39;}}
         &lt;/li&gt;
         &lt;li ng-message=&quot;min&quot;
-            ng-if=&quot;attrs.type == &#39;date&#39; &quot;&gt;The date provided should be no earlier than then {{attrs.max
-            |date:&#39;dd.MM.yy&#39;}}
-        &lt;/li&gt;
+            ng-if=&quot;attrs.type == &#39;date&#39; &quot;&gt;The date provided should be after {{attrs.min
+          |date:&#39;dd.MM.yy&#39;}}
+          &lt;/li&gt;
         &lt;li ng-message=&quot;max&quot;
-            ng-if=&quot;attrs.type == &#39;date&#39; &quot;&gt;The time should be no later than {{attrs.max |date: &#39;dd.MM.yy&#39;}}
+            ng-if=&quot;attrs.type == &#39;date&#39; &quot;&gt;The date provided should be before {{attrs.max |date: &#39;dd.MM.yy&#39;}}
         &lt;/li&gt;
     &lt;/ul&gt;
     &lt;!-- It is also possible to show a success element
