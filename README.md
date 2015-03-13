@@ -133,10 +133,9 @@ validationMsgPrefix: 'validationMsg'
 // default email-regex, set to false to deactivate overwrite
 emailRegex: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
 
-// in very rare cases (e.g. for some form-builders) your
-// form controller might not be ready before your
-// model-controllers are, for those instances
-// set this option to true
+// in very rare cases (e.g. for some form-builders) your form
+// controller might not be ready before your model-controllers are,
+// for those instances set this option to true
 watchForFormCtrl: false
 ```
 You can easily extend those configurations like this:
@@ -215,32 +214,33 @@ This is what the default validation template looks like:
 ```html
 <!-- Default Validation Template -->
 <div ng-messages="field.$error"
-     class="validation">
+     class="validation"
+     ng-show="attrs.required==''|| attrs.required">
      <!-- Show errors for invalid fields, when it has been either focused,
       has been changed or the user tried to submit the form without success
       (requires the setDirtyOnSubmit-option to be set-->
     <ul class="list-unstyled validation-errors"
         ng-show="field.$invalid && (field.$touched || field.$dirty || form.$triedSubmit)">
         <li ng-message="required">This field is required</li>
-        <li ng-message="password">This is not a valid password</li>
-        <li ng-message="email"> This is not a valid email-address</li>
-        <li ng-message="pattern">Your input does not match the requirements</li>
-        <li ng-message="date">This is not a valid date</li>
-        <li ng-message="time">This is not a valid time</li>
-        <li ng-message="datetime"> This is no valid datetime</li>
-        <li ng-message="datetime-local">This is no valid local datetime</li>
-        <li ng-message="number">This is no valid number</li>
-        <li ng-message="color">This no valid color</li>
-        <li ng-message="range">This is not a valid range</li>
-        <li ng-message="month">This is not a valid month</li>
-        <li ng-message="url">This is not a valid url</li>
-        <li ng-message="file">This not a valid file</li>
+        <li ng-message="password">Please enter a valid password</li>
+        <li ng-message="email">Please enter a valid e-mail</li>
+        <li ng-message="pattern">Invalid input format</li>
+        <li ng-message="date">Please enter a valid date</li>
+        <li ng-message="time">Please enter a valid time</li>
+        <li ng-message="datetime">Please enter a valid date and time</li>
+        <li ng-message="datetime-local">Please enter a valid date and time</li>
+        <li ng-message="number">This field must be numeric</li>
+        <li ng-message="color">Please enter a valid color</li>
+        <li ng-message="range">Please enter a valid range</li>
+        <li ng-message="month">Please enter a valid month</li>
+        <li ng-message="url">Please enter a valid URL</li>
+        <li ng-message="file">Invalid file</li>
 
         <!-- ng-fab-form provides you with access to the
         input-element-attributes, allowing you to display their values
         inside of the message-->
-        <li ng-message="minlength">Your field should have at least {{ attrs.minlength }} characters</li>
-        <li ng-message="maxlength">Your field should have max {{ attrs.maxlength }} characters</li>
+        <li ng-message="minlength">Please use at least {{ attrs.minlength }} characters</li>
+        <li ng-message="maxlength">Please do not exceed {{ attrs.maxlength }} characters</li>
 
         <li ng-if="attrs.type == 'time' "
             ng-message="min">The time provided should be no earlier than {{ attrs.min |date: 'HH:MM' }}
@@ -250,15 +250,18 @@ This is what the default validation template looks like:
 
         <!-- you can use ng-if or ng-show for more advanced
         error messages -->
+        <li ng-if="attrs.type == 'time' "
+            ng-message="min">The time provided should after {{ attrs.min |date: 'HH:MM' }}
+        </li>
         <li ng-message="max"
-            ng-if="attrs.type == 'time' ">The time should be no later than {{attrs.max |date: 'HH:MM'}}
+            ng-if="attrs.type == 'time' ">The time provided should be before {{attrs.max |date: 'HH:MM'}}
         </li>
         <li ng-message="min"
-            ng-if="attrs.type == 'date' ">The date provided should be no earlier than then {{attrs.max
-            |date:'dd.MM.yy'}}
-        </li>
+            ng-if="attrs.type == 'date' ">The date provided should be after {{attrs.min
+          |date:'dd.MM.yy'}}
+          </li>
         <li ng-message="max"
-            ng-if="attrs.type == 'date' ">The time should be no later than {{attrs.max |date: 'dd.MM.yy'}}
+            ng-if="attrs.type == 'date' ">The date provided should be before {{attrs.max |date: 'dd.MM.yy'}}
         </li>
     </ul>
     <!-- It is also possible to show a success element
