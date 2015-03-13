@@ -325,9 +325,9 @@ module.exports = function (grunt)
                 files: [
                     {
                         expand: true,
-                        cwd: '.tmp/concat',
+                        cwd: '<%= appConfig.dist %>',
                         src: '**/*.js',
-                        dest: '.tmp/concat'
+                        dest: '<%= appConfig.dist %>'
                     }
                 ]
             }

@@ -3,7 +3,7 @@ angular.module('ngFabForm', [
 ]);
 
 angular.module('ngFabForm')
-    .directive('form', function ($compile, $timeout, ngFabForm)
+    .directive('form', ["$compile", "$timeout", "ngFabForm", function ($compile, $timeout, ngFabForm)
     {
         'use strict';
 
@@ -206,31 +206,31 @@ angular.module('ngFabForm')
                 };
             }
         };
-    });
+    }]);
 
 angular.module('ngFabForm')
-    .directive('input', function (ngFabFormValidationsDirective)
+    .directive('input', ["ngFabFormValidationsDirective", function (ngFabFormValidationsDirective)
     {
         'use strict';
 
         return ngFabFormValidationsDirective;
-    });
+    }]);
 
 angular.module('ngFabForm')
-    .directive('textarea', function ($compile, ngFabFormValidationsDirective)
+    .directive('textarea', ["$compile", "ngFabFormValidationsDirective", function ($compile, ngFabFormValidationsDirective)
     {
         'use strict';
 
         return ngFabFormValidationsDirective;
-    });
+    }]);
 
 angular.module('ngFabForm')
-    .directive('select', function (ngFabFormValidationsDirective)
+    .directive('select', ["ngFabFormValidationsDirective", function (ngFabFormValidationsDirective)
     {
         'use strict';
 
         return ngFabFormValidationsDirective;
-    });
+    }]);
 
 angular.module('ngFabForm')
     .provider('ngFabForm', function ngFabFormProvider()
@@ -484,7 +484,7 @@ angular.module('ngFabForm').run(['$templateCache', function($templateCache) {
 }]);
 
 angular.module('ngFabForm')
-    .factory('ngFabFormValidationsDirective', function (ngFabForm, $compile, $templateRequest, $rootScope, $timeout)
+    .factory('ngFabFormValidationsDirective', ["ngFabForm", "$compile", "$templateRequest", "$rootScope", "$timeout", function (ngFabForm, $compile, $templateRequest, $rootScope, $timeout)
     {
         'use strict';
 
@@ -674,7 +674,7 @@ angular.module('ngFabForm')
                 };
             }
         };
-    });
+    }]);
 
 angular.module('ngFabForm')
     .directive('match', function match()
