@@ -141,7 +141,7 @@
 <li>adds a validation directive in case you have an exception to the rule</li>
 <li>adds <code>name</code> attributes based on ng-model, if none is set</li>
 <li>adds a <code>novalidate</code> attribute to forms</li>
-<li>adds a <code>match</code>-directive (e.g. for checking a repeated password)</li>
+<li>adds a <code>ngFabMatch</code>-directive (e.g. for checking a repeated password)</li>
 <li>has support for async-validators</li>
 <li>scrolls to and focuses the first form element with an error, if the submission fails</li>
 </ul>
@@ -255,10 +255,10 @@ watchForFormCtrl: false
   name=&quot;youFormName&quot;
   disable-form=&quot;{{booeleanVar}}&quot;&gt;...&lt;/form&gt;
 </code></pre>
-<h2 id="check-for-matching-passwords-via-match-directive">check for matching passwords via match-directive</h2>
+<h2 id="check-for-matching-passwords-via-ngfabmatch-directive">check for matching passwords via ngFabMatch-directive</h2>
 <pre><code class="lang-html">&lt;form name=&quot;youFormName&quot;&gt;
   &lt;input type=&quot;password&quot; ng-model=&quot;realPassword&quot;&gt;
-  &lt;input type=&quot;password&quot; ng-model=&quot;pwRepeat&quot; match=&quot;realPassword&quot;&gt;
+  &lt;input type=&quot;password&quot; ng-model=&quot;pwRepeat&quot; ng-fab-match=&quot;realPassword&quot;&gt;
 &lt;/form&gt;
 </code></pre>
 <h2 id="special-validations-for-special-cases-e-g-ng-pattern-">special validations for special cases (e.g. ng-pattern)</h2>
@@ -304,7 +304,7 @@ watchForFormCtrl: false
         &lt;li ng-if=&quot;attrs.type == &#39;time&#39; &quot;
             ng-message=&quot;min&quot;&gt;The time provided should be no earlier than {{ attrs.min |date: &#39;HH:MM&#39; }}
         &lt;/li&gt;
-        &lt;li ng-message=&quot;match&quot;&gt;The {{ attrs.type ===&#39;password&#39;? &#39;passwords&#39; : &#39;values&#39; }} should match&lt;/li&gt;
+        &lt;li ng-message=&quot;ngFabMatch&quot;&gt;The {{ attrs.type ===&#39;password&#39;? &#39;passwords&#39; : &#39;values&#39; }} should match&lt;/li&gt;
 
 
         &lt;!-- you can use ng-if or ng-show for more advanced
