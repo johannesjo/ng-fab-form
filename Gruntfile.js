@@ -312,7 +312,14 @@ module.exports = function (grunt)
             ngFabForm: {
                 cwd: 'src/templates',
                 src: '*.html',
-                dest: 'src/default-validation-msgs.js'
+                dest: 'src/default-validation-msgs.js',
+                options: {
+                    htmlmin: {
+                        collapseWhitespace: true,
+                        collapseBooleanAttributes: true,
+                        removeComments: true
+                    }
+                }
             }
         },
 
