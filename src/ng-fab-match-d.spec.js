@@ -1,4 +1,4 @@
-describe('an input with match-directive', function ()
+describe('an input with ngFabMatch-directive', function ()
 {
     'use strict';
 
@@ -22,7 +22,7 @@ describe('an input with match-directive', function ()
 
         element = $compile('<form name="testForm">' +
         '<input type="password" ng-model="pw">' +
-        '<input type="password" ng-model="pwRepeat" match="pw">' +
+        '<input type="password" ng-model="pwRepeat" ng-fab-match="pw">' +
         '</form>')(scope);
         $timeout.flush();
         scope.$digest();
@@ -53,7 +53,7 @@ describe('an input with match-directive', function ()
         var message = messageContainer.find('li');
 
         expect(message.length).toBe(1);
-        expect(message.attr('ng-message')).toBe('match');
+        expect(message.attr('ng-message')).toBe('ngFabMatch');
         expect(message.text()).toBe('The passwords should match');
 
         var successMessage = messageContainer.find('div');

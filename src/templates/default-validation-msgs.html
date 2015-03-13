@@ -20,7 +20,7 @@
         <li ng-message="file">Invalid file</li>
         <li ng-message="minlength">Please use at least {{ attrs.minlength }} characters</li>
         <li ng-message="maxlength">Please do not exceed {{ attrs.maxlength }} characters</li>
-        <li ng-message="match">The {{ attrs.type ==='password'? 'passwords' : 'values' }} should match</li>
+        <li ng-message="ngFabMatch">The {{ attrs.type ==='password'? 'passwords' : 'values' }} should match</li>
         <li ng-if="attrs.type == 'time' "
             ng-message="min">The time provided should after {{ attrs.min |date: 'HH:MM' }}
         </li>

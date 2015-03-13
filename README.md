@@ -49,7 +49,7 @@ It automatically:
 * adds a validation directive in case you have an exception to the rule
 * adds `name` attributes based on ng-model, if none is set
 * adds a `novalidate` attribute to forms
-* adds a `match`-directive (e.g. for checking a repeated password)
+* adds a `ngFabMatch`-directive (e.g. for checking a repeated password)
 * has support for async-validators
 * scrolls to and focuses the first form element with an error, if the submission fails
 
@@ -186,11 +186,11 @@ And in your template:
   disable-form="{{booeleanVar}}">...</form>
 ```
 
-## check for matching passwords via match-directive
+## check for matching passwords via ngFabMatch-directive
 ```html
 <form name="youFormName">
   <input type="password" ng-model="realPassword">
-  <input type="password" ng-model="pwRepeat" match="realPassword">
+  <input type="password" ng-model="pwRepeat" ng-fab-match="realPassword">
 </form>
 ```
 
@@ -245,7 +245,7 @@ This is what the default validation template looks like:
         <li ng-if="attrs.type == 'time' "
             ng-message="min">The time provided should be no earlier than {{ attrs.min |date: 'HH:MM' }}
         </li>
-        <li ng-message="match">The {{ attrs.type ==='password'? 'passwords' : 'values' }} should match</li>
+        <li ng-message="ngFabMatch">The {{ attrs.type ==='password'? 'passwords' : 'values' }} should match</li>
 
 
         <!-- you can use ng-if or ng-show for more advanced

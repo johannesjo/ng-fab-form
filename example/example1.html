@@ -85,13 +85,13 @@
                        required>
             </div>
             <div class="form-group">
-                <label class="control-label">Repeat Password (using match-directive)
+                <label class="control-label">Repeat Password (using ngFabMatch-directive)
                 </label>
                 <input type="password"
                        class="form-control"
                        placeholder="Repeat Password"
                        ng-model="formData.passwordRepeat"
-                       match="formData.password"
+                       ng-fab-match="formData.password"
                        required>
             </div>
             <div class="form-group">

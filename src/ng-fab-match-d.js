@@ -1,5 +1,5 @@
 angular.module('ngFabForm')
-    .directive('match', function match()
+    .directive('ngFabMatch', function match()
     {
         'use strict';
 
@@ -7,15 +7,15 @@ angular.module('ngFabForm')
             require: 'ngModel',
             restrict: 'A',
             scope: {
-                match: '='
+                ngFabMatch: '='
             },
             link: function (scope, el, attrs, ngModel)
             {
-                ngModel.$validators.match = function (modelValue)
+                ngModel.$validators.ngFabMatch = function (modelValue)
                 {
-                    return Boolean(modelValue) && modelValue == scope.match;
+                    return Boolean(modelValue) && modelValue == scope.ngFabMatch;
                 };
-                scope.$watch('match', function ()
+                scope.$watch('ngFabMatch', function ()
                 {
                     ngModel.$validate();
                 });
