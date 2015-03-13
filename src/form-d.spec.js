@@ -281,7 +281,8 @@ describe('a form with config', function ()
             setAsteriskForRequiredLabel: false,
             asteriskStr: '***',
             validationMsgPrefix: 'validationMessssg',
-            emailRegex: false
+            emailRegex: false,
+            watchForFormCtrl: false
         };
         provider.extendConfig(opts);
 

@@ -63,7 +63,12 @@ angular.module('ngFabForm')
             validationMsgPrefix: 'validationMsg',
 
             // default email-regex, set to false to deactivate overwrite
-            emailRegex: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
+            emailRegex: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
+
+            // in very rare cases (e.g. for some form-builders) your form
+            // controller might not be ready before your model-controllers are,
+            // for those instances set this option to true
+            watchForFormCtrl: false
         };
 
 

@@ -237,7 +237,7 @@ describe('validations directive', function ()
         {
             input = $compile('<input type="text" ng-model="testInput"  required>')(scope);
             element.append(input);
-        },200);
+        }, 200);
         $timeout.flush();
         scope.testInput = null;
         scope.$digest();
@@ -285,7 +285,7 @@ describe('validations directive', function ()
             expect(message.text()).toBe('This field is required');
             expect(successMessage.hasClass('ng-hide')).toBe(true);
             done();
-        },50);
+        }, 25);
     });
 
     it('should work input being in another scope', function ()
@@ -499,6 +499,43 @@ describe('validations directive with config', function ()
         var label = document.querySelectorAll('label[for="inpID"]');
         label = angular.element(label[0]);
         expect(label.text()).toContain('*');
+    });
+
+    it('should work with real delayed form compilation (after input)', function (done)
+    {
+        var formEl,
+            input,
+            message,
+            messageContainer,
+            successMessage;
+
+        provider.extendConfig({
+            watchForFormCtrl: true
+        });
+
+        input = $compile('<input type="text" ng-model="testInput"  required>')(scope);
+        scope.$digest();
+        $timeout.flush();
+
+        setTimeout(function ()
+        {
+            formEl = $compile('<form name="testForm"></form>')(scope);
+
+            formEl.append(input);
+            $timeout.flush();
+
+            scope.testInput = null;
+            scope.$digest();
+
+            messageContainer = angular.element(formEl.children()[1]);
+            message = messageContainer.find('li');
+            successMessage = messageContainer.find('div');
+            expect(message.length).toBe(1);
+            expect(message.attr('ng-message')).toBe('required');
+            expect(message.text()).toBe('This field is required');
+            expect(successMessage.hasClass('ng-hide')).toBe(true);
+            done();
+        }, 25);
     });
 
 

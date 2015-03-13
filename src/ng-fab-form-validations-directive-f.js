@@ -172,7 +172,20 @@ angular.module('ngFabForm')
 
                     // INIT
                     // after formCtrl should be ready
-                    init();
+                    if (ngFabForm.config.watchForFormCtrl) {
+                        var formCtrlWatcher = scope.$watch(function ()
+                        {
+                            return el.controller('form');
+                        }, function (newVal)
+                        {
+                            if (newVal) {
+                                formCtrlWatcher();
+                                init();
+                            }
+                        });
+                    } else {
+                        init();
+                    }
                 };
             }
         };
