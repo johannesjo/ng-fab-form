@@ -484,22 +484,6 @@ angular.module('ngFabForm').run(['$templateCache', function($templateCache) {
 }]);
 
 angular.module('ngFabForm')
-    .directive('ngFabVal', function ()
-    {
-        'use strict';
-
-        return {
-            restrict: 'E',
-            scope: {},
-            templateUrl: 'ng-fab-val-d.html',
-            link: function (scope, el, attrs, controller)
-            {
-
-            }
-        };
-    });
-
-angular.module('ngFabForm')
     .factory('ngFabFormValidationsDirective', function (ngFabForm, $compile, $templateRequest, $rootScope, $timeout)
     {
         'use strict';
