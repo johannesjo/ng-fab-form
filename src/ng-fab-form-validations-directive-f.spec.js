@@ -225,6 +225,92 @@ describe('validations directive', function ()
         expect(message.text()).toBe('some custom message');
     });
 
+    it('should work with delayed insert of input', function ()
+    {
+        var input;
+        var element = $compile('<form name="testForm"></form>')(scope);
+        scope.$digest();
+        $timeout.flush();
+        var form = scope.testForm;
+
+        $timeout(function ()
+        {
+            input = $compile('<input type="text" ng-model="testInput"  required>')(scope);
+            element.append(input);
+        },200);
+        $timeout.flush();
+        scope.testInput = null;
+        scope.$digest();
+
+
+        var messageContainer = angular.element(element.children()[1]);
+
+        var message = messageContainer.find('li');
+        expect(message.length).toBe(1);
+        expect(message.attr('ng-message')).toBe('required');
+        expect(message.text()).toBe('This field is required');
+
+        var successMessage = messageContainer.find('div');
+        expect(successMessage.hasClass('ng-hide')).toBe(true);
+    });
+
+    it('should work with real delayed insert of input', function (done)
+    {
+        var element,
+            form,
+            input,
+            message,
+            messageContainer,
+            successMessage;
+
+        element = $compile('<form name="testForm"></form>')(scope);
+        scope.$digest();
+        $timeout.flush();
+        form = scope.testForm;
+
+        setTimeout(function ()
+        {
+            input = $compile('<input type="text" ng-model="testInput"  required>')(scope);
+            element.append(input);
+            $timeout.flush();
+
+            scope.testInput = null;
+            scope.$digest();
+
+            messageContainer = angular.element(element.children()[1]);
+            message = messageContainer.find('li');
+            successMessage = messageContainer.find('div');
+            expect(message.length).toBe(1);
+            expect(message.attr('ng-message')).toBe('required');
+            expect(message.text()).toBe('This field is required');
+            expect(successMessage.hasClass('ng-hide')).toBe(true);
+            done();
+        },50);
+    });
+
+    it('should work input being in another scope', function ()
+    {
+        var element = $compile('<form name="testForm"></form>')(scope);
+        var anotherScope = $rootScope.$new();
+        var input = $compile('<input type="text" ng-model="testInput"  required>')(anotherScope);
+        element.append(input);
+        $timeout.flush();
+        var form = scope.testForm;
+
+        scope.testForm = null;
+        scope.$digest();
+
+        var messageContainer = angular.element(element.children()[1]);
+
+        var message = messageContainer.find('li');
+        expect(message.length).toBe(1);
+        expect(message.attr('ng-message')).toBe('required');
+        expect(message.text()).toBe('This field is required');
+
+        var successMessage = messageContainer.find('div');
+        expect(successMessage.hasClass('ng-hide')).toBe(true);
+    });
+
     it('should overwrite email-validations with a better pattern', function ()
     {
         var element = $compile('<form name="testForm">' +

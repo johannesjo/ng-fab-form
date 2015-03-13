@@ -102,6 +102,7 @@ angular.module('ngFabForm')
                     newFormName;
 
                 // error helper for unique name issues
+                // TODO get rid of form names
                 checkSetUniqueName(el, attrs);
 
                 // autoset novalidate

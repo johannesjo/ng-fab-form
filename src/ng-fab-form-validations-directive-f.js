@@ -71,7 +71,7 @@ angular.module('ngFabForm')
         // return factory
         return {
             restrict: 'E',
-            require: ['?^form', '?ngModel'],
+            require: '?ngModel',
             compile: function (el, attrs)
             {
                 // don't execute for buttons
@@ -92,12 +92,12 @@ angular.module('ngFabForm')
 
 
                 // Linking function
-                return function (scope, el, attrs, controllers)
+                return function (scope, el, attrs, ngModelCtrl)
                 {
 
-                    var formCtrl = controllers[0],
-                        cfg,
-                        ngModelCtrl = controllers[1],
+                    var cfg,
+                    // assigned via element.controller
+                        formCtrl,
                     // is object to pass by reference
                         currentValidationVars = {
                             tpl: undefined
@@ -130,40 +130,49 @@ angular.module('ngFabForm')
                         }
                     }
 
+                    function init()
+                    {
+                        $timeout(function ()
+                        {
+                            // if controller is not accessible via require
+                            // get it from the element
+                            formCtrl = el.controller('form');
+
+                            // only execute if formCtrl is set
+                            if (formCtrl && ngModelCtrl) {
+                                // get configuration from parent form
+                                if (!cfg) {
+                                    cfg = formCtrl.ngFabFormConfig;
+                                }
+
+                                // overwrite email-validation
+                                if (cfg.emailRegex && attrs.type === 'email') {
+                                    ngModelCtrl.$validators.email = function (value)
+                                    {
+                                        return ngModelCtrl.$isEmpty(value) || cfg.emailRegex.test(value);
+                                    };
+                                }
+
+                                if (ngFabForm.customValidators) {
+                                    ngFabForm.customValidators(ngModelCtrl, attrs);
+                                }
+
+                                ngFabFormCycle();
+
+
+                                // watch for config changes
+                                scope.$on('NG_FAB_FORM_OPTIONS_CHANGED_FOR_' + formCtrl.$name, function (ev, newCfg, oldCfg)
+                                {
+                                    cfg = newCfg;
+                                    ngFabFormCycle(oldCfg);
+                                });
+                            }
+                        }, 0);
+                    }
+
                     // INIT
                     // after formCtrl should be ready
-                    $timeout(function ()
-                    {
-                        // only execute if formCtrl is set
-                        if (formCtrl && ngModelCtrl) {
-                            // get configuration from parent form
-                            if (!cfg) {
-                                cfg = formCtrl.ngFabFormConfig;
-                            }
-
-                            // overwrite email-validation
-                            if (cfg.emailRegex && attrs.type === 'email') {
-                                ngModelCtrl.$validators.email = function (value)
-                                {
-                                    return ngModelCtrl.$isEmpty(value) || cfg.emailRegex.test(value);
-                                };
-                            }
-
-                            if(ngFabForm.customValidators){
-                                ngFabForm.customValidators(ngModelCtrl, attrs);
-                            }
-
-                            ngFabFormCycle();
-
-
-                            // watch for config changes
-                            scope.$on('NG_FAB_FORM_OPTIONS_CHANGED_FOR_' + formCtrl.$name, function (ev, newCfg, oldCfg)
-                            {
-                                cfg = newCfg;
-                                ngFabFormCycle(oldCfg);
-                            });
-                        }
-                    }, 0);
+                    init();
                 };
             }
         };
