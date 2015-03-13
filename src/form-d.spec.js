@@ -41,6 +41,23 @@ describe('a form', function ()
         expect(form1Name).not.toBe(form2Name);
     });
 
+    it('forms can have the same name if scope gets destroyed', function ()
+    {
+        var html = '<form name="notUnique"></form>';
+        var scope1 = $rootScope.$new();
+        var element1 = $compile(html)(scope1);
+        scope1.$digest();
+        var form1Name = element1.attr('name');
+        scope1.$destroy();
+
+        var scope2 = $rootScope.$new();
+        var element2 = $compile(html)(scope2);
+        scope2.$digest();
+        var form2Name = element2.attr('name');
+
+        expect(form1Name).toBe(form2Name);
+    });
+
 
     it('could be disabled and enabled again', function ()
     {
