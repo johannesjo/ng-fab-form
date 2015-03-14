@@ -1,7 +1,7 @@
 angular.module('ngFabForm')
-    .directive('input', function (ngFabFormValidationsDirective)
+    .directive('input', ['ngFabFormValidationsDirective', function (ngFabFormValidationsDirective)
     {
         'use strict';
 
         return ngFabFormValidationsDirective;
-    });
+    }]);

@@ -1,5 +1,5 @@
 angular.module('ngFabForm')
-    .directive('form', function ($compile, $timeout, ngFabForm)
+    .directive('form', ['$compile', '$timeout', 'ngFabForm', function ($compile, $timeout, ngFabForm)
     {
         'use strict';
 
@@ -202,4 +202,4 @@ angular.module('ngFabForm')
                 };
             }
         };
-    });
+    }]);

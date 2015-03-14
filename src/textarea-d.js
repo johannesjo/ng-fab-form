@@ -1,7 +1,7 @@
 angular.module('ngFabForm')
-    .directive('textarea', function ($compile, ngFabFormValidationsDirective)
+    .directive('textarea', ['ngFabFormValidationsDirective', function (ngFabFormValidationsDirective)
     {
         'use strict';
 
         return ngFabFormValidationsDirective;
-    });
+    }]);

@@ -1,5 +1,5 @@
 angular.module('ngFabForm')
-    .factory('ngFabFormValidationsDirective', function (ngFabForm, $compile, $templateRequest, $rootScope, $timeout)
+    .factory('ngFabFormValidationsDirective', ['ngFabForm', '$compile', '$templateRequest', '$rootScope', '$timeout', function (ngFabForm, $compile, $templateRequest, $rootScope, $timeout)
     {
         'use strict';
 
@@ -189,4 +189,4 @@ angular.module('ngFabForm')
                 };
             }
         };
-    });
+    }]);
