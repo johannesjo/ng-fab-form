@@ -3,7 +3,7 @@ angular.module('ngFabForm', [
 ]);
 
 angular.module('ngFabForm')
-    .directive('form', ["$compile", "$timeout", "ngFabForm", function ($compile, $timeout, ngFabForm)
+    .directive('form', ['$compile', '$timeout', 'ngFabForm', function ($compile, $timeout, ngFabForm)
     {
         'use strict';
 
@@ -209,7 +209,7 @@ angular.module('ngFabForm')
     }]);
 
 angular.module('ngFabForm')
-    .directive('input', ["ngFabFormValidationsDirective", function (ngFabFormValidationsDirective)
+    .directive('input', ['ngFabFormValidationsDirective', function (ngFabFormValidationsDirective)
     {
         'use strict';
 
@@ -217,7 +217,7 @@ angular.module('ngFabForm')
     }]);
 
 angular.module('ngFabForm')
-    .directive('textarea', ["$compile", "ngFabFormValidationsDirective", function ($compile, ngFabFormValidationsDirective)
+    .directive('textarea', ['ngFabFormValidationsDirective', function (ngFabFormValidationsDirective)
     {
         'use strict';
 
@@ -225,7 +225,7 @@ angular.module('ngFabForm')
     }]);
 
 angular.module('ngFabForm')
-    .directive('select', ["ngFabFormValidationsDirective", function (ngFabFormValidationsDirective)
+    .directive('select', ['ngFabFormValidationsDirective', function (ngFabFormValidationsDirective)
     {
         'use strict';
 
@@ -444,7 +444,7 @@ angular.module('ngFabForm').run(['$templateCache', function($templateCache) {
 }]);
 
 angular.module('ngFabForm')
-    .factory('ngFabFormValidationsDirective', ["ngFabForm", "$compile", "$templateRequest", "$rootScope", "$timeout", function (ngFabForm, $compile, $templateRequest, $rootScope, $timeout)
+    .factory('ngFabFormValidationsDirective', ['ngFabForm', '$compile', '$templateRequest', '$rootScope', '$timeout', function (ngFabForm, $compile, $templateRequest, $rootScope, $timeout)
     {
         'use strict';
 
