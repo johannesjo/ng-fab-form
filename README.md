@@ -55,7 +55,9 @@ It automatically:
 
 
 
-Want a little help and the same flexibility with your form-markup? Then [check out ng-fab-forms little companion **angular-auto-forms**](https://github.com/johannesjo/angular-auto-forms)!!
+#### useful companions
+* [**angular-promise-buttons**](https://github.com/johannesjo/angular-promise-buttons) the most easy to use loading spinner buttons out there
+* [**angular-auto-forms**](https://github.com/johannesjo/angular-auto-forms) quick and easy bootstrap forms
 
 
 ## why choose ng-fab-form over another form helper module?
