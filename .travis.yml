@@ -11,4 +11,4 @@ before_script:
   - 'npm install -g bower grunt-cli karma'
   - 'bower install'
 
-script: grunt test:unitSingleRun
+script: grunt test:all

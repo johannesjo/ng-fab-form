@@ -215,7 +215,8 @@ module.exports = function (grunt)
             },
             test: {
                 src: [
-                    './karma.conf.js'
+                    './karma.conf.js',
+                    'Gruntfile.js'
                 ],
                 ignorePath: /\.\.\//,
                 exclude: [],
@@ -390,6 +391,30 @@ module.exports = function (grunt)
                         reporters: [
                             {type: 'text-summary'},
                             {type: 'lcov', dir: 'coverage/'}
+                        ]
+                    }
+                }
+            },
+            unitSingleRunDist: {
+                configFile: 'karma.conf.js',
+                singleRun: true,
+                options: {
+                    files: [
+                        // bower:js
+                        'bower_components/angular/angular.js',
+                        'bower_components/angular-messages/angular-messages.js',
+                        'bower_components/angular-animate/angular-animate.js',
+                        'bower_components/angular-mocks/angular-mocks.js',
+                        // endbower
+                        '<%= appConfig.dist %>/ng-fab-form.js',
+                        '<%= appConfig.app %>/*.spec.js'
+                    ],
+                    reporters: [
+                        'dots'
+                    ],
+                    preprocessors: {
+                        '<%= appConfig.dist %>/**/*.html': [
+                            'ng-html2js'
                         ]
                     }
                 }
@@ -590,11 +615,20 @@ module.exports = function (grunt)
     grunt.registerTask('test', function (target)
     {
         target = target || 'unit';
-        grunt.task.run([
-            'clean:server',
-            'wiredep:test',
-            'karma:' + target
-        ]);
+        if (target === 'all') {
+            grunt.task.run([
+                'clean:server',
+                'wiredep:test',
+                'karma:unitSingleRun',
+                'karma:unitSingleRunDist'
+            ]);
+        } else {
+            grunt.task.run([
+                'clean:server',
+                'wiredep:test',
+                'karma:' + target
+            ]);
+        }
     });
 
     grunt.registerTask('e2e', [
