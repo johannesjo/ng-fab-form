@@ -191,8 +191,8 @@ And in your template:
 ## check for matching passwords via ngFabMatch-directive
 ```html
 <form name="youFormName">
-  <input type="password" ng-model="realPassword">
-  <input type="password" ng-model="pwRepeat" ng-fab-match="realPassword">
+  <input type="password" ng-model="realPassword" required>
+  <input type="password" ng-model="pwRepeat" ng-fab-match="realPassword" required>
 </form>
 ```
 
@@ -204,6 +204,7 @@ Sometimes you might want to have another text for a specific context. Special va
 ```html
 <input type="text"
   ng-model="my-model"
+  required
   ng-pattern="/abcdefg/"
   validation-msg-pattern="Not abcdefg :(">
 ```
@@ -217,7 +218,7 @@ This is what the default validation template looks like:
 <!-- Default Validation Template -->
 <div ng-messages="field.$error"
      class="validation"
-     ng-show="attrs.required==''|| attrs.required">
+     ng-show="attrs.required===''|| attrs.required">
      <!-- Show errors for invalid fields, when it has been either focused,
       has been changed or the user tried to submit the form without success
       (requires the setDirtyOnSubmit-option to be set-->
@@ -244,7 +245,7 @@ This is what the default validation template looks like:
         <li ng-message="minlength">Please use at least {{ attrs.minlength }} characters</li>
         <li ng-message="maxlength">Please do not exceed {{ attrs.maxlength }} characters</li>
 
-        <li ng-if="attrs.type == 'time' "
+        <li ng-if="attrs.type === 'time' "
             ng-message="min">The time provided should be no earlier than {{ attrs.min |date: 'HH:MM' }}
         </li>
         <li ng-message="ngFabMatch">The {{ attrs.type ==='password'? 'passwords' : 'values' }} should match</li>
@@ -252,18 +253,18 @@ This is what the default validation template looks like:
 
         <!-- you can use ng-if or ng-show for more advanced
         error messages -->
-        <li ng-if="attrs.type == 'time' "
+        <li ng-if="attrs.type === 'time' "
             ng-message="min">The time provided should after {{ attrs.min |date: 'HH:MM' }}
         </li>
         <li ng-message="max"
-            ng-if="attrs.type == 'time' ">The time provided should be before {{attrs.max |date: 'HH:MM'}}
+            ng-if="attrs.type === 'time' ">The time provided should be before {{attrs.max |date: 'HH:MM'}}
         </li>
         <li ng-message="min"
-            ng-if="attrs.type == 'date' ">The date provided should be after {{attrs.min
+            ng-if="attrs.type === 'date' ">The date provided should be after {{attrs.min
           |date:'dd.MM.yy'}}
           </li>
         <li ng-message="max"
-            ng-if="attrs.type == 'date' ">The date provided should be before {{attrs.max |date: 'dd.MM.yy'}}
+            ng-if="attrs.type === 'date' ">The date provided should be before {{attrs.max |date: 'dd.MM.yy'}}
         </li>
     </ul>
     <!-- It is also possible to show a success element
