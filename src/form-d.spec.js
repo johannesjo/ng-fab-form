@@ -19,49 +19,9 @@ describe('a form', function ()
     }));
 
 
-    it('without a name should auto- get a name', function ()
-    {
-        var element = $compile('<form></form>')(scope);
-        scope.$digest();
-        var formName = element.attr('name');
-        expect(formName.length > 0).toBeTruthy();
-    });
-
-
-    it('and a second with the same name - the second should auto- get a new name', function ()
-    {
-        var html = '<form name="notUnique"></form>';
-        scope = $rootScope.$new();
-        var element1 = $compile(html)(scope),
-            element2 = $compile(html)(scope);
-        scope.$digest();
-
-        var form1Name = element1.attr('name'),
-            form2Name = element2.attr('name');
-        expect(form1Name).not.toBe(form2Name);
-    });
-
-    it('forms can have the same name if scope gets destroyed', function ()
-    {
-        var html = '<form name="notUnique"></form>';
-        var scope1 = $rootScope.$new();
-        var element1 = $compile(html)(scope1);
-        scope1.$digest();
-        var form1Name = element1.attr('name');
-        scope1.$destroy();
-
-        var scope2 = $rootScope.$new();
-        var element2 = $compile(html)(scope2);
-        scope2.$digest();
-        var form2Name = element2.attr('name');
-
-        expect(form1Name).toBe(form2Name);
-    });
-
-
     it('could be disabled and enabled again', function ()
     {
-        var element = $compile('<form name="myForm" disable-form="{{ formDisabled || false }}"><input type="text" ng-model="myModel"></form>')(scope);
+        var element = $compile('<form disable-form="{{ formDisabled || false }}"><input type="text" ng-model="myModel"></form>')(scope);
         scope.$digest();
         $timeout.flush();
 
@@ -80,10 +40,9 @@ describe('a form', function ()
 
     it('should have settable options', function ()
     {
-        $compile('<form name="myForm" ng-fab-form-options="customFormOptions"></form>')(scope);
+        var element = $compile('<form ng-fab-form-options="customFormOptions"></form>')(scope);
         scope.$digest();
-        $timeout.flush();
-        var form = scope.myForm;
+        var form = element.controller('form');
 
         expect(form.ngFabFormConfig).toBeDefined();
 
@@ -112,7 +71,7 @@ describe('a form', function ()
 
         beforeEach(function ()
         {
-            var html = '<form name="myForm" ng-submit="submitFn()"  ng-fab-form-options="customFormOptions"><input type="text" ng-model="testModel" required></form>';
+            var html = '<form ng-submit="submitFn()"  ng-fab-form-options="customFormOptions"><input type="text" ng-model="testModel" required></form>';
             scope = $rootScope.$new();
             scope.submitCount = 0;
             scope.submitFn = function ()
@@ -125,7 +84,7 @@ describe('a form', function ()
             scope.$digest();
             $timeout.flush();
 
-            form = scope.myForm;
+            form = element.controller('form');
         });
 
         it('should be submittable if input is valid', function ()
@@ -194,7 +153,7 @@ describe('a form', function ()
         var element, form, input;
         beforeEach(function ()
         {
-            var html = '<form name="myForm" ng-fab-form-options="customFormOptions">' +
+            var html = '<form ng-fab-form-options="customFormOptions">' +
                 '<input type="text" ng-model="testModel0" required>' +
                 '<input type="text" ng-model="testModel1" required>' +
                 '<input type="text" ng-model="testModel2" required>' +
@@ -204,7 +163,7 @@ describe('a form', function ()
             scope.$digest();
             $timeout.flush();
 
-            form = scope.myForm;
+            form = element.controller('form');
             input = element.find('input');
             spyOn(input[0], 'focus');
             spyOn(input[1], 'focus');
@@ -303,10 +262,9 @@ describe('a form with config', function ()
         };
         provider.extendConfig(opts);
 
-        $compile('<form name="myForm"></form>')(scope);
+        var element = $compile('<form </form>')(scope);
         scope.$digest();
-        $timeout.flush();
-        var form = scope.myForm;
+        var form = element.controller('form');
 
         expect(form.ngFabFormConfig).toBeDefined();
 
@@ -344,7 +302,7 @@ describe('a form with config', function ()
         provider.extendConfig({
             validationsTemplate: false
         });
-        var html = '<form name="myForm" ng-submit="submitFn()"  ><input type="text" ng-model="testModel" required></form>';
+        var html = '<form ng-submit="submitFn()"  ><input type="text" ng-model="testModel" required></form>';
         scope = $rootScope.$new();
 
 
@@ -382,14 +340,13 @@ describe('a form with config', function ()
         expect(provider.$get().customValidators).toEqual(customValidatorFn);
 
 
-        var html = '<form name="myForm"><input type="url" ng-model="testModel" required></form>';
+        var html = '<form><input type="url" ng-model="testModel" required></form>';
         scope = $rootScope.$new();
         var element = $compile(html)(scope);
-        var form = scope.myForm;
+        var form = element.controller('form');
         scope.$digest();
         $timeout.flush();
         var messageContainer = angular.element(element.children()[1]);
-
 
         form.testModel.$setViewValue('blablablaba');
         var message = messageContainer.find('li');
