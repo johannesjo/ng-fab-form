@@ -29,14 +29,14 @@ describe('validations directive', function ()
 
         beforeEach(function ()
         {
-            var html = '<form name="testForm" ng-fab-form-options="customFormOptions">' +
+            var html = '<form ng-fab-form-options="customFormOptions">' +
                 '<input type="text" ng-model="testInput" required>' +
                 '</form>';
             element = $compile(html)(scope);
             scope.$digest();
             // as timeout is used, we need to flush it here
             $timeout.flush();
-            form = scope.testForm;
+            form = element.controller('form');
             input = angular.element(element.children()[0]);
             messageContainer = angular.element(element.children()[1]);
         });
@@ -112,12 +112,12 @@ describe('validations directive', function ()
 
     it('should not display a validation message for non required url input', function ()
     {
-        var element = $compile('<form name="testForm">' +
+        var element = $compile('<form>' +
         '<input type="url" ng-model="testInput" >' +
         '</form>')(scope);
         scope.$digest();
         $timeout.flush();
-        var form = scope.testForm;
+        var form = element.controller('form');
 
         form.testInput.$setViewValue('xxx');
         var messageContainer = angular.element(element.children()[1]);
@@ -126,12 +126,12 @@ describe('validations directive', function ()
 
     it('should not display a validation message for non required email input', function ()
     {
-        var element = $compile('<form name="testForm">' +
+        var element = $compile('<form>' +
         '<input type="email" ng-model="testInput" >' +
         '</form>')(scope);
         scope.$digest();
         $timeout.flush();
-        var form = scope.testForm;
+        var form = element.controller('form');
 
         form.testInput.$setViewValue('xxx');
         var messageContainer = angular.element(element.children()[1]);
@@ -140,12 +140,12 @@ describe('validations directive', function ()
 
     it('should not throw an error for input:email without ng-model', function ()
     {
-        var element = $compile('<form name="testForm">' +
+        var element = $compile('<form>' +
         '<input type="email">' +
         '</form>')(scope);
         scope.$digest();
         $timeout.flush();
-        var form = scope.testForm;
+        var form = element.controller('form');
 
         var input = angular.element(element.children()[0]);
         input.val('ballbalbla');
@@ -157,12 +157,12 @@ describe('validations directive', function ()
 
     it('should not throw an error for input:url without ng-model', function ()
     {
-        var element = $compile('<form name="testForm">' +
+        var element = $compile('<form>' +
         '<input type="url">' +
         '</form>')(scope);
         scope.$digest();
         $timeout.flush();
-        var form = scope.testForm;
+        var form = element.controller('form');
 
         var input = angular.element(element.children()[0]);
         input.val('ballbalbla');
@@ -174,12 +174,12 @@ describe('validations directive', function ()
 
     it('should not display errors for input:email with required attribute, when no ng-model is set', function ()
     {
-        var element = $compile('<form name="testForm">' +
+        var element = $compile('<form>' +
         '<input type="email" required>' +
         '</form>')(scope);
         scope.$digest();
         $timeout.flush();
-        var form = scope.testForm;
+        var form = element.controller('form');
 
         var input = angular.element(element.children()[0]);
         input.val('ballbalbla');
@@ -191,12 +191,12 @@ describe('validations directive', function ()
 
     it('should not display the success element for simple inputs', function ()
     {
-        var element = $compile('<form name="testForm">' +
+        var element = $compile('<form>' +
         '<input type="url" ng-model="testInput" >' +
         '</form>')(scope);
         scope.$digest();
         $timeout.flush();
-        var form = scope.testForm;
+        var form = element.controller('form');
 
 
         form.testInput.$setViewValue('http://blabla.de');
@@ -206,12 +206,12 @@ describe('validations directive', function ()
 
     it('should display a custom validation if set', function ()
     {
-        var element = $compile('<form name="testForm">' +
+        var element = $compile('<form>' +
         '<input type="text" ng-model="testInput" validation-msg-required ="some custom message" required>' +
         '</form>')(scope);
         scope.$digest();
         $timeout.flush();
-        var form = scope.testForm;
+        var form = element.controller('form');
 
         // we have to use $setViewValue otherwise the formCtrl
         // will not update properly
@@ -227,15 +227,13 @@ describe('validations directive', function ()
 
     it('should work with delayed insert of input', function ()
     {
-        var input;
-        var element = $compile('<form name="testForm"></form>')(scope);
+        var element = $compile('<form></form>')(scope);
         scope.$digest();
-        $timeout.flush();
-        var form = scope.testForm;
+        var form = element.controller('form');
 
         $timeout(function ()
         {
-            input = $compile('<input type="text" ng-model="testInput"  required>')(scope);
+            var input = $compile('<input type="text" ng-model="testInput"  required>')(scope);
             element.append(input);
         }, 200);
         $timeout.flush();
@@ -263,10 +261,9 @@ describe('validations directive', function ()
             messageContainer,
             successMessage;
 
-        element = $compile('<form name="testForm"></form>')(scope);
+        element = $compile('<form></form>')(scope);
         scope.$digest();
-        $timeout.flush();
-        form = scope.testForm;
+        form = element.controller('form');
 
         setTimeout(function ()
         {
@@ -290,12 +287,12 @@ describe('validations directive', function ()
 
     it('should work input being in another scope', function ()
     {
-        var element = $compile('<form name="testForm"></form>')(scope);
+        var element = $compile('<form></form>')(scope);
         var anotherScope = $rootScope.$new();
         var input = $compile('<input type="text" ng-model="testInput"  required>')(anotherScope);
         element.append(input);
         $timeout.flush();
-        var form = scope.testForm;
+        var form = element.controller('form');
 
         scope.testForm = null;
         scope.$digest();
@@ -313,12 +310,12 @@ describe('validations directive', function ()
 
     it('should overwrite email-validations with a better pattern', function ()
     {
-        var element = $compile('<form name="testForm">' +
+        var element = $compile('<form>' +
         '<input type="email" ng-model="testInput" validation-msg-email ="some custom message" required>' +
         '</form>')(scope);
         scope.$digest();
         $timeout.flush();
-        var form = scope.testForm;
+        var form = element.controller('form');
 
         // we have to use $setViewValue otherwise the formCtrl
         // will not update properly
@@ -342,13 +339,13 @@ describe('validations directive', function ()
 
     it('should work with nested model values', function ()
     {
-        var element = $compile('<form name="testForm">' +
+        var element = $compile('<form>' +
         '<input type="text" ng-model="testInput.deeper.andDeeper.andDeeper" required>' +
         '</form>')(scope);
         scope.$digest();
         $timeout.flush();
 
-        var form = scope.testForm;
+        var form = element.controller('form');
         var messageContainer = angular.element(element.children()[1]);
 
         form['testInput.deeper.andDeeper.andDeeper'].$setViewValue('test aa');
@@ -366,14 +363,14 @@ describe('validations directive', function ()
     {
         it('textarea -display a validation message if invalid and no success message', function ()
         {
-            var html = '<form name="testForm" ng-fab-form-options="customFormOptions">' +
+            var html = '<form ng-fab-form-options="customFormOptions">' +
                 '<textarea ng-model="testInput" required></textarea>' +
                 '</form>';
             var element = $compile(html)(scope);
             scope.$digest();
             // as timeout is used, we need to flush it here
             $timeout.flush();
-            var form = scope.testForm;
+            var form = element.controller('form');
             var messageContainer = angular.element(element.children()[1]);
 
             // we have to use $setViewValue otherwise the formCtrl
@@ -391,14 +388,14 @@ describe('validations directive', function ()
 
         it('textarea -display a validation message if invalid and no success message', function ()
         {
-            var html = '<form name="testForm" ng-fab-form-options="customFormOptions">' +
+            var html = '<form ng-fab-form-options="customFormOptions">' +
                 '<select ng-model="testInput" required><option value=""></option></select>' +
                 '</form>';
             var element = $compile(html)(scope);
             scope.$digest();
             // as timeout is used, we need to flush it here
             $timeout.flush();
-            var form = scope.testForm;
+            var form = element.controller('form');
             var messageContainer = angular.element(element.children()[1]);
 
             // we have to use $setViewValue otherwise the formCtrl
@@ -416,7 +413,7 @@ describe('validations directive', function ()
 
         it('input:checkbox -display a validation message if invalid and no success message', function ()
         {
-            var html = '<form name="testForm" ng-fab-form-options="customFormOptions">' +
+            var html = '<form ng-fab-form-options="customFormOptions">' +
                 '<label>' +
                 '<input type="checkbox" ng-model="testInput" required>' +
                 '</label>' +
@@ -425,7 +422,7 @@ describe('validations directive', function ()
             scope.$digest();
             // as timeout is used, we need to flush it here
             $timeout.flush();
-            var form = scope.testForm;
+            var form = element.controller('form');
             var messageContainer = angular.element(element.children()[1]);
 
             // we have to use $setViewValue otherwise the formCtrl
@@ -483,7 +480,7 @@ describe('validations directive with config', function ()
             asteriskStr: '*'
         });
 
-        var html = '<form name="testForm" ng-fab-form-options="customFormOptions">' +
+        var html = '<form ng-fab-form-options="customFormOptions">' +
             '<input id="inpID" name="inpID" type="text" ng-model="testInput" required>' +
             '<div></div>' +
             '<label for="inpID">label</label>' +
@@ -513,19 +510,17 @@ describe('validations directive with config', function ()
             watchForFormCtrl: true
         });
 
-        input = $compile('<input type="text" ng-model="testInput"  required>')(scope);
+        input = $compile('<input type="text" ng-model="testInput" required>')(scope);
         scope.$digest();
-        $timeout.flush();
 
         setTimeout(function ()
         {
-            formEl = $compile('<form name="testForm"></form>')(scope);
-
+            formEl = $compile('<form></form>')(scope);
             formEl.append(input);
-            $timeout.flush();
 
             scope.testInput = null;
             scope.$digest();
+            $timeout.flush();
 
             messageContainer = angular.element(formEl.children()[1]);
             message = messageContainer.find('li');
@@ -546,7 +541,7 @@ describe('validations directive with config', function ()
             asteriskStr: '*'
         });
 
-        var html = '<form name="testForm" ng-fab-form-options="customFormOptions">' +
+        var html = '<form ng-fab-form-options="customFormOptions">' +
             '<label>label</label>' +
             '<input id="inpID" name="inpID" type="text" ng-model="testInput" required>' +
             '</form>';
@@ -571,7 +566,7 @@ describe('validations directive with config', function ()
             asteriskStr: asteriskVal
         });
 
-        var html = '<form name="testForm" ng-fab-form-options="customFormOptions">' +
+        var html = '<form ng-fab-form-options="customFormOptions">' +
             '<label for="inpID">label</label>' +
             '<input id="inpID" name="inpID" type="text" ng-model="inp" required>' +
             '<input id="inpID" name="inpID" type="text" ng-model="inp" required>' +
@@ -597,12 +592,12 @@ describe('validations directive with config', function ()
             emailRegex: false
         });
 
-        var element = $compile('<form name="testForm">' +
+        var element = $compile('<form>' +
         '<input type="email" ng-model="testInput" validation-msg-email ="some custom message" required>' +
         '</form>')(scope);
         scope.$digest();
         $timeout.flush();
-        var form = scope.testForm;
+        var form = element.controller('form');
 
         // we have to use $setViewValue otherwise the formCtrl
         // will not update properly
@@ -656,12 +651,12 @@ describe('validations with async validators', function ()
 
         var scope = $rootScope.$new();
 
-        var html = '<form name="testForm" ng-fab-form-options="customFormOptions">' +
+        var html = '<form ng-fab-form-options="customFormOptions">' +
             '<input type="text" ng-model="username">' +
             '</form>';
 
         element = $compile(html)(scope);
-        var form = scope.testForm;
+        var form = element.controller('form');
         var ngModel = form.username;
 
 
