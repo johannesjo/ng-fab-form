@@ -123,9 +123,24 @@ describe('a form', function ()
         {
             scope.testModel = 'some input provided';
             element.triggerHandler('submit');
+            scope.$digest();
             element.triggerHandler('submit');
+            scope.$digest();
             element.triggerHandler('submit');
+            scope.$digest();
             expect(scope.submitCount).toBe(1);
+        });
+
+        it('should be submittable again after timeout', function ()
+        {
+            scope.testModel = 'some input provided';
+            element.triggerHandler('submit');
+            $timeout.flush();
+            element.triggerHandler('submit');
+            $timeout.flush();
+            element.triggerHandler('submit');
+            $timeout.flush();
+            expect(scope.submitCount).toBe(3);
         });
 
         it('could be submitted multiple times if OPTION is deactivated', function ()
