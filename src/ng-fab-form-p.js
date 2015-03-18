@@ -68,7 +68,10 @@ angular.module('ngFabForm')
             // in very rare cases (e.g. for some form-builders) your form
             // controller might not be ready before your model-controllers are,
             // for those instances set this option to true
-            watchForFormCtrl: false
+            watchForFormCtrl: false,
+
+            // name of the change event, change if there are conflicts
+            formChangeEvent: 'NG_FAB_FORM_OPTIONS_CHANGED'
         };
 
 
@@ -178,7 +181,8 @@ angular.module('ngFabForm')
             {
                 scrollTo = scrollToFn;
             },
-            setCustomValidatorsFn: function(customValidatorsFn){
+            setCustomValidatorsFn: function (customValidatorsFn)
+            {
                 customValidators = customValidatorsFn;
             },
 
