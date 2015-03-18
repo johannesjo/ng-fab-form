@@ -19,51 +19,6 @@ angular.module('ngFabForm')
             ev.stopImmediatePropagation();
         }
 
-        function removeFromArray(arr)
-        {
-            var what, a = arguments, L = a.length, ax;
-            while (L > 1 && arr.length) {
-                what = a[--L];
-                while ((ax = arr.indexOf(what)) !== -1) {
-                    arr.splice(ax, 1);
-                }
-            }
-            return arr;
-        }
-
-        // see http://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
-        function generateUUID()
-        {
-            /* jshint ignore:start */
-            var d = new Date().getTime();
-            return 'xxxxxxxx_xxxx_4xxx_yxxx_xxxxxxxxxxxx'.replace(/[xy]/g, function (c)
-            {
-                var r = (d + Math.random() * 16) % 16 | 0;
-                d = Math.floor(d / 16);
-                return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
-            });
-            /* jshint ignore:end */
-        }
-
-        function checkSetUniqueName(el, attrs)
-        {
-            var newFormName;
-            if (attrs.name) {
-                if (formNames.indexOf(attrs.name) > -1) {
-                    newFormName = attrs.name + '_' + generateUUID();
-                    console.warn('ngFabForm: duplicate form name "' + attrs.name + '", setting name to: ' + newFormName);
-                }
-            } else {
-                newFormName = 'ngFabForm_' + generateUUID();
-                console.warn('ngFabForm: all forms should have a unique name set, setting name to: ' + newFormName);
-            }
-            if (newFormName) {
-                el.attr('name', newFormName);
-                attrs.name = newFormName;
-            }
-            formNames.push(attrs.name);
-        }
-
 
         // CONFIGURABLE ACTIONS
         function setupDisabledForms(el, attrs)
@@ -102,12 +57,7 @@ angular.module('ngFabForm')
             compile: function (el, attrs)
             {
                 var cfg = ngFabForm.config,
-                    formSubmitDisabledTimeout,
-                    newFormName;
-
-                // error helper for unique name issues
-                // TODO get rid of form names
-                checkSetUniqueName(el, attrs);
+                    formSubmitDisabledTimeout;
 
                 // autoset novalidate
                 if (!attrs.novalidate && cfg.setNovalidate) {
@@ -185,8 +135,8 @@ angular.module('ngFabForm')
                                     var oldCfg = angular.copy(cfg);
                                     cfg = formCtrl.ngFabFormConfig = angular.extend(cfg, mVal);
 
-                                    // broadcast event and config to input directives
-                                    scope.$broadcast('NG_FAB_FORM_OPTIONS_CHANGED_FOR_' + formCtrl.$name, cfg, oldCfg);
+
+                                    scope.$broadcast(ngFabForm.formChangeEvent, cfg, oldCfg);
                                 }
                             }, true);
                         }
@@ -198,9 +148,6 @@ angular.module('ngFabForm')
                             if (formSubmitDisabledTimeout) {
                                 $timeout.cancel(formSubmitDisabledTimeout);
                             }
-
-                            // remove from helper array
-                            removeFromArray(formNames, formCtrl.$name);
                         });
                     }
                 };
@@ -302,7 +249,10 @@ angular.module('ngFabForm')
             // in very rare cases (e.g. for some form-builders) your form
             // controller might not be ready before your model-controllers are,
             // for those instances set this option to true
-            watchForFormCtrl: false
+            watchForFormCtrl: false,
+
+            // name of the change event, change if there are conflicts
+            formChangeEvent: 'NG_FAB_FORM_OPTIONS_CHANGED'
         };
 
 
@@ -412,7 +362,8 @@ angular.module('ngFabForm')
             {
                 scrollTo = scrollToFn;
             },
-            setCustomValidatorsFn: function(customValidatorsFn){
+            setCustomValidatorsFn: function (customValidatorsFn)
+            {
                 customValidators = customValidatorsFn;
             },
 
@@ -606,7 +557,7 @@ angular.module('ngFabForm')
 
 
                                 // watch for config changes
-                                scope.$on('NG_FAB_FORM_OPTIONS_CHANGED_FOR_' + formCtrl.$name, function (ev, newCfg, oldCfg)
+                                scope.$on(ngFabForm.formChangeEvent, function (ev, newCfg, oldCfg)
                                 {
                                     cfg = newCfg;
                                     ngFabFormCycle(oldCfg);
