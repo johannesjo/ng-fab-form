@@ -258,7 +258,8 @@ describe('a form with config', function ()
             asteriskStr: '***',
             validationMsgPrefix: 'validationMessssg',
             emailRegex: false,
-            watchForFormCtrl: false
+            watchForFormCtrl: false,
+            formChangeEvent: 'AAAAAAA'
         };
         provider.extendConfig(opts);
 

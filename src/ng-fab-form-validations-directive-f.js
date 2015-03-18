@@ -161,7 +161,7 @@ angular.module('ngFabForm')
 
 
                                 // watch for config changes
-                                scope.$on('NG_FAB_FORM_OPTIONS_CHANGED_FOR_' + formCtrl.$name, function (ev, newCfg, oldCfg)
+                                scope.$on(ngFabForm.formChangeEvent, function (ev, newCfg, oldCfg)
                                 {
                                     cfg = newCfg;
                                     ngFabFormCycle(oldCfg);
