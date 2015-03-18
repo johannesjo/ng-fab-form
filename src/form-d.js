@@ -131,10 +131,8 @@ angular.module('ngFabForm')
                                     var oldCfg = angular.copy(cfg);
                                     cfg = formCtrl.ngFabFormConfig = angular.extend(cfg, mVal);
 
-                                    // broadcast event and config to input directives
-                                    //console.log(formCtrl.$name, formCtrl);
 
-                                    scope.$broadcast('NG_FAB_FORM_OPTIONS_CHANGED_FOR_' + formCtrl.$name, cfg, oldCfg);
+                                    scope.$broadcast(ngFabForm.formChangeEvent, cfg, oldCfg);
                                 }
                             }, true);
                         }
