@@ -261,14 +261,15 @@ watchForFormCtrl: false
 </code></pre>
 <h2 id="check-for-matching-passwords-via-ngfabmatch-directive">check for matching passwords via ngFabMatch-directive</h2>
 <pre><code class="lang-html">&lt;form name=&quot;youFormName&quot;&gt;
-  &lt;input type=&quot;password&quot; ng-model=&quot;realPassword&quot;&gt;
-  &lt;input type=&quot;password&quot; ng-model=&quot;pwRepeat&quot; ng-fab-match=&quot;realPassword&quot;&gt;
+  &lt;input type=&quot;password&quot; ng-model=&quot;realPassword&quot; required&gt;
+  &lt;input type=&quot;password&quot; ng-model=&quot;pwRepeat&quot; ng-fab-match=&quot;realPassword&quot; required&gt;
 &lt;/form&gt;
 </code></pre>
 <h2 id="special-validations-for-special-cases-e-g-ng-pattern-">special validations for special cases (e.g. ng-pattern)</h2>
 <p>Sometimes you might want to have another text for a specific context. Special validation-messages like this are easily added like this:</p>
 <pre><code class="lang-html">&lt;input type=&quot;text&quot;
   ng-model=&quot;my-model&quot;
+  required
   ng-pattern=&quot;/abcdefg/&quot;
   validation-msg-pattern=&quot;Not abcdefg :(&quot;&gt;
 </code></pre>
@@ -278,7 +279,7 @@ watchForFormCtrl: false
 <pre><code class="lang-html">&lt;!-- Default Validation Template --&gt;
 &lt;div ng-messages=&quot;field.$error&quot;
      class=&quot;validation&quot;
-     ng-show=&quot;attrs.required==&#39;&#39;|| attrs.required&quot;&gt;
+     ng-show=&quot;attrs.required===&#39;&#39;|| attrs.required&quot;&gt;
      &lt;!-- Show errors for invalid fields, when it has been either focused,
       has been changed or the user tried to submit the form without success
       (requires the setDirtyOnSubmit-option to be set--&gt;
@@ -305,7 +306,7 @@ watchForFormCtrl: false
         &lt;li ng-message=&quot;minlength&quot;&gt;Please use at least {{ attrs.minlength }} characters&lt;/li&gt;
         &lt;li ng-message=&quot;maxlength&quot;&gt;Please do not exceed {{ attrs.maxlength }} characters&lt;/li&gt;
 
-        &lt;li ng-if=&quot;attrs.type == &#39;time&#39; &quot;
+        &lt;li ng-if=&quot;attrs.type === &#39;time&#39; &quot;
             ng-message=&quot;min&quot;&gt;The time provided should be no earlier than {{ attrs.min |date: &#39;HH:MM&#39; }}
         &lt;/li&gt;
         &lt;li ng-message=&quot;ngFabMatch&quot;&gt;The {{ attrs.type ===&#39;password&#39;? &#39;passwords&#39; : &#39;values&#39; }} should match&lt;/li&gt;
@@ -313,18 +314,18 @@ watchForFormCtrl: false
 
         &lt;!-- you can use ng-if or ng-show for more advanced
         error messages --&gt;
-        &lt;li ng-if=&quot;attrs.type == &#39;time&#39; &quot;
+        &lt;li ng-if=&quot;attrs.type === &#39;time&#39; &quot;
             ng-message=&quot;min&quot;&gt;The time provided should after {{ attrs.min |date: &#39;HH:MM&#39; }}
         &lt;/li&gt;
         &lt;li ng-message=&quot;max&quot;
-            ng-if=&quot;attrs.type == &#39;time&#39; &quot;&gt;The time provided should be before {{attrs.max |date: &#39;HH:MM&#39;}}
+            ng-if=&quot;attrs.type === &#39;time&#39; &quot;&gt;The time provided should be before {{attrs.max |date: &#39;HH:MM&#39;}}
         &lt;/li&gt;
         &lt;li ng-message=&quot;min&quot;
-            ng-if=&quot;attrs.type == &#39;date&#39; &quot;&gt;The date provided should be after {{attrs.min
+            ng-if=&quot;attrs.type === &#39;date&#39; &quot;&gt;The date provided should be after {{attrs.min
           |date:&#39;dd.MM.yy&#39;}}
           &lt;/li&gt;
         &lt;li ng-message=&quot;max&quot;
-            ng-if=&quot;attrs.type == &#39;date&#39; &quot;&gt;The date provided should be before {{attrs.max |date: &#39;dd.MM.yy&#39;}}
+            ng-if=&quot;attrs.type === &#39;date&#39; &quot;&gt;The date provided should be before {{attrs.max |date: &#39;dd.MM.yy&#39;}}
         &lt;/li&gt;
     &lt;/ul&gt;
     &lt;!-- It is also possible to show a success element
