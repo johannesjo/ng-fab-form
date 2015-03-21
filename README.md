@@ -34,28 +34,27 @@ Have a look at the [DEMO](http://johannesjo.github.io/ng-fab-form#demo) or the [
 
 Keep in mind that if you don't like one of the functionalities, ng-fab-form is build with customization in mind. **It's possible to disable almost any feature easily in your app configuration**.
 
-It automatically:
+**List of Features**:
 
-* appends **configurable validation messages** (using `ng-messages`, [see](https://docs.angularjs.org/api/ngMessages/directive/ngMessages)) to any element  with a validation directive on it like `required`, `ng-required`, `ng-pattern`, `ng-minlength` and even new ones added
-* **prevents submission of invalid forms**
-* adds an option to **disable a form completly** via a `disable-form` attribute
-* adds a trigger to **show field validations after submit**
-* **prevents double submissions** of forms when double clicked via a configurable delay
-* **works with any custom validation directive** you have running in your project (as long as they're correctly working with the ngModel-Controller)
-* **compatibility** with most other form modules
-* compatibility with the most popular **translation modules**
-* provides an api to add **custom validators**
-* adds a more reasonable email-validation
-* adds a validation directive in case you have an exception to the rule
-* adds `name` attributes based on ng-model, if none is set
-* adds a `novalidate` attribute to forms
-* adds a `ngFabMatch`-directive (e.g. for checking a repeated password)
-* has support for async-validators
-* scrolls to and focuses the first form element with an error, if the submission fails
+* Global (or invidivual) **configurable validation messages** (using `ng-messages`, [see](https://docs.angularjs.org/api/ngMessages/directive/ngMessages)) to any element  with a validation directive on it like `required`, `ng-required`, `ng-pattern`, `ng-minlength` and even new ones added.
+* **Prevents submission of invalid forms**
+* Completely **disableable forms** via a `disable-form` attribute
+* **Show field validations after submit attempt**  
+* **Prevent double submissions** of forms when double clicked via a configurable delay
+* **Total conifgurability**: You not only can change or turn of any default setting you don't like, but the validation messages template gives you **complete flexibility on when and how your error messages appear**.
+* **Works with any custom validation directive** you have running in your project (as long as they're correctly working with the ngModel-Controller)
+* Compatibility with most other form modules
+* Compatibility with the most popular **translation modules**
+* Provides an api to add **custom validators**
+* Adds a more reasonable email-validation
+* Adds `name` attributes based on ng-model, if none is set
+* Adds the `novalidate` attribute to forms
+* `ngFabMatch`-directive (e.g. for checking a repeated password)
+* Has support for **async-validators** and adds a nice interface to add new ones
+* Scrolls to and focuses the first form element with an error, if the submission fails
 
 
-
-#### useful companions
+**Useful companions**
 * [**angular-promise-buttons**](https://github.com/johannesjo/angular-promise-buttons) the most easy to use loading spinner buttons out there
 * [**angular-auto-forms**](https://github.com/johannesjo/angular-auto-forms) quick and easy bootstrap forms
 
@@ -176,21 +175,17 @@ angular.module('exampleApp', [
 
 And in your template:
 ```html
-<form role="form"
-  name="youFormName"
-  ng-fab-form-options="customFormOptions">...</form>
+<form ng-fab-form-options="customFormOptions">...</form>
 ```
 
 ## disable form completly
 ```html
-<form role="form"
-  name="youFormName"
-  disable-form="{{booeleanVar}}">...</form>
+<form disable-form="{{booeleanVar}}">...</form>
 ```
 
 ## check for matching passwords via ngFabMatch-directive
 ```html
-<form name="youFormName">
+<form>
   <input type="password" ng-model="realPassword" required>
   <input type="password" ng-model="pwRepeat" ng-fab-match="realPassword" required>
 </form>
