@@ -1,9 +1,7 @@
-<div ng-messages="field.$error"
-     class="validation"
-     ng-show="attrs.required==''|| attrs.required">
-    <ul class="list-unstyled validation-errors"
-        ng-show="field.$invalid && (field.$touched || field.$dirty || form.$triedSubmit)">
+<div ng-messages="field.$error" class="validation" ng-show="attrs.required==''|| attrs.required">
+    <ul class="list-unstyled validation-errors" ng-show="field.$invalid && (field.$touched || field.$dirty || form.$triedSubmit)">
         <li ng-message="required">This field is required</li>
+        <li ng-message="ngFabEnsureExpression">Not valid condition</li>
         <li ng-message="password">Please enter a valid password
         </li>
         <li ng-message="email">Please enter a valid e-mail</li>
@@ -21,21 +19,15 @@
         <li ng-message="minlength">Please use at least {{ attrs.minlength }} characters</li>
         <li ng-message="maxlength">Please do not exceed {{ attrs.maxlength }} characters</li>
         <li ng-message="ngFabMatch">The {{ attrs.type ==='password'? 'passwords' : 'values' }} should match</li>
-        <li ng-if="attrs.type == 'time' "
-            ng-message="min">The time provided should after {{ attrs.min |date: 'HH:MM' }}
+        <li ng-if="attrs.type == 'time' " ng-message="min">The time provided should after {{ attrs.min |date: 'HH:MM' }}
         </li>
-        <li ng-message="max"
-            ng-if="attrs.type == 'time' ">The time provided should be before {{attrs.max |date: 'HH:MM'}}
+        <li ng-message="max" ng-if="attrs.type == 'time' ">The time provided should be before {{attrs.max |date: 'HH:MM'}}
         </li>
-        <li ng-message="min"
-            ng-if="attrs.type == 'date' ">The date provided should be after {{attrs.min
-            |date:'dd.MM.yy'}}
+        <li ng-message="min" ng-if="attrs.type == 'date' ">The date provided should be after {{attrs.min |date:'dd.MM.yy'}}
         </li>
-        <li ng-message="max"
-            ng-if="attrs.type == 'date' ">The date provided should be before {{attrs.max |date: 'dd.MM.yy'}}
+        <li ng-message="max" ng-if="attrs.type == 'date' ">The date provided should be before {{attrs.max |date: 'dd.MM.yy'}}
         </li>
     </ul>
-    <div class="validation-success"
-         ng-show="field.$valid && !field.$invalid">
+    <div class="validation-success" ng-show="field.$valid && !field.$invalid">
     </div>
 </div>
