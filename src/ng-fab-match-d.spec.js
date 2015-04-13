@@ -28,7 +28,7 @@ describe('an input with ngFabMatch-directive', function ()
         scope.$digest();
 
         form = scope.testForm;
-        messageContainer = angular.element(element);
+       messageContainer = angular.element(element.children()[2]);
     }));
 
     it('should be valid if passwords match', function ()
