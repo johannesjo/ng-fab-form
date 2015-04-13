@@ -56,7 +56,16 @@ describe('an input with ngFabEnsureExpression-directive', function ()
 
        
     });
+it('Should not show validation message message', function ()
+    {
+       
+         form.test.$setViewValue(1);
+        var message = messageContainer.find('li');
 
+        expect(message.length).toBe(0);
+
+       
+    });
     
 });
 
