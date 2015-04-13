@@ -28,7 +28,7 @@ describe('an input with ngFabMatch-directive', function ()
         scope.$digest();
 
         form = scope.testForm;
-        messageContainer = angular.element(element.children()[2]);
+        messageContainer = angular.element(element);
     }));
 
     it('should be valid if passwords match', function ()
@@ -49,7 +49,6 @@ describe('an input with ngFabMatch-directive', function ()
     {
         form.pw.$setViewValue('somepw');
         form.pwRepeat.$setViewValue('somepwaa');
-
         var message = messageContainer.find('li');
 
         expect(message.length).toBe(1);
