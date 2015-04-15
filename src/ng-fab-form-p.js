@@ -88,7 +88,7 @@ angular.module('ngFabForm')
                     var sanitizedKey = attrKey.replace(config.validationMsgPrefix, '');
                     sanitizedKey = sanitizedKey.charAt(0).toLowerCase() + sanitizedKey.slice(1);
                     var message = container[0].querySelector('[ng-message="' + sanitizedKey + '"]');
-                    angular.element(message).text(attr);
+                    angular.element(message).html(attr);
                 }
             });
             return container;
