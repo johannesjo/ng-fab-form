@@ -225,6 +225,28 @@ describe('validations directive', function ()
         expect(message.text()).toBe('some custom message');
     });
 
+    it('should support html for custom validation messages', function ()
+    {
+        var element = $compile('<form>' +
+        '<input type="text" ng-model="testInput" validation-msg-required ="<b>some</b> custom message" required>' +
+        '</form>')(scope);
+        scope.$digest();
+        $timeout.flush();
+        var form = element.controller('form');
+
+        // we have to use $setViewValue otherwise the formCtrl
+        // will not update properly
+        form.testInput.$setViewValue(null);
+
+        var messageContainer = angular.element(element.children()[1]);
+        var message = messageContainer.find('li');
+
+        expect(message.length).toBe(1);
+        expect(message.attr('ng-message')).toBe('required');
+        expect(message.text()).toBe('some custom message');
+        expect(message.html()).toBe('<b>some</b> custom message');
+    });
+
     it('should work with delayed insert of input', function ()
     {
         var element = $compile('<form></form>')(scope);

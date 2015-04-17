@@ -6,8 +6,7 @@ angular.module('ngFabForm')
 
         function insertValidationMsgs(params)
         {
-            var scope = params.scope,
-                el = params.el,
+            var el = params.el,
                 cfg = params.cfg,
                 formCtrl = params.formCtrl,
                 ngModelCtrl = params.ngModelCtrl,
@@ -110,7 +109,6 @@ angular.module('ngFabForm')
                         // only if required controllers and validators are set
                         if (ngModelCtrl && cfg.validationsTemplate && ((Object.keys(ngModelCtrl.$validators).length !== 0) || (Object.keys(ngModelCtrl.$asyncValidators).length !== 0)) && (!oldCfg || cfg.validationsTemplate !== oldCfg.validationsTemplate)) {
                             insertValidationMsgs({
-                                scope: scope,
                                 el: el,
                                 cfg: cfg,
                                 formCtrl: formCtrl,
