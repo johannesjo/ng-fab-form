@@ -116,7 +116,24 @@ angular.module('ngFabForm')
                         formCtrl.$triedSubmit = false;
                         formCtrl.$preventDoubleSubmit = false;
                         formCtrl.ngFabFormConfig = cfg;
+                        formCtrl.$resetForm = function (resetValues)
+                        {
+                            if (resetValues === true) {
+                                var inputElements = el.find('input');
+                                for (var i = 0; i < inputElements.length; i++) {
+                                    var inputEl = angular.element(inputElements[i]);
+                                    var inputElCtrl = inputEl.controller('ngModel');
+                                    if (inputElCtrl) {
+                                        inputElCtrl.$setViewValue('');
+                                        inputElCtrl.$render();
+                                    }
+                                }
+                            }
 
+                            formCtrl.$triedSubmit = false;
+                            formCtrl.$setPristine();
+                            formCtrl.$setUntouched();
+                        };
 
                         // disabledForm 'directive'
                         if (cfg.disabledForms) {
@@ -130,8 +147,6 @@ angular.module('ngFabForm')
                                 if (mVal) {
                                     var oldCfg = angular.copy(cfg);
                                     cfg = formCtrl.ngFabFormConfig = angular.extend(cfg, mVal);
-
-
                                     scope.$broadcast(ngFabForm.formChangeEvent, cfg, oldCfg);
                                 }
                             }, true);

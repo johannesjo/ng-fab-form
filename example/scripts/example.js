@@ -14,6 +14,10 @@ angular.module('exampleApp', [
         {
             alert('Form submitted');
         };
+        $scope.resetForm = function ()
+        {
+            $scope.$broadcast('NG_FAB_FORM_RESET_ALL');
+        };
         $scope.defaultFormOptions = ngFabForm.config;
         $scope.customFormOptions = angular.copy(ngFabForm.config);
     });

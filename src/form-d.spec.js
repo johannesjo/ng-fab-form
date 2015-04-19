@@ -160,6 +160,45 @@ describe('a form', function ()
             element.triggerHandler('submit');
             expect(form.$triedSubmit).toBeTruthy();
         });
+
+        it('should be reset after the $resetForm is triggered', function ()
+        {
+            scope.testModel = 'SOMETHING HERE';
+            scope.$digest();
+            form.$resetForm();
+            scope.$digest();
+            expect(form.$triedSubmit).toBeFalsy();
+            expect(form.$pristine).toBeTruthy();
+            expect(form.$touched).toBeFalsy();
+        });
+
+        it('should be reseted with empty inputs after the $resetForm(true) is triggered', function ()
+        {
+            scope.testModel = 'SOMETHING HERE';
+            scope.$digest();
+            form.$resetForm(true);
+            scope.$digest();
+            expect(form.$triedSubmit).toBeFalsy();
+            expect(form.$pristine).toBeTruthy();
+            expect(form.$touched).toBeFalsy();
+            expect(scope.testModel).toBe(undefined);
+        });
+
+        it('should still work after form is reseted', function ()
+        {
+            scope.testModel = 'SOMETHING HERE';
+            scope.$digest();
+            form.$resetForm(true);
+            scope.$digest();
+            expect(form.$triedSubmit).toBeFalsy();
+            expect(form.$pristine).toBeTruthy();
+            expect(form.$touched).toBeFalsy();
+            expect(scope.testModel).toBe(undefined);
+
+            scope.$broadcast('NG_FAB_FORM_RESET_ALL');
+            element.triggerHandler('submit');
+            expect(scope.submitCount).toBe(0);
+        });
     });
 
 
@@ -274,7 +313,8 @@ describe('a form with config', function ()
             validationMsgPrefix: 'validationMessssg',
             emailRegex: false,
             watchForFormCtrl: false,
-            formChangeEvent: 'AAAAAAA'
+            formChangeEvent: 'AAAAAAA',
+            formResetEvent: 'AAAAAAAA'
         };
         provider.extendConfig(opts);
 
