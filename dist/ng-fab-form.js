@@ -120,7 +120,24 @@ angular.module('ngFabForm')
                         formCtrl.$triedSubmit = false;
                         formCtrl.$preventDoubleSubmit = false;
                         formCtrl.ngFabFormConfig = cfg;
+                        formCtrl.$resetForm = function (resetValues)
+                        {
+                            if (resetValues === true) {
+                                var inputElements = el.find('input');
+                                for (var i = 0; i < inputElements.length; i++) {
+                                    var inputEl = angular.element(inputElements[i]);
+                                    var inputElCtrl = inputEl.controller('ngModel');
+                                    if (inputElCtrl) {
+                                        inputElCtrl.$setViewValue('');
+                                        inputElCtrl.$render();
+                                    }
+                                }
+                            }
 
+                            formCtrl.$triedSubmit = false;
+                            formCtrl.$setPristine();
+                            formCtrl.$setUntouched();
+                        };
 
                         // disabledForm 'directive'
                         if (cfg.disabledForms) {
@@ -134,8 +151,6 @@ angular.module('ngFabForm')
                                 if (mVal) {
                                     var oldCfg = angular.copy(cfg);
                                     cfg = formCtrl.ngFabFormConfig = angular.extend(cfg, mVal);
-
-
                                     scope.$broadcast(ngFabForm.formChangeEvent, cfg, oldCfg);
                                 }
                             }, true);
@@ -232,11 +247,11 @@ angular.module('ngFabForm')
             // or manually for the validations to work
             setNamesByNgModel: true,
 
-            // add asterisk to required fields (requires jQuery)
+            // add asterisk to required fields
             setAsteriskForRequiredLabel: false,
 
-            // asterisk string to be added if enabled (requires jQuery) and
-            // setAsteriskForRequiredLabel-option set to true
+            // asterisk string to be added if enabled
+            // requires setAsteriskForRequiredLabel-option set to true
             asteriskStr: '*',
 
             // the validation message prefix, results for the default state
@@ -269,7 +284,7 @@ angular.module('ngFabForm')
                     var sanitizedKey = attrKey.replace(config.validationMsgPrefix, '');
                     sanitizedKey = sanitizedKey.charAt(0).toLowerCase() + sanitizedKey.slice(1);
                     var message = container[0].querySelector('[ng-message="' + sanitizedKey + '"]');
-                    angular.element(message).text(attr);
+                    angular.element(message).html(attr);
                 }
             });
             return container;
@@ -402,8 +417,7 @@ angular.module('ngFabForm')
 
         function insertValidationMsgs(params)
         {
-            var scope = params.scope,
-                el = params.el,
+            var el = params.el,
                 cfg = params.cfg,
                 formCtrl = params.formCtrl,
                 ngModelCtrl = params.ngModelCtrl,
@@ -506,7 +520,6 @@ angular.module('ngFabForm')
                         // only if required controllers and validators are set
                         if (ngModelCtrl && cfg.validationsTemplate && ((Object.keys(ngModelCtrl.$validators).length !== 0) || (Object.keys(ngModelCtrl.$asyncValidators).length !== 0)) && (!oldCfg || cfg.validationsTemplate !== oldCfg.validationsTemplate)) {
                             insertValidationMsgs({
-                                scope: scope,
                                 el: el,
                                 cfg: cfg,
                                 formCtrl: formCtrl,
@@ -623,6 +636,38 @@ angular.module('ngFabForm')
                 scope.$watch('ngFabMatch', function ()
                 {
                     ngModel.$validate();
+                });
+            }
+        };
+    });
+
+angular.module('ngFabForm')
+    .directive('ngFabResetFormOn', function match()
+    {
+        'use strict';
+
+        return {
+            require: '^form',
+            restrict: 'A',
+            scope: {
+                ngFabResetFormOn: '@',
+                doNotClearInputs: '@'
+            },
+            link: function (scope, el, attrs, formCtrl)
+            {
+                if (!attrs.ngFabResetFormOn) {
+                    attrs.ngFabResetFormOn = 'click';
+                }
+
+                el.on(attrs.ngFabResetFormOn, function ()
+                {
+                    if (attrs.doNotClearInputs) {
+                        formCtrl.$resetForm();
+                    } else {
+                        formCtrl.$resetForm(true);
+                    }
+
+                    scope.$apply();
                 });
             }
         };
