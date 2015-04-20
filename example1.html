@@ -24,7 +24,7 @@
                        class="form-control"
                        placeholder="TestText"
                        ng-pattern="/^asd$/i"
-                       validation-msg-pattern="Not asd :("
+                       validation-msg-pattern="<i>Not</i> <b>asd</b> :("
                        name="text"
                        required=""
                        ng-model="form3Data.patternRequired">
@@ -43,6 +43,10 @@
             </div>
             <button type="submit"
                     class="btn btn-primary">Submit Form
+            </button>
+            <button type="button"
+                    ng-fab-reset-form-on
+                    class="btn btn-primary">Reset form
             </button>
         </form>
 
@@ -334,3 +338,10 @@
        required
        ng-model="test">
 
+<h4>with ng-model-options = "{updateOn:'blur'}"</h4>
+<form name="formname">
+    <input type="text"
+           required
+           ng-model="testBlur"
+           ng-model-options="{updateOn:'blur'}">
+</form>

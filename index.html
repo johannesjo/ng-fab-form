@@ -133,8 +133,9 @@
 <li>Completely <strong>disableable forms</strong> via a <code>disable-form</code> attribute</li>
 <li><strong>Show field validations after submit attempt</strong>  </li>
 <li><strong>Prevent double submissions</strong> of forms when double clicked via a configurable delay</li>
-<li><strong>Total conifgurability</strong>: You not only can change or turn of any default setting you don&#39;t like, but the validation messages template gives you <strong>complete flexibility on when and how your error messages appear</strong>.</li>
+<li><strong>Total configurability</strong>: You not only can change or turn of any default setting you don&#39;t like, but the validation messages template gives you <strong>complete flexibility on when and how your error messages appear</strong>.</li>
 <li><strong>Works with any custom validation directive</strong> you have running in your project (as long as they&#39;re correctly working with the ngModel-Controller)</li>
+<li>Provides you with <strong>resettable forms</strong> via the <code>$resetForm</code> method</li>
 <li>Compatibility with most other form modules</li>
 <li>Compatibility with the most popular <strong>translation modules</strong></li>
 <li>Provides an api to add <strong>custom validators</strong></li>
@@ -250,17 +251,13 @@ watchForFormCtrl: false
 });
 </code></pre>
 <p>And in your template:</p>
-<pre><code class="lang-html">&lt;form role=&quot;form&quot;
-  name=&quot;youFormName&quot;
-  ng-fab-form-options=&quot;customFormOptions&quot;&gt;...&lt;/form&gt;
+<pre><code class="lang-html">&lt;form ng-fab-form-options=&quot;customFormOptions&quot;&gt;...&lt;/form&gt;
 </code></pre>
 <h2 id="disable-form-completly">disable form completly</h2>
-<pre><code class="lang-html">&lt;form role=&quot;form&quot;
-  name=&quot;youFormName&quot;
-  disable-form=&quot;{{booeleanVar}}&quot;&gt;...&lt;/form&gt;
+<pre><code class="lang-html">&lt;form disable-form=&quot;{{booeleanVar}}&quot;&gt;...&lt;/form&gt;
 </code></pre>
 <h2 id="check-for-matching-passwords-via-ngfabmatch-directive">check for matching passwords via ngFabMatch-directive</h2>
-<pre><code class="lang-html">&lt;form name=&quot;youFormName&quot;&gt;
+<pre><code class="lang-html">&lt;form&gt;
   &lt;input type=&quot;password&quot; ng-model=&quot;realPassword&quot; required&gt;
   &lt;input type=&quot;password&quot; ng-model=&quot;pwRepeat&quot; ng-fab-match=&quot;realPassword&quot; required&gt;
 &lt;/form&gt;
@@ -349,6 +346,56 @@ watchForFormCtrl: false
 <h4 id="create-and-share">create and share</h4>
 <p>You can use this <a href="http://plnkr.co/edit/wVW8ih?p=info">plunkr as base for your fabulous creation</a>! Think you created something useful? Then share it!!! Either provide a pull-request or leave a comment on the <a href="http://johannesjo.github.io/ng-fab-form/">projects public page</a>.</p>
 <p>If you provide a pull-reqest, please use a feature-branch. The commit should usually contain two files: A html template and a scss-file.</p>
+<h2 id="resettable-forms">resettable forms</h2>
+<p>There are two ways to reset your form. The first one requires you to use the &#39;contallerAs&#39;-syntax to access the form controller: </p>
+<pre><code class="lang-html">&lt;div ng-controller=&quot;myCtrl as ctrl&quot;&gt;
+  &lt;form name=&quot;ctrl.myForm&quot;&gt;
+    &lt;input type=&quot;text&quot;
+      ng-model=&quot;my-model&quot;
+      required&gt;
+    &lt;button type=&quot;button&quot;
+      ng-click=&quot;resetForm()&quot;&gt;
+      Reset the form!
+    &lt;/button&gt;
+  &lt;/form&gt;
+&lt;/div&gt;
+</code></pre>
+<pre><code class="lang-javascript">myMod.controller(&#39;myCtrl&#39;, function(){
+    var vm = this;
+    vm.resetForm = function(){
+        // this resets the form without clearing the inputs
+        vm.myForm.$resetForm();
+
+        // this resets the form with setting all ng-model 
+        // values in it to undefined
+        vm.myForm.$resetForm(true);
+    }
+});
+</code></pre>
+<p>The second one uses the &#39;ng-fab-reset-form-on&#39; directive:</p>
+<pre><code class="lang-html">&lt;form&gt;
+  &lt;input type=&quot;text&quot;
+    ng-model=&quot;my-model&quot;
+    required&gt;
+  &lt;button type=&quot;button&quot;
+    ng-fab-reset-form-on&gt;
+    Reset the form!
+  &lt;/button&gt;
+&lt;/form&gt;
+</code></pre>
+<p>As per default the button (or any other element) is triggered on click. If you need something else you can provide those by setting a value. If you need multiple events, separate them by a space:</p>
+<pre><code class="lang-html">&lt;button type=&quot;button&quot;
+  ng-fab-reset-form-on=&quot;touchstart my-custom-event-on-this-element&quot;&gt;
+  Reset the form!
+&lt;/button&gt;
+</code></pre>
+<p>Another default is to reset the &#39;ngModel&#39; value of all form inputs to &#39;undefined&#39;. You can prevent this behaviour by using the <code>do-not-clear-inputs</code> attribute:</p>
+<pre><code class="lang-html">&lt;button type=&quot;button&quot;
+  ng-fab-reset-form-on
+  do-not-clear-inputs&gt;
+  Reset the form, but leave the inputs be!
+&lt;/button&gt;
+</code></pre>
 <h2 id="advanced-configurations">advanced configurations</h2>
 <h3 id="adjust-insertion-function-of-validation-messages">adjust insertion function of validation messages</h3>
 <p>You can edit where and how the messages are inserted in relation to their corresponding form-element:</p>
@@ -419,7 +466,7 @@ watchForFormCtrl: false
 <hr>
 <div class="container"
      ng-app="exampleApp"
-     ng-controller="exampleCtrl">
+     ng-controller="exampleCtrl as exampleCtrl">
     <a name="demo"></a>
 
     <h1>Demos</h1>

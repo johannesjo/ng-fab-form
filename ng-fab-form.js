@@ -120,7 +120,24 @@ angular.module('ngFabForm')
                         formCtrl.$triedSubmit = false;
                         formCtrl.$preventDoubleSubmit = false;
                         formCtrl.ngFabFormConfig = cfg;
+                        formCtrl.$resetForm = function (resetValues)
+                        {
+                            if (resetValues === true) {
+                                var inputElements = el.find('input');
+                                for (var i = 0; i < inputElements.length; i++) {
+                                    var inputEl = angular.element(inputElements[i]);
+                                    var inputElCtrl = inputEl.controller('ngModel');
+                                    if (inputElCtrl) {
+                                        inputElCtrl.$setViewValue('');
+                                        inputElCtrl.$render();
+                                    }
+                                }
+                            }
 
+                            formCtrl.$triedSubmit = false;
+                            formCtrl.$setPristine();
+                            formCtrl.$setUntouched();
+                        };
 
                         // disabledForm 'directive'
                         if (cfg.disabledForms) {
@@ -134,8 +151,6 @@ angular.module('ngFabForm')
                                 if (mVal) {
                                     var oldCfg = angular.copy(cfg);
                                     cfg = formCtrl.ngFabFormConfig = angular.extend(cfg, mVal);
-
-
                                     scope.$broadcast(ngFabForm.formChangeEvent, cfg, oldCfg);
                                 }
                             }, true);
@@ -232,11 +247,11 @@ angular.module('ngFabForm')
             // or manually for the validations to work
             setNamesByNgModel: true,
 
-            // add asterisk to required fields (requires jQuery)
+            // add asterisk to required fields
             setAsteriskForRequiredLabel: false,
 
-            // asterisk string to be added if enabled (requires jQuery) and
-            // setAsteriskForRequiredLabel-option set to true
+            // asterisk string to be added if enabled
+            // requires setAsteriskForRequiredLabel-option set to true
             asteriskStr: '*',
 
             // the validation message prefix, results for the default state
@@ -269,7 +284,7 @@ angular.module('ngFabForm')
                     var sanitizedKey = attrKey.replace(config.validationMsgPrefix, '');
                     sanitizedKey = sanitizedKey.charAt(0).toLowerCase() + sanitizedKey.slice(1);
                     var message = container[0].querySelector('[ng-message="' + sanitizedKey + '"]');
-                    angular.element(message).text(attr);
+                    angular.element(message).html(attr);
                 }
             });
             return container;
@@ -389,7 +404,7 @@ angular.module('ngFabForm').run(['$templateCache', function($templateCache) {
   'use strict';
 
   $templateCache.put('default-validation-msgs.html',
-    "<div ng-messages=\"field.$error\" class=\"validation\" ng-show=\"attrs.required==''|| attrs.required\"><ul class=\"list-unstyled validation-errors\" ng-show=\"field.$invalid && (field.$touched || field.$dirty || form.$triedSubmit)\"><li ng-message=\"required\">This field is required</li><li ng-message=\"password\">Please enter a valid password</li><li ng-message=\"email\">Please enter a valid e-mail</li><li ng-message=\"pattern\">Invalid input format</li><li ng-message=\"date\">Please enter a valid date</li><li ng-message=\"time\">Please enter a valid time</li><li ng-message=\"datetime\">Please enter a valid date and time</li><li ng-message=\"datetime-local\">Please enter a valid date and time</li><li ng-message=\"number\">This field must be numeric</li><li ng-message=\"color\">Please enter a valid color</li><li ng-message=\"range\">Please enter a valid range</li><li ng-message=\"month\">Please enter a valid month</li><li ng-message=\"url\">Please enter a valid URL</li><li ng-message=\"file\">Invalid file</li><li ng-message=\"minlength\">Please use at least {{ attrs.minlength }} characters</li><li ng-message=\"maxlength\">Please do not exceed {{ attrs.maxlength }} characters</li><li ng-message=\"ngFabMatch\">The {{ attrs.type ==='password'? 'passwords' : 'values' }} should match</li><li ng-if=\"attrs.type == 'time' \" ng-message=\"min\">The time provided should after {{ attrs.min |date: 'HH:MM' }}</li><li ng-message=\"max\" ng-if=\"attrs.type == 'time' \">The time provided should be before {{attrs.max |date: 'HH:MM'}}</li><li ng-message=\"min\" ng-if=\"attrs.type == 'date' \">The date provided should be after {{attrs.min |date:'dd.MM.yy'}}</li><li ng-message=\"max\" ng-if=\"attrs.type == 'date' \">The date provided should be before {{attrs.max |date: 'dd.MM.yy'}}</li></ul><div class=\"validation-success\" ng-show=\"field.$valid && !field.$invalid\"></div></div>"
+    "<div ng-messages=\"field.$error\" class=\"validation\" ng-show=\"attrs.required==''|| attrs.required\"><ul class=\"list-unstyled validation-errors\" ng-show=\"field.$invalid && (field.$touched || field.$dirty || form.$triedSubmit)\"><li ng-message=\"required\">This field is required</li><li ng-message=\"ngFabEnsureExpression\">Not valid condition</li><li ng-message=\"password\">Please enter a valid password</li><li ng-message=\"email\">Please enter a valid e-mail</li><li ng-message=\"pattern\">Invalid input format</li><li ng-message=\"date\">Please enter a valid date</li><li ng-message=\"time\">Please enter a valid time</li><li ng-message=\"datetime\">Please enter a valid date and time</li><li ng-message=\"datetime-local\">Please enter a valid date and time</li><li ng-message=\"number\">This field must be numeric</li><li ng-message=\"color\">Please enter a valid color</li><li ng-message=\"range\">Please enter a valid range</li><li ng-message=\"month\">Please enter a valid month</li><li ng-message=\"url\">Please enter a valid URL</li><li ng-message=\"file\">Invalid file</li><li ng-message=\"minlength\">Please use at least {{ attrs.minlength }} characters</li><li ng-message=\"maxlength\">Please do not exceed {{ attrs.maxlength }} characters</li><li ng-message=\"ngFabMatch\">The {{ attrs.type ==='password'? 'passwords' : 'values' }} should match</li><li ng-if=\"attrs.type == 'time' \" ng-message=\"min\">The time provided should after {{ attrs.min |date: 'HH:MM' }}</li><li ng-message=\"max\" ng-if=\"attrs.type == 'time' \">The time provided should be before {{attrs.max |date: 'HH:MM'}}</li><li ng-message=\"min\" ng-if=\"attrs.type == 'date' \">The date provided should be after {{attrs.min |date:'dd.MM.yy'}}</li><li ng-message=\"max\" ng-if=\"attrs.type == 'date' \">The date provided should be before {{attrs.max |date: 'dd.MM.yy'}}</li></ul><div class=\"validation-success\" ng-show=\"field.$valid && !field.$invalid\"></div></div>"
   );
 
 }]);
@@ -402,8 +417,7 @@ angular.module('ngFabForm')
 
         function insertValidationMsgs(params)
         {
-            var scope = params.scope,
-                el = params.el,
+            var el = params.el,
                 cfg = params.cfg,
                 formCtrl = params.formCtrl,
                 ngModelCtrl = params.ngModelCtrl,
@@ -506,7 +520,6 @@ angular.module('ngFabForm')
                         // only if required controllers and validators are set
                         if (ngModelCtrl && cfg.validationsTemplate && ((Object.keys(ngModelCtrl.$validators).length !== 0) || (Object.keys(ngModelCtrl.$asyncValidators).length !== 0)) && (!oldCfg || cfg.validationsTemplate !== oldCfg.validationsTemplate)) {
                             insertValidationMsgs({
-                                scope: scope,
                                 el: el,
                                 cfg: cfg,
                                 formCtrl: formCtrl,
@@ -588,6 +601,22 @@ angular.module('ngFabForm')
     }]);
 
 angular.module('ngFabForm')
+    .directive('ngFabEnsureExpression', ['$http', '$parse', function ($http, $parse) {
+        'use strict';
+
+        return {
+            require: 'ngModel',
+            link: function (scope, ele, attrs, ngModelController) {
+                scope.$watch(attrs.ngModel, function () {
+                    var booleanResult = $parse(attrs.ngFabEnsureExpression)(scope);
+                    ngModelController.$setValidity('ngFabEnsureExpression', booleanResult);
+                     ngModelController.$validate();
+                });
+            }
+        };
+}]);
+
+angular.module('ngFabForm')
     .directive('ngFabMatch', function match()
     {
         'use strict';
@@ -607,6 +636,38 @@ angular.module('ngFabForm')
                 scope.$watch('ngFabMatch', function ()
                 {
                     ngModel.$validate();
+                });
+            }
+        };
+    });
+
+angular.module('ngFabForm')
+    .directive('ngFabResetFormOn', function match()
+    {
+        'use strict';
+
+        return {
+            require: '^form',
+            restrict: 'A',
+            scope: {
+                ngFabResetFormOn: '@',
+                doNotClearInputs: '@'
+            },
+            link: function (scope, el, attrs, formCtrl)
+            {
+                if (!attrs.ngFabResetFormOn) {
+                    attrs.ngFabResetFormOn = 'click';
+                }
+
+                el.on(attrs.ngFabResetFormOn, function ()
+                {
+                    if (attrs.doNotClearInputs) {
+                        formCtrl.$resetForm();
+                    } else {
+                        formCtrl.$resetForm(true);
+                    }
+
+                    scope.$apply();
                 });
             }
         };
