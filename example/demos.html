@@ -75,7 +75,7 @@
            href="https://github.com/johannesjo/ng-fab-form"><span class="octicon  octicon-mark-github"></span> View On
             GitHub <span class="octicon  octicon-mark-github"></span></a>
         <a class="buttons btn btn-primary "
-           href="demos.html"><span class="octicon  octicon-squirrel"></span> Demos
+           href="#demo"><span class="octicon  octicon-squirrel"></span> Demo
             <span class="octicon  octicon-squirrel"></span></a>
         <a class="buttons btn btn-primary "
            href="#discussion"><span class="octicon  octicon-organization"></span> Discuss
@@ -105,8 +105,47 @@
     </div>
 </header>
 
-<div class="container">
-    <%= document %>
+<div class="container"
+     ng-app="exampleApp"
+     ng-controller="exampleCtrl as exampleCtrl">
+    <a name="demo"></a>
+
+    <h1>Demos</h1>
+    <ul>
+        <li><a ng-click="scrollTo('simple')">Simple</a></li>
+        <li><a ng-click="scrollTo('plunkr')">Plunkr</a></li>
+        <li><a ng-click="scrollTo('custom-options')">Custom Options</a></li>
+        <li><a ng-click="scrollTo('advanced-validations')">Advanced Validations</a></li>
+        <li><a ng-click="scrollTo('special-cases')">Special Cases</a></li>
+        <li><a ng-click="scrollTo('plunkr')">Plunkr</a></li>
+    </ul>
+
+
+    <a name="simple"></a>
+
+    <div ng-include="'demos/simple.html'"
+         class="example"></div>
+
+    <a id="custom-options"></a>
+
+    <div ng-include="'demos/custom-options.html'"
+         class="example"></div>
+
+    <a id="advanced-validations"></a>
+
+    <div ng-include="'demos/advanced-validations.html'"
+         class="example"></div>
+
+    <a id="special-cases"></a>
+
+    <div ng-include="'demos/special-cases.html'"
+         class="example"></div>
+
+    <a id="plunkr"></a>
+
+    <div ng-include="'demos/plunkr.html'"
+         class="example"></div>
+
 </div>
 
 <div class="container">

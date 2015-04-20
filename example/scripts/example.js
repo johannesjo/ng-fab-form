@@ -8,7 +8,16 @@ angular.module('exampleApp', [
             //setAsteriskForRequiredLabel: true
         });
     })
-    .controller('exampleCtrl', function ($scope, ngFabForm)
+    .run(function ($rootScope, $location, $anchorScroll)
+    {
+        $rootScope.scrollTo = function (id)
+        {
+            $location.hash(id);
+            $anchorScroll();
+        };
+    })
+
+    .controller('exampleCtrl', function ($anchorScroll, $scope, ngFabForm)
     {
         $scope.submit = function ()
         {
