@@ -1,0 +1,42 @@
+
+<h3>special cases</h3>
+<h4>forms with no name</h4>
+<form>
+    <input type="text"
+           required
+           ng-model="test">
+</form>
+<form>
+    <input type="text"
+           required
+           ng-model="test">
+</form>
+<h4>forms with same name</h4>
+<form name="samesame">
+    <input type="text"
+           required
+           ng-model="test">
+</form>
+<form name="samesame">
+    <input type="text"
+           required
+           ng-model="test">
+</form>
+<h4>forms with controller as syntax in name</h4>
+<form name="ctrl.formname">
+    <input type="text"
+           required
+           ng-model="test">
+</form>
+<h4>ng-model input with no form</h4>
+<input type="text"
+       required
+       ng-model="test">
+
+<h4>with ng-model-options = "{updateOn:'blur'}"</h4>
+<form name="formname">
+    <input type="text"
+           required
+           ng-model="testBlur"
+           ng-model-options="{updateOn:'blur'}">
+</form>

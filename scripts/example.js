@@ -8,7 +8,16 @@ angular.module('exampleApp', [
             //setAsteriskForRequiredLabel: true
         });
     })
-    .controller('exampleCtrl', function ($scope, ngFabForm)
+    .run(function ($rootScope, $location, $anchorScroll)
+    {
+        $rootScope.scrollTo = function (id)
+        {
+            $location.hash(id);
+            $anchorScroll();
+        };
+    })
+
+    .controller('exampleCtrl', function ($anchorScroll, $scope, ngFabForm)
     {
         $scope.submit = function ()
         {
@@ -17,6 +26,17 @@ angular.module('exampleApp', [
         $scope.resetForm = function ()
         {
             $scope.$broadcast('NG_FAB_FORM_RESET_ALL');
+        };
+        $scope.defaultFormOptions = ngFabForm.config;
+        $scope.customFormOptions = angular.copy(ngFabForm.config);
+    })
+
+
+    .controller('onBlurCtrl', function ($anchorScroll, $scope, ngFabForm)
+    {
+        $scope.submit = function ()
+        {
+            alert('Form submitted');
         };
         $scope.defaultFormOptions = ngFabForm.config;
         $scope.customFormOptions = angular.copy(ngFabForm.config);
