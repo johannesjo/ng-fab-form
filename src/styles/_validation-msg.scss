@@ -109,12 +109,12 @@ select {
     }
 }
 
-form[class*="ng-invalid"] button.btn {
+form[class*="ng-invalid"] button.btn[type=submit] {
     background: $c-info;
     transition: none;
 }
 
-form button.btn {
+form button.btn[type=submit] {
     transition: all ease-in 0.5s;
     background: $c-success;
 }

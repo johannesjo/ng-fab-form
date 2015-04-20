@@ -29,4 +29,15 @@ angular.module('exampleApp', [
         };
         $scope.defaultFormOptions = ngFabForm.config;
         $scope.customFormOptions = angular.copy(ngFabForm.config);
+    })
+
+
+    .controller('onBlurCtrl', function ($anchorScroll, $scope, ngFabForm)
+    {
+        $scope.submit = function ()
+        {
+            alert('Form submitted');
+        };
+        $scope.defaultFormOptions = ngFabForm.config;
+        $scope.customFormOptions = angular.copy(ngFabForm.config);
     });

@@ -113,8 +113,8 @@
     <h1>Demos</h1>
     <ul>
         <li><a ng-click="scrollTo('simple')">Simple</a></li>
-        <li><a ng-click="scrollTo('plunkr')">Plunkr</a></li>
         <li><a ng-click="scrollTo('custom-options')">Custom Options</a></li>
+        <li><a ng-click="scrollTo('after-submit')">Validation messages only after submit</a></li>
         <li><a ng-click="scrollTo('advanced-validations')">Advanced Validations</a></li>
         <li><a ng-click="scrollTo('special-cases')">Special Cases</a></li>
         <li><a ng-click="scrollTo('plunkr')">Plunkr</a></li>
@@ -134,6 +134,11 @@
     <a id="advanced-validations"></a>
 
     <div ng-include="'demos/advanced-validations.html'"
+         class="example"></div>
+
+    <a id="after-submit"></a>
+
+    <div ng-include="'demos/after-submit.html'"
          class="example"></div>
 
     <a id="special-cases"></a>
@@ -220,6 +225,7 @@
 
 <!-- fileblock:js example -->
 <script src="scripts/example.js"></script>
+<script src="scripts/after-submit.js"></script>
 <!-- endfileblock -->
 
 </body>
