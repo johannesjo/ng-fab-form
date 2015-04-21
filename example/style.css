@@ -66,10 +66,10 @@ input:focus, input:focus.ng-touched.ng-invalid:not(.ng-valid), textarea:focus, t
 input.ng-valid-required.ng-valid:not(.ng-invalid), textarea.ng-valid-required.ng-valid:not(.ng-invalid), select.ng-valid-required.ng-valid:not(.ng-invalid) {
   border-color: #62b14c; }
 
-form[class*="ng-invalid"] button.btn {
+form[class*="ng-invalid"] button.btn[type=submit] {
   background: #63bff8;
   transition: none; }
 
-form button.btn {
+form button.btn[type=submit] {
   transition: all ease-in 0.5s;
   background: #62b14c; }

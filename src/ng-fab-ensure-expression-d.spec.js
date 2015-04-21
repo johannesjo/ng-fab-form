@@ -32,21 +32,21 @@ describe('an input with ngFabEnsureExpression-directive', function ()
 
     it('condition should pass', function ()
     {
-      
+
         form.test.$setViewValue(1);
         expect(form.test.$valid).toBeTruthy();
     });
 
     it('Condition should fail', function ()
     {
-       form.test.$setViewValue("invalid");
-        
+       form.test.$setViewValue('invalid');
+
         expect(form.test.$valid).toBeFalsy();
     });
 
     it('Should show validation message message', function ()
     {
-       
+
          form.test.$setViewValue(3);
         var message = messageContainer.find('li');
 
@@ -54,19 +54,19 @@ describe('an input with ngFabEnsureExpression-directive', function ()
         expect(message.attr('ng-message')).toBe('ngFabEnsureExpression');
         expect(message.text()).toBe('Not valid condition');
 
-       
+
     });
 it('Should not show validation message message', function ()
     {
-       
+
          form.test.$setViewValue(1);
         var message = messageContainer.find('li');
 
         expect(message.length).toBe(0);
 
-       
+
     });
-    
+
 });
 
 

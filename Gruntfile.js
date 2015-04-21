@@ -207,7 +207,8 @@ module.exports = function (grunt)
             dev: {
                 src: [
                     '<%= appConfig.example %>/index.html',
-                    '<%= appConfig.example %>/dev.html'
+                    '<%= appConfig.example %>/dev.html',
+                    '<%= appConfig.example %>/demos.html'
                 ],
                 ignorePath: /\.\.\//,
                 exclude: [],
@@ -225,7 +226,9 @@ module.exports = function (grunt)
             dist: {
                 src: [
                     '<%= appConfig.example %>/index.html',
-                    '<%= appConfig.example %>/dev.html'
+                    '<%= appConfig.example %>/dev.html',
+                    '<%= appConfig.example %>/demos.html'
+
                 ],
                 ignorePath: /\.\.\//,
                 exclude: [],
@@ -293,6 +296,22 @@ module.exports = function (grunt)
             },
             dev: {
                 src: '<%= appConfig.example %>/dev.html',
+                blocks: {
+                    'module': {
+                        cwd: '<%= appConfig.app %>',
+                        src: [
+                            // module then submodules
+                            '{,*/}**/_*.js',
+                            // all the rest of the files
+                            '{,*/}**/*.js',
+                            // without test files
+                            '!{,*/}**/*.spec.js'
+                        ]
+                    }
+                }
+            },
+            demos: {
+                src: '<%= appConfig.example %>/demos.html',
                 blocks: {
                     'module': {
                         cwd: '<%= appConfig.app %>',

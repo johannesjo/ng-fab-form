@@ -51,11 +51,11 @@ angular.module('ngFabForm')
             // or manually for the validations to work
             setNamesByNgModel: true,
 
-            // add asterisk to required fields (requires jQuery)
+            // add asterisk to required fields
             setAsteriskForRequiredLabel: false,
 
-            // asterisk string to be added if enabled (requires jQuery) and
-            // setAsteriskForRequiredLabel-option set to true
+            // asterisk string to be added if enabled
+            // requires setAsteriskForRequiredLabel-option set to true
             asteriskStr: '*',
 
             // the validation message prefix, results for the default state
