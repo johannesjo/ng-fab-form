@@ -470,8 +470,8 @@ angular.module('ngFabForm')
                 for (var i = 0; i < labels.length; i++) {
                     var label = labels[i];
                     // don't append twice if multiple inputs with the same name
-                    if (label.innerText.slice(-cfg.asteriskStr.length) !== cfg.asteriskStr) {
-                        label.innerText = label.innerText + cfg.asteriskStr;
+                    if (label.textContent.slice(-cfg.asteriskStr.length) !== cfg.asteriskStr) {
+                        label.textContent = label.textContent + cfg.asteriskStr;
                     }
                 }
             }
