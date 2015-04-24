@@ -29,8 +29,11 @@
 
     <h1>Demos</h1>
 
-    <div ng-include="'example1.html'"
+    <div ng-include="exampleUrl"
          class="example"></div>
+
+    <button ng-click="destroy()">Destroy</button>
+    <button ng-click="setExample('simple')">setExample</button>
 </div>
 
 
