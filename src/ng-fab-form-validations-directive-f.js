@@ -12,6 +12,7 @@ angular.module('ngFabForm')
                 ngModelCtrl = params.ngModelCtrl,
                 attrs = params.attrs;
 
+
             // remove error tpl if any
             if (params.currentValidationVars.tpl && (Object.keys(params.currentValidationVars.tpl).length !== 0)) {
                 angular.element(params.currentValidationVars.tpl).remove();
@@ -21,11 +22,14 @@ angular.module('ngFabForm')
             $templateRequest(cfg.validationsTemplate)
                 .then(function processTemplate(html)
                 {
+                    // create new scope for validation messages
+                    var privateScope = $rootScope.$new(true);
+                    // assign to currentValidationVars to be destroyed later
+                    params.currentValidationVars.privateScope = privateScope;
+
                     // add custom (attr) validations
                     html = ngFabForm.addCustomValidations(html, attrs);
 
-                    // create new scope for validation messages
-                    var privateScope = $rootScope.$new(true);
                     privateScope.attrs = attrs;
                     privateScope.form = formCtrl;
                     privateScope.field = ngModelCtrl;
@@ -94,13 +98,16 @@ angular.module('ngFabForm')
                 return function (scope, el, attrs, ngModelCtrl)
                 {
 
-                    var cfg,
+                    var cfg;
                     // assigned via element.controller
-                        formCtrl,
-                    // is object to pass by reference
-                        currentValidationVars = {
-                            tpl: undefined
-                        };
+                    var formCtrl;
+                    var configChangeWatcher;
+                    var formCtrlWatcher;
+                    var currentValidationVars = {
+                        // is in object to be passed by reference
+                        tpl: undefined,
+                        privateScope: undefined
+                    };
 
 
                     function ngFabFormCycle(oldCfg)
@@ -119,6 +126,8 @@ angular.module('ngFabForm')
                         }
                         // otherwise remove if a tpl was set before
                         else if (!cfg.validationsTemplate && currentValidationVars.tpl && (Object.keys(currentValidationVars.tpl).length !== 0)) {
+                            // don't forget to destroy the scope
+                            currentValidationVars.privateScope.$destroy();
                             angular.element(currentValidationVars.tpl).remove();
                         }
 
@@ -159,7 +168,7 @@ angular.module('ngFabForm')
 
 
                                 // watch for config changes
-                                scope.$on(ngFabForm.formChangeEvent, function (ev, newCfg, oldCfg)
+                                configChangeWatcher = scope.$on(ngFabForm.formChangeEvent, function (ev, newCfg, oldCfg)
                                 {
                                     cfg = newCfg;
                                     ngFabFormCycle(oldCfg);
@@ -171,7 +180,7 @@ angular.module('ngFabForm')
                     // INIT
                     // after formCtrl should be ready
                     if (ngFabForm.config.watchForFormCtrl) {
-                        var formCtrlWatcher = scope.$watch(function ()
+                        formCtrlWatcher = scope.$watch(function ()
                         {
                             return el.controller('form');
                         }, function (newVal)
@@ -184,6 +193,12 @@ angular.module('ngFabForm')
                     } else {
                         init();
                     }
+
+                    scope.$on('$destroy', function ()
+                    {
+                        // destroy private scope set for validations
+                        currentValidationVars.privateScope.$destroy();
+                    });
                 };
             }
         };

@@ -7,6 +7,47 @@ describe('validations directive', function ()
         $rootScope,
         $compile;
 
+
+    /**
+     * @see http://stackoverflow.com/questions/18499909/how-to-count-total-number-of-watches-on-a-page
+     * @param root
+     */
+    var getWatchCount = function (root)
+    {
+        var watchers = [];
+
+        var f = function (element)
+        {
+            angular.forEach(['$scope', '$isolateScope'], function (scopeProperty)
+            {
+                if (element.data() && element.data().hasOwnProperty(scopeProperty)) {
+                    angular.forEach(element.data()[scopeProperty].$$watchers, function (watcher)
+                    {
+                        watchers.push(watcher);
+                    });
+                }
+            });
+
+            angular.forEach(element.children(), function (childElement)
+            {
+                f(angular.element(childElement));
+            });
+        };
+
+        f(root);
+
+        // Remove duplicate watchers
+        var watchersWithoutDuplicates = [];
+        angular.forEach(watchers, function (item)
+        {
+            if (watchersWithoutDuplicates.indexOf(item) < 0) {
+                watchersWithoutDuplicates.push(item);
+            }
+        });
+
+        return watchersWithoutDuplicates.length;
+    };
+
     beforeEach(module('ngFabForm'));
 
     beforeEach(inject(function (_$rootScope_, _$compile_, _$timeout_)
@@ -25,7 +66,8 @@ describe('validations directive', function ()
         var element,
             form,
             input,
-            messageContainer;
+            messageContainer,
+            watchCountAfterCompile;
 
         beforeEach(function ()
         {
@@ -33,6 +75,7 @@ describe('validations directive', function ()
                 '<input type="text" ng-model="testInput" required>' +
                 '</form>';
             element = $compile(html)(scope);
+            watchCountAfterCompile = getWatchCount(element);
             scope.$digest();
             // as timeout is used, we need to flush it here
             $timeout.flush();
@@ -50,6 +93,18 @@ describe('validations directive', function ()
         it('should have a validation template appended', function ()
         {
             expect(messageContainer.length > 0).toBeTruthy();
+        });
+
+        it('validation watchers should be removed when the validation message container is', function ()
+        {
+            messageContainer.remove();
+            expect(getWatchCount(element)).toBe(watchCountAfterCompile);
+        });
+
+        it('when scope is destroyed there should be no watchers left', function ()
+        {
+            scope.$destroy();
+            expect(getWatchCount(element)).toBe(0);
         });
 
         it('display a validation message if invalid and no success message', function ()

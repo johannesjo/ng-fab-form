@@ -19,6 +19,7 @@ angular.module('exampleApp', [
 
     .controller('exampleCtrl', function ($anchorScroll, $scope, ngFabForm)
     {
+
         $scope.submit = function ()
         {
             alert('Form submitted');
@@ -29,6 +30,15 @@ angular.module('exampleApp', [
         };
         $scope.defaultFormOptions = ngFabForm.config;
         $scope.customFormOptions = angular.copy(ngFabForm.config);
+
+        $scope.destroy = function ()
+        {
+            $scope.exampleUrl = null;
+        };
+        $scope.setExample = function (example)
+        {
+            $scope.exampleUrl = 'demos/' + example + '.html';
+        };
     })
 
 
