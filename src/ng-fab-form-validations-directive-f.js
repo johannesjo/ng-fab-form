@@ -6,11 +6,11 @@ angular.module('ngFabForm')
 
         function insertValidationMsgs(params)
         {
-            var el = params.el,
-                cfg = params.cfg,
-                formCtrl = params.formCtrl,
-                ngModelCtrl = params.ngModelCtrl,
-                attrs = params.attrs;
+            var el = params.el;
+            var cfg = params.cfg;
+            var formCtrl = params.formCtrl;
+            var ngModelCtrl = params.ngModelCtrl;
+            var attrs = params.attrs;
 
 
             // remove error tpl if any
@@ -38,11 +38,7 @@ angular.module('ngFabForm')
                     var compiledAlert = $compile(html.children())(privateScope);
                     params.currentValidationVars.tpl = compiledAlert[0];
 
-                    // timeout needed here to wait for the template to evaluate
-                    $timeout(function ()
-                    {
-                        ngFabForm.insertErrorTpl(compiledAlert[0], el, attrs);
-                    });
+                    ngFabForm.insertErrorTpl(compiledAlert[0], el, attrs);
                 });
         }
 
@@ -123,9 +119,9 @@ angular.module('ngFabForm')
                                 attrs: attrs,
                                 currentValidationVars: currentValidationVars
                             });
-                        }
-                        // otherwise remove if a tpl was set before
-                        else if (!cfg.validationsTemplate && currentValidationVars.tpl && (Object.keys(currentValidationVars.tpl).length !== 0)) {
+
+                            // otherwise remove if a tpl was set before
+                        } else if (!cfg.validationsTemplate && currentValidationVars.tpl && (Object.keys(currentValidationVars.tpl).length !== 0)) {
                             // don't forget to destroy the scope
                             currentValidationVars.privateScope.$destroy();
                             angular.element(currentValidationVars.tpl).remove();

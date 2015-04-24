@@ -39,7 +39,7 @@ describe('an input with ngFabEnsureExpression-directive', function ()
 
     it('Condition should fail', function ()
     {
-       form.test.$setViewValue('invalid');
+        form.test.$setViewValue('invalid');
 
         expect(form.test.$valid).toBeFalsy();
     });
@@ -47,7 +47,7 @@ describe('an input with ngFabEnsureExpression-directive', function ()
     it('Should show validation message message', function ()
     {
 
-         form.test.$setViewValue(3);
+        form.test.$setViewValue(3);
         var message = messageContainer.find('li');
 
         expect(message.length).toBe(1);
@@ -56,10 +56,10 @@ describe('an input with ngFabEnsureExpression-directive', function ()
 
 
     });
-it('Should not show validation message message', function ()
+    it('Should not show validation message message', function ()
     {
 
-         form.test.$setViewValue(1);
+        form.test.$setViewValue(1);
         var message = messageContainer.find('li');
 
         expect(message.length).toBe(0);

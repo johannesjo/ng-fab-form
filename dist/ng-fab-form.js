@@ -7,10 +7,6 @@ angular.module('ngFabForm')
     {
         'use strict';
 
-        // HELPER VARIABLES
-        var formNames = [];
-
-
         // HELPER FUNCTIONS
         function preventFormSubmit(ev)
         {
@@ -290,73 +286,75 @@ angular.module('ngFabForm')
             return container;
         }
 
+        // default - can be overwritten by config
         var insertErrorTpl = function (compiledAlert, el, attrs)
+        {
+            // insert after or after parent if checkbox or radio
+            if (attrs.type === 'checkbox' || attrs.type === 'radio') {
+                el.parent().after(compiledAlert);
+            } else {
+                el.after(compiledAlert);
+            }
+        };
+
+        // default - can be overwritten by config
+        var scrollTo = (function ()
+        {
+            // t: current time, b: begInnIng value, c: change In value, d: duration
+            // see: https://github.com/danro/jquery-easing/blob/master/jquery.easing.js
+            // and: http://upshots.org/actionscript/jsas-understanding-easing
+            function easeInOutQuad(t, b, c, d)
             {
-                // insert after or after parent if checkbox or radio
-                if (attrs.type === 'checkbox' || attrs.type === 'radio') {
-                    el.parent().after(compiledAlert);
-                } else {
-                    el.after(compiledAlert);
+                if ((t /= d / 2) < 1) {
+                    return c / 2 * t * t + b;
                 }
-            },
+                return -c / 2 * ((--t) * (t - 2) - 1) + b;
+            }
 
-            scrollTo = (function ()
+            // longer scroll duration for longer distances
+            function scaleTimeToDistance(distance, duration)
             {
-                // t: current time, b: begInnIng value, c: change In value, d: duration
-                // see: https://github.com/danro/jquery-easing/blob/master/jquery.easing.js
-                // and: http://upshots.org/actionscript/jsas-understanding-easing
-                function easeInOutQuad(t, b, c, d)
+                var baseDistance = 500;
+                var distanceAbs = Math.abs(distance);
+                var min = duration / 10;
+                return duration * distanceAbs / baseDistance + min;
+            }
+
+
+            return function (targetEl, durationP, scrollOffset)
+            {
+                function animateScroll()
                 {
-                    if ((t /= d / 2) < 1) {
-                        return c / 2 * t * t + b;
-                    }
-                    return -c / 2 * ((--t) * (t - 2) - 1) + b;
-                }
+                    currentTime += increment;
+                    var val = easeInOutQuad(currentTime, start, change, duration);
+                    window.scrollTo(targetX, val);
 
-                // longer scroll duration for longer distances
-                function scaleTimeToDistance(distance, duration)
-                {
-                    var baseDistance = 500;
-                    var distanceAbs = Math.abs(distance);
-                    var min = duration / 10;
-                    return duration * distanceAbs / baseDistance + min;
-                }
-
-
-                return function (targetEl, durationP, scrollOffset)
-                {
-                    function animateScroll()
-                    {
-                        currentTime += increment;
-                        var val = easeInOutQuad(currentTime, start, change, duration);
-                        window.scrollTo(targetX, val);
-
-                        if (currentTime < duration) {
-                            setTimeout(animateScroll, increment);
-                        } else {
-                            targetEl.focus();
-                        }
-                    }
-
-                    var targetY = targetEl.getBoundingClientRect().top + parseInt(scrollOffset),
-                        targetX = targetEl.getBoundingClientRect().left;
-                    var duration = scaleTimeToDistance(targetY, durationP);
-
-                    var start = window.pageYOffset,
-                        change = targetY,
-                        currentTime = 0,
-                        increment = 20;
-
-                    // return if no animation is required
-                    if (change === 0) {
+                    if (currentTime < duration) {
+                        setTimeout(animateScroll, increment);
+                    } else {
                         targetEl.focus();
-                        return;
                     }
+                }
 
-                    // init recursive function
-                    animateScroll();
-                };
-            }());
+                var targetY = targetEl.getBoundingClientRect().top + parseInt(scrollOffset),
+                    targetX = targetEl.getBoundingClientRect().left;
+                var duration = scaleTimeToDistance(targetY, durationP);
+
+                var start = window.pageYOffset,
+                    change = targetY,
+                    currentTime = 0,
+                    increment = 20;
+
+                // return if no animation is required
+                if (change === 0) {
+                    targetEl.focus();
+                    return;
+                }
+
+                // init recursive function
+                animateScroll();
+            };
+        }());
 
         var customValidators;
 
@@ -417,11 +415,11 @@ angular.module('ngFabForm')
 
         function insertValidationMsgs(params)
         {
-            var el = params.el,
-                cfg = params.cfg,
-                formCtrl = params.formCtrl,
-                ngModelCtrl = params.ngModelCtrl,
-                attrs = params.attrs;
+            var el = params.el;
+            var cfg = params.cfg;
+            var formCtrl = params.formCtrl;
+            var ngModelCtrl = params.ngModelCtrl;
+            var attrs = params.attrs;
 
 
             // remove error tpl if any
@@ -449,11 +447,7 @@ angular.module('ngFabForm')
                     var compiledAlert = $compile(html.children())(privateScope);
                     params.currentValidationVars.tpl = compiledAlert[0];
 
-                    // timeout needed here to wait for the template to evaluate
-                    $timeout(function ()
-                    {
-                        ngFabForm.insertErrorTpl(compiledAlert[0], el, attrs);
-                    });
+                    ngFabForm.insertErrorTpl(compiledAlert[0], el, attrs);
                 });
         }
 
@@ -534,9 +528,9 @@ angular.module('ngFabForm')
                                 attrs: attrs,
                                 currentValidationVars: currentValidationVars
                             });
-                        }
-                        // otherwise remove if a tpl was set before
-                        else if (!cfg.validationsTemplate && currentValidationVars.tpl && (Object.keys(currentValidationVars.tpl).length !== 0)) {
+
+                            // otherwise remove if a tpl was set before
+                        } else if (!cfg.validationsTemplate && currentValidationVars.tpl && (Object.keys(currentValidationVars.tpl).length !== 0)) {
                             // don't forget to destroy the scope
                             currentValidationVars.privateScope.$destroy();
                             angular.element(currentValidationVars.tpl).remove();
@@ -616,20 +610,23 @@ angular.module('ngFabForm')
     }]);
 
 angular.module('ngFabForm')
-    .directive('ngFabEnsureExpression', ['$http', '$parse', function ($http, $parse) {
+    .directive('ngFabEnsureExpression', ['$http', '$parse', function ($http, $parse)
+    {
         'use strict';
 
         return {
             require: 'ngModel',
-            link: function (scope, ele, attrs, ngModelController) {
-                scope.$watch(attrs.ngModel, function () {
+            link: function (scope, ele, attrs, ngModelController)
+            {
+                scope.$watch(attrs.ngModel, function ()
+                {
                     var booleanResult = $parse(attrs.ngFabEnsureExpression)(scope);
                     ngModelController.$setValidity('ngFabEnsureExpression', booleanResult);
-                     ngModelController.$validate();
+                    ngModelController.$validate();
                 });
             }
         };
-}]);
+    }]);
 
 angular.module('ngFabForm')
     .directive('ngFabMatch', function match()

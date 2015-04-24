@@ -3,10 +3,6 @@ angular.module('ngFabForm')
     {
         'use strict';
 
-        // HELPER VARIABLES
-        var formNames = [];
-
-
         // HELPER FUNCTIONS
         function preventFormSubmit(ev)
         {

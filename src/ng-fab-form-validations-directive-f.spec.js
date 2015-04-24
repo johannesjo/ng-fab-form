@@ -148,9 +148,6 @@ describe('validations directive', function ()
 
             form.testInput.$setViewValue(null);
             scope.$digest();
-            // another flush is needed as the template is set after
-            // a timeout
-            $timeout.flush();
 
             messageContainer = angular.element(element.children()[1]);
             expect(messageContainer).not.toEqual({});
