@@ -192,8 +192,10 @@ angular.module('ngFabForm')
 
                     scope.$on('$destroy', function ()
                     {
-                        // destroy private scope set for validations
-                        currentValidationVars.privateScope.$destroy();
+                        // destroy private scope set for validations if it was set
+                        if (currentValidationVars && currentValidationVars.privateScope) {
+                            currentValidationVars.privateScope.$destroy();
+                        }
                     });
                 };
             }
