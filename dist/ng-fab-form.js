@@ -52,7 +52,8 @@ angular.module('ngFabForm')
             require: 'form',
             compile: function (el, attrs)
             {
-                var cfg = ngFabForm.config,
+                // create copy of configuration object as it might be modified by ngFabFormOptions
+                var cfg = angular.copy(ngFabForm.config),
                     formSubmitDisabledTimeout;
 
                 // autoset novalidate
