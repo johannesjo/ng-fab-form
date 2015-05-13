@@ -84,7 +84,6 @@ describe('validations directive', function ()
             messageContainer = angular.element(element.children()[1]);
         });
 
-
         it('should set a name according to model', function ()
         {
             expect(input.attr('name')).toBe('testInput');
@@ -107,7 +106,7 @@ describe('validations directive', function ()
             expect(getWatchCount(element)).toBe(0);
         });
 
-        it('display a validation message if invalid and no success message', function ()
+        it('display a validation message if invalid', function ()
         {
             // we have to use $setViewValue otherwise the formCtrl
             // will not update properly
@@ -117,7 +116,11 @@ describe('validations directive', function ()
             expect(message.length).toBe(1);
             expect(message.attr('ng-message')).toBe('required');
             expect(message.text()).toBe('This field is required');
+        });
 
+        it('display no success message if invalid', function ()
+        {
+            form.testInput.$setViewValue(null);
             var successMessage = messageContainer.find('div');
             expect(successMessage.hasClass('ng-hide')).toBe(true);
         });
@@ -125,11 +128,14 @@ describe('validations directive', function ()
         it('display success if valid and no error messages', function ()
         {
             form.testInput.$setViewValue('bla bla bla');
-
             var successMessage = messageContainer.find('div');
             expect(successMessage.length).toBe(1);
             expect(successMessage.hasClass('ng-hide')).toBe(false);
+        });
 
+        it('display no error message if valid', function ()
+        {
+            form.testInput.$setViewValue('bla bla bla');
             var message = messageContainer.find('li');
             expect(message.length).toBe(0);
         });
@@ -254,6 +260,24 @@ describe('validations directive', function ()
         form.testInput.$setViewValue('http://blabla.de');
         var messageContainer = angular.element(element.children()[1]);
         expect(messageContainer.attr('class')).toContain('ng-hide');
+    });
+
+    it('should work for text-input with ng-required instead of required', function ()
+    {
+        var element = $compile('<form>' +
+            '<input type="text" ng-required="true" ng-model="testInput" >' +
+            '</form>')(scope);
+        scope.$digest();
+        $timeout.flush();
+
+        var form = element.controller('form');
+        form.testInput.$setViewValue(null);
+
+        var messageContainer = angular.element(element.children()[1]);
+        var messages = messageContainer.find('li');
+        expect(messages.length).toBe(1);
+        expect(messages.attr('ng-message')).toBe('required');
+        expect(messages.text()).toBe('This field is required');
     });
 
     it('should display a custom validation if set', function ()
@@ -460,10 +484,35 @@ describe('validations directive', function ()
             expect(successMessage.hasClass('ng-hide')).toBe(true);
         });
 
-        it('textarea -display a validation message if invalid and no success message', function ()
+        it('select -display a validation message if invalid and no success message', function ()
         {
             var html = '<form ng-fab-form-options="customFormOptions">' +
                 '<select ng-model="testInput" required><option value=""></option></select>' +
+                '</form>';
+            var element = $compile(html)(scope);
+            scope.$digest();
+            // as timeout is used, we need to flush it here
+            $timeout.flush();
+            var form = element.controller('form');
+            var messageContainer = angular.element(element.children()[1]);
+
+            // we have to use $setViewValue otherwise the formCtrl
+            // will not update properly
+            form.testInput.$setViewValue(null);
+
+            var message = messageContainer.find('li');
+            expect(message.length).toBe(1);
+            expect(message.attr('ng-message')).toBe('required');
+            expect(message.text()).toBe('This field is required');
+
+            var successMessage = messageContainer.find('div');
+            expect(successMessage.hasClass('ng-hide')).toBe(true);
+        });
+
+        it('should work for a select with ng-required instead of required', function ()
+        {
+            var html = '<form ng-fab-form-options="customFormOptions">' +
+                '<select ng-model="testInput" ng-required="true"><option value=""></option></select>' +
                 '</form>';
             var element = $compile(html)(scope);
             scope.$digest();
