@@ -182,6 +182,42 @@ describe('validations directive', function ()
         expect(messageContainer.attr('class')).toContain('ng-hide');
     });
 
+    it('should work inside of an isolate scope', function ()
+    {
+        var element = $compile('<form>' +
+            '<div ng-if="true">' +
+            '<input type="text" required ng-model="testInput" >' +
+            '</div>' +
+            '</form>')(scope);
+        scope.$digest();
+        $timeout.flush();
+        var form = element.controller('form');
+        form.testInput.$setViewValue(null);
+
+        var messageContainer = angular.element(element.find('div')[1]);
+        var message = messageContainer.find('li');
+        expect(message.length).toBe(1);
+        expect(message.attr('ng-message')).toBe('required');
+        expect(message.text()).toBe('This field is required');
+    });
+
+    it('should not throw an error if removed from dom', function ()
+    {
+        var element = $compile('<form>' +
+            '<div ng-if="isPresentInDom">' +
+            '<input type="text" required ng-model="testInput" >' +
+            '</div>' +
+            '</form>')(scope);
+        scope.$digest();
+
+        scope.isPresentInDom = true;
+        scope.$digest();
+        $timeout.flush();
+
+        scope.isPresentInDom = false;
+        scope.$digest();
+    });
+
     it('should not display a validation message for non required email input', function ()
     {
         var element = $compile('<form>' +

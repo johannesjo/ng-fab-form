@@ -318,7 +318,7 @@ describe('a form with config', function ()
         };
         provider.extendConfig(opts);
 
-        var element = $compile('<form </form>')(scope);
+        var element = $compile('<form></form>')(scope);
         scope.$digest();
         var form = element.controller('form');
 
@@ -334,6 +334,30 @@ describe('a form with config', function ()
         expect(provider.$get().config).toEqual(opts);
     }));
 
+    it('ngFabOptions should not overwrite global cfg', inject(function ()
+    {
+        var opts = {
+            validationsTemplate: false,
+            preventInvalidSubmit: false
+        };
+        provider.extendConfig(opts);
+
+        var element = $compile('<form ng-fab-form-options="customFormOptions"></form>')(scope);
+        scope.$digest();
+        var form = element.controller('form');
+
+        expect(form.ngFabFormConfig).toBeDefined();
+
+        scope.customFormOptions = {
+            validationsTemplate: 'test',
+            preventInvalidSubmit: true
+        };
+        scope.$digest();
+
+        // giving all options are changed
+        expect(provider.$get().config.validationsTemplate).toBe(false);
+        expect(provider.$get().config.preventInvalidSubmit).toBe(false);
+    }));
 
     it('can set a custom error-insert function', function ()
     {
