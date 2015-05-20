@@ -192,6 +192,12 @@ And in your template:
 </form>
 ```
 
+## Validate by expression via ngFabEnsureExpression-directive
+```html
+<form>
+  <input type="text" ng-fab-ensure-expression="testModel=='test'" ng-model="testModel" required>
+</form>
+```
 
 ## special validations for special cases (e.g. ng-pattern)
 
