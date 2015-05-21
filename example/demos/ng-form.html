@@ -1,0 +1,64 @@
+<div class="row">
+    <!-- ng-if to test for isolate scopes to work -->
+    <div class="col-sm-7">
+        <h3>Ng-Form Form</h3>
+
+        <form name="defaultForm"
+              ng-submit="submit()">
+
+            <div class="form-group">
+                <label class="control-label">required
+                </label>
+                <input type="text"
+                       class="form-control"
+                       placeholder="TestText"
+                       required=""
+                       ng-model="form3Data.required.deeper">
+            </div>
+
+            <div ng-form class="well">
+                <h4>Nested ng-form</h4>
+                <div class="form-group">
+                    <label class="control-label">required & ng-pattern (/asd/) with validation-msg-required attribute
+                    </label>
+                    <input type="text"
+                           class="form-control"
+                           placeholder="TestText"
+                           ng-pattern="/^asd$/i"
+                           validation-msg-pattern="<i>Not</i> <b>asd</b> :("
+                           name="text"
+                           required=""
+                           ng-model="form3Data.patternRequired">
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">required & maxlength(5) with validation-msg-required attribute
+                    </label>
+                    <input type="text"
+                           class="form-control"
+                           placeholder="TestText"
+                           ng-maxlength="5"
+                           required
+                           validation-msg-required="This is really required!"
+                           ng-model="form3Data.requiredMaxlength">
+                </div>
+                <button type="submit"
+                        class="btn btn-primary">Submit Form
+                </button>
+                <button type="button"
+                        ng-fab-reset-form-on
+                        class="btn btn-warning">Reset form
+                </button>
+            </div>
+        </form>
+
+
+    </div>
+    <div class="col-sm-5">
+        <h3>Form-Data</h3>
+        <pre>{{ form3Data|json}}</pre>
+
+        <h3>Config-Options</h3>
+        <pre>{{ defaultFormOptions|json}}</pre>
+    </div>
+</div>

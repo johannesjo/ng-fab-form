@@ -30,12 +30,13 @@
     <h1>Demos</h1>
     <button ng-click="destroy()">Destroy</button>
     <button ng-click="setExample('simple')">simple</button>
+    <button ng-click="setExample('ng-form')">ng-form</button>
     <button ng-click="setExample('advanced-validations')">advanced-validations</button>
     <button ng-click="setExample('custom-options')">custom-options</button>
     <button ng-click="setExample('plunkr')">plunkr</button>
     <button ng-click="setExample('special-cases')">special-cases</button>
 
-    <div ng-init="exampleUrl='demos/simple.html'"
+    <div ng-init="exampleUrl='demos/ng-form.html'"
          ng-include="exampleUrl"
          class="example"></div>
 </div>
