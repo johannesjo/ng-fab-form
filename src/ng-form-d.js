@@ -1,5 +1,5 @@
 angular.module('ngFabForm')
-    .directive('form', ['ngFabFormDirective', function (ngFabFormDirective)
+    .directive('ngForm', ['ngFabFormDirective', function (ngFabFormDirective)
     {
         'use strict';
 
