@@ -28,15 +28,18 @@
     <a name="demo"></a>
 
     <h1>Demos</h1>
-
-    <div ng-include="exampleUrl"
-         class="example"></div>
-
     <button ng-click="destroy()">Destroy</button>
-    <button ng-click="setExample('simple')">setExample</button>
+    <button ng-click="setExample('simple')">simple</button>
+    <button ng-click="setExample('ng-form')">ng-form</button>
+    <button ng-click="setExample('advanced-validations')">advanced-validations</button>
+    <button ng-click="setExample('custom-options')">custom-options</button>
+    <button ng-click="setExample('plunkr')">plunkr</button>
+    <button ng-click="setExample('special-cases')">special-cases</button>
+
+    <div ng-init="exampleUrl='demos/ng-form.html'"
+         ng-include="exampleUrl"
+         class="example"></div>
 </div>
-
-
 
 
 <!-- /add ga tracking -->

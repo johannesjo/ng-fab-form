@@ -262,6 +262,11 @@ watchForFormCtrl: false
   &lt;input type=&quot;password&quot; ng-model=&quot;pwRepeat&quot; ng-fab-match=&quot;realPassword&quot; required&gt;
 &lt;/form&gt;
 </code></pre>
+<h2 id="validate-by-expression-via-ngfabensureexpression-directive">Validate by expression via ngFabEnsureExpression-directive</h2>
+<pre><code class="lang-html">&lt;form&gt;
+  &lt;input type=&quot;text&quot; ng-fab-ensure-expression=&quot;testModel==&#39;test&#39;&quot; ng-model=&quot;testModel&quot; required&gt;
+&lt;/form&gt;
+</code></pre>
 <h2 id="special-validations-for-special-cases-e-g-ng-pattern-">special validations for special cases (e.g. ng-pattern)</h2>
 <p>Sometimes you might want to have another text for a specific context. Special validation-messages like this are easily added like this:</p>
 <pre><code class="lang-html">&lt;input type=&quot;text&quot;
