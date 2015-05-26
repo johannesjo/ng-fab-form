@@ -77,6 +77,10 @@ angular.module('ngFabForm')
             // option to disable forms by wrapping them in a disabled <fieldset> element
             disabledForms: true,
 
+            // option to disable ng-fab-form globally and use it only manually
+            // via the ng-fab-form directive
+            globalFabFormDisable: false,
+
             // add noovalidate to forms
             setNovalidate: true,
 
@@ -87,7 +91,8 @@ angular.module('ngFabForm')
             // or manually for the validations to work
             setNamesByNgModel: true,
 
-            // add asterisk to required fields
+            // add asterisk to required fields; only
+            // works when the forms are NOT globally disabled
             setAsteriskForRequiredLabel: false,
 
             // asterisk string to be added if enabled
@@ -335,13 +340,13 @@ angular.module('ngFabForm')
 
                 // only execute if ng-model is present and
                 // no name attr is set already
-                // NOTE: needs to be set in $compile-function for the validation too work
-                if (ngFabForm.config.setNamesByNgModel && attrs.ngModel && !attrs.name) {
+                // NOTE: needs to be set in $compile-function for the
+                // validation to work
+                if (ngFabForm.config.setNamesByNgModel && attrs.ngModel && !attrs.name && !ngFabForm.config.globalFabFormDisable) {
                     // set name attribute if none is set
                     el.attr('name', attrs.ngModel);
                     attrs.name = attrs.ngModel;
                 }
-
 
                 // Linking function
                 return function (scope, el, attrs, ngModelCtrl)
@@ -390,6 +395,8 @@ angular.module('ngFabForm')
                     {
                         $timeout(function ()
                         {
+
+
                             // if controller is not accessible via require
                             // get it from the element
                             formCtrl = el.controller('form');
@@ -401,6 +408,13 @@ angular.module('ngFabForm')
                                     cfg = formCtrl.ngFabFormConfig;
                                 }
 
+                                // if globally disabled by the globalFabFormDisable setting
+                                // and there is still no config available return
+                                if (!cfg) {
+                                    return;
+                                }
+
+
                                 // overwrite email-validation
                                 if (cfg.emailRegex && attrs.type === 'email') {
                                     ngModelCtrl.$validators.email = function (value)
@@ -409,10 +423,12 @@ angular.module('ngFabForm')
                                     };
                                 }
 
+                                // set custom validators
                                 if (ngFabForm.customValidators) {
                                     ngFabForm.customValidators(ngModelCtrl, attrs);
                                 }
 
+                                // start first cycle
                                 ngFabFormCycle();
 
 
@@ -586,13 +602,17 @@ angular.module('ngFabForm')
                 var cfg = angular.copy(ngFabForm.config),
                     formSubmitDisabledTimeout;
 
+                // if global disable and fab-form not explicitly set
+                if (cfg.globalFabFormDisable === true && angular.isUndefined(attrs.ngFabForm)) {
+                    return;
+                }
+
                 // autoset novalidate
                 if (!attrs.novalidate && cfg.setNovalidate) {
                     // set name attribute if none is set
                     el.attr('novalidate', true);
                     attrs.novalidate = true;
                 }
-
 
                 /**
                  * linking functions

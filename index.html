@@ -184,13 +184,18 @@ scrollAnimationTime: 500,
 // fixed offset for scroll to element
 scrollOffset: -100,
 
-
+// ***************************************************
 // The following options are not configurable via the
 // ngFabFormOptions-directive as they need to be
 // available during the $compile-phase
+// ***************************************************
 
 // option to disable forms by wrapping them in a disabled &lt;fieldset&gt; element
 disabledForms: true,
+
+// option to disable ng-fab-form globally and use it only manually
+// via the ng-fab-form directive
+globalFabFormDisable: false,
 
 // add noovalidate to forms
 setNovalidate: true,
@@ -202,24 +207,28 @@ setNovalidate: true,
 // or manually for the validations to work
 setNamesByNgModel: true,
 
-// add asterisk to required fields
+// add asterisk to required fields; only
+// works when the forms are NOT globally disabled
 setAsteriskForRequiredLabel: false,
 
-// asterisk string to be added if set and
-// setAsteriskForRequiredLabel-option set to true
+// asterisk string to be added if enabled
+// requires setAsteriskForRequiredLabel-option set to true
 asteriskStr: &#39;*&#39;,
 
-// the validation message prefix, results for the default state in
+// the validation message prefix, results for the default state
 // `validation-msg-required` or `validation-msg-your-custom-validation`
-validationMsgPrefix: &#39;validationMsg&#39;
+validationMsgPrefix: &#39;validationMsg&#39;,
 
 // default email-regex, set to false to deactivate overwrite
-emailRegex: /[a-z0-9!#$%&amp;&#39;*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&amp;&#39;*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
+emailRegex: /[a-z0-9!#$%&amp;&#39;*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&amp;&#39;*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
 
 // in very rare cases (e.g. for some form-builders) your form
 // controller might not be ready before your model-controllers are,
 // for those instances set this option to true
-watchForFormCtrl: false
+watchForFormCtrl: false,
+
+// name of the change event, change if there are conflicts
+formChangeEvent: &#39;NG_FAB_FORM_OPTIONS_CHANGED&#39;
 </code></pre><p>You can easily extend those configurations like this:</p>
 <pre><code class="lang-javascript">angular.module(&#39;exampleApp&#39;, [
     &#39;ngFabForm&#39;
@@ -459,6 +468,22 @@ watchForFormCtrl: false
   ngFabFormProvider.setCustomValidatorsFn(customValidatorFn);
 });
 </code></pre>
+<h3 id="deactivate-ng-fab-form-globally-and-only-use-it-via-the-ng-fab-form-directive">deactivate ng-fab-form globally and only use it via the <code>ng-fab-form</code>-directive</h3>
+<p>If needed, you can configure <code>ng-fab-form</code> to be only used by the <code>ng-fab-form</code>-directive.</p>
+<pre><code class="lang-javascript">angular.module(&#39;exampleApp&#39;, [
+    &#39;ngFabForm&#39;
+])
+    .config(function (ngFabFormProvider)
+    {
+        ngFabFormProvider.extendConfig({
+            globalFabFormDisable: true
+        });
+    });
+</code></pre>
+<p>Then in your template, you just add <code>ng-fab-form</code> to the forms in question:</p>
+<pre><code class="lang-html">&lt;form ng-fab-form&gt;&lt;/form&gt;
+</code></pre>
+<p>There is a drawback: This won&#39;t work together with the setAsteriskForLabel-option.</p>
 <h2 id="-contribute-">❤ contribute ❤</h2>
 <p>I&#39;m happy for any <a href="https://github.com/johannesjo/ng-fab-form/issues">issue or feature request</a>, you might encounter or want to have. Even a one liner is better, than no feedback at all. Pull requests are also highly welcome. Just fork the repository, clone it and run <code>grunt serve</code> for development. Another important factor is the number of developers using and thus testing <code>ng-fab-form</code>. Tell your fellow programmers, <a href="http://ngmodules.org/modules/ng-fab-form">say that you use it on ng-modules</a>, tweet or even blog about it.</p>
 <p><code>ng-fab-form</code> is published under the <a href="https://github.com/johannesjo/ng-fab-form/blob/master/LICENSE">The GNU Lesser General Public License V2.1</a>.</p>
