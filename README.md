@@ -103,13 +103,18 @@ scrollAnimationTime: 500,
 // fixed offset for scroll to element
 scrollOffset: -100,
 
-
+// ***************************************************
 // The following options are not configurable via the
 // ngFabFormOptions-directive as they need to be
 // available during the $compile-phase
+// ***************************************************
 
 // option to disable forms by wrapping them in a disabled <fieldset> element
 disabledForms: true,
+
+// option to disable ng-fab-form globally and use it only manually
+// via the ng-fab-form directive
+globalFabFormDisable: false,
 
 // add noovalidate to forms
 setNovalidate: true,
@@ -121,24 +126,28 @@ setNovalidate: true,
 // or manually for the validations to work
 setNamesByNgModel: true,
 
-// add asterisk to required fields
+// add asterisk to required fields; only
+// works when the forms are NOT globally disabled
 setAsteriskForRequiredLabel: false,
 
-// asterisk string to be added if set and
-// setAsteriskForRequiredLabel-option set to true
+// asterisk string to be added if enabled
+// requires setAsteriskForRequiredLabel-option set to true
 asteriskStr: '*',
 
-// the validation message prefix, results for the default state in
+// the validation message prefix, results for the default state
 // `validation-msg-required` or `validation-msg-your-custom-validation`
-validationMsgPrefix: 'validationMsg'
+validationMsgPrefix: 'validationMsg',
 
 // default email-regex, set to false to deactivate overwrite
-emailRegex: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
+emailRegex: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
 
 // in very rare cases (e.g. for some form-builders) your form
 // controller might not be ready before your model-controllers are,
 // for those instances set this option to true
-watchForFormCtrl: false
+watchForFormCtrl: false,
+
+// name of the change event, change if there are conflicts
+formChangeEvent: 'NG_FAB_FORM_OPTIONS_CHANGED'
 ```
 You can easily extend those configurations like this:
 ```javascript
@@ -423,6 +432,24 @@ angular.module('exampleApp', [
 
 ```
 
+### deactivate ng-fab-form globally and only use it via the `ng-fab-form`-directive
+If needed, you can configure `ng-fab-form` to be only used by the `ng-fab-form`-directive.
+```javascript
+angular.module('exampleApp', [
+    'ngFabForm'
+])
+    .config(function (ngFabFormProvider)
+    {
+        ngFabFormProvider.extendConfig({
+            globalFabFormDisable: true
+        });
+    });
+```
+Then in your template, you just add `ng-fab-form` to the forms in question:
+```html
+<form ng-fab-form></form>
+``` 
+There is a drawback: This won't work together with the setAsteriskForLabel-option.
 
 
 ## ❤ contribute ❤
