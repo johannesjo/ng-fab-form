@@ -306,6 +306,7 @@ describe('a form with config', function ()
             scrollAnimationTime: 0,
             scrollOffset: -2100,
             disabledForms: false,
+            globalFabFormDisable: false,
             setNovalidate: false,
             setNamesByNgModel: false,
             setAsteriskForRequiredLabel: false,
@@ -332,6 +333,34 @@ describe('a form with config', function ()
 
         // giving all options are changed
         expect(provider.$get().config).toEqual(opts);
+    }));
+
+    it('can be globally disabled by providing the globalFabFormDisable option', inject(function ()
+    {
+        var opts = {
+            globalFabFormDisable: true
+        };
+        provider.extendConfig(opts);
+
+        var element = $compile('<form></form>')(scope);
+        scope.$digest();
+        var form = element.controller('form');
+
+        expect(form.ngFabFormConfig).toBeUndefined();
+    }));
+
+    it('when globally disabled, it still could be called by using the ng-fab-form directive', inject(function ()
+    {
+        var opts = {
+            globalFabFormDisable: true
+        };
+        provider.extendConfig(opts);
+
+        var element = $compile('<form ng-fab-form></form>')(scope);
+        scope.$digest();
+        var form = element.controller('form');
+
+        expect(form.ngFabFormConfig).toBeDefined();
     }));
 
     it('ngFabOptions should not overwrite global cfg', inject(function ()

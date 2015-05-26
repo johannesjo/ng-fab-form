@@ -53,13 +53,17 @@ angular.module('ngFabForm')
                 var cfg = angular.copy(ngFabForm.config),
                     formSubmitDisabledTimeout;
 
+                // if global disable and fab-form not explicitly set
+                if (cfg.globalFabFormDisable === true && angular.isUndefined(attrs.ngFabForm)) {
+                    return;
+                }
+
                 // autoset novalidate
                 if (!attrs.novalidate && cfg.setNovalidate) {
                     // set name attribute if none is set
                     el.attr('novalidate', true);
                     attrs.novalidate = true;
                 }
-
 
                 /**
                  * linking functions

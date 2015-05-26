@@ -82,13 +82,13 @@ angular.module('ngFabForm')
 
                 // only execute if ng-model is present and
                 // no name attr is set already
-                // NOTE: needs to be set in $compile-function for the validation too work
-                if (ngFabForm.config.setNamesByNgModel && attrs.ngModel && !attrs.name) {
+                // NOTE: needs to be set in $compile-function for the
+                // validation to work
+                if (ngFabForm.config.setNamesByNgModel && attrs.ngModel && !attrs.name && !ngFabForm.config.globalFabFormDisable) {
                     // set name attribute if none is set
                     el.attr('name', attrs.ngModel);
                     attrs.name = attrs.ngModel;
                 }
-
 
                 // Linking function
                 return function (scope, el, attrs, ngModelCtrl)
@@ -137,6 +137,8 @@ angular.module('ngFabForm')
                     {
                         $timeout(function ()
                         {
+
+
                             // if controller is not accessible via require
                             // get it from the element
                             formCtrl = el.controller('form');
@@ -148,6 +150,13 @@ angular.module('ngFabForm')
                                     cfg = formCtrl.ngFabFormConfig;
                                 }
 
+                                // if globally disabled by the globalFabFormDisable setting
+                                // and there is still no config available return
+                                if (!cfg) {
+                                    return;
+                                }
+
+
                                 // overwrite email-validation
                                 if (cfg.emailRegex && attrs.type === 'email') {
                                     ngModelCtrl.$validators.email = function (value)
@@ -156,10 +165,12 @@ angular.module('ngFabForm')
                                     };
                                 }
 
+                                // set custom validators
                                 if (ngFabForm.customValidators) {
                                     ngFabForm.customValidators(ngModelCtrl, attrs);
                                 }
 
+                                // start first cycle
                                 ngFabFormCycle();
 
 

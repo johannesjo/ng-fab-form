@@ -171,8 +171,8 @@ describe('validations directive', function ()
     it('should not display a validation message for non required url input', function ()
     {
         var element = $compile('<form>' +
-        '<input type="url" ng-model="testInput" >' +
-        '</form>')(scope);
+            '<input type="url" ng-model="testInput" >' +
+            '</form>')(scope);
         scope.$digest();
         $timeout.flush();
         var form = element.controller('form');
@@ -221,8 +221,8 @@ describe('validations directive', function ()
     it('should not display a validation message for non required email input', function ()
     {
         var element = $compile('<form>' +
-        '<input type="email" ng-model="testInput" >' +
-        '</form>')(scope);
+            '<input type="email" ng-model="testInput" >' +
+            '</form>')(scope);
         scope.$digest();
         $timeout.flush();
         var form = element.controller('form');
@@ -235,8 +235,8 @@ describe('validations directive', function ()
     it('should not throw an error for input:email without ng-model', function ()
     {
         var element = $compile('<form>' +
-        '<input type="email">' +
-        '</form>')(scope);
+            '<input type="email">' +
+            '</form>')(scope);
         scope.$digest();
         $timeout.flush();
         var form = element.controller('form');
@@ -252,8 +252,8 @@ describe('validations directive', function ()
     it('should not throw an error for input:url without ng-model', function ()
     {
         var element = $compile('<form>' +
-        '<input type="url">' +
-        '</form>')(scope);
+            '<input type="url">' +
+            '</form>')(scope);
         scope.$digest();
         $timeout.flush();
         var form = element.controller('form');
@@ -269,8 +269,8 @@ describe('validations directive', function ()
     it('should not display errors for input:email with required attribute, when no ng-model is set', function ()
     {
         var element = $compile('<form>' +
-        '<input type="email" required>' +
-        '</form>')(scope);
+            '<input type="email" required>' +
+            '</form>')(scope);
         scope.$digest();
         $timeout.flush();
         var form = element.controller('form');
@@ -286,8 +286,8 @@ describe('validations directive', function ()
     it('should not display the success element for simple inputs', function ()
     {
         var element = $compile('<form>' +
-        '<input type="url" ng-model="testInput" >' +
-        '</form>')(scope);
+            '<input type="url" ng-model="testInput" >' +
+            '</form>')(scope);
         scope.$digest();
         $timeout.flush();
         var form = element.controller('form');
@@ -319,8 +319,8 @@ describe('validations directive', function ()
     it('should display a custom validation if set', function ()
     {
         var element = $compile('<form>' +
-        '<input type="text" ng-model="testInput" validation-msg-required ="some custom message" required>' +
-        '</form>')(scope);
+            '<input type="text" ng-model="testInput" validation-msg-required ="some custom message" required>' +
+            '</form>')(scope);
         scope.$digest();
         $timeout.flush();
         var form = element.controller('form');
@@ -340,8 +340,8 @@ describe('validations directive', function ()
     it('should support html for custom validation messages', function ()
     {
         var element = $compile('<form>' +
-        '<input type="text" ng-model="testInput" validation-msg-required ="<b>some</b> custom message" required>' +
-        '</form>')(scope);
+            '<input type="text" ng-model="testInput" validation-msg-required ="<b>some</b> custom message" required>' +
+            '</form>')(scope);
         scope.$digest();
         $timeout.flush();
         var form = element.controller('form');
@@ -445,8 +445,8 @@ describe('validations directive', function ()
     it('should overwrite email-validations with a better pattern', function ()
     {
         var element = $compile('<form>' +
-        '<input type="email" ng-model="testInput" validation-msg-email ="some custom message" required>' +
-        '</form>')(scope);
+            '<input type="email" ng-model="testInput" validation-msg-email ="some custom message" required>' +
+            '</form>')(scope);
         scope.$digest();
         $timeout.flush();
         var form = element.controller('form');
@@ -474,8 +474,8 @@ describe('validations directive', function ()
     it('should work with nested model values', function ()
     {
         var element = $compile('<form>' +
-        '<input type="text" ng-model="testInput.deeper.andDeeper.andDeeper" required>' +
-        '</form>')(scope);
+            '<input type="text" ng-model="testInput.deeper.andDeeper.andDeeper" required>' +
+            '</form>')(scope);
         scope.$digest();
         $timeout.flush();
 
@@ -632,6 +632,51 @@ describe('validations directive with config', function ()
         element.remove();
     });
 
+
+    it('does not append validation messages, if forms are globally disabled', function ()
+    {
+        provider.extendConfig({
+            globalFabFormDisable: true
+        });
+
+        var html = '<form>' +
+            '<input ng-model="testInput" required>' +
+            '</form>';
+
+        element = $compile(html)(scope);
+        scope.$digest();
+        $timeout.flush();
+        var form = element.controller('form');
+
+        scope.testInput = null;
+        scope.$digest();
+
+        var messageContainer = angular.element(element.children()[1]);
+        expect(messageContainer).toEqual({});
+    });
+
+    it('does append validation messages, if forms are globally disabled but the ng-fab-form attribute is provided', function ()
+    {
+        provider.extendConfig({
+            globalFabFormDisable: true
+        });
+
+        var html = '<form ng-fab-form>' +
+            '<input ng-model="testInput" required>' +
+            '</form>';
+
+        element = $compile(html)(scope);
+        scope.$digest();
+        $timeout.flush();
+        var form = element.controller('form');
+
+        scope.testInput = null;
+        scope.$digest();
+
+        var messageContainer = angular.element(element.children()[1]);
+        expect(messageContainer).toBeDefined();
+    });
+
     it('displays an asterisk for labels with proper for attribute for a required field, if config is set', function ()
     {
         provider.extendConfig({
@@ -692,7 +737,6 @@ describe('validations directive with config', function ()
         }, 25);
     });
 
-
     it('displays an asterisk for labels directly before a required field, if config is set', function ()
     {
         provider.extendConfig({
@@ -752,8 +796,8 @@ describe('validations directive with config', function ()
         });
 
         var element = $compile('<form>' +
-        '<input type="email" ng-model="testInput" validation-msg-email ="some custom message" required>' +
-        '</form>')(scope);
+            '<input type="email" ng-model="testInput" validation-msg-email ="some custom message" required>' +
+            '</form>')(scope);
         scope.$digest();
         $timeout.flush();
         var form = element.controller('form');

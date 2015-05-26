@@ -41,6 +41,10 @@ angular.module('ngFabForm')
             // option to disable forms by wrapping them in a disabled <fieldset> element
             disabledForms: true,
 
+            // option to disable ng-fab-form globally and use it only manually
+            // via the ng-fab-form directive
+            globalFabFormDisable: false,
+
             // add noovalidate to forms
             setNovalidate: true,
 
@@ -51,7 +55,8 @@ angular.module('ngFabForm')
             // or manually for the validations to work
             setNamesByNgModel: true,
 
-            // add asterisk to required fields
+            // add asterisk to required fields; only
+            // works when the forms are NOT globally disabled
             setAsteriskForRequiredLabel: false,
 
             // asterisk string to be added if enabled
