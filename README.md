@@ -276,6 +276,12 @@ This is what the default validation template looks like:
         <li ng-message="max"
             ng-if="attrs.type === 'date' ">The date provided should be before {{attrs.max |date: 'dd.MM.yy'}}
         </li>
+        <li ng-message="min"
+            ng-if="attrs.type === 'number' ">The number provided should be at least {{attrs.min}}
+          </li>
+        <li ng-message="max"
+            ng-if="attrs.type === 'number' ">The number provided should be at max {{attrs.max}}
+        </li>
     </ul>
     <!-- It is also possible to show a success element
     using the standard form syntax -->
