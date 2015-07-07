@@ -5,6 +5,7 @@
     "type": "git",
     "url": "https://github.com/johannesjo/ng-fab-form.git"
   },
+  "main": "dist/ng-fab-form.js",
   "devDependencies": {
     "google-cdn": "^1.0.0",
     "google-cdn-data": "^0.1.14",
