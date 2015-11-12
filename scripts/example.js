@@ -39,6 +39,11 @@ angular.module('exampleApp', [
         {
             $scope.exampleUrl = 'demos/' + example + '.html';
         };
+
+        $scope.arrayForRepeat = [];
+        for (var i = 0; i < 20; i++) {
+            $scope.arrayForRepeat.push(i);
+        }
     })
 
 

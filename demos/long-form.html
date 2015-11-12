@@ -1,0 +1,127 @@
+<h3>form with many fields</h3>
+
+<div class="row" ng-init="formData={}">
+    <div class="col-sm-7">
+        <form ng-fab-form-options="customFormOptions">
+            <div ng-repeat="i in arrayForRepeat">
+                <h4>{{ i }}</h4>
+                <div class="form-group">
+                    <label class="control-label">required
+                    </label>
+                    <input type="text"
+                           class="form-control"
+                           placeholder="TestText"
+                           required=""
+                           ng-model="formData.required.deeper">
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">required & ng-pattern (/asd/) with validation-msg-required attribute
+                    </label>
+                    <input type="text"
+                           class="form-control"
+                           placeholder="TestText"
+                           ng-pattern="/^asd$/i"
+                           validation-msg-pattern="<i>Not</i> <b>asd</b> :("
+                           name="text"
+                           required=""
+                           ng-model="formData.patternRequired">
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">required & maxlength(5) with validation-msg-required attribute
+                    </label>
+                    <input type="text"
+                           class="form-control"
+                           placeholder="TestText"
+                           ng-maxlength="5"
+                           required
+                           validation-msg-required="This is really required!"
+                           ng-model="formData.requiredMaxlength">
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-sm-5">
+        <h3>Config-Options</h3>
+
+        <form name="configOptions">
+            <input type="text"
+                   class="form-control"
+                   placeholder="validationsTemplate"
+                   required
+                   ng-model="customFormOptions.validationsTemplate">
+            <div class="form-group">
+                <button type="button"
+                        ng-click="(customFormOptions.validationsTemplate  != false) ? customFormOptions.validationsTemplate=false: customFormOptions.validationsTemplate=defaultFormOptions.validationsTemplate;">
+                    Set validationsTemplate to <span ng-show="customFormOptions.validationsTemplate">false</span>
+                    <span ng-hide="customFormOptions.validationsTemplate">{{ defaultFormOptions.validationsTemplate }}</span>
+                </button>
+            </div>
+
+
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox"
+                               ng-model="customFormOptions.preventInvalidSubmit">
+                        preventInvalidSubmit
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox"
+                               ng-model="customFormOptions.setFormDirtyOnSubmit">
+                        setFormDirtyOnSubmit
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox"
+                               ng-model="customFormOptions.preventDoubleSubmit">
+                        preventDoubleSubmit
+                    </label>
+                </div>
+            </div>
+            <input type="text"
+                   class="form-control"
+                   placeholder="preventDoubleSubmitTimeoutLength"
+                   required
+                   ng-if="customFormOptions.preventDoubleSubmit"
+                   ng-model="customFormOptions.preventDoubleSubmitTimeoutLength">
+
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox"
+                               ng-model="customFormOptions.scrollToAndFocusFirstErrorOnSubmit">
+                        scrollToAndFocusFirstErrorOnSubmit
+                    </label>
+                </div>
+            </div>
+            <input type="text"
+                   class="form-control"
+                   placeholder="scrollAnimationTime in ms or 'smooth'"
+                   required
+                   ng-if="customFormOptions.scrollToAndFocusFirstErrorOnSubmit"
+                   ng-model="customFormOptions.scrollAnimationTime">
+
+            <input type="number"
+                   class="form-control"
+                   placeholder="scrollOffset in px"
+                   required
+                   ng-if="customFormOptions.scrollToAndFocusFirstErrorOnSubmit"
+                   ng-model="customFormOptions.scrollOffset">
+        </form>
+
+        <h4>Options Object</h4>
+        <pre>{{ customFormOptions |json }}</pre>
+    </div>
+
+</div>

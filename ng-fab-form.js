@@ -251,13 +251,13 @@ angular.module('ngFabForm').run(['$templateCache', function($templateCache) {
   'use strict';
 
   $templateCache.put('default-validation-msgs.html',
-    "<div ng-messages=\"field.$error\" class=\"validation\" ng-show=\"attrs.required==''|| attrs.required\"><ul class=\"list-unstyled validation-errors\" ng-show=\"field.$invalid && (field.$touched || field.$dirty || form.$triedSubmit)\"><li ng-message=\"required\">This field is required</li><li ng-message=\"ngFabEnsureExpression\">Not valid condition</li><li ng-message=\"password\">Please enter a valid password</li><li ng-message=\"email\">Please enter a valid e-mail</li><li ng-message=\"pattern\">Invalid input format</li><li ng-message=\"date\">Please enter a valid date</li><li ng-message=\"time\">Please enter a valid time</li><li ng-message=\"datetime\">Please enter a valid date and time</li><li ng-message=\"datetime-local\">Please enter a valid date and time</li><li ng-message=\"number\">This field must be numeric</li><li ng-message=\"color\">Please enter a valid color</li><li ng-message=\"range\">Please enter a valid range</li><li ng-message=\"month\">Please enter a valid month</li><li ng-message=\"url\">Please enter a valid URL</li><li ng-message=\"file\">Invalid file</li><li ng-message=\"minlength\">Please use at least {{ attrs.minlength }} characters</li><li ng-message=\"maxlength\">Please do not exceed {{ attrs.maxlength }} characters</li><li ng-message=\"ngFabMatch\">The {{ attrs.type ==='password'? 'passwords' : 'values' }} should match</li><li ng-if=\"attrs.type == 'time' \" ng-message=\"min\">The time provided should after {{ attrs.min |date: 'HH:MM' }}</li><li ng-message=\"max\" ng-if=\"attrs.type == 'time' \">The time provided should be before {{attrs.max |date: 'HH:MM'}}</li><li ng-message=\"min\" ng-if=\"attrs.type == 'date' \">The date provided should be after {{attrs.min |date:'dd.MM.yy'}}</li><li ng-message=\"max\" ng-if=\"attrs.type == 'date' \">The date provided should be before {{attrs.max |date: 'dd.MM.yy'}}</li></ul><div class=\"validation-success\" ng-show=\"field.$valid && !field.$invalid\"></div></div>"
+    "<div ng-messages=\"field.$error\" class=\"validation\" ng-show=\"attrs.required==''|| attrs.required\"><ul class=\"list-unstyled validation-errors\" ng-show=\"field.$invalid && (field.$touched || field.$dirty || form.$triedSubmit)\"><li ng-message=\"required\">This field is required</li><li ng-message=\"ngFabEnsureExpression\">Not valid condition</li><li ng-message=\"password\">Please enter a valid password</li><li ng-message=\"email\">Please enter a valid e-mail</li><li ng-message=\"pattern\">Invalid input format</li><li ng-message=\"date\">Please enter a valid date</li><li ng-message=\"time\">Please enter a valid time</li><li ng-message=\"datetime\">Please enter a valid date and time</li><li ng-message=\"datetime-local\">Please enter a valid date and time</li><li ng-message=\"number\">This field must be numeric</li><li ng-message=\"color\">Please enter a valid color</li><li ng-message=\"range\">Please enter a valid range</li><li ng-message=\"month\">Please enter a valid month</li><li ng-message=\"url\">Please enter a valid URL</li><li ng-message=\"file\">Invalid file</li><li ng-message=\"minlength\">Please use at least {{ attrs.minlength }} characters</li><li ng-message=\"maxlength\">Please do not exceed {{ attrs.maxlength }} characters</li><li ng-message=\"ngFabMatch\">The {{ attrs.type ==='password'? 'passwords' : 'values' }} should match</li><li ng-if=\"attrs.type == 'time' \" ng-message=\"min\">The time provided should after {{ attrs.min |date: 'HH:MM' }}</li><li ng-message=\"max\" ng-if=\"attrs.type == 'time' \">The time provided should be before {{attrs.max |date: 'HH:MM'}}</li><li ng-message=\"min\" ng-if=\"attrs.type == 'date' \">The date provided should be after {{attrs.min |date:'dd.MM.yy'}}</li><li ng-message=\"max\" ng-if=\"attrs.type == 'date' \">The date provided should be before {{attrs.max |date: 'dd.MM.yy'}}</li><li ng-message=\"min\" ng-if=\"attrs.type === 'number' \">The number provided should be at least {{attrs.min}}</li><li ng-message=\"max\" ng-if=\"attrs.type === 'number' \">The number provided should be at max {{attrs.max}}</li></ul><div class=\"validation-success\" ng-show=\"field.$valid && !field.$invalid\"></div></div>"
   );
 
 }]);
 
 angular.module('ngFabForm')
-    .factory('ngFabFormValidationsDirective', ['ngFabForm', '$compile', '$templateRequest', '$rootScope', '$timeout', function (ngFabForm, $compile, $templateRequest, $rootScope, $timeout)
+    .factory('ngFabFormValidationsDirective', ['ngFabForm', '$compile', '$templateRequest', function (ngFabForm, $compile, $templateRequest)
     {
         'use strict';
 
@@ -269,6 +269,7 @@ angular.module('ngFabForm')
             var formCtrl = params.formCtrl;
             var ngModelCtrl = params.ngModelCtrl;
             var attrs = params.attrs;
+            var dScope = params.scope;
 
 
             // remove error tpl if any
@@ -281,7 +282,7 @@ angular.module('ngFabForm')
                 .then(function processTemplate(html)
                 {
                     // create new scope for validation messages
-                    var privateScope = $rootScope.$new(true);
+                    var privateScope = dScope.$new(true);
                     // assign to currentValidationVars to be destroyed later
                     params.currentValidationVars.privateScope = privateScope;
 
@@ -370,6 +371,7 @@ angular.module('ngFabForm')
                         // only if required controllers and validators are set
                         if (ngModelCtrl && cfg.validationsTemplate && ((Object.keys(ngModelCtrl.$validators).length !== 0) || (Object.keys(ngModelCtrl.$asyncValidators).length !== 0)) && (!oldCfg || cfg.validationsTemplate !== oldCfg.validationsTemplate)) {
                             insertValidationMsgs({
+                                scope: scope,
                                 el: el,
                                 cfg: cfg,
                                 formCtrl: formCtrl,
@@ -393,10 +395,8 @@ angular.module('ngFabForm')
 
                     function init()
                     {
-                        $timeout(function ()
+                        scope.$evalAsync(function ()
                         {
-
-
                             // if controller is not accessible via require
                             // get it from the element
                             formCtrl = el.controller('form');
@@ -439,7 +439,7 @@ angular.module('ngFabForm')
                                     ngFabFormCycle(oldCfg);
                                 });
                             }
-                        }, 0);
+                        });
                     }
 
                     // INIT
