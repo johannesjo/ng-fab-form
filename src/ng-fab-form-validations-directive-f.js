@@ -11,6 +11,7 @@ angular.module('ngFabForm')
             var formCtrl = params.formCtrl;
             var ngModelCtrl = params.ngModelCtrl;
             var attrs = params.attrs;
+            var dScope = params.scope;
 
 
             // remove error tpl if any
@@ -23,7 +24,7 @@ angular.module('ngFabForm')
                 .then(function processTemplate(html)
                 {
                     // create new scope for validation messages
-                    var privateScope = $rootScope.$new(true);
+                    var privateScope = dScope.$new(true);
                     // assign to currentValidationVars to be destroyed later
                     params.currentValidationVars.privateScope = privateScope;
 
@@ -112,6 +113,7 @@ angular.module('ngFabForm')
                         // only if required controllers and validators are set
                         if (ngModelCtrl && cfg.validationsTemplate && ((Object.keys(ngModelCtrl.$validators).length !== 0) || (Object.keys(ngModelCtrl.$asyncValidators).length !== 0)) && (!oldCfg || cfg.validationsTemplate !== oldCfg.validationsTemplate)) {
                             insertValidationMsgs({
+                                scope: scope,
                                 el: el,
                                 cfg: cfg,
                                 formCtrl: formCtrl,
@@ -137,8 +139,6 @@ angular.module('ngFabForm')
                     {
                         $timeout(function ()
                         {
-
-
                             // if controller is not accessible via require
                             // get it from the element
                             formCtrl = el.controller('form');
