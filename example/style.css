@@ -1,3 +1,6 @@
+[ng\:cloak], [ng-cloak], .ng-cloak {
+  display: none !important; }
+
 .validation-success {
   opacity: 1;
   display: block;
@@ -11,16 +14,18 @@
   text-align: center;
   border-radius: 36px;
   color: #62b14c;
-  transition: all ease-out 0.32s; }
+  transition: transform ease-out 0.32s; }
   .validation-success:after {
     display: block;
     content: '\e013';
     font-family: 'Glyphicons Halflings'; }
   .validation-success.ng-hide {
-    transition-delay: 0s;
-    transition: all ease-out 0.12s;
+    transition: none;
     opacity: 0;
     transform: rotate(360deg); }
+  .validation-success.ng-hide-add.ng-hide-add-active, .validation-success.ng-hide-add {
+    opacity: 0;
+    transition: none; }
 
 .ng-hide-remove li {
   opacity: 0; }
@@ -48,14 +53,16 @@
     color: #fff;
     transform: rotate(0deg);
     transition: all ease-in 0.2s;
-    opacity: 1;
     transition-delay: 0s; }
     .validation li.ng-enter {
       opacity: 0;
       top: 0; }
+    .validation li.ng-enter-active {
+      opacity: 1; }
     .validation li.ng-leave {
-      transition: all ease-in 0s;
-      opacity: 0; }
+      transition: none;
+      opacity: 0;
+      display: none; }
   *:focus + .validation li {
     background-color: #63bff8 !important; }
 

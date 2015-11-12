@@ -11,33 +11,46 @@ $ng-message-sel: 'li';
 $ng-message-height: 20px;
 $ng-message-padding: 2px 10px;
 
+// important to prevent flicker
+[ng\:cloak],
+[ng-cloak],
+.ng-cloak {
+    display: none !important;
+}
+
 // success element
 #{$success-el-sel} {
-    opacity:       1;
-    display:       block;
-    position:      absolute;
-    right:         -$success-size*0.2;
-    bottom:        -$success-size*0.2;
-    font-size:     $success-size*0.8;
-    width:         $success-size;
-    height:        $success-size;
-    line-height:   $success-size;
-    text-align:    center;
+    opacity: 1;
+    display: block;
+    position: absolute;
+    right: -$success-size*0.2;
+    bottom: -$success-size*0.2;
+    font-size: $success-size*0.8;
+    width: $success-size;
+    height: $success-size;
+    line-height: $success-size;
+    text-align: center;
     border-radius: $success-size;
-    color:         $c-success;
-    transition:    all ease-out 0.32s;
+    color: $c-success;
+    transition: transform ease-out 0.32s;
 
     &:after {
-        display:     block;
-        content:     '\e013';
+        display: block;
+        content: '\e013';
         font-family: 'Glyphicons Halflings';
     }
 
     &.ng-hide {
-        transition-delay: 0s;
-        transition:       all ease-out 0.12s;
-        opacity:          0;
-        transform:        rotate(360deg);
+        transition: none;
+        opacity: 0;
+        transform: rotate(360deg);
+    }
+
+    // don't show on remove and prevent flicker
+    &.ng-hide-add.ng-hide-add-active,
+    &.ng-hide-add {
+        opacity: 0;
+        transition: none;
     }
 }
 
@@ -46,42 +59,47 @@ $ng-message-padding: 2px 10px;
 }
 
 #{$validation-wrapper-sel} {
-    color:      #fff;
-    margin:     0;
-    position:   relative;
-    font-size:  $f-size;
-    overflow:   visible;
+    color: #fff;
+    margin: 0;
+    position: relative;
+    font-size: $f-size;
+    overflow: visible;
     background: $c-error;
 
     ul {
-        display:  block;
+        display: block;
         overflow: hidden;
     }
 
     // child error
     #{$ng-message-sel} {
-        display:          block;
-        line-height:      1;
-        background:       $c-error;
-        position:         absolute;
-        right:            -4px;
-        top:              -$ng-message-height/2;
-        text-align:       center;
-        font-weight:      bold;
-        padding:          $ng-message-padding;
-        color:            #fff;
-        transform:        rotate(0deg);
-        transition:       all ease-in 0.2s;
-        opacity:          1;
+        display: block;
+        line-height: 1;
+        background: $c-error;
+        position: absolute;
+        right: -4px;
+        top: -$ng-message-height/2;
+        text-align: center;
+        font-weight: bold;
+        padding: $ng-message-padding;
+        color: #fff;
+        transform: rotate(0deg);
+        transition: all ease-in 0.2s;
         transition-delay: 0s;
 
         &.ng-enter {
             opacity: 0;
-            top:     0;
+            top: 0;
         }
+        &.ng-enter-active {
+            opacity: 1;
+        }
+
+        // don't show on remove and prevent flicker
         &.ng-leave {
-            transition: all ease-in 0.0s;
-            opacity:    0;
+            transition: none;
+            opacity: 0;
+            display: none;
         }
     }
     // focused elements
