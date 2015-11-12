@@ -174,7 +174,7 @@ describe('validations directive', function ()
             '<input type="url" ng-model="testInput" >' +
             '</form>')(scope);
         scope.$digest();
-        $timeout.flush();
+
         var form = element.controller('form');
 
         form.testInput.$setViewValue('xxx');
@@ -190,7 +190,7 @@ describe('validations directive', function ()
             '</div>' +
             '</form>')(scope);
         scope.$digest();
-        $timeout.flush();
+
         var form = element.controller('form');
         form.testInput.$setViewValue(null);
 
@@ -212,7 +212,7 @@ describe('validations directive', function ()
 
         scope.isPresentInDom = true;
         scope.$digest();
-        $timeout.flush();
+
 
         scope.isPresentInDom = false;
         scope.$digest();
@@ -224,7 +224,7 @@ describe('validations directive', function ()
             '<input type="email" ng-model="testInput" >' +
             '</form>')(scope);
         scope.$digest();
-        $timeout.flush();
+
         var form = element.controller('form');
 
         form.testInput.$setViewValue('xxx');
@@ -238,7 +238,7 @@ describe('validations directive', function ()
             '<input type="email">' +
             '</form>')(scope);
         scope.$digest();
-        $timeout.flush();
+
         var form = element.controller('form');
 
         var input = angular.element(element.children()[0]);
@@ -255,7 +255,7 @@ describe('validations directive', function ()
             '<input type="url">' +
             '</form>')(scope);
         scope.$digest();
-        $timeout.flush();
+
         var form = element.controller('form');
 
         var input = angular.element(element.children()[0]);
@@ -272,7 +272,7 @@ describe('validations directive', function ()
             '<input type="email" required>' +
             '</form>')(scope);
         scope.$digest();
-        $timeout.flush();
+
         var form = element.controller('form');
 
         var input = angular.element(element.children()[0]);
@@ -289,7 +289,7 @@ describe('validations directive', function ()
             '<input type="url" ng-model="testInput" >' +
             '</form>')(scope);
         scope.$digest();
-        $timeout.flush();
+
         var form = element.controller('form');
 
 
@@ -304,7 +304,7 @@ describe('validations directive', function ()
             '<input type="text" ng-required="true" ng-model="testInput" >' +
             '</form>')(scope);
         scope.$digest();
-        $timeout.flush();
+
 
         var form = element.controller('form');
         form.testInput.$setViewValue(null);
@@ -322,7 +322,7 @@ describe('validations directive', function ()
             '<input type="text" ng-model="testInput" validation-msg-required ="some custom message" required>' +
             '</form>')(scope);
         scope.$digest();
-        $timeout.flush();
+
         var form = element.controller('form');
 
         // we have to use $setViewValue otherwise the formCtrl
@@ -343,7 +343,7 @@ describe('validations directive', function ()
             '<input type="text" ng-model="testInput" validation-msg-required ="<b>some</b> custom message" required>' +
             '</form>')(scope);
         scope.$digest();
-        $timeout.flush();
+
         var form = element.controller('form');
 
         // we have to use $setViewValue otherwise the formCtrl
@@ -371,6 +371,7 @@ describe('validations directive', function ()
             element.append(input);
         }, 200);
         $timeout.flush();
+
         scope.testInput = null;
         scope.$digest();
 
@@ -403,7 +404,6 @@ describe('validations directive', function ()
         {
             input = $compile('<input type="text" ng-model="testInput"  required>')(scope);
             element.append(input);
-            $timeout.flush();
 
             scope.testInput = null;
             scope.$digest();
@@ -421,18 +421,19 @@ describe('validations directive', function ()
 
     it('should work input being in another scope', function ()
     {
-        var element = $compile('<form></form>')(scope);
+        var formScope = scope;
+        var formEl = $compile('<form></form>')(formScope);
         var anotherScope = $rootScope.$new();
-        var input = $compile('<input type="text" ng-model="testInput"  required>')(anotherScope);
-        element.append(input);
-        $timeout.flush();
-        var form = element.controller('form');
+        var inputEl = $compile('<input type="text" ng-model="testInput"  required>')(anotherScope);
 
-        scope.testForm = null;
-        scope.$digest();
+        formEl.append(inputEl);
+        formScope.$digest();
+        anotherScope.$digest();
 
-        var messageContainer = angular.element(element.children()[1]);
+        formScope.testInput = null;
+        formScope.$digest();
 
+        var messageContainer = angular.element(formEl.children()[1]);
         var message = messageContainer.find('li');
         expect(message.length).toBe(1);
         expect(message.attr('ng-message')).toBe('required');
@@ -448,7 +449,7 @@ describe('validations directive', function ()
             '<input type="email" ng-model="testInput" validation-msg-email ="some custom message" required>' +
             '</form>')(scope);
         scope.$digest();
-        $timeout.flush();
+
         var form = element.controller('form');
 
         // we have to use $setViewValue otherwise the formCtrl
@@ -477,7 +478,7 @@ describe('validations directive', function ()
             '<input type="text" ng-model="testInput.deeper.andDeeper.andDeeper" required>' +
             '</form>')(scope);
         scope.$digest();
-        $timeout.flush();
+
 
         var form = element.controller('form');
         var messageContainer = angular.element(element.children()[1]);
@@ -503,7 +504,7 @@ describe('validations directive', function ()
             var element = $compile(html)(scope);
             scope.$digest();
             // as timeout is used, we need to flush it here
-            $timeout.flush();
+
             var form = element.controller('form');
             var messageContainer = angular.element(element.children()[1]);
 
@@ -528,7 +529,7 @@ describe('validations directive', function ()
             var element = $compile(html)(scope);
             scope.$digest();
             // as timeout is used, we need to flush it here
-            $timeout.flush();
+
             var form = element.controller('form');
             var messageContainer = angular.element(element.children()[1]);
 
@@ -553,7 +554,7 @@ describe('validations directive', function ()
             var element = $compile(html)(scope);
             scope.$digest();
             // as timeout is used, we need to flush it here
-            $timeout.flush();
+
             var form = element.controller('form');
             var messageContainer = angular.element(element.children()[1]);
 
@@ -580,7 +581,7 @@ describe('validations directive', function ()
             var element = $compile(html)(scope);
             scope.$digest();
             // as timeout is used, we need to flush it here
-            $timeout.flush();
+
             var form = element.controller('form');
             var messageContainer = angular.element(element.children()[1]);
 
@@ -645,7 +646,7 @@ describe('validations directive with config', function ()
 
         element = $compile(html)(scope);
         scope.$digest();
-        $timeout.flush();
+
         var form = element.controller('form');
 
         scope.testInput = null;
@@ -667,7 +668,7 @@ describe('validations directive with config', function ()
 
         element = $compile(html)(scope);
         scope.$digest();
-        $timeout.flush();
+
         var form = element.controller('form');
 
         scope.testInput = null;
@@ -696,7 +697,7 @@ describe('validations directive with config', function ()
         angular.element(document.body).append(element);
 
         scope.$digest();
-        $timeout.flush();
+
         var label = document.querySelectorAll('label[for="inpID"]');
         label = angular.element(label[0]);
         expect(label.text()).toContain('*');
@@ -724,7 +725,7 @@ describe('validations directive with config', function ()
 
             scope.testInput = null;
             scope.$digest();
-            $timeout.flush();
+
 
             messageContainer = angular.element(formEl.children()[1]);
             message = messageContainer.find('li');
@@ -755,7 +756,7 @@ describe('validations directive with config', function ()
         angular.element(document.body).append(element);
 
         scope.$digest();
-        $timeout.flush();
+
         var label = angular.element(element.children()[0]);
         label = angular.element(label[0]);
         expect(label.text()).toContain('*');
@@ -782,7 +783,7 @@ describe('validations directive with config', function ()
         angular.element(document.body).append(element);
 
         scope.$digest();
-        $timeout.flush();
+
         var label = document.querySelectorAll('label[for="inpID"]');
         label = angular.element(label[0]);
 
@@ -799,7 +800,7 @@ describe('validations directive with config', function ()
             '<input type="email" ng-model="testInput" validation-msg-email ="some custom message" required>' +
             '</form>')(scope);
         scope.$digest();
-        $timeout.flush();
+
         var form = element.controller('form');
 
         // we have to use $setViewValue otherwise the formCtrl

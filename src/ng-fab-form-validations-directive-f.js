@@ -1,5 +1,5 @@
 angular.module('ngFabForm')
-    .factory('ngFabFormValidationsDirective', ['ngFabForm', '$compile', '$templateRequest', '$rootScope', '$timeout', function (ngFabForm, $compile, $templateRequest, $rootScope, $timeout)
+    .factory('ngFabFormValidationsDirective', ['ngFabForm', '$compile', '$templateRequest', function (ngFabForm, $compile, $templateRequest)
     {
         'use strict';
 
@@ -137,7 +137,7 @@ angular.module('ngFabForm')
 
                     function init()
                     {
-                        $timeout(function ()
+                        scope.$evalAsync(function ()
                         {
                             // if controller is not accessible via require
                             // get it from the element
@@ -181,7 +181,7 @@ angular.module('ngFabForm')
                                     ngFabFormCycle(oldCfg);
                                 });
                             }
-                        }, 0);
+                        });
                     }
 
                     // INIT
