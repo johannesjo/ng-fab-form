@@ -76,13 +76,23 @@ angular.module('ngFabForm')
             watchForFormCtrl: false,
 
             // name of the change event, change if there are conflicts
-            formChangeEvent: 'NG_FAB_FORM_OPTIONS_CHANGED'
+            formChangeEvent: 'NG_FAB_FORM_OPTIONS_CHANGED',
+
+            // message template, used to create messages for custom validation messages
+            // created by validationMsgPrefix when there is no default ng-message for
+            // the validator in the main template. This allows you to one time append
+            // messages when validationMSgPrefix(+validator+) is set
+            createMessageElTplFn: function (sanitizedKey, attr)
+            {
+                return '<li ng-message="' + sanitizedKey + '">' + attr + '</li>';
+            }
         };
 
 
         // *****************
         // SERVICE-FUNCTIONS
         // *****************
+
         function addCustomValidations(html, attrs)
         {
             var container = angular.element(angular.element('<div/>').html(html));
@@ -93,7 +103,19 @@ angular.module('ngFabForm')
                     var sanitizedKey = attrKey.replace(config.validationMsgPrefix, '');
                     sanitizedKey = sanitizedKey.charAt(0).toLowerCase() + sanitizedKey.slice(1);
                     var message = container[0].querySelector('[ng-message="' + sanitizedKey + '"]');
-                    angular.element(message).html(attr);
+
+                    // change the message
+                    if (message) {
+                        angular.element(message).html(attr);
+                    }
+
+                    // create message if it does not exist
+                    else if (!message && config.createMessageElTplFn) {
+                        var someMessageEl = container[0].querySelector('[ng-message]');
+                        if (someMessageEl) {
+                            angular.element(someMessageEl).after(config.createMessageElTplFn(sanitizedKey, attr));
+                        }
+                    }
                 }
             });
             return container;

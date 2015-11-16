@@ -904,4 +904,40 @@ describe('validations with async validators', function ()
         message = messageContainer.find('li');
         expect(message.length).toBe(0);
     });
+
+
+    it('should create a custom validation message for the validation-msg-prefix-directive if it is not in the default template', function ()
+    {
+        // set default validations template, but dont include the message to test
+        $templateCache.put('default-validation-msgs.html',
+            '<div ng-messages="field.$error" class="validation">' +
+            '<ul class="list-unstyled validation-errors" ng-show="field.$invalid && (field.$touched || field.$dirty || form.$triedSubmit)">' +
+            '<li ng-message="somethingElse"></li>' +
+            '</ul>' +
+            '</div>'
+        );
+
+        var scope = $rootScope.$new();
+
+        var html = '<form ng-fab-form-options="customFormOptions">' +
+            '<input type="text" ng-model="weirdModel" validation-msg-weird="WEIRD_MSG">' +
+            '</form>';
+
+        element = $compile(html)(scope);
+        var form = element.controller('form');
+        var ngModel = form.weirdModel;
+
+        ngModel.$validators.weird = function ()
+        {
+            return false;
+        };
+        scope.$digest();
+
+        var messageContainer = angular.element(element.children()[1]);
+        form.weirdModel.$setViewValue('SOMETHING');
+        var message = messageContainer.find('li');
+        expect(message.length).toBe(1);
+        expect(message.attr('ng-message')).toBe('weird');
+        expect(message.text()).toBe('WEIRD_MSG');
+    });
 });

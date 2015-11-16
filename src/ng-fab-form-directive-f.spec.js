@@ -315,7 +315,8 @@ describe('a form with config', function ()
             emailRegex: false,
             watchForFormCtrl: false,
             formChangeEvent: 'AAAAAAA',
-            formResetEvent: 'AAAAAAAA'
+            formResetEvent: 'AAAAAAAA',
+            createMessageElTplFn: false
         };
         provider.extendConfig(opts);
 
