@@ -229,6 +229,15 @@ watchForFormCtrl: false,
 
 // name of the change event, change if there are conflicts
 formChangeEvent: &#39;NG_FAB_FORM_OPTIONS_CHANGED&#39;
+
+// message template, used to create messages for custom validation messages
+// created by validationMsgPrefix when there is no default ng-message for
+// the validator in the main template. This allows you to one time append
+// messages when validationMSgPrefix(+validator+) is set
+createMessageElTplFn: function (sanitizedKey, attr)
+{
+    return &#39;&lt;li ng-message=&quot;&#39; + sanitizedKey + &#39;&quot;&gt;&#39; + attr + &#39;&lt;/li&gt;&#39;;
+}
 </code></pre><p>You can easily extend those configurations like this:</p>
 <pre><code class="lang-javascript">angular.module(&#39;exampleApp&#39;, [
     &#39;ngFabForm&#39;
