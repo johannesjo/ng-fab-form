@@ -203,7 +203,7 @@ describe('validations directive', function ()
 
     it('should not throw an error if removed from dom', function ()
     {
-        var element = $compile('<form>' +
+        $compile('<form>' +
             '<div ng-if="isPresentInDom">' +
             '<input type="text" required ng-model="testInput" >' +
             '</div>' +
@@ -247,6 +247,24 @@ describe('validations directive', function ()
 
         var messageContainer = angular.element(element.children()[1]);
         expect(messageContainer.length).toBe(0);
+    });
+
+    it('should accept uppercase only emails as valid', function ()
+    {
+        var element = $compile('<form>' +
+            '<input required="true" type="email" ng-model="testInput">' +
+            '</form>')(scope);
+        scope.$digest();
+
+        var form = element.controller('form');
+        form.testInput.$setViewValue('MAIL@MAIL.DE');
+
+        var messageContainer = angular.element(element.children()[1]);
+        var message = messageContainer.find('li');
+        expect(message.length).toBe(0);
+
+        var successMessage = messageContainer.find('div');
+        expect(successMessage.length).toBe(1);
     });
 
     it('should not throw an error for input:url without ng-model', function ()
