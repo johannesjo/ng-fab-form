@@ -46,7 +46,7 @@ angular.module('ngFabForm')
         return {
             restrict: 'EAC',
             scope: false,
-            require: 'form',
+            require: '?^form',
             compile: function (el, attrs)
             {
                 // create copy of configuration object as it might be modified by ngFabFormOptions
