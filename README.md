@@ -236,13 +236,13 @@ This is what the default validation template looks like:
 ```html
 <!-- Default Validation Template -->
 <div class="validation"
-     ng-show="attrs.required===''|| attrs.required"
-     ng-messages="field.$error">
+     ng-show="attrs.required===''|| attrs.required">
      <!-- Show errors for invalid fields, when it has been either focused,
       has been changed or the user tried to submit the form without success
       (requires the setDirtyOnSubmit-option to be set-->
     <ul class="list-unstyled validation-errors"
-        ng-show="field.$invalid && (field.$touched || field.$dirty || form.$triedSubmit)">
+        ng-show="field.$invalid && (field.$touched || field.$dirty || form.$triedSubmit)"
+        ng-messages="field.$error">
         <li ng-message="required">This field is required</li>
         <li ng-message="password">Please enter a valid password</li>
         <li ng-message="email">Please enter a valid e-mail</li>
