@@ -1,7 +1,7 @@
-<div ng-messages="field.$error"
-     class="validation"
+<div class="validation"
      ng-show="attrs.required==''|| attrs.required">
     <ul class="list-unstyled validation-errors"
+        ng-messages="field.$error"
         ng-show="field.$invalid && (field.$touched || field.$dirty || form.$triedSubmit)">
         <li ng-message="required">This field is required</li>
         <li ng-message="ngFabEnsureExpression">Not valid condition</li>

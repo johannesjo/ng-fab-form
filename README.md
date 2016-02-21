@@ -235,9 +235,9 @@ Sometimes you might want to have another text for a specific context. Special va
 This is what the default validation template looks like:
 ```html
 <!-- Default Validation Template -->
-<div ng-messages="field.$error"
-     class="validation"
-     ng-show="attrs.required===''|| attrs.required">
+<div class="validation"
+     ng-show="attrs.required===''|| attrs.required"
+     ng-messages="field.$error">
      <!-- Show errors for invalid fields, when it has been either focused,
       has been changed or the user tried to submit the form without success
       (requires the setDirtyOnSubmit-option to be set-->
