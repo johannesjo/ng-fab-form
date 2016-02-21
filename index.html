@@ -297,9 +297,9 @@ createMessageElTplFn: function (sanitizedKey, attr)
 <p><code>ng-fab-form</code> comes with a reasonable default validation template, which is used for every form element with <code>ng-model</code> set. But you can easily create your own if you don&#39;t like the either the messages or the markup! In your own template you can use any attribute and directive, as you would with vanilla angular. In addition the input-element attributes are available for you convenience, too!</p>
 <p>This is what the default validation template looks like:</p>
 <pre><code class="lang-html">&lt;!-- Default Validation Template --&gt;
-&lt;div ng-messages=&quot;field.$error&quot;
-     class=&quot;validation&quot;
-     ng-show=&quot;attrs.required===&#39;&#39;|| attrs.required&quot;&gt;
+&lt;div class=&quot;validation&quot;
+     ng-show=&quot;attrs.required===&#39;&#39;|| attrs.required&quot;
+     ng-messages=&quot;field.$error&quot;&gt;
      &lt;!-- Show errors for invalid fields, when it has been either focused,
       has been changed or the user tried to submit the form without success
       (requires the setDirtyOnSubmit-option to be set--&gt;
