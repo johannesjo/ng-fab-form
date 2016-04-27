@@ -130,6 +130,16 @@ angular.module('ngFabForm')
                                         inputElCtrl.$render();
                                     }
                                 }
+
+                                var selectElements = el.find('select');
+                                for (var j = 0; j < selectElements.length; j++) {
+                                    var selectEl = angular.element(selectElements[j]);
+                                    var selectElCtrl = selectEl.controller('ngModel');
+                                    if (selectElCtrl) {
+                                        selectElCtrl.$setViewValue('');
+                                        selectElCtrl.$render();
+                                    }
+                                }
                             }
 
                             formCtrl.$triedSubmit = false;
