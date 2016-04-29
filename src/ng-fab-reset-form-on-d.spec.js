@@ -44,7 +44,7 @@ describe('a button with ngFabResetFormOn-directive', function ()
         it('should reset a valid form field and its form', function ()
         {
             form.inp.$setViewValue('some-value');
-            form.sel.$setViewValue('some-value');
+            form.sel.$setViewValue('1');
 
             resetBtnEl.triggerHandler('click');
             scope.$digest();
