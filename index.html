@@ -298,13 +298,13 @@ createMessageElTplFn: function (sanitizedKey, attr)
 <p>This is what the default validation template looks like:</p>
 <pre><code class="lang-html">&lt;!-- Default Validation Template --&gt;
 &lt;div class=&quot;validation&quot;
-     ng-show=&quot;attrs.required===&#39;&#39;|| attrs.required&quot;
-     ng-messages=&quot;field.$error&quot;&gt;
+     ng-show=&quot;attrs.required===&#39;&#39;|| attrs.required&quot;&gt;
      &lt;!-- Show errors for invalid fields, when it has been either focused,
       has been changed or the user tried to submit the form without success
       (requires the setDirtyOnSubmit-option to be set--&gt;
     &lt;ul class=&quot;list-unstyled validation-errors&quot;
-        ng-show=&quot;field.$invalid &amp;&amp; (field.$touched || field.$dirty || form.$triedSubmit)&quot;&gt;
+        ng-show=&quot;field.$invalid &amp;&amp; (field.$touched || field.$dirty || form.$triedSubmit)&quot;
+        ng-messages=&quot;field.$error&quot;&gt;
         &lt;li ng-message=&quot;required&quot;&gt;This field is required&lt;/li&gt;
         &lt;li ng-message=&quot;password&quot;&gt;Please enter a valid password&lt;/li&gt;
         &lt;li ng-message=&quot;email&quot;&gt;Please enter a valid e-mail&lt;/li&gt;

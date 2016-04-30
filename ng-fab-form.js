@@ -692,7 +692,7 @@ angular.module('ngFabForm')
                         formCtrl.$resetForm = function (resetValues)
                         {
                             if (resetValues === true) {
-                                var inputElements = el.find('input');
+                                var inputElements = el[0].querySelectorAll('input, select');
                                 for (var i = 0; i < inputElements.length; i++) {
                                     var inputEl = angular.element(inputElements[i]);
                                     var inputElCtrl = inputEl.controller('ngModel');
