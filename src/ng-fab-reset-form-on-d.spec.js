@@ -9,6 +9,7 @@ describe('a button with ngFabResetFormOn-directive', function ()
         formEl,
         resetBtnEl,
         inputEl,
+        selectEl,
         form,
         messageContainer;
 
@@ -26,6 +27,7 @@ describe('a button with ngFabResetFormOn-directive', function ()
 
             formEl = $compile('<form name="testForm">' +
             '<input type="text" ng-model="inp" required >' +
+            '<select ng-model="sel" required ><option value="1">1</option><option value="2">2</option></select>' +
             '<button type="button" ng-fab-reset-form-on>Reset</button>' +
             '</form>')(scope);
             $timeout.flush();
@@ -35,12 +37,14 @@ describe('a button with ngFabResetFormOn-directive', function ()
             form = scope.testForm;
             inputEl = angular.element(formEl.children()[0]);
             messageContainer = angular.element(formEl.children()[1]);
-            resetBtnEl = angular.element(formEl.children()[2]);
+            selectEl = angular.element(formEl.children()[2]);
+            resetBtnEl = angular.element(formEl.children()[4]);
         }));
 
         it('should reset a valid form field and its form', function ()
         {
             form.inp.$setViewValue('some-value');
+            form.sel.$setViewValue('1');
 
             resetBtnEl.triggerHandler('click');
             scope.$digest();
@@ -50,6 +54,12 @@ describe('a button with ngFabResetFormOn-directive', function ()
             expect(inputEl.hasClass('ng-pristine')).toBeTruthy();
             expect(inputEl.hasClass('ng-dirty')).toBeFalsy();
             expect(inputEl.hasClass('ng-untouched')).toBeTruthy();
+
+            // the select
+            expect(scope.sel).toBe(undefined);
+            expect(selectEl.hasClass('ng-pristine')).toBeTruthy();
+            expect(selectEl.hasClass('ng-dirty')).toBeFalsy();
+            expect(selectEl.hasClass('ng-untouched')).toBeTruthy();
 
             // the form
             expect(formEl.hasClass('ng-pristine')).toBeTruthy();
