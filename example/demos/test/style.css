@@ -1,0 +1,75 @@
+.validation-success {
+  opacity: 1;
+  display: block;
+  position: absolute;
+  right: -7.2px;
+  bottom: -7.2px;
+  font-size: 28.8px;
+  width: 36px;
+  height: 36px;
+  line-height: 36px;
+  text-align: center;
+  border-radius: 36px;
+  color: #62b14c;
+  transition: all ease-out 0.32s; }
+  .validation-success:after {
+    display: block;
+    content: '\e013';
+    font-family: 'Glyphicons Halflings'; }
+  .validation-success.ng-hide {
+    transition-delay: 0s;
+    transition: all ease-out 0.12s;
+    opacity: 0;
+    transform: rotate(360deg); }
+
+.ng-hide-remove li {
+  opacity: 0; }
+
+.validation {
+  color: #fff;
+  margin: 0;
+  position: relative;
+  font-size: 14px;
+  overflow: visible;
+  background: #c00640; }
+  .validation ul {
+    display: block;
+    overflow: hidden; }
+  .validation li {
+    display: block;
+    line-height: 1;
+    background: #c00640;
+    position: absolute;
+    right: -4px;
+    top: -10px;
+    text-align: center;
+    font-weight: bold;
+    padding: 2px 10px;
+    color: #fff;
+    transform: rotate(0deg);
+    transition: all ease-in 0.2s;
+    opacity: 1;
+    transition-delay: 0s; }
+    .validation li.ng-enter {
+      opacity: 0;
+      top: 0; }
+    .validation li.ng-leave {
+      transition: all ease-in 0s;
+      opacity: 0; }
+  *:focus + .validation li {
+    background-color: #63bff8 !important; }
+
+input.ng-touched.ng-invalid:not(.ng-valid), textarea.ng-touched.ng-invalid:not(.ng-valid), select.ng-touched.ng-invalid:not(.ng-valid) {
+  border-color: #c00640; }
+input:focus, input:focus.ng-touched.ng-invalid:not(.ng-valid), textarea:focus, textarea:focus.ng-touched.ng-invalid:not(.ng-valid), select:focus, select:focus.ng-touched.ng-invalid:not(.ng-valid) {
+  border-color: #63bff8; }
+input.ng-valid-required.ng-valid:not(.ng-invalid), textarea.ng-valid-required.ng-valid:not(.ng-invalid), select.ng-valid-required.ng-valid:not(.ng-invalid) {
+  border-color: #62b14c; }
+
+form[class*="ng-invalid"] button.btn {
+  background: #63bff8;
+  transition: none; }
+
+form button.btn {
+  transition: all ease-in 0.5s;
+  background: #62b14c; }

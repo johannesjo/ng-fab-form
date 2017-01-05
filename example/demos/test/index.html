@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html ng-app="exampleApp">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Angular Fabulous Form Example</title>
+    <script>
+        document.write('<base href="' + document.location + '" />');
+
+    </script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css" />
+    <meta name="viewport" content="width=device-width">
+</head>
+
+<body ng-controller="exampleCtrl"></body>
+<div class="container">
+    <h2><a href="https://github.com/johannesjo/ng-fab-form">Angular Fabulous Forms</a> Example</h2>
+    <div class="row">
+        <div class="col-sm-7">
+            <form role="form" name="customOptionsForm" ng-submit="submit()" ng-fab-form-options="customFormOptions">
+                <div class="form-group">
+                    <label class="control-label">Email (required)
+                </label>
+                    <input type="email" class="form-control" placeholder="Email" ng-model="formData.email" required>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Password (required)
+                </label>
+                    <input type="password" class="form-control" id="inputPassword1" placeholder="Password" ng-model="formData.password" required>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label>
+                        <input type="checkbox"
+                               required
+                               ng-model="formData.check">
+                        Checkbox (required)
+                    </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">required & ng-pattern (/asd/) with validation-msg-required attribute
+                </label>
+                    <input type="text" class="form-control" placeholder="TestText" ng-pattern="/^asd$/i" validation-msg-required="Really really required"
+                        name="text" required="" ng-model="formData.patternRequired">
+                </div>
+                <div class="form-group">
+                    <label class="control-label">required & maxlength(5) with validation-msg-required attribute
+                </label>
+                    <input type="text" class="form-control" placeholder="TestText" ng-maxlength="5" required validation-msg-required="CUSTOM REQUIRED-MSG FTW!"
+                        ng-model="formData.requiredMaxlength">
+                </div>
+                <div class="form-group">
+                    <label>non required</label>
+                    <input type="text" class="form-control" placeholder="TestText" ng-model="formData.nonRequired">
+                </div>
+                <div class="form-group">
+                    <label>Textarea (required & ng-minlength(4))</label>
+                    <textarea ng-model="formData.textarea" ng-minlength="4" class="form-control" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Select (required)</label>
+                    <select ng-model="formData.select" class="form-control" required>
+                    <option value=""></option>
+                    <option value="aa">aaa</option>
+                </select>
+                </div>
+                <div class="form-group">
+                    <label>Input without ngModel (does not do anything)</label>
+                    <input type="text" class="form-control" placeholder="TestText" required>
+                </div>
+                <div class="form-group">
+                    <label>Cpf</label>
+                    <input type="Cpf" ng-model="cpf" class="form-control" placeholder="Cpf" required>
+                </div>
+                <div class="form-group">
+                    <label>Cnpj</label>
+                    <input type="Cnpj" ng-model="cnpj" class="form-control" placeholder="Cnpj" required>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Submit Form
+                </button>
+                </div>
+            </form>
+        </div>
+        <div class="col-sm-5">
+            <h3>Config-Options</h3>
+            <form name="configOptions">
+                <input type="text" class="form-control" placeholder="validationsTemplate" required ng-model="customFormOptions.validationsTemplate">
+                <div class="form-group">
+                    <button type="button" ng-click="(customFormOptions.validationsTemplate  != false) ? customFormOptions.validationsTemplate=false: customFormOptions.validationsTemplate=defaultFormOptions.validationsTemplate;">
+                    Set validationsTemplate to <span ng-show="customFormOptions.validationsTemplate">false</span>
+                    <span ng-hide="customFormOptions.validationsTemplate">{{ defaultFormOptions.validationsTemplate }}</span>
+                </button>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label>
+                        <input type="checkbox"
+                               ng-model="customFormOptions.preventInvalidSubmit">
+                        preventInvalidSubmit
+                    </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label>
+                        <input type="checkbox"
+                               ng-model="customFormOptions.setFormDirtyOnSubmit">
+                        setFormDirtyOnSubmit
+                    </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label>
+                        <input type="checkbox"
+                               ng-model="customFormOptions.preventDoubleSubmit">
+                        preventDoubleSubmit
+                    </label>
+                    </div>
+                </div>
+                <input type="text" class="form-control" placeholder="preventDoubleSubmitTimeoutLength" required ng-if="customFormOptions.preventDoubleSubmit"
+                    ng-model="customFormOptions.preventDoubleSubmitTimeoutLength">
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label>
+                        <input type="checkbox"
+                               ng-model="customFormOptions.scrollToAndFocusFirstErrorOnSubmit">
+                        scrollToAndFocusFirstErrorOnSubmit
+                    </label>
+                    </div>
+                </div>
+                <input type="text" class="form-control" placeholder="scrollAnimationTime in ms or 'smooth'" required ng-if="customFormOptions.scrollToAndFocusFirstErrorOnSubmit"
+                    ng-model="customFormOptions.scrollAnimationTime">
+                <input type="number" class="form-control" placeholder="scrollOffset in px" required ng-if="customFormOptions.scrollToAndFocusFirstErrorOnSubmit"
+                    ng-model="customFormOptions.scrollOffset">
+            </form>
+            <h4>Options Object</h4>
+            <pre>{{ customFormOptions |json }}</pre>
+        </div>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
+<script src="../../../dist/ng-fab-form.js"></script>
+<script src="app.js"></script>
+</body>
+
+</html>

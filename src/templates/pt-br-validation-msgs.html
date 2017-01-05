@@ -1,0 +1,46 @@
+<div class="validation" ng-show="attrs.required==''|| attrs.required">
+    <ul class="list-unstyled validation-errors" ng-messages="field.$error" ng-show="field.$invalid && (field.$touched || field.$dirty || form.$triedSubmit)">
+        <li ng-message="required">Este campo é Obrigatório</li>
+        <li ng-message="ngFabEnsureExpression">Condição não é válida</li>
+        <li ng-message="password">Por favor entre com uma senha válida
+        </li>
+        <li ng-message="email">Por favor entre com um e-mail válido</li>
+        <li ng-message="pattern">Formato de entrada inválido</li>
+        <li ng-message="date">Por favor entre com uma data válida</li>
+        <li ng-message="time">Please enter a valid time</li>
+        <li ng-message="datetime">Please enter a valid date and time</li>
+        <li ng-message="datetime-local">Please enter a valid date and time</li>
+        <li ng-message="number">Este campo deve ser numérico</li>
+        <li ng-message="color">Insira uma por válida</li>
+        <li ng-message="range">Insira um valor inteiro</li>
+        <li ng-message="month">Insira um mês válido</li>
+        <li ng-message="url">Insira uma URL válida</li>
+        <li ng-message="file">Arquivo Inválido</li>
+        <li ng-message="minlength">Por favor, use pelo menos {{ attrs.minlength }} caracteres</li>
+        <li ng-message="maxlength">Por favor, não exceda {{ attrs.maxlength }} caracteres</li>
+        <li ng-message="ngFabMatch">{{ attrs.type ==='password'? 'A senha' : 'O valor' }} deve corresponder</li>
+        <li ng-if="attrs.type == 'time' " ng-message="min">O tempo previsto deve ser {{ attrs.min |date: 'HH:MM' }}
+        </li>
+        <li ng-message="max" ng-if="attrs.type == 'time' ">O tempo previsto deve ser anterior ao {{attrs.max |date: 'HH:MM'}}
+        </li>
+        <li ng-message="min" ng-if="attrs.type == 'date' ">A data prevista deve ser posterior à {{attrs.min |date:'dd.MM.yy'}}
+        </li>
+        <li ng-message="max" ng-if="attrs.type == 'date' ">A data prevista deve ser anterior à {{attrs.max |date: 'dd.MM.yy'}}
+        </li>
+        <li ng-message="min" ng-if="attrs.type === 'number' ">O número fornecido deve ser pelo menos {{attrs.min}}
+        </li>
+        <li ng-message="max" ng-if="attrs.type === 'number' ">O número fornecido deve estar no máximo {{attrs.max}}
+        </li>
+        
+        <li ng-message="CnpjInvalid">O CNPJ digitado é inválido</li>
+        <li ng-message="CnpjLenght">O CNPJ digitado está incompleto</li>
+        <li ng-message="CnpjDebug">O CNPJ digitado é exclusivo para Debug</li>
+        <li ng-message="Cnpj">O CNPJ digitado é inválido</li>
+
+         <li ng-message="CpfIncomplete">O CPF Informado esta incompleto</li>
+        <li ng-message="CpfInvalid">O CPF Informado é inválido</li>
+        <li ng-message="MinLength">Por favor digite pelo menos {{ attrs.minlength }} caracteres</li>
+    </ul>
+    <div class="validation-success" ng-show="field.$valid && !field.$invalid">
+    </div>
+</div>

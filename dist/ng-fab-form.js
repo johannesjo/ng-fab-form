@@ -3,40 +3,35 @@ angular.module('ngFabForm', [
 ]);
 
 angular.module('ngFabForm')
-    .directive('form', ['ngFabFormDirective', function (ngFabFormDirective)
-    {
+    .directive('form', ['ngFabFormDirective', function (ngFabFormDirective) {
         'use strict';
 
         return ngFabFormDirective;
     }]);
 
 angular.module('ngFabForm')
-    .directive('input', ['ngFabFormValidationsDirective', function (ngFabFormValidationsDirective)
-    {
+    .directive('input', ['ngFabFormValidationsDirective', function (ngFabFormValidationsDirective) {
         'use strict';
 
         return ngFabFormValidationsDirective;
     }]);
 
 angular.module('ngFabForm')
-    .directive('textarea', ['ngFabFormValidationsDirective', function (ngFabFormValidationsDirective)
-    {
+    .directive('textarea', ['ngFabFormValidationsDirective', function (ngFabFormValidationsDirective) {
         'use strict';
 
         return ngFabFormValidationsDirective;
     }]);
 
 angular.module('ngFabForm')
-    .directive('select', ['ngFabFormValidationsDirective', function (ngFabFormValidationsDirective)
-    {
+    .directive('select', ['ngFabFormValidationsDirective', function (ngFabFormValidationsDirective) {
         'use strict';
 
         return ngFabFormValidationsDirective;
     }]);
 
 angular.module('ngFabForm')
-    .provider('ngFabForm', function ngFabFormProvider()
-    {
+    .provider('ngFabForm', function ngFabFormProvider() {
         'use strict';
 
         // *****************
@@ -106,6 +101,13 @@ angular.module('ngFabForm')
             // default email-regex, set to false to deactivate overwrite
             emailRegex: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/i,
 
+
+            // Regex for Text only input
+            textOnlyRegex: /^[a-zA-Z\u00C0-\u00FF\s´`']*$/,
+            
+            // Regex for CPF
+            cpfRegex: /[0-9]{3}\.?[0-9]{3}\.?[0-9]{3}\-?[0-9]{2}/,
+
             // in very rare cases (e.g. for some form-builders) your form
             // controller might not be ready before your model-controllers are,
             // for those instances set this option to true
@@ -118,8 +120,7 @@ angular.module('ngFabForm')
             // created by validationMsgPrefix when there is no default ng-message for
             // the validator in the main template. This allows you to one time append
             // messages when validationMSgPrefix(+validator+) is set
-            createMessageElTplFn: function (sanitizedKey, attr)
-            {
+            createMessageElTplFn: function (sanitizedKey, attr) {
                 return '<li ng-message="' + sanitizedKey + '">' + attr + '</li>';
             }
         };
@@ -129,11 +130,9 @@ angular.module('ngFabForm')
         // SERVICE-FUNCTIONS
         // *****************
 
-        function addCustomValidations(html, attrs)
-        {
+        function addCustomValidations(html, attrs) {
             var container = angular.element(angular.element('<div/>').html(html));
-            angular.forEach(attrs, function (attr, attrKey)
-            {
+            angular.forEach(attrs, function (attr, attrKey) {
                 var regExp = new RegExp(config.validationMsgPrefix);
                 if (attrKey.match(regExp)) {
                     var sanitizedKey = attrKey.replace(config.validationMsgPrefix, '');
@@ -158,8 +157,7 @@ angular.module('ngFabForm')
         }
 
         // default - can be overwritten by config
-        var insertErrorTpl = function (compiledAlert, el, attrs)
-        {
+        var insertErrorTpl = function (compiledAlert, el, attrs) {
             // insert after or after parent if checkbox or radio
             if (attrs.type === 'checkbox' || attrs.type === 'radio') {
                 el.parent().after(compiledAlert);
@@ -169,13 +167,11 @@ angular.module('ngFabForm')
         };
 
         // default - can be overwritten by config
-        var scrollTo = (function ()
-        {
+        var scrollTo = (function () {
             // t: current time, b: begInnIng value, c: change In value, d: duration
             // see: https://github.com/danro/jquery-easing/blob/master/jquery.easing.js
             // and: http://upshots.org/actionscript/jsas-understanding-easing
-            function easeInOutQuad(t, b, c, d)
-            {
+            function easeInOutQuad(t, b, c, d) {
                 if ((t /= d / 2) < 1) {
                     return c / 2 * t * t + b;
                 }
@@ -183,8 +179,7 @@ angular.module('ngFabForm')
             }
 
             // longer scroll duration for longer distances
-            function scaleTimeToDistance(distance, duration)
-            {
+            function scaleTimeToDistance(distance, duration) {
                 var baseDistance = 500;
                 var distanceAbs = Math.abs(distance);
                 var min = duration / 10;
@@ -192,10 +187,8 @@ angular.module('ngFabForm')
             }
 
 
-            return function (targetEl, durationP, scrollOffset)
-            {
-                function animateScroll()
-                {
+            return function (targetEl, durationP, scrollOffset) {
+                function animateScroll() {
                     currentTime += increment;
                     var val = easeInOutQuad(currentTime, start, change, duration);
                     window.scrollTo(targetX, val);
@@ -234,20 +227,16 @@ angular.module('ngFabForm')
         // *************************
 
         return {
-            extendConfig: function (newConfig)
-            {
+            extendConfig: function (newConfig) {
                 config = angular.extend(config, newConfig);
             },
-            setInsertErrorTplFn: function (insertErrorTplFn)
-            {
+            setInsertErrorTplFn: function (insertErrorTplFn) {
                 insertErrorTpl = insertErrorTplFn;
             },
-            setScrollToFn: function (scrollToFn)
-            {
+            setScrollToFn: function (scrollToFn) {
                 scrollTo = scrollToFn;
             },
-            setCustomValidatorsFn: function (customValidatorsFn)
-            {
+            setCustomValidatorsFn: function (customValidatorsFn) {
                 customValidators = customValidatorsFn;
             },
 
@@ -256,8 +245,7 @@ angular.module('ngFabForm')
             // ACTUAL FACTORY FUNCTION - used by the directives
             // ************************************************
 
-            $get: function ()
-            {
+            $get: function () {
                 return {
                     insertErrorTpl: insertErrorTpl,
                     addCustomValidations: addCustomValidations,
@@ -269,23 +257,25 @@ angular.module('ngFabForm')
         };
     });
 
-angular.module('ngFabForm').run(['$templateCache', function($templateCache) {
-  'use strict';
+angular.module('ngFabForm').run(['$templateCache', function ($templateCache) {
+    'use strict';
 
-  $templateCache.put('default-validation-msgs.html',
-    "<div class=\"validation\" ng-show=\"attrs.required==''|| attrs.required\"><ul class=\"list-unstyled validation-errors\" ng-messages=\"field.$error\" ng-show=\"field.$invalid && (field.$touched || field.$dirty || form.$triedSubmit)\"><li ng-message=\"required\">This field is required</li><li ng-message=\"ngFabEnsureExpression\">Not valid condition</li><li ng-message=\"password\">Please enter a valid password</li><li ng-message=\"email\">Please enter a valid e-mail</li><li ng-message=\"pattern\">Invalid input format</li><li ng-message=\"date\">Please enter a valid date</li><li ng-message=\"time\">Please enter a valid time</li><li ng-message=\"datetime\">Please enter a valid date and time</li><li ng-message=\"datetime-local\">Please enter a valid date and time</li><li ng-message=\"number\">This field must be numeric</li><li ng-message=\"color\">Please enter a valid color</li><li ng-message=\"range\">Please enter a valid range</li><li ng-message=\"month\">Please enter a valid month</li><li ng-message=\"url\">Please enter a valid URL</li><li ng-message=\"file\">Invalid file</li><li ng-message=\"minlength\">Please use at least {{ attrs.minlength }} characters</li><li ng-message=\"maxlength\">Please do not exceed {{ attrs.maxlength }} characters</li><li ng-message=\"ngFabMatch\">The {{ attrs.type ==='password'? 'passwords' : 'values' }} should match</li><li ng-if=\"attrs.type == 'time' \" ng-message=\"min\">The time provided should after {{ attrs.min |date: 'HH:MM' }}</li><li ng-message=\"max\" ng-if=\"attrs.type == 'time' \">The time provided should be before {{attrs.max |date: 'HH:MM'}}</li><li ng-message=\"min\" ng-if=\"attrs.type == 'date' \">The date provided should be after {{attrs.min |date:'dd.MM.yy'}}</li><li ng-message=\"max\" ng-if=\"attrs.type == 'date' \">The date provided should be before {{attrs.max |date: 'dd.MM.yy'}}</li><li ng-message=\"min\" ng-if=\"attrs.type === 'number' \">The number provided should be at least {{attrs.min}}</li><li ng-message=\"max\" ng-if=\"attrs.type === 'number' \">The number provided should be at max {{attrs.max}}</li></ul><div class=\"validation-success\" ng-show=\"field.$valid && !field.$invalid\"></div></div>"
-  );
+    $templateCache.put('default-validation-msgs.html',
+        "<div class=\"validation\" ng-show=\"attrs.required==''|| attrs.required\"><ul class=\"list-unstyled validation-errors\" ng-messages=\"field.$error\" ng-show=\"field.$invalid && (field.$touched || field.$dirty || form.$triedSubmit)\"><li ng-message=\"required\">This field is required</li><li ng-message=\"ngFabEnsureExpression\">Not valid condition</li><li ng-message=\"password\">Please enter a valid password</li><li ng-message=\"email\">Please enter a valid e-mail</li><li ng-message=\"pattern\">Invalid input format</li><li ng-message=\"date\">Please enter a valid date</li><li ng-message=\"time\">Please enter a valid time</li><li ng-message=\"datetime\">Please enter a valid date and time</li><li ng-message=\"datetime-local\">Please enter a valid date and time</li><li ng-message=\"number\">This field must be numeric</li><li ng-message=\"color\">Please enter a valid color</li><li ng-message=\"range\">Please enter a valid range</li><li ng-message=\"month\">Please enter a valid month</li><li ng-message=\"url\">Please enter a valid URL</li><li ng-message=\"file\">Invalid file</li><li ng-message=\"minlength\">Please use at least {{ attrs.minlength }} characters</li><li ng-message=\"maxlength\">Please do not exceed {{ attrs.maxlength }} characters</li><li ng-message=\"ngFabMatch\">The {{ attrs.type ==='password'? 'passwords' : 'values' }} should match</li><li ng-if=\"attrs.type == 'time' \" ng-message=\"min\">The time provided should after {{ attrs.min |date: 'HH:MM' }}</li><li ng-message=\"max\" ng-if=\"attrs.type == 'time' \">The time provided should be before {{attrs.max |date: 'HH:MM'}}</li><li ng-message=\"min\" ng-if=\"attrs.type == 'date' \">The date provided should be after {{attrs.min |date:'dd.MM.yy'}}</li><li ng-message=\"max\" ng-if=\"attrs.type == 'date' \">The date provided should be before {{attrs.max |date: 'dd.MM.yy'}}</li><li ng-message=\"min\" ng-if=\"attrs.type === 'number' \">The number provided should be at least {{attrs.min}}</li><li ng-message=\"max\" ng-if=\"attrs.type === 'number' \">The number provided should be at max {{attrs.max}}</li></ul><div class=\"validation-success\" ng-show=\"field.$valid && !field.$invalid\"></div></div>"
+    );
 
+
+    $templateCache.put('pt-br-validation-msgs.html',
+        "<div class=\"validation\" ng-show=\"attrs.required==''|| attrs.required\">\r\n    <ul class=\"list-unstyled validation-errors\" ng-messages=\"field.$error\" ng-show=\"field.$invalid && (field.$touched || field.$dirty || form.$triedSubmit)\">\r\n        <li ng-message=\"required\">Este campo \u00E9 Obrigat\u00F3rio<\/li>\r\n        <li ng-message=\"ngFabEnsureExpression\">Condi\u00E7\u00E3o n\u00E3o \u00E9 v\u00E1lida<\/li>\r\n        <li ng-message=\"password\">Por favor entre com uma senha v\u00E1lida\r\n        <\/li>\r\n        <li ng-message=\"email\">Por favor entre com um e-mail v\u00E1lido<\/li>\r\n        <li ng-message=\"pattern\">Formato de entrada inv\u00E1lido<\/li>\r\n        <li ng-message=\"date\">Por favor entre com uma data v\u00E1lida<\/li>\r\n        <li ng-message=\"time\">Please enter a valid time<\/li>\r\n        <li ng-message=\"datetime\">Please enter a valid date and time<\/li>\r\n        <li ng-message=\"datetime-local\">Please enter a valid date and time<\/li>\r\n        <li ng-message=\"number\">Este campo deve ser num\u00E9rico<\/li>\r\n        <li ng-message=\"color\">Insira uma por v\u00E1lida<\/li>\r\n        <li ng-message=\"range\">Insira um valor inteiro<\/li>\r\n        <li ng-message=\"month\">Insira um m\u00EAs v\u00E1lido<\/li>\r\n        <li ng-message=\"url\">Insira uma URL v\u00E1lida<\/li>\r\n        <li ng-message=\"file\">Arquivo Inv\u00E1lido<\/li>\r\n        <li ng-message=\"minlength\">Por favor, use pelo menos {{ attrs.minlength }} caracteres<\/li>\r\n        <li ng-message=\"maxlength\">Por favor, n\u00E3o exceda {{ attrs.maxlength }} caracteres<\/li>\r\n        <li ng-message=\"ngFabMatch\">{{ attrs.type ==='password'? 'A senha' : 'O valor' }} deve corresponder<\/li>\r\n        <li ng-if=\"attrs.type == 'time' \" ng-message=\"min\">O tempo previsto deve ser {{ attrs.min |date: 'HH:MM' }}\r\n        <\/li>\r\n        <li ng-message=\"max\" ng-if=\"attrs.type == 'time' \">O tempo previsto deve ser anterior ao {{attrs.max |date: 'HH:MM'}}\r\n        <\/li>\r\n        <li ng-message=\"min\" ng-if=\"attrs.type == 'date' \">A data prevista deve ser posterior \u00E0 {{attrs.min |date:'dd.MM.yy'}}\r\n        <\/li>\r\n        <li ng-message=\"max\" ng-if=\"attrs.type == 'date' \">A data prevista deve ser anterior \u00E0 {{attrs.max |date: 'dd.MM.yy'}}\r\n        <\/li>\r\n        <li ng-message=\"min\" ng-if=\"attrs.type === 'number' \">O n\u00FAmero fornecido deve ser pelo menos {{attrs.min}}\r\n        <\/li>\r\n        <li ng-message=\"max\" ng-if=\"attrs.type === 'number' \">O n\u00FAmero fornecido deve estar no m\u00E1ximo {{attrs.max}}\r\n        <\/li>\r\n        <li ng-message=\"CnpjInvalid\">O CNPJ digitado \u00E9 inv\u00E1lido<\/li>\r\n        <li ng-message=\"CnpjLenght\">O CNPJ digitado est\u00E1 incompleto<\/li>\r\n        <li ng-message=\"CnpjDebug\">O CNPJ digitado \u00E9 exclusivo para Debug<\/li>\r\n        <li ng-message=\"Cnpj\">O CNPJ digitado \u00E9 inv\u00E1lido<\/li>\r\n         <li ng-message=\"CpfIncomplete\">O CPF Informado esta incompleto<\/li>\r\n        <li ng-message=\"CpfInvalid\">O CPF Informado \u00E9 inv\u00E1lido<\/li>\r\n        <li ng-message=\"MinLength\">Por favor digite pelo menos {{ attrs.minlength }} caracteres<\/li>\r\n    <\/ul>\r\n    <div class=\"validation-success\" ng-show=\"field.$valid && !field.$invalid\">\r\n    <\/div>\r\n<\/div>\r\n"
+    );
 }]);
 
 angular.module('ngFabForm')
-    .factory('ngFabFormValidationsDirective', ['ngFabForm', '$compile', '$templateRequest', function (ngFabForm, $compile, $templateRequest)
-    {
+    .factory('ngFabFormValidationsDirective', ['ngFabForm', '$compile', '$templateRequest', function (ngFabForm, $compile, $templateRequest) {
         'use strict';
 
 
-        function insertValidationMsgs(params)
-        {
+        function insertValidationMsgs(params) {
             var el = params.el;
             var cfg = params.cfg;
             var formCtrl = params.formCtrl;
@@ -301,8 +291,7 @@ angular.module('ngFabForm')
 
             // load validation directive template
             $templateRequest(cfg.validationsTemplate)
-                .then(function processTemplate(html)
-                {
+                .then(function processTemplate(html) {
                     // create new scope for validation messages
                     var privateScope = dScope.$new(true);
                     // assign to currentValidationVars to be destroyed later
@@ -324,8 +313,7 @@ angular.module('ngFabForm')
         }
 
 
-        function setAsteriskForLabel(el, attrs, cfg)
-        {
+        function setAsteriskForLabel(el, attrs, cfg) {
             var labels = document.querySelectorAll('label[for="' + attrs.name + '"]');
             // if nothing is found check previous element
             if (!labels || labels.length < 1) {
@@ -352,8 +340,7 @@ angular.module('ngFabForm')
         return {
             restrict: 'E',
             require: '?ngModel',
-            compile: function (el, attrs)
-            {
+            compile: function (el, attrs) {
                 // don't execute for buttons
                 if (attrs.type) {
                     if (attrs.type.toLowerCase() === 'submit' || attrs.type.toLowerCase() === 'button') {
@@ -372,8 +359,7 @@ angular.module('ngFabForm')
                 }
 
                 // Linking function
-                return function (scope, el, attrs, ngModelCtrl)
-                {
+                return function (scope, el, attrs, ngModelCtrl) {
 
                     var cfg;
                     // assigned via element.controller
@@ -387,8 +373,7 @@ angular.module('ngFabForm')
                     };
 
 
-                    function ngFabFormCycle(oldCfg)
-                    {
+                    function ngFabFormCycle(oldCfg) {
                         // apply validation messages
                         // only if required controllers and validators are set
                         if (ngModelCtrl && cfg.validationsTemplate && ((Object.keys(ngModelCtrl.$validators).length !== 0) || (Object.keys(ngModelCtrl.$asyncValidators).length !== 0)) && (!oldCfg || cfg.validationsTemplate !== oldCfg.validationsTemplate)) {
@@ -415,10 +400,8 @@ angular.module('ngFabForm')
                         }
                     }
 
-                    function init()
-                    {
-                        scope.$evalAsync(function ()
-                        {
+                    function init() {
+                        scope.$evalAsync(function () {
                             // if controller is not accessible via require
                             // get it from the element
                             formCtrl = el.controller('form');
@@ -439,11 +422,143 @@ angular.module('ngFabForm')
 
                                 // overwrite email-validation
                                 if (cfg.emailRegex && attrs.type === 'email') {
-                                    ngModelCtrl.$validators.email = function (value)
-                                    {
+                                    ngModelCtrl.$validators.email = function (value) {
                                         return ngModelCtrl.$isEmpty(value) || cfg.emailRegex.test(value);
                                     };
                                 }
+
+
+
+                                // CPF Validation
+                                if (cfg.cpfRegex && attrs.type === 'Cpf') {
+
+                                    ngModelCtrl.$validators.Cpf = function (value) {
+
+                                        function customValidator(value) {
+                                            function getFirstDigit(value) {
+                                                var matriz = [10, 9, 8, 7, 6, 5, 4, 3, 2];
+                                                var total = 0,
+                                                    verifc;
+                                                for (var i = 0; i < 9; i++) {
+                                                    total += value[i] * matriz[i];
+                                                }
+                                                verifc = ((total % 11) < 2) ? 0 : (11 - (total % 11));
+                                                return verifc;
+                                            }
+
+                                            function getSecondDigit(value) {
+                                                var matriz = [11, 10, 9, 8, 7, 6, 5, 4, 3, 2];
+                                                var total = 0,
+                                                    verifc;
+                                                for (var i = 0; i < 10; i++) {
+                                                    total += value[i] * matriz[i];
+                                                }
+                                                verifc = ((total % 11) < 2) ? 0 : (11 - (total % 11));
+                                                return verifc;
+                                            }
+
+                                            if (value.length >= 11) {
+                                                ngModelCtrl.$setValidity('CpfIncomplete', true);
+                                                var digits = value.replace(/\D+/g, '');
+                                                var dig1 = getFirstDigit(digits.substr(0, 9));
+                                                var dig2 = getSecondDigit(digits.substr(0, 10));
+                                                var end = digits.substr(9, 2);
+                                                var val = "" + dig1 + dig2;
+                                                if (end === val) {
+                                                    ngModelCtrl.$setValidity('CpfInvalid', true);
+                                                }
+                                                else {
+                                                    ngModelCtrl.$setValidity('CpfInvalid', false);
+                                                }
+                                            } else {
+                                                ngModelCtrl.$setValidity('CpfIncomplete', false);
+                                            }
+                                             return value;
+                                        }
+                                        return ngModelCtrl.$isEmpty(value) || ngModelCtrl.$parsers.push(customValidator);
+                                    };
+                                }
+
+                                // CNPJ Validation
+                                if (attrs.type === 'Cnpj') {
+                                    ngModelCtrl.$validators.Cnpj = function (value) {
+
+                                        function customValidator(value) {
+                                            var str = value;
+                                            //str = str.replace('.', '');
+                                            //str = str.replace('.', '');
+                                            //str = str.replace('.', '');
+                                            //str = str.replace('-', '');
+                                            //str = str.replace('/', '');
+                                           var cnpj = str;
+                                            var numeros, digitos, soma, i, resultado, pos, tamanho, digitos_iguais;
+                                            digitos_iguais = 1;
+                                            if (cnpj.length < 14 && cnpj.length < 15)
+                                            {
+                                                ngModelCtrl.$setValidity('CnpjDebug', true);
+                                                ngModelCtrl.$setValidity('CnpjInvalid', true);
+                                                ngModelCtrl.$setValidity('CnpjLenght', false);
+                                                return value;
+                                            } 
+                                            for (i = 0; i < cnpj.length - 1; i++)
+                                                if (cnpj.charAt(i) != cnpj.charAt(i + 1)) {
+                                                    digitos_iguais = 0;
+                                                    break;
+                                                }
+                                            if (!digitos_iguais) {
+                                                tamanho = cnpj.length - 2
+                                                numeros = cnpj.substring(0, tamanho);
+                                                digitos = cnpj.substring(tamanho);
+                                                soma = 0;
+                                                pos = tamanho - 7;
+                                                for (i = tamanho; i >= 1; i--) {
+                                                    soma += numeros.charAt(tamanho - i) * pos--;
+                                                    if (pos < 2)
+                                                        pos = 9;
+                                                }
+                                            } else
+                                            {
+                                                ngModelCtrl.$setValidity('CnpjLenght', true);
+                                                ngModelCtrl.$setValidity('CnpjInvalid', true);
+                                                ngModelCtrl.$setValidity('CnpjDebug', false);
+                                                return value;
+                                            }
+                                                resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
+                                                if (resultado != digitos.charAt(0))
+                                                {
+                                                     ngModelCtrl.$setValidity('CnpjDebug', true);
+                                                     ngModelCtrl.$setValidity('CnpjInvalid', false);
+                                                     return value;
+                                                }
+                                                tamanho = tamanho + 1;
+                                                numeros = cnpj.substring(0, tamanho);
+                                                soma = 0;
+                                                pos = tamanho - 7;
+                                                for (i = tamanho; i >= 1; i--) {
+                                                    soma += numeros.charAt(tamanho - i) * pos--;
+                                                    if (pos < 2)
+                                                        pos = 9;
+                                                }
+                                                resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
+
+                                                if (resultado != digitos.charAt(1))
+                                                {
+                                                    ngModelCtrl.$setValidity('CnpjInvalid', false);
+                                                    return value;
+                                                } else
+                                                {
+                                                    ngModelCtrl.$setValidity('CnpjInvalid', true);
+                                                    ngModelCtrl.$setValidity('CnpjDebug', true);
+                                                    ngModelCtrl.$setValidity('CnpjLenght', true);
+                                                    return value;
+                                                }
+                                            
+                                    }
+                                        return ngModelCtrl.$isEmpty(value) || ngModelCtrl.$parsers.push(customValidator);
+                                    };
+                                }
+
+
 
                                 // set custom validators
                                 if (ngFabForm.customValidators) {
@@ -455,8 +570,7 @@ angular.module('ngFabForm')
 
 
                                 // watch for config changes
-                                configChangeWatcher = scope.$on(ngFabForm.formChangeEvent, function (ev, newCfg, oldCfg)
-                                {
+                                configChangeWatcher = scope.$on(ngFabForm.formChangeEvent, function (ev, newCfg, oldCfg) {
                                     cfg = newCfg;
                                     ngFabFormCycle(oldCfg);
                                 });
@@ -467,11 +581,9 @@ angular.module('ngFabForm')
                     // INIT
                     // after formCtrl should be ready
                     if (ngFabForm.config.watchForFormCtrl) {
-                        formCtrlWatcher = scope.$watch(function ()
-                        {
+                        formCtrlWatcher = scope.$watch(function () {
                             return el.controller('form');
-                        }, function (newVal)
-                        {
+                        }, function (newVal) {
                             if (newVal) {
                                 formCtrlWatcher();
                                 init();
@@ -481,8 +593,7 @@ angular.module('ngFabForm')
                         init();
                     }
 
-                    scope.$on('$destroy', function ()
-                    {
+                    scope.$on('$destroy', function () {
                         // destroy private scope set for validations if it was set
                         if (currentValidationVars && currentValidationVars.privateScope) {
                             currentValidationVars.privateScope.$destroy();
@@ -494,16 +605,13 @@ angular.module('ngFabForm')
     }]);
 
 angular.module('ngFabForm')
-    .directive('ngFabEnsureExpression', ['$http', '$parse', function ($http, $parse)
-    {
+    .directive('ngFabEnsureExpression', ['$http', '$parse', function ($http, $parse) {
         'use strict';
 
         return {
             require: 'ngModel',
-            link: function (scope, ele, attrs, ngModelController)
-            {
-                scope.$watch(attrs.ngModel, function ()
-                {
+            link: function (scope, ele, attrs, ngModelController) {
+                scope.$watch(attrs.ngModel, function () {
                     var booleanResult = $parse(attrs.ngFabEnsureExpression)(scope);
                     ngModelController.$setValidity('ngFabEnsureExpression', booleanResult);
                     ngModelController.$validate();
@@ -513,8 +621,7 @@ angular.module('ngFabForm')
     }]);
 
 angular.module('ngFabForm')
-    .directive('ngFabMatch', function match()
-    {
+    .directive('ngFabMatch', function match() {
         'use strict';
 
         return {
@@ -523,14 +630,11 @@ angular.module('ngFabForm')
             scope: {
                 ngFabMatch: '='
             },
-            link: function (scope, el, attrs, ngModel)
-            {
-                ngModel.$validators.ngFabMatch = function (modelValue)
-                {
+            link: function (scope, el, attrs, ngModel) {
+                ngModel.$validators.ngFabMatch = function (modelValue) {
                     return Boolean(modelValue) && modelValue == scope.ngFabMatch;
                 };
-                scope.$watch('ngFabMatch', function ()
-                {
+                scope.$watch('ngFabMatch', function () {
                     ngModel.$validate();
                 });
             }
@@ -538,8 +642,7 @@ angular.module('ngFabForm')
     });
 
 angular.module('ngFabForm')
-    .directive('ngFabResetFormOn', function match()
-    {
+    .directive('ngFabResetFormOn', function match() {
         'use strict';
 
         return {
@@ -549,14 +652,12 @@ angular.module('ngFabForm')
                 ngFabResetFormOn: '@',
                 doNotClearInputs: '@'
             },
-            link: function (scope, el, attrs, formCtrl)
-            {
+            link: function (scope, el, attrs, formCtrl) {
                 if (!attrs.ngFabResetFormOn) {
                     attrs.ngFabResetFormOn = 'click';
                 }
 
-                el.on(attrs.ngFabResetFormOn, function ()
-                {
+                el.on(attrs.ngFabResetFormOn, function () {
                     if (attrs.doNotClearInputs) {
                         formCtrl.$resetForm();
                     } else {
@@ -570,14 +671,12 @@ angular.module('ngFabForm')
     });
 
 angular.module('ngFabForm')
-    .factory('ngFabFormDirective', ['$compile', '$timeout', 'ngFabForm', function ($compile, $timeout, ngFabForm)
-    {
+    .factory('ngFabFormDirective', ['$compile', '$timeout', 'ngFabForm', function ($compile, $timeout, ngFabForm) {
 
         'use strict';
 
         // HELPER FUNCTIONS
-        function preventFormSubmit(ev)
-        {
+        function preventFormSubmit(ev) {
             ev.preventDefault();
             ev.stopPropagation();
             ev.stopImmediatePropagation();
@@ -585,14 +684,12 @@ angular.module('ngFabForm')
 
 
         // CONFIGURABLE ACTIONS
-        function setupDisabledForms(el, attrs)
-        {
+        function setupDisabledForms(el, attrs) {
             // watch disabled form if set (requires jQuery)
             if (attrs.disableForm) {
                 el.contents().wrap('<fieldset>');
                 var fieldSetWrapper = el.children();
-                attrs.$observe('disableForm', function ()
-                {
+                attrs.$observe('disableForm', function () {
                     // NOTE attrs get parsed as string
                     if (attrs.disableForm === 'true' || attrs.disableForm === true) {
                         fieldSetWrapper.attr('disabled', true);
@@ -604,8 +701,7 @@ angular.module('ngFabForm')
         }
 
 
-        function scrollToAndFocusFirstErrorOnSubmit(el, formCtrl, scrollAnimationTime, scrollOffset)
-        {
+        function scrollToAndFocusFirstErrorOnSubmit(el, formCtrl, scrollAnimationTime, scrollOffset) {
             var scrollTargetEl = el[0].querySelector('.ng-invalid');
             if (scrollTargetEl && formCtrl.$invalid) {
                 // if no jquery just go to element
@@ -618,8 +714,7 @@ angular.module('ngFabForm')
             restrict: 'EAC',
             scope: false,
             require: '?^form',
-            compile: function (el, attrs)
-            {
+            compile: function (el, attrs) {
                 // create copy of configuration object as it might be modified by ngFabFormOptions
                 var cfg = angular.copy(ngFabForm.config),
                     formSubmitDisabledTimeout;
@@ -640,17 +735,14 @@ angular.module('ngFabForm')
                  * linking functions
                  */
                 return {
-                    pre: function (scope, el, attrs, formCtrl)
-                    {
+                    pre: function (scope, el, attrs, formCtrl) {
                         // SUBMISSION HANDLING
                         // set in pre-linking function for event handlers
                         // to be set before other bindings (ng-submit)
-                        el.bind('submit', function (ev)
-                        {
+                        el.bind('submit', function (ev) {
                             // set dirty if option is set
                             if (cfg.setFormDirtyOnSubmit) {
-                                scope.$apply(function ()
-                                {
+                                scope.$apply(function () {
                                     formCtrl.$triedSubmit = true;
                                 });
                             }
@@ -672,8 +764,7 @@ angular.module('ngFabForm')
                                 }
 
                                 formCtrl.$preventDoubleSubmit = true;
-                                formSubmitDisabledTimeout = $timeout(function ()
-                                {
+                                formSubmitDisabledTimeout = $timeout(function () {
                                     formCtrl.$preventDoubleSubmit = false;
                                 }, cfg.preventDoubleSubmitTimeoutLength);
                             }
@@ -683,14 +774,12 @@ angular.module('ngFabForm')
                             }
                         });
                     },
-                    post: function (scope, el, attrs, formCtrl)
-                    {
+                    post: function (scope, el, attrs, formCtrl) {
                         // default state for new form variables
                         formCtrl.$triedSubmit = false;
                         formCtrl.$preventDoubleSubmit = false;
                         formCtrl.ngFabFormConfig = cfg;
-                        formCtrl.$resetForm = function (resetValues)
-                        {
+                        formCtrl.$resetForm = function (resetValues) {
                             if (resetValues === true) {
                                 var inputElements = el[0].querySelectorAll('input, select');
                                 for (var i = 0; i < inputElements.length; i++) {
@@ -715,8 +804,7 @@ angular.module('ngFabForm')
 
                         // ngFabFormOptions 'directive'
                         if (attrs.ngFabFormOptions) {
-                            scope.$watch(attrs.ngFabFormOptions, function (mVal)
-                            {
+                            scope.$watch(attrs.ngFabFormOptions, function (mVal) {
                                 if (mVal) {
                                     var oldCfg = angular.copy(cfg);
                                     cfg = formCtrl.ngFabFormConfig = angular.extend(cfg, mVal);
@@ -726,8 +814,7 @@ angular.module('ngFabForm')
                         }
 
                         // on unload
-                        scope.$on('$destroy', function ()
-                        {
+                        scope.$on('$destroy', function () {
                             // don't forget to cancel set timeouts
                             if (formSubmitDisabledTimeout) {
                                 $timeout.cancel(formSubmitDisabledTimeout);
@@ -742,8 +829,7 @@ angular.module('ngFabForm')
     }]);
 
 angular.module('ngFabForm')
-    .directive('ngForm', ['ngFabFormDirective', function (ngFabFormDirective)
-    {
+    .directive('ngForm', ['ngFabFormDirective', function (ngFabFormDirective) {
         'use strict';
 
         return ngFabFormDirective;
