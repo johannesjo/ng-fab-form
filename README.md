@@ -34,7 +34,7 @@ Keep in mind that if you don't like one of the functionalities, ng-fab-form is b
 
 **List of Features**:
 
-* Global (or invidivual) **configurable validation messages** (using `ng-messages`, [see](https://docs.angularjs.org/api/ngMessages/directive/ngMessages)) to any element  with a validation directive on it like `required`, `ng-required`, `ng-pattern`, `ng-minlength` and even new ones added.
+* Global (or individual) **configurable validation messages** (using `ng-messages`, [see](https://docs.angularjs.org/api/ngMessages/directive/ngMessages)) to any element  with a validation directive on it like `required`, `ng-required`, `ng-pattern`, `ng-minlength` and even new ones added.
 * **Prevents submission of invalid forms**
 * Completely **disableable forms** via a `disable-form` attribute
 * **Show field validations after submit attempt**  
@@ -60,7 +60,7 @@ Keep in mind that if you don't like one of the functionalities, ng-fab-form is b
 
 ## why choose ng-fab-form over another form helper module?
 
-There are a lot of [form builders and other modules with the intention of simplifying form handling](https://github.com/search?o=desc&q=angular+form&s=stars&type=Repositories&utf8=%E2%9C%93) out there. Why choose `ng-fab-form` then? First of all you likely will not have to choose one or the other as it should be compatible with every module using `ngModel` for validations and because you will probably be able to deactivate any conflicting functionalities (be sure to [report incompatibilties](https://github.com/johannesjo/ng-fab-form/issues)).
+There are a lot of [form builders and other modules with the intention of simplifying form handling](https://github.com/search?o=desc&q=angular+form&s=stars&type=Repositories&utf8=%E2%9C%93) out there. Why choose `ng-fab-form` then? First of all you likely will not have to choose one or the other as it should be compatible with every module using `ngModel` for validations and because you will probably be able to deactivate any conflicting functionalities (be sure to [report incompatibilities](https://github.com/johannesjo/ng-fab-form/issues)).
 
 The reason why `ng-fab-form` was build, is that the modules I tried either take only a small part of the repetitiveness out of your job or they take a framework-like approach and you're becoming very dependent on them, the markup they require and spit out, the functionalities they introduce and probably more important, those they don't introduce and those who hinder other features. This is not necessarily a bad thing and they might greatly improve your productivity, but the (non angular-canon) restrictions and rules they introduce make them too limited for some projects and less of a universal form tool, which can be used again and again.
 
